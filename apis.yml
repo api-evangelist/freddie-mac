@@ -12,16 +12,15 @@ modified: '2026-03-16'
 position: Consumer
 tags:
   - Federal Government
-  - Mortgage
   - Housing
+  - Mortgage
 url: >-
   https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
   - aid: freddie-mac:freddie-mac
     name: Freddie Mac
-    tags:
-      - API
+    tags: []
     humanURL: https://sf.freddiemac.com/tools-learning/apis/our-api-solutions
     properties:
       - url: https://sf.freddiemac.com/tools-learning/apis/our-api-solutions
