@@ -1,0 +1,53 @@
+aid: freddie-mac:capabilities
+name: Freddie Mac API Capabilities
+description: >-
+  Capability map for Freddie Mac's Single-Family API solutions covering
+  origination, selling and delivery, and servicing across the mortgage
+  lifecycle.
+modified: '2026-04-28'
+capabilities:
+  - id: aim-check
+    name: AIM Check
+    description: >-
+      Asset and Income Modeler Check API for preliminary borrower employment
+      and income assessment using verified data sources.
+    operations:
+      - POST /origination/aim-check
+  - id: affordable-check
+    name: Affordable Check
+    description: >-
+      Assess borrower and property eligibility for Freddie Mac affordable
+      products such as Home Possible.
+    operations:
+      - POST /origination/affordable-check
+  - id: property-insights
+    name: Property Insights
+    description: >-
+      Early access to appraisal and property data for valuation insights
+      ahead of underwriting decisions.
+    operations:
+      - GET /origination/property-insights
+  - id: pricing-and-committing
+    name: Pricing and Committing
+    description: >-
+      Compare live pricing quotes and submit commitment requests when
+      delivering loans to Freddie Mac.
+    operations:
+      - GET /selling/pricing
+      - POST /selling/commitments
+  - id: resolve
+    name: Resolve
+    description: >-
+      Servicing default management workout decisioning APIs supporting loss
+      mitigation workflows.
+    operations:
+      - POST /servicing/resolve
+  - id: total-mi
+    name: Total MI
+    description: >-
+      Mortgage insurance reconciliation, claims, and cancellation APIs for
+      servicers.
+    operations:
+      - POST /servicing/total-mi/reconciliations
+      - POST /servicing/total-mi/claims
+      - POST /servicing/total-mi/cancellations

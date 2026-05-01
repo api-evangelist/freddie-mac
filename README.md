@@ -1,48 +1,52 @@
 # Freddie Mac (freddie-mac)
-We serve Americas homebuyers, homeowners and renters by providing liquidity, stability and affordability to the housing market through all economic cycles and in all communities nationwide.
 
-**URL:** [Visit APIs.json URL](
-https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/apis.yml)
+Freddie Mac (Federal Home Loan Mortgage Corporation) provides liquidity, stability, and affordability to the U.S. housing market. Its Single-Family API solutions span origination, selling and delivery, and servicing, delivering data and decisioning at each stage of the mortgage lifecycle.
+
+**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/apis.yml)
 
 ## Scope
 
-- **Type:** Contract 
-- **Position:** Consuming 
-- **Access:** 3rd-Party 
+- **Type:** Index
+- **Position:** Consumer
+- **Access:** 3rd-Party
 
-## Tags:
+## Tags
 
- - Federal Government
+- Federal Government, Housing, Mortgage, Lending, Servicing
 
 ## Timestamps
 
-- **Created:** 2024-12-03 
-- **Modified:** 2024-12-30 
+- **Created:** 2024-12-03
+- **Modified:** 2026-04-28
 
 ## APIs
 
-### Freddie Mac
+### Freddie Mac Single-Family APIs
 
-Learn about specific Freddie Mac API solutions and how they can drive
-value to different areas of your business. ... Find out if Freddie Mac
-owns your loan using our secure lookup tool. Did we finance your
-apartment? Use our lookup tool to see if Freddie Mac financed your
-apartment building.
+Suite of APIs across the mortgage lifecycle including AIM Check, Affordable Check, Property Insights, Pricing and Committing, Resolve workout decisioning, and Total MI reconciliations and claims.
 
-**Human URL:** [https://sf.freddiemac.com/tools-learning/apis/our-api-solutions](https://sf.freddiemac.com/tools-learning/apis/our-api-solutions)
+- **Human URL:** https://sf.freddiemac.com/tools-learning/apis/our-api-solutions
 
+#### Tags
 
-#### Tags:
-
- - API
+- Mortgage, Origination, Servicing
 
 #### Properties
 
 - [Documentation](https://sf.freddiemac.com/tools-learning/apis/our-api-solutions)
+- [Getting Started With APIs](https://sf.freddiemac.com/tools-learning/apis/getting-started-with-apis)
+- [Developer Portal](https://developer.freddiemac.com/public/)
+- [Capabilities](https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/capabilities/freddie-mac-capabilities.yml)
+- [Rules](https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/rules/freddie-mac-rules.yml)
+
+## Common Properties
+
+- [Website](https://www.freddiemac.com/)
+- [Documentation](https://sf.freddiemac.com/tools-learning/apis/our-api-solutions)
+- [Developer Portal](https://developer.freddiemac.com/public/)
 
 ## Maintainers
 
 **FN:** Kin Lane
 
-**Email:** info@apievangelist.com
-
+**Email:** kin@apievangelist.com

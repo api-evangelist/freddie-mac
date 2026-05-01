@@ -1,0 +1,55 @@
+aid: freddie-mac:rules
+name: Freddie Mac API Operational Rules
+description: >-
+  Operational rules for accessing and using Freddie Mac Single-Family API
+  solutions through the Developer Portal.
+modified: '2026-04-28'
+rules:
+  - id: developer-portal-access
+    title: Developer Portal Required
+    description: >-
+      Access to Freddie Mac APIs is gated through the Developer Portal at
+      developer.freddiemac.com. A Freddie Mac representative or contact
+      form request is required to obtain credentials.
+    severity: required
+  - id: organization-roles
+    title: Three-Tier Role Model
+    description: >-
+      User access is partitioned into Business User (browse catalog),
+      Developer (build apps), and Developer Administrator (manage users,
+      promote apps). Provision the least-privilege role for each user.
+    severity: required
+  - id: app-promotion
+    title: App Promotion Workflow
+    description: >-
+      Apps move from sandbox to production via a Developer Administrator
+      promotion request; do not bypass this workflow with shared credentials.
+    severity: required
+  - id: data-handling
+    title: Loan and Borrower Data Handling
+    description: >-
+      Origination and servicing payloads contain regulated borrower and
+      loan data. Transmit over TLS, restrict storage to authorized
+      personnel, and follow Freddie Mac data use agreements.
+    severity: required
+  - id: lifecycle-stage
+    title: Use APIs at the Right Lifecycle Stage
+    description: >-
+      Freddie Mac documents the intent of each API at its stage in the
+      mortgage lifecycle (origination, delivery, servicing). Calling APIs
+      out of stage produces invalid or misleading data.
+    severity: recommended
+  - id: contractual-eligibility
+    title: Counterparty Eligibility
+    description: >-
+      API access requires Freddie Mac counterparty status (Seller/Servicer
+      or approved partner). Verify your organization's eligibility before
+      requesting credentials.
+    severity: required
+  - id: rate-limits
+    title: Rate Limits
+    description: >-
+      Plan-specific rate limits apply per app; implement exponential
+      backoff on HTTP 429 responses and contact your Freddie Mac
+      representative for production capacity needs.
+    severity: required
