@@ -47,6 +47,8 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/rules/freddie-mac-rules.yml
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/freddie-mac
   - type: Website
     url: https://www.freddiemac.com/
   - type: Documentation
