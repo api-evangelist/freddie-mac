@@ -48,6 +48,8 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/rules/freddie-mac-rules.yml
 common:
+  - type: DomainSecurity
+    url: security/freddie-mac-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/freddie-mac
   - type: Website
