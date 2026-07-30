@@ -6,7 +6,19 @@ description: >-
   API solutions span origination, selling and delivery, and servicing,
   delivering data and decisioning at each stage of the mortgage lifecycle.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/freddie-mac.png
 access: 3rd-Party
 created: '2024-12-03'
 modified: '2026-04-28'
