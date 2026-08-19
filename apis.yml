@@ -32,7 +32,7 @@ tags:
   - Fortune 100
 url: >-
   https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/apis.yml
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
   - aid: freddie-mac:single-family-apis
     name: Freddie Mac Single-Family APIs
