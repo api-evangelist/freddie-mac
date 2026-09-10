@@ -1,0 +1,1694 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Affordable Check",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api-test.freddiemac.com/single-family/affordable-check-api/v2"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Affordable Check",
+      "description": "Affordable Check is an easy way to compare borrower income against applicable AMI values to identify candidates for recommended affordable products."
+    }
+  ],
+  "paths": {
+    "/requestBorrowerEligibilityData": {
+      "post": {
+        "tags": [
+          "Affordable Check"
+        ],
+        "summary": "Retrieve borrower data supporting affordable program eligibility.",
+        "operationId": "requestEligibility",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AffordableCheckAPIRequest"
+              },
+              "examples": {
+                "Example1": {
+                  "$ref": "#/components/examples/RequestExample1"
+                },
+                "Example2": {
+                  "$ref": "#/components/examples/RequestExample2"
+                },
+                "Example3": {
+                  "$ref": "#/components/examples/RequestExample3"
+                },
+                "Example4": {
+                  "$ref": "#/components/examples/RequestExample4"
+                },
+                "Example5": {
+                  "$ref": "#/components/examples/RequestExample5"
+                },
+                "Example6": {
+                  "$ref": "#/components/examples/RequestExample6"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "<b>OK</b> \r\n\n <center><b>Sample Borrower Eligibility Messages</b></center> \r\n\n <b>HomePossible</b> \r\n\n <hr> <ul><li><strong>AFC0001</strong> Property usage type must be primary residence.</li><li><strong>AFC0002</strong> A Home Possible Mortgage must be a purchase transaction or no cash-out refinance mortgage.</li><li><strong>AFC0003</strong> The loan is ineligible for Home Possible as the total annual qualifying income $185,455.00 exceeds the maximum Area Median Income (AMI) limits.</li><li><strong>AFC0004</strong>  A Home Possible Mortgage requires all borrowers occupy the residence when the number of units is greater than 1.</li><li><strong>AFC0005</strong> The loan was submitted with a Total LTV ratio of 107.00%, which exceeds the maximum Total LTV ratio of 105% for a Home Possible Mortgage with an Affordable Second.</li><li><strong>AFC0006</strong> The loan was submitted with a Total LTV ratio of 107.00%, which exceeds the maximum Total LTV ratio of 105% for a loan with an Affordable Second.</li><li><strong>AFC0007</strong> TLTV ratio of 98.00% must be less than or equal to 95% for a Home Possible super conforming Mortgage.</li><li><strong>AFC0008</strong> LTV ratio of 98.00% must be less than or equal to 85% for a super conforming Home Possible Mortgage secured by a 2-unit property.</li><li><strong>AFC0009</strong> LTV ratio of 98.00% must be less than or equal to 80% for a super conforming fixed-rate Home Possible Mortgage secured by a 3- to 4-unit property.</li><li><strong>AFC0010</strong> LTV ratio of 98.00% must be equal to or less than 75% for an adjustable-rate Home Possible Mortgage secured by a 3- to 4-unit property.</li><li><strong>AFC0011</strong> TLTV ratio of 98.00% must be less than or equal to 75% for an adjustable-rate Home Possible Mortgage secured by a 3- to 4-unit property.</li><li><strong>AFC0012</strong> TLTV ratio of 98.00% must be less than or equal to 95% for a Home Possible Mortgage secured by a 2- to 4-unit property.</li><li><strong>AFC0013</strong> LTV ratio of 98.00% must be less than or equal to 95% for a super conforming Home Possible Mortgage.</li><li><strong>AFC0014</strong> The loan was submitted with an LTV ratio of 98.00%, which exceeds the maximum LTV ratio of 95% for an adjustable-rate Home Possible Mortgage secured by a 1- to 2-unit property.</li><li><strong>AFC0015</strong>  TLTV ratio of 98.00% must be less than or equal to 95% for an adjustable-rate Home Possible Mortgage secured by a 1- to 2-unit property.</li><li><strong>AFC0016</strong> The loan was submitted with an LTV ratio of 98.00%, which exceeds the maximum LTV ratio of 95% for a fixed-rate Home Possible Mortgage secured by a 2- to 4-unit property.</li><li><strong>AFC0017</strong> The loan was submitted with an LTV ratio of 98.00%, which exceeds the maximum LTV ratio of 97% for a 1- unit fixed rate Home Possible Mortgage.</li><li><strong>AFC0018</strong> TLTV ratio of 98.00% must be less than or equal to 97% when there is no Affordable Second.</li><li><strong>AFC0019</strong> TLTV ratio of 98.00% must be less than or equal to 85% for a super conforming Home Possible Mortgage secured by a 2-unit property.</li><li><strong>AFC0020</strong> TLTV ratio of 98.00% must be less than or equal to 80% for a super conforming, fixed-rate Home Possible Mortgage secured by a 3-4 unit property.</li><li><strong>AFC0021</strong> TLTV ratio of 107.00% must be less than or equal to 105% for a Home Possible Mortgage.</li><li><strong>AFC0022</strong>  The occupying Borrower must not have an ownership interest in more than two financed residential properties including the subject property for a Home Possible Mortgage. </li><li><strong>AFC0023</strong>  The loan was submitted with an LTV ratio of 98.00%, which exceeds the maximum LTV ratio of 95% for a Home Possible Mortgage with non-occupying income.</li><li><strong>AFC0024</strong>  The loan was submitted with an TLTV ratio of 98.00%, which exceeds the maximum TLTV ratio of 95% for an adjustable-rate Home Possible Mortgage with non-occupying income.</li><li><strong>AFC0025</strong>  TLTV ratio of 98.00% must be less than or equal to 95% when there is no Affordable Second for a fixed-rate Home Possible Mortgage with non-occupying income.</li><li><strong>AFC0026</strong> The loan was submitted with an LTV ratio of 98.00%, which exceeds the maximum LTV ratio of 95% for a Home Possible Mortgage secured by a Manufactured Home.</li><li><strong>AFC0038</strong> Based on the submitted information, the borrower meets the requirements for a Home Possible loan which offers flexible sources of funds, such as gifts and grants towards 3% minimum down payment requirement, no minimum borrower contribution and reduced delivery fees and mortgage insurance coverage levels to enhance affordability.</li><li><strong>AFC0039</strong> The Maximum loan-to-value (LTV) for loans with non-occupant income cannot be fully assessed until the underwriting method (LPA or Manual) is known.</li><li><strong>AFC0040</strong> The Maximum loan-to-value (LTV) for Manufactured Housing loans cannot be fully assessed until submitted to LPA.</li><br></ul>  <b>HFAAdvantage</b> \r\n\n <hr> <ul><li><strong>AFC0028</strong> An HFA Advantage Mortgage must be a purchase transaction or no cash-out refinance mortgage.</li><li><strong>AFC0029</strong> An HFA Advantage Mortgage is ineligible as super conforming.</li><li><strong>AFC0031</strong> An HFA Advantage Mortgage must be a fixed-rate.</li><li><strong>AFC0032</strong> The occupying Borrower must not have an ownership interest in more than two financed residential properties including the subject property for an HFA Advatage Mortgage.</li><li><strong>AFC0035</strong> LTV ratio of 98.00% must be less than or equal to 97% for an HFA Advantage Mortgage.</li><li><strong>AFC0036</strong> TLTV ratio of 107.00% must be less than or equal to 105%. A TLTV greater than 97% is allowed only with an Affordable Second.</li><li><strong>AFC0037</strong> Based on the submitted information, the borrower meets the requirements for a HFA Advantage loan which is available through participating housing finance agencies, provides a low 3% down payment requirement, HFAs determine area median income requirements, reduced fees and mortgage insurance coverage levels for borrowers earning 80% AMI or less.</li><li><strong>AFC0076</strong> LTV ratio of 96% must be less than or equal to 95% for a Manufactured Home HFA Advantage Mortgage.</li><li><strong>AFC0077</strong> TLTV ratio of  98% must be less than or equal to 95% for a Manufactured Home HFA Advantage Mortgage.</li><li><strong>AFC0078</strong> LTV ratio of 97% must be less than or equal to 97% for a 1-Unit HFA Advantage Mortgage.</li><li><strong>AFC0079</strong> TLTV ratio of 99% must be less than or equal to 97% for a 1 unit HFA Advantage Mortgage.</li><li><strong>AFC0080</strong> LTV ratio of 99% must be less than or equal to 95% for a 2-, 3-, 4- Unit HFA Advantage Mortgage.</li><li><strong>AFC0081</strong> TLTV ratio of  98% must be less than or equal to 95% for a 2-, 3-, 4- unit HFA Advantage Mortgage.</li><li><strong>AFC0082</strong> TLTV ratio of 110% must be less than or equal to 105% with an Affordable Second.</li><br></ul> <b>RefiPossible</b> \r\n\n <hr> <ul><li><strong>AFC0050</strong> A Refi Possible mortgage must be secured by a 1-unit primary residence. </li> <li><strong>AFC0051</strong> A Refi Possible mortgage must not be super conforming. </li> <li><strong>AFC0053</strong> A Refi Possible mortgage must be fixed-rate. </li> <li><strong>AFC0054</strong> Total annual qualifying income of $120,000.00 exceeds the maximum Area Median Income (AMI) limit of $105,000.00 for a Refi Possible mortgage. </li> <li><strong>AFC0055</strong> The loan was submitted with an LTV ratio of 98.00%, which exceeds the maximum LTV ratio of 97% for a Refi Possible mortgage. </li> <li><strong>AFC0056</strong> The loan was submitted with a Total LTV ratio of 98.00%, TLTV exceeding 97% is permitted only when the secondary financing is an Affordable Second. </li> <li><strong>AFC0057</strong> The loan was submitted with a Total LTV ratio of 107.00%, which exceeds the maximum Total LTV ratio of 105% when secondary financing is an Affordable Second. </li> <li><strong>AFC0058</strong> The loan was submitted with an LTV ratio of 96.00%, which exceeds the Refi Possible maximum LTV ratio of 95% for Manufactured Housing. </li> <li><strong>AFC0059</strong> The loan was submitted with an TLTV ratio of 96.00%, which exceeds the Refi Possible maximum Total LTV ratio of 95% for Manufactured Housing. </li> <li><strong>AFC0060</strong> The loan was submitted with an LTV ratio of 98.00%, which exceeds the maximum LTV ratio of 95% for a no cash-out refinance secured by a 1-unit primary residence with a non-occupying borrower. </li> <li><strong>AFC0061</strong> The loan was submitted with a total LTV ratio of 98.00%. TLTV exceeding 95% is permitted only when the secondary financing is an Affordable Second. </li> <li><strong>AFC0063</strong> Based on the submitted information, the borrower meets the requirements for a Refi Possible loan, available to borrowers earning 100% or less of area median income and offers expanded flexibilities, such as no minimum FICO Score and an expanded DTI ratio, to assist borrowers consider refinancing their current loans to save on their monthly mortgage payments. </li><li><strong>AFC0064</strong> Refi Possible requires the existing loan to be owned by Freddie Mac, and we did not find any loans matching the given borrower information. </li><li><strong>AFC0084</strong> Refi possible requires the existing mortgage be owned by Freddie Mac. Full Street address is missing and needed to determine Refi Possible eligibility. </li><li><strong>AFC0085</strong> Refi possible requires the existing mortgage be owned by Freddie Mac. Last 4 SSN is missing and needed to determine Refi Possible eligibility. </li><br></ul> <b>HomeOne</b> \r\n\n <hr> <ul><li><strong>AFC0065</strong> A HomeOne Mortgage purchase requires at least one borrower be a First-Time Homebuyer (FTHB).</li><li><strong>AFC0066</strong> A HomeOne Mortgage requires all borrowers to occupy the property as their Primary Residence and indicate Yes to the Declarations' Intent to Occupy question. </li><li><strong>AFC0067</strong> A HomeOne Mortgage must be a purchase transaction or no cash-out refinance. </li><li><strong>AFC0068</strong> A HomeOne Mortgage is not eligible as super conforming. </li><li><strong>AFC0069</strong> A HomeOne mortgage must be fixed-rate. </li><li><strong>AFC0070</strong> Manufactured homes are not eligible to secure a HomeOne Mortgage. </li><li><strong>AFC0071</strong> LTV 98.00% must be less than or equal to 97% for a HomeOne Mortgage secured by a 1-Unit property. </li><li><strong>AFC0073</strong> The loan was submitted with a Total LTV ratio of 98.00%, which exceeds the maximum HomeOne Total LTV ratio of 97% for a 1-Unit property without an Affordable Second. </li><li><strong>AFC0075</strong> Based on the submitted information, the borrower meets the requirements for a Freddie Mac HomeOne mortgage, offering a low-down payment of just 3%, that serves the needs of many first-time homebuyers, along with no cash-out refinance borrowers without specific income or geographic restrictions. </li><li><strong>AFC0083</strong> A HomeOne Mortgage must be secured by a 1-unit property.</li><br></ul> <b>Affordable Goals</b> \r\n\n <hr> <ul><li><strong>AFC0042</strong> Based on the information provided, the loan meets the criteria of a Low-Income Purchase where the borrower’s income is <= 80% of the Area Median Income. </li><li><strong>AFC0043</strong> Based on the information provided, the loan meets the criteria of a Very Low-Income Purchase where the borrower’s income is <= 50% of the Area Median Income. </li><li><strong>AFC0044</strong> Based on the information provided, the loan meets the criteria of a Low-Income Refinance where the borrower’s income is <= 80% of the Area Median Income. </li><li><strong>AFC0045</strong> Based on the information provided, the loan meets the criteria of a Low-Income Disaster Area transaction. </li><li><strong>AFC0046</strong> Based on the information provided, the loan meets the criteria of a Low-Income Census Tract transaction. </li><li><strong>AFC0047</strong> Based on the information provided, the loan meets the criteria of a Minority Census Tract Area transaction. </li><li><strong>AFC0048</strong> Based on the information provided, the loan meets the criteria of a Duty to Serve – Manufactured Housing transaction. </li><li><strong>AFC0049</strong> Based on the information provided, the loan meets the criteria of a Duty to Serve – High Needs Rural Regions transaction. </li><br></ul> <b>For All Programs</b> \r\n\n <hr> <ul><li><strong>AFC0041</strong> Non-Conforming loan is ineligible </li></ul>",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AffordableCheckAPIResponse"
+                },
+                "examples": {
+                  "Example1": {
+                    "$ref": "#/components/examples/ResponseExample1"
+                  },
+                  "Example2": {
+                    "$ref": "#/components/examples/ResponseExample2"
+                  },
+                  "Example3": {
+                    "$ref": "#/components/examples/ResponseExample3"
+                  },
+                  "Example4": {
+                    "$ref": "#/components/examples/ResponseExample4"
+                  },
+                  "Example5": {
+                    "$ref": "#/components/examples/ResponseExample5"
+                  },
+                  "Example6": {
+                    "$ref": "#/components/examples/ResponseExample6"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "<b>Bad Request</b> \r\n\n <font size='1' color='black'><b>Error codes & details</b></font> \r\n\n <B>400.001</B> Malformed content from the client \r\n\n <B>400.002</B> Request data does not match the application schema, please validate the request data. \r\n\n<B>400.005</B> Empty request body \r\n\n <B>400.006</B> Content-type must be application/json \r\n\n ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AffordableCheckAPIErrorResponse"
+                },
+                "example": {
+                  "code": "400.006",
+                  "message": "Missing header Content-type",
+                  "details": [
+                    {
+                      "error": "Content-type must be application/json"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "<b>Unauthorized</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>401.001</B> Invalid Access Token, please validate the token, if error persists please renew your token. \r\n\n <b>401.002</b> Access Token Expired, please renew your access token. \r\n\n <b>401.003</b> API Product mismatch for token. Your token does not have access to the requested API \r\n\n <b>401.004</b> Invalid API Key, please validate the Client ID \r\n\n <b>401.005</b> Invalid API Key for given resource \r\n\n <b>401.006</b> Insufficient scope for Application \r\n\n <b>401.007</b> Invalid Username/Password combination, the provided combination of username and password is incorrect, please verify your credentials. \r\n\n <b>401.008</b> Invalid Refresh Token. \r\n\n <b>401.009</b> Invalid client secret \r\n\n <b>401.010</b> Refresh Token expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AffordableCheckAPIErrorResponse"
+                },
+                "example": {
+                  "code": "401.002",
+                  "message": "Access Token Expired",
+                  "details": [
+                    {
+                      "error": "Access Token Expired, please renew your access token."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "<b>Not Found</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>404.001</b> No resource for POST <b>/path</b>",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AffordableCheckAPIErrorResponse"
+                },
+                "example": {
+                  "code": "404.001",
+                  "message": "No resource for POST /path",
+                  "details": [
+                    {
+                      "error": "No resource for POST /path"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "<b>Too Many Requests</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>429.001</b> Rate limit exceeded, too many requests have been sent per second. \r\n\n <b>429.002</b> Quota limit exceeded, too many requests have been sent per minute.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AffordableCheckAPIErrorResponse"
+                },
+                "example": {
+                  "code": "429.001",
+                  "message": "Rate limit exceeded",
+                  "details": [
+                    {
+                      "error": "Rate limit exceeded, too many requests have been sent per second."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "<b>Internal server error.</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>500</b> Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AffordableCheckAPIErrorResponse"
+                },
+                "example": {
+                  "code": "500",
+                  "message": "Internal server error",
+                  "details": [
+                    {
+                      "error": "API  is unable to retrieve data for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AffordableCheckAPIRequest": {
+        "required": [
+          "borrowerInformation",
+          "inputSubjectPropertyAddress",
+          "partyRoleIdentifier",
+          "partyRoleType",
+          "requestTransactionIdentifier",
+          "subjectLoanData",
+          "subjectPropertyData"
+        ],
+        "type": "object",
+        "properties": {
+          "requestTransactionIdentifier": {
+            "maxLength": 36,
+            "minLength": 36,
+            "pattern": "^([0-9a-fA-F]{8})-(([0-9a-fA-F]{4}/-){3})([0-9a-fA-F]{12})$",
+            "type": "string",
+            "description": "128-bit Globally unique identifier (GUID) assigned to each request.",
+            "example": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2"
+          },
+          "partyRoleIdentifier": {
+            "maxLength": 10,
+            "minLength": 1,
+            "type": "string",
+            "description": "The unique identifier assigned to the party role.",
+            "example": "123456"
+          },
+          "partyRoleType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "description": "Identifies the role that the party plays in the transaction. Parties may be either a person or legal entity. A party may play multiple roles in a transaction.",
+            "example": "Seller",
+            "enum": [
+              "Broker",
+              "Seller",
+              "Servicer",
+              "Correspondent",
+              "Lender"
+            ]
+          },
+          "loanOriginationSystem": {
+            "$ref": "#/components/schemas/AffordableCheckAPIRequest_loanOriginationSystem"
+          },
+          "inputSubjectPropertyAddress": {
+            "$ref": "#/components/schemas/AffordableCheckAPIRequest_inputSubjectPropertyAddress"
+          },
+          "subjectLoanData": {
+            "$ref": "#/components/schemas/AffordableCheckAPIRequest_subjectLoanData"
+          },
+          "subordinateLoanData": {
+            "$ref": "#/components/schemas/AffordableCheckAPIRequest_subordinateLoanData"
+          },
+          "borrowerInformation": {
+            "$ref": "#/components/schemas/AffordableCheckAPIRequest_borrowerInformation"
+          },
+          "subjectPropertyData": {
+            "$ref": "#/components/schemas/AffordableCheckAPIRequest_subjectPropertyData"
+          },
+          "affordableProgramDetails": {
+            "$ref": "#/components/schemas/AffordableCheckAPIRequest_affordableProgramDetails"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AffordableCheckAPIResponse": {
+        "required": [
+          "inputSubjectPropertyAddress",
+          "requestTransactionIdentifier",
+          "standardizedSubjectPropertyAddress",
+          "transactionDateTime"
+        ],
+        "type": "object",
+        "properties": {
+          "requestTransactionIdentifier": {
+            "type": "string",
+            "description": "128-bit Globally unique identifier (GUID) assigned to each request",
+            "example": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2"
+          },
+          "transactionDateTime": {
+            "type": "string",
+            "example": "2020-09-10T22:05:37.184Z"
+          },
+          "inputSubjectPropertyAddress": {
+            "$ref": "#/components/schemas/AffordableCheckAPIResponse_inputSubjectPropertyAddress"
+          },
+          "standardizedSubjectPropertyAddress": {
+            "$ref": "#/components/schemas/AffordableCheckAPIResponse_standardizedSubjectPropertyAddress"
+          },
+          "incomeLimitsData": {
+            "$ref": "#/components/schemas/AffordableCheckAPIResponse_incomeLimitsData"
+          },
+          "loanLimitsData": {
+            "$ref": "#/components/schemas/AffordableCheckAPIResponse_loanLimitsData"
+          },
+          "affordableProgramDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AffordableCheckAPIResponse_affordableProgramDetails"
+            }
+          },
+          "defaultedData": {
+            "$ref": "#/components/schemas/AffordableCheckAPIResponse_defaultedData"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AffordableCheckAPIErrorResponse": {
+        "title": "AffordableCheckAPIErrorResponse",
+        "required": [
+          "code",
+          "details",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AffordableCheckAPIErrorResponse_details"
+            }
+          }
+        }
+      },
+      "AffordableCheckAPIRequest_loanOriginationSystem": {
+        "type": "object",
+        "properties": {
+          "loanOriginationSystemVendorIdentifier": {
+            "type": "string",
+            "description": "A unique identifier agreed upon by the parties to the transaction to identify the vendor of the loan origination system used to process the loan.",
+            "example": "AccurateLOS"
+          },
+          "loanOriginationSystemVersionIdentifier": {
+            "type": "string",
+            "description": "Specifies the version of the loan origination system used to process the loan.",
+            "example": "2.7"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AffordableCheckAPIRequest_inputSubjectPropertyAddress": {
+        "required": [
+          "postalCode",
+          "stateCode"
+        ],
+        "type": "object",
+        "properties": {
+          "addressLineText": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "The address with the address number, pre-directional, street name, post-directional, address unit designators and address unit value.",
+            "example": "8200 Jones Branch Drive"
+          },
+          "cityName": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "The name of the city.",
+            "example": "McLean"
+          },
+          "postalCode": {
+            "maxLength": 10,
+            "minLength": 5,
+            "pattern": "^[0-9]{5}(?:-[0-9]{4})?$",
+            "type": "string",
+            "description": "The postal code (ZIP Code in the US) for the address. ZIP Code may be either 5 or 9 digits.",
+            "example": "22102"
+          },
+          "stateCode": {
+            "pattern": "^[A-Za-z\\s]*$",
+            "type": "string",
+            "description": "The two-character representation of the US state, US Territory, Canadian Province, Military APO FPO, or Territory.",
+            "example": "VA",
+            "enum": [
+              "AK",
+              "AL",
+              "AR",
+              "AZ",
+              "CA",
+              "CO",
+              "CT",
+              "DC",
+              "DE",
+              "FL",
+              "GA",
+              "GU",
+              "HI",
+              "IA",
+              "ID",
+              "IL",
+              "IN",
+              "KS",
+              "KY",
+              "LA",
+              "MA",
+              "MD",
+              "ME",
+              "MI",
+              "MN",
+              "MO",
+              "MS",
+              "MT",
+              "NC",
+              "ND",
+              "NE",
+              "NH",
+              "NJ",
+              "NM",
+              "NV",
+              "NY",
+              "OH",
+              "OK",
+              "OR",
+              "PA",
+              "PR",
+              "RI",
+              "SC",
+              "SD",
+              "TN",
+              "TX",
+              "UT",
+              "VI",
+              "VA",
+              "VT",
+              "WA",
+              "WI",
+              "WV",
+              "WY"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "description": "Subject Property Address."
+      },
+      "AffordableCheckAPIRequest_subjectLoanData": {
+        "required": [
+          "loanPurposeType"
+        ],
+        "type": "object",
+        "properties": {
+          "amortizationType": {
+            "type": "string",
+            "description": "A classification of a loan generally based on the changeability of the rate or payment over time as \"AdjustableRate\" when a mortgage allows the lender to adjust the interest rate in accordance with a specified index periodically or \"Fixed\" when the mortgage interest rate and payments remain the same for the life of the loan.",
+            "example": "Fixed",
+            "enum": [
+              "AdjustableRate",
+              "Fixed"
+            ]
+          },
+          "loanPurposeType": {
+            "type": "string",
+            "description": "Specifies the purpose for which the loan proceeds will be used. Purchase: A loan made in association with the original purchase of a piece of property. Refinance: The repayment of a debt from proceeds of a new loan using the same property as security or a mortgage secured by a property previously owned free and clear by the Borrower.",
+            "example": "Purchase",
+            "enum": [
+              "Purchase",
+              "Refinance"
+            ]
+          },
+          "refinanceCashOutDeterminationType": {
+            "type": "string",
+            "description": "A value that classifies a refinanced loan as \"CashOut\" when the existing mortgage is refinanced for an amount greater than the outstanding loan balance plus loan settlement costs; or \"NoCashOut\" when the new mortgage amount is less than or equal to the existing mortgage amount plus loan settlement costs. RefinanceCashOutDeterminationType is conditionally required when LoanPurposeType is Refinance",
+            "example": "CashOut",
+            "enum": [
+              "CashOut",
+              "NoCashOut"
+            ]
+          },
+          "baseLoanAmount": {
+            "pattern": "^[.]?[0-9]+(?:.[0-9]{2})?$",
+            "type": "string",
+            "description": "The base loan amount to be loaned to the borrower not including PMI, MIP, or Funding Fee. BaseLoanAmount is conditionally required when downPaymentAmount is not provided.",
+            "example": "400000.00"
+          },
+          "downPaymentAmount": {
+            "pattern": "^[.]?[0-9]+(?:.[0-9]{2})?$",
+            "type": "string",
+            "description": "The dollar amount of funds supplied by a borrower for a down payment. DownPaymentAmount is conditionally required when baseLoanAmount is not provided.",
+            "example": "100000.00"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AffordableCheckAPIRequest_subordinateLoanData": {
+        "type": "object",
+        "properties": {
+          "subordinateLoanAffordableIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the subordinate loan is classified as an affordable loan by the lender or the investor. SubordinateLoanAffordableIndicator is conditionally required if totalSubordinateFinancingAmount is greater than 0.",
+            "example": true,
+            "enum": [
+              true,
+              false
+            ]
+          },
+          "totalSubordinateFinancingAmount": {
+            "pattern": "^[.]?[0-9]+(?:.[0-9]{2})?$",
+            "type": "string",
+            "description": "The total amount of subordinate financing associated with the loan.",
+            "example": "162000.00"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AffordableCheckAPIRequest_borrowerInformation_borrowerIncome": {
+        "required": [
+          "borrowerQualifyingIncomeAmount",
+          "incomeFrequencyType"
+        ],
+        "type": "object",
+        "properties": {
+          "incomeFrequencyType": {
+            "type": "string",
+            "description": "A value from a Freddie Mac-defined list that represents how often the borrowerQualifyingIncomeAmount is earned.",
+            "example": "Monthly",
+            "enum": [
+              "Monthly",
+              "Yearly"
+            ]
+          },
+          "borrowerQualifyingIncomeAmount": {
+            "pattern": "^[.]?[0-9]+(?:.[0-9]{2})?$",
+            "type": "string",
+            "description": "The total borrower income per lender or investor guidelines.",
+            "example": "6000.00"
+          }
+        },
+        "description": "Total gross income for all borrowers on the loan"
+      },
+      "AffordableCheckAPIRequest_borrowerInformation_borrowers": {
+        "type": "object",
+        "properties": {
+          "borrowerFirstTimeHomebuyerIndicator": {
+            "type": "boolean",
+            "description": "Indicates that the borrower qualifies as a first time homebuyer as determined by the lender and/or the investor. (Note: The 3 year rule used in the Declarations alone is not sufficient.)",
+            "example": true,
+            "enum": [
+              true,
+              false
+            ]
+          },
+          "borrowerIncome": {
+            "$ref": "#/components/schemas/AffordableCheckAPIRequest_borrowerInformation_borrowerIncome"
+          },
+          "taxpayerIdentifierType": {
+            "type": "string",
+            "description": "Specifies the type of identification number used by the Internal Revenue Service (IRS) in the administration of tax laws. It is issued either by the Social Security Administration (SSA) or the IRS. A Social Security number (SSN) is issued by the SSA; all other taxpayer identification numbers are issued by the IRS.",
+            "example": "SocialSecurityNumber",
+            "enum": [
+              "SocialSecurityNumber"
+            ]
+          },
+          "taxpayerIdentifierValue": {
+            "maxLength": 4,
+            "minLength": 4,
+            "pattern": "^[0-9]{4}$",
+            "type": "string",
+            "description": "The value of the taxpayer identifier as assigned by the IRS to the individual or legal entity.",
+            "example": "1234"
+          }
+        }
+      },
+      "AffordableCheckAPIRequest_borrowerInformation": {
+        "required": [
+          "borrowerIncome"
+        ],
+        "type": "object",
+        "properties": {
+          "totalMortgagedPropertiesCount": {
+            "type": "string",
+            "description": "The number of 1-4 unit properties that are financed and owned and/or obligated on by the borrower(s). A jointly owned/obligated property by multiple borrowers would count only once.",
+            "example": "1",
+            "enum": [
+              "1",
+              "2",
+              "3",
+              "4"
+            ]
+          },
+          "includesNonOccupantIncomeIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that one or more borrowers on the loan do not occupy the subject property as the primary residence.",
+            "example": false,
+            "enum": [
+              true,
+              false
+            ]
+          },
+          "borrowers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AffordableCheckAPIRequest_borrowerInformation_borrowers"
+            }
+          }
+        }
+      },
+      "AffordableCheckAPIRequest_subjectPropertyData": {
+        "required": [
+          "propertyEstimatedValueAmount"
+        ],
+        "type": "object",
+        "properties": {
+          "constructionMethodType": {
+            "type": "string",
+            "description": "Describes the construction process for the main dwelling unit of the subject property as \"Manufactured\" for a factory-built dwelling or \"SiteBuilt\" when most elements are created at the home's permanent site.",
+            "example": "Manufactured",
+            "enum": [
+              "Manufactured",
+              "SiteBuilt"
+            ]
+          },
+          "financedUnitCount": {
+            "type": "string",
+            "description": "The number of individual family dwelling units being financed in the subject property.",
+            "example": "1",
+            "enum": [
+              "1",
+              "2",
+              "3",
+              "4"
+            ]
+          },
+          "propertyUsageType": {
+            "type": "string",
+            "description": "A value that specifies the intended usage of the property by the borrower as \"Investment\" when the home will be owned for the purpose of generating income by renting the property; \"PrimaryResidence\" when the owner will physically occupy the home and use it for their principal residence; or \"SecondHome\" when the home will be occupied by the owner for a portion of the year and is not the primary residence.",
+            "example": "PrimaryResidence",
+            "enum": [
+              "Investment",
+              "PrimaryResidence",
+              "SecondHome"
+            ]
+          },
+          "propertyEstimatedValueAmount": {
+            "pattern": "^((?!(0*\\.?0*$)).*)(^[.]?[0-9]+(?:.[0-9]{2})?$)",
+            "type": "string",
+            "description": "Statement of value of the property from a valid property valuation source.",
+            "example": "269400.00"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AffordableCheckAPIRequest_affordableProgramDetails": {
+        "type": "object",
+        "properties": {
+          "determineHFAAdvantageEligibilityIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the lender requests a determination of the borrower’s is eligibility for the Home Advantage program",
+            "example": true,
+            "enum": [
+              true,
+              false
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "AffordableCheckAPIResponse_inputSubjectPropertyAddress": {
+        "required": [
+          "postalCode",
+          "stateCode"
+        ],
+        "type": "object",
+        "properties": {
+          "addressLineText": {
+            "type": "string",
+            "description": "The address with the address number, pre-directional, street name, post-directional, address unit designators and address unit value.",
+            "example": "8200 Jones Branch Drive"
+          },
+          "cityName": {
+            "type": "string",
+            "description": "The name of the city.",
+            "example": "McLean"
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "The postal code (ZIP Code in the US) for the address. ZIP Code may be either 5 or 9 digits.",
+            "example": "22102"
+          },
+          "stateCode": {
+            "type": "string",
+            "description": "The two-character representation of the US state, US Territory, Canadian Province, Military APO FPO, or Territory.",
+            "example": "VA"
+          }
+        },
+        "description": "Subject Property Address provided by submitter"
+      },
+      "AffordableCheckAPIResponse_standardizedSubjectPropertyAddress": {
+        "type": "object",
+        "properties": {
+          "addressLineText": {
+            "type": "string",
+            "description": "The address with the address number, pre-directional, street name, post-directional, address unit designators and address unit value.",
+            "example": "8200 Jones Branch Drive"
+          },
+          "cityName": {
+            "type": "string",
+            "description": "The name of the city.",
+            "example": "McLean"
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "The postal code (ZIP Code in the US) for the address. ZIP Code may be either 5 or 9 digits.",
+            "example": "22102"
+          },
+          "stateCode": {
+            "type": "string",
+            "description": "The two-character representation of the US state, US Territory, Canadian Province, Military APO FPO, or Territory.",
+            "example": "VA"
+          },
+          "censusTractIdentifier": {
+            "type": "string",
+            "description": "Identifies census tract as defined by the U.S. Census Bureau where subject property is located.",
+            "example": "480202"
+          },
+          "countyName": {
+            "type": "string",
+            "description": "The name of the County",
+            "example": "Fairfax"
+          },
+          "fipsCountyCode": {
+            "type": "string",
+            "description": "Code identifying the county. (Designator Code based on Federal Information Processing Standard Publication 6-4).",
+            "example": "059"
+          },
+          "fipsStateNumericCode": {
+            "type": "string",
+            "description": "A unique two digit numeric code to identify each State and State equivalent entity. These State codes are part of the Federal Information Processing Standards (FIPS), an official coding system developed by the National Institute of Standards and Technology (NIST, formerly the National Bureau of Standards), U.S. Department of Commerce, and maintained by the U.S. Geological Survey (USGS).",
+            "example": "51"
+          },
+          "coreBasedStatisticalAreaCode": {
+            "type": "string",
+            "description": "A value from a Census Bureau-define list that classifies an urban cluster.",
+            "example": "47900"
+          },
+          "minorityPopulationCensusTractPercent": {
+            "type": "string",
+            "description": "The percent of minorities living in the census tract based on data provided by the Secondary Mortgage Market Regulator.",
+            "example": "3.867"
+          },
+          "disasterAreaCensusTractIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the census tract is in a disaster area Indicator. ",
+            "example": false
+          },
+          "minorityPopulationCensusTractIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the census tract has a minority population of at least 30% and a median income of less than 100% of the area median income.",
+            "example": true
+          },
+          "lowIncomeCensusTractIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates the census tract income is less than or equal to 80% of the national average median income.",
+            "example": false
+          },
+          "highNeedsRuralRegionEligibilityAndQualifiedIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the loan is both eligible and qualified for the Duty-to-Serve (DTS) High Needs Rural RegionHNRR objective. The loan is in one of the following DTS rural regions: Lower Mississippi Delta, Mid-Appalachia, Colonias or Persistent Poverty.",
+            "example": true
+          },
+          "ruralAreaIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the Census Block Group is more than 90% percent rural.",
+            "example": false
+          },
+          "highCostAreaIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates if a county, consistent with Loan Limits terminology, has been labeled a High Cost Area where these loan limits exceed the base conforming limit.",
+            "example": true
+          }
+        },
+        "description": "Subject Property Address determined by geo-coding."
+      },
+      "AffordableCheckAPIResponse_incomeLimitsData": {
+        "type": "object",
+        "properties": {
+          "derivedLTVRatioPercent": {
+            "type": "string",
+            "description": "The ratio of the (outstanding) loan amount to the appraised value, estimated value or purchase price of the property.",
+            "example": "79.70"
+          },
+          "derivedCombinedLTVRatioPercent": {
+            "type": "string",
+            "description": "The result of dividing the combined unpaid principal balance (UPB) amounts of the first and all subordinate mortgages, excluding undrawn home equity lines of credit amounts, by the value of the subject property.",
+            "example": "139.83"
+          },
+          "incomeToAMIPercentage": {
+            "type": "string",
+            "description": "A portion of 100 that represents the loan level qualifying income amount to the area median income (AMI) amounts. ((Income / AMI) * 100).",
+            "example": "62.60"
+          },
+          "amiEffectiveDate": {
+            "type": "string",
+            "description": "The date that new Area Median Income (AMI) limits will go into effect.",
+            "example": "2020-05-06"
+          },
+          "homePossibleIncomeLimitAmount": {
+            "type": "string",
+            "description": "The maximum borrower income allowed for the specific census tract, this is to qualify for a Home Possible mortgage.",
+            "example": "99920.00"
+          },
+          "hundredPercentHUDMedianIncomeAmount": {
+            "type": "string",
+            "description": "100% of the HUD estimated median family incomes to determine borrower eligibility for all applications related to affordable lending products.",
+            "example": "124900.00"
+          },
+          "hundredAndFortyPercentHUDMedianIncomeAmount": {
+            "type": "string",
+            "description": "A household whose aggregate gross income equals 140% or less of Area Median Income (AMI), as adjusted for family size.    ",
+            "example": "174860.00"
+          },
+          "hundredAndTwentyPercentHUDMedianIncomeAmount": {
+            "type": "string",
+            "description": "A household whose aggregate gross income equals 120% or less of Area Median Income (AMI), as adjusted for family size.",
+            "example": "149880.00"
+          },
+          "eightyPercentHUDMedianIncomeAmount": {
+            "type": "string",
+            "description": "80% of the HUD estimated median family incomes to determine borrower eligibility for all applications related to affordable lending products.",
+            "example": "99920.00"
+          },
+          "fiftyPercentHUDMedianIncomeAmount": {
+            "type": "string",
+            "description": "50% of the HUD estimated median family incomes to determine borrower eligibility for all applications related to affordable lending products.",
+            "example": "62450.00"
+          },
+          "refiPossibleIncomeLimitAmount": {
+            "type": "string",
+            "description": "The maximum loan level borrower income for the specific census tract, allowed to qualify for Refi Possible.",
+            "example": "124900.00"
+          }
+        }
+      },
+      "AffordableCheckAPIResponse_loanLimitsData": {
+        "type": "object",
+        "properties": {
+          "loanConformityType": {
+            "type": "string",
+            "description": "A value from a Freddie Mac-defined list that provides an early indication of whether a loan is conforming, super-conforming, non-conforming.",
+            "example": "Conforming"
+          },
+          "oneUnitLimitAmount": {
+            "type": "string",
+            "description": "National conforming loan limit for a single-family one-unit property for the provided property address.",
+            "example": "970800.00"
+          },
+          "twoUnitLimitAmount": {
+            "type": "string",
+            "description": "National conforming loan limit for a single-family two-unit property for the provided property address.",
+            "example": "1243050.00"
+          },
+          "threeUnitLimitAmount": {
+            "type": "string",
+            "description": "National conforming loan limit for a single-family three-unit property for the provided property address.",
+            "example": "1502475.00"
+          },
+          "fourUnitLimitAmount": {
+            "type": "string",
+            "description": "National conforming loan limit for a single-family four-unit property for the provided property address.",
+            "example": "1867275.00"
+          }
+        }
+      },
+      "AffordableCheckAPIResponse_borrowerEligibilityMessage": {
+        "type": "object",
+        "properties": {
+          "messageCode": {
+            "type": "string",
+            "description": "",
+            "example": "AFC0038"
+          },
+          "messageDescription": {
+            "type": "string",
+            "description": "A free-form text field used to describe the message",
+            "example": "Based on the submitted information, the borrower meets the requirements for a Home Possible loan which offers flexible sources of funds, such as gifts and grants towards 3% minimum down payment requirement, no minimum borrower contribution and reduced delivery fees and mortgage insurance coverage levels to enhance affordability."
+          }
+        }
+      },
+      "AffordableCheckAPIResponse_affordableProgramDetails": {
+        "type": "object",
+        "properties": {
+          "recommendedProductIdentifier": {
+            "type": "string",
+            "description": "Identifies the mortgage program associated with the loan as defined by a specific entity.",
+            "example": "HomePossible",
+            "enum": [
+              "HomePossible",
+              "HFAAdvantage",
+              "RefiPossible",
+              "HomeOne"
+            ]
+          },
+          "borrowerEligibilityMessage": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AffordableCheckAPIResponse_borrowerEligibilityMessage"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "AffordableCheckAPIResponse_defaultedData": {
+        "type": "object",
+        "properties": {
+          "amortizationType": {
+            "type": "string",
+            "description": "A classification of a loan generally based on the changeability of the rate or payment over time as \"AdjustableRate\" when a mortgage allows the lender to adjust the interest rate in accordance with a specified index periodically or \"Fixed\" when the mortgage interest rate and payments remain the same for the life of the loan.",
+            "example": "Fixed"
+          },
+          "borrowerFirstTimeHomebuyerIndicator": {
+            "type": "boolean",
+            "description": "Indicates that the borrower qualifies as a first time homebuyer as determined by the lender and/or the investor.(Note: The 3 year rule used in the Declarations alone is not sufficient.)",
+            "example": false
+          },
+          "constructionMethodType": {
+            "type": "string",
+            "description": "Describes the construction process for the main dwelling unit of the subject property as \"Manufactured\" for a factory-built dwelling or \"SiteBuilt\" when most elements are created at the home's permanent site.",
+            "example": "SiteBuilt"
+          },
+          "financedUnitCount": {
+            "type": "string",
+            "description": "The number of individual family dwelling units being financed in the subject property.",
+            "example": "1"
+          },
+          "determineHFAAdvantageEligibilityIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the lender requests a determination of the borrower’s is eligibility for the Home Advantage program",
+            "example": false
+          },
+          "includesNonOccupantIncomeIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that one or more borrowers on the loan do not occupy the subject property as the primary residence",
+            "example": false
+          },
+          "lienPriorityType": {
+            "type": "string",
+            "description": "A value that specifies the priority of the lien against the subject property as \"FirstLien\" when the mortgage gives the mortgagee a security right over all other mortgages of the mortgaged property; or \"SecondLien\" when the mortgage gives the mortgagee a security right after the first lien has been satisfied.",
+            "example": "FirstLien"
+          },
+          "loanMaturityPeriodCount": {
+            "type": "string",
+            "description": "The scheduled number of months periods (as defined by Loan Maturity Period Type) after which a loan will come due.",
+            "example": "360"
+          },
+          "loanMortgageType": {
+            "type": "string",
+            "description": "A value that specifies the entity under whose guidelines the mortgage is originated as \"Conventional\" when mortgage financing is not insured or guaranteed by a government agency; \"FHA\" when a loan is originated in accordance with the guidelines of HUD's Federal Housing Administration; or \"VA\" when a loan is originated in accordance with the guidelines of the Department of Veterans Affairs’ Loan Guaranty Home Loan Program.",
+            "example": "Conventional"
+          },
+          "propertyUsageType": {
+            "type": "string",
+            "description": "A value that specifies the intended usage of the property by the borrower as \"Investment\" when the home will be owned for the purpose of generating income by renting the property; \"PrimaryResidence\" when the owner will physically occupy the home and use it for their principal residence; or \"SecondHome\" when the home will be occupied by the owner for a portion of the year and is not the primary residence.",
+            "example": "PrimaryResidence"
+          },
+          "totalMortgagedPropertiesCount": {
+            "type": "string",
+            "description": "The number of 1-4 unit properties that are financed and owned and/or obligated on by the borrower(s). A jointly owned/obligated property by multiple borrowers would count only once.",
+            "example": "1"
+          },
+          "totalSubordinateFinancingAmount": {
+            "type": "string",
+            "description": "The total amount of subordinate financing associated with the loan.",
+            "example": "0"
+          }
+        },
+        "description": "Default values are used to access eligibility when the data is not provided in the Request."
+      },
+      "AffordableCheckAPIErrorResponse_details": {
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "examples": {
+      "RequestExample1": {
+        "summary": "Scenario 1 - Borrower data supporting Home Possible eligibility",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputSubjectPropertyAddress": {
+            "addressLineText": "13777 Flowing Brook Ct",
+            "cityName": "CHANTILLY",
+            "postalCode": "20151",
+            "stateCode": "VA"
+          },
+          "subjectLoanData": {
+            "amortizationType": "Fixed",
+            "loanPurposeType": "Purchase",
+            "baseLoanAmount": "190000.00"
+          },
+          "subordinateLoanData": {
+            "subordinateLoanAffordableIndicator": true,
+            "totalSubordinateFinancingAmount": "40000.00"
+          },
+          "borrowerInformation": {
+            "totalMortgagedPropertiesCount": "1",
+            "includesNonOccupantIncomeIndicator": false,
+            "borrowers": [
+              {
+                "borrowerFirstTimeHomebuyerIndicator": true,
+                "borrowerIncome": {
+                  "incomeFrequencyType": "Yearly",
+                  "borrowerQualifyingIncomeAmount": "70000.00"
+                }
+              }
+            ]
+          },
+          "subjectPropertyData": {
+            "constructionMethodType": "SiteBuilt",
+            "financedUnitCount": "1",
+            "propertyUsageType": "PrimaryResidence",
+            "propertyEstimatedValueAmount": "269400"
+          },
+          "affordableProgramDetails": {
+            "determineHFAAdvantageEligibilityIndicator": false
+          }
+        }
+      },
+      "RequestExample2": {
+        "summary": "Scenario 2: Borrower data supporting Home Possible, HFA Advantage & Refi Possible eligibility",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputSubjectPropertyAddress": {
+            "addressLineText": "816 West Main St",
+            "cityName": "KANNAPOLIS",
+            "postalCode": "28083",
+            "stateCode": "NC"
+          },
+          "subjectLoanData": {
+            "amortizationType": "Fixed",
+            "loanPurposeType": "Refinance",
+            "refinanceCashOutDeterminationType": "NoCashOut",
+            "baseLoanAmount": "190000.00"
+          },
+          "subordinateLoanData": {
+            "subordinateLoanAffordableIndicator": true,
+            "totalSubordinateFinancingAmount": "40000.00"
+          },
+          "borrowerInformation": {
+            "totalMortgagedPropertiesCount": "1",
+            "includesNonOccupantIncomeIndicator": false,
+            "borrowers": [
+              {
+                "borrowerFirstTimeHomebuyerIndicator": true,
+                "borrowerIncome": {
+                  "incomeFrequencyType": "Yearly",
+                  "borrowerQualifyingIncomeAmount": "55000.00"
+                },
+                "taxpayerIdentifierType": "SocialSecurityNumber",
+                "taxpayerIdentifierValue": "0189"
+              }
+            ]
+          },
+          "subjectPropertyData": {
+            "constructionMethodType": "SiteBuilt",
+            "financedUnitCount": "1",
+            "propertyUsageType": "PrimaryResidence",
+            "propertyEstimatedValueAmount": "270400"
+          },
+          "affordableProgramDetails": {
+            "determineHFAAdvantageEligibilityIndicator": true
+          }
+        }
+      },
+      "RequestExample3": {
+        "summary": "Scenario 3 - Borrower data does not support Home Possible, HFA Advantage & Refi Possible eligibility",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputSubjectPropertyAddress": {
+            "addressLineText": "13777 Flowing Brook Ct",
+            "cityName": "CHANTILLY",
+            "postalCode": "20151",
+            "stateCode": "VA"
+          },
+          "subjectLoanData": {
+            "amortizationType": "Fixed",
+            "loanPurposeType": "Refinance",
+            "refinanceCashOutDeterminationType": "NoCashOut",
+            "baseLoanAmount": "190000.00"
+          },
+          "subordinateLoanData": {
+            "subordinateLoanAffordableIndicator": true,
+            "totalSubordinateFinancingAmount": "40000.00"
+          },
+          "borrowerInformation": {
+            "totalMortgagedPropertiesCount": "2",
+            "includesNonOccupantIncomeIndicator": false,
+            "borrowers": [
+              {
+                "borrowerFirstTimeHomebuyerIndicator": true,
+                "borrowerIncome": {
+                  "incomeFrequencyType": "Yearly",
+                  "borrowerQualifyingIncomeAmount": "70000.00"
+                },
+                "taxpayerIdentifierType": "SocialSecurityNumber",
+                "taxpayerIdentifierValue": "5778"
+              }
+            ]
+          },
+          "subjectPropertyData": {
+            "constructionMethodType": "SiteBuilt",
+            "financedUnitCount": "1",
+            "propertyUsageType": "Investment",
+            "propertyEstimatedValueAmount": "269400"
+          },
+          "affordableProgramDetails": {
+            "determineHFAAdvantageEligibilityIndicator": true
+          }
+        }
+      },
+      "RequestExample4": {
+        "summary": "Scenario 4 - Borrower data supporting Affordable goals eligibility",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputSubjectPropertyAddress": {
+            "postalCode": "40576",
+            "stateCode": "KY"
+          },
+          "subjectLoanData": {
+            "amortizationType": "Fixed",
+            "loanPurposeType": "Purchase",
+            "baseLoanAmount": "190000.00"
+          },
+          "subordinateLoanData": {
+            "subordinateLoanAffordableIndicator": true,
+            "totalSubordinateFinancingAmount": "40000.00"
+          },
+          "borrowerInformation": {
+            "totalMortgagedPropertiesCount": "1",
+            "includesNonOccupantIncomeIndicator": false,
+            "borrowers": [
+              {
+                "borrowerFirstTimeHomebuyerIndicator": true,
+                "borrowerIncome": {
+                  "incomeFrequencyType": "Yearly",
+                  "borrowerQualifyingIncomeAmount": "65000.00"
+                }
+              }
+            ]
+          },
+          "subjectPropertyData": {
+            "constructionMethodType": "SiteBuilt",
+            "financedUnitCount": "1",
+            "propertyUsageType": "PrimaryResidence",
+            "propertyEstimatedValueAmount": "269400"
+          },
+          "affordableProgramDetails": {
+            "determineHFAAdvantageEligibilityIndicator": true
+          }
+        }
+      },
+      "RequestExample5": {
+        "summary": "Scenario 5 - Property location is outside the core based statistical area",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputSubjectPropertyAddress": {
+            "cityName": "Tionesta",
+            "postalCode": "16353",
+            "stateCode": "PA"
+          },
+          "subjectLoanData": {
+            "amortizationType": "Fixed",
+            "loanPurposeType": "Purchase",
+            "refinanceCashOutDeterminationType": "NoCashOut",
+            "baseLoanAmount": "190000.00"
+          },
+          "subordinateLoanData": {
+            "subordinateLoanAffordableIndicator": true,
+            "totalSubordinateFinancingAmount": "40000.00"
+          },
+          "borrowerInformation": {
+            "totalMortgagedPropertiesCount": "1",
+            "includesNonOccupantIncomeIndicator": false,
+            "borrowers": [
+              {
+                "lastName": "Bakersfield",
+                "borrowerFirstTimeHomebuyerIndicator": true,
+                "borrowerIncome": {
+                  "incomeFrequencyType": "Yearly",
+                  "loanLevelQualifyingIncomeAmount": "50000.00",
+                  "borrowerQualifyingIncomeAmount": "10"
+                },
+                "taxpayerIdentifierType": "SocialSecurityNumber",
+                "taxpayerIdentifierValue": "5778"
+              }
+            ]
+          },
+          "subjectPropertyData": {
+            "constructionMethodType": "SiteBuilt",
+            "financedUnitCount": "4",
+            "propertyUsageType": "PrimaryResidence",
+            "propertyEstimatedValueAmount": "269400"
+          },
+          "affordableProgramDetails": {
+            "determineHFAAdvantageEligibilityIndicator": false
+          }
+        }
+      },
+      "RequestExample6": {
+        "summary": "Scenario 6 - Invalid Request",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputSubjectPropertyAddress": {
+            "addressLineText": "13777 Flowing Brook Ct",
+            "cityName": "CHANTILLY",
+            "postalCode": "20151",
+            "stateCode": "VA"
+          },
+          "subjectLoanData": {
+            "amortizationType": "Fixed",
+            "loanPurposeType": "Refinance",
+            "baseLoanAmount": "190000.00"
+          },
+          "subordinateLoanData": {
+            "subordinateLoanAffordableIndicator": true,
+            "totalSubordinateFinancingAmount": "40000.00"
+          },
+          "borrowerInformation": {
+            "totalMortgagedPropertiesCount": "1",
+            "includesNonOccupantIncomeIndicator": false,
+            "borrowers": [
+              {
+                "borrowerFirstTimeHomebuyerIndicator": true,
+                "borrowerIncome": {
+                  "incomeFrequencyType": "Yearly",
+                  "borrowerQualifyingIncomeAmount": "70000.00"
+                },
+                "taxpayerIdentifierType": "SocialSecurityNumber",
+                "taxpayerIdentifierValue": "5778"
+              }
+            ]
+          },
+          "subjectPropertyData": {
+            "constructionMethodType": "SiteBuilt",
+            "financedUnitCount": "1",
+            "propertyUsageType": "PrimaryResidence",
+            "propertyEstimatedValueAmount": "269400"
+          },
+          "affordableProgramDetails": {
+            "determineHFAAdvantageEligibilityIndicator": true
+          }
+        }
+      },
+      "ResponseExample1": {
+        "summary": "Scenario 1 - Borrower data supporting Home Possible eligibility",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2020-09-10T22:05:37.184Z",
+          "inputSubjectPropertyAddress": {
+            "addressLineText": "13777 Flowing Brook Ct",
+            "cityName": "CHANTILLY",
+            "postalCode": "20151",
+            "stateCode": "VA"
+          },
+          "standardizedSubjectPropertyAddress": {
+            "addressLineText": "13777 FLOWING BROOK CT",
+            "cityName": "CHANTILLY",
+            "postalCode": "20151",
+            "stateCode": "VA",
+            "censusTractIdentifier": "491601",
+            "fipsCountyCode": "059",
+            "fipsStateNumericCode": "51",
+            "countyName": "Fairfax",
+            "coreBasedStatisticalAreaCode": "47900",
+            "minorityPopulationCensusTractPercent": "74.304",
+            "disasterAreaCensusTractIndicator": false,
+            "minorityPopulationCensusTractIndicator": true,
+            "lowIncomeCensusTractIndicator": true,
+            "highNeedsRuralRegionEligibilityAndQualifiedIndicator": false,
+            "ruralAreaIndicator": false,
+            "highCostAreaIndicator": true
+          },
+          "incomeLimitsData": {
+            "derivedLTVRatioPercent": "70.53",
+            "derivedCombinedLTVRatioPercent": "85.37",
+            "incomeToAMIPercentage": "49.82",
+            "refiPossibleIncomeLimitAmount": "140500.0",
+            "amiEffectiveDate": "2020-05-06",
+            "homePossibleIncomeLimitAmount": "112400.00",
+            "hundredAndFortyPercentHUDMedianIncomeAmount": "196700.00",
+            "hundredAndTwentyPercentHUDMedianIncomeAmount": "168600.00",
+            "hundredPercentHUDMedianIncomeAmount": "140500.00",
+            "eightyPercentHUDMedianIncomeAmount": "112400.00",
+            "fiftyPercentHUDMedianIncomeAmount": "70250.00"
+          },
+          "loanLimitsData": {
+            "loanConformityType": "Conforming",
+            "oneUnitLimitAmount": "1089300.00"
+          },
+          "affordableProgramDetails": [
+            {
+              "recommendedProductIdentifier": "HomePossible",
+              "borrowerEligibilityMessage": [
+                {
+                  "messageCode": "AFC0038",
+                  "messageDescription": "Based on the submitted information, the borrower meets the requirements for a Home Possible loan which offers flexible sources of funds, such as gifts and grants towards 3% minimum down payment requirement, no minimum borrower contribution and reduced delivery fees and mortgage insurance coverage levels to enhance affordability."
+                }
+              ]
+            }
+          ],
+          "defaultedData": {
+            "lienPriorityType": "FirstLien",
+            "loanMaturityPeriodCount": "360",
+            "loanMortgageType": "Conventional"
+          }
+        }
+      },
+      "ResponseExample2": {
+        "summary": "Scenario 2 - Borrower data supporting Home Possible, HFA Advantage & Refi Possible eligibility",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2020-09-10T22:05:37.184Z",
+          "inputSubjectPropertyAddress": {
+            "addressLineText": "816 West Main St",
+            "cityName": "KANNAPOLIS",
+            "postalCode": "28083",
+            "stateCode": "NC"
+          },
+          "standardizedSubjectPropertyAddress": {
+            "addressLineText": "816 W MAIN ST",
+            "cityName": "KANNAPOLIS",
+            "postalCode": "28083",
+            "stateCode": "NC",
+            "censusTractIdentifier": "040705",
+            "fipsCountyCode": "025",
+            "fipsStateNumericCode": "37",
+            "countyName": "Cabarrus",
+            "coreBasedStatisticalAreaCode": "16740",
+            "minorityPopulationCensusTractPercent": "53.607",
+            "disasterAreaCensusTractIndicator": false,
+            "minorityPopulationCensusTractIndicator": true,
+            "lowIncomeCensusTractIndicator": false,
+            "highNeedsRuralRegionEligibilityAndQualifiedIndicator": false,
+            "ruralAreaIndicator": false,
+            "highCostAreaIndicator": false
+          },
+          "incomeLimitsData": {
+            "derivedLTVRatioPercent": "70.53",
+            "derivedCombinedLTVRatioPercent": "85.37",
+            "incomeToAMIPercentage": "76.34",
+            "refiPossibleIncomeLimitAmount": "91700.0",
+            "amiEffectiveDate": "2020-05-06",
+            "homePossibleIncomeLimitAmount": "73360.00",
+            "hundredAndFortyPercentHUDMedianIncomeAmount": "128380.00",
+            "hundredAndTwentyPercentHUDMedianIncomeAmount": "110040.00",
+            "hundredPercentHUDMedianIncomeAmount": "91700.00",
+            "eightyPercentHUDMedianIncomeAmount": "73360.00",
+            "fiftyPercentHUDMedianIncomeAmount": "45850.00"
+          },
+          "loanLimitsData": {
+            "loanConformityType": "Conforming",
+            "oneUnitLimitAmount": "726200.00"
+          },
+          "affordableProgramDetails": [
+            {
+              "recommendedProductIdentifier": "HomePossible",
+              "borrowerEligibilityMessage": [
+                {
+                  "messageCode": "AFC0038",
+                  "messageDescription": "Based on the submitted information, the borrower meets the requirements for a Home Possible loan which offers flexible sources of funds, such as gifts and grants towards 3% minimum down payment requirement, no minimum borrower contribution and reduced delivery fees to enhance affordability."
+                }
+              ]
+            },
+            {
+              "recommendedProductIdentifier": "HFAAdvantage",
+              "borrowerEligibilityMessage": [
+                {
+                  "messageCode": "AFC0037",
+                  "messageDescription": "Based on the submitted information, the borrower meets the requirements for a HFA Advantage loan which is available through participating housing finance agencies, provides a low 3% down payment requirement, HFAs determine area median income requirements, reduced fees and mortgage insurance coverage levels for borrowers earning 80% AMI or less."
+                }
+              ]
+            },
+            {
+              "recommendedProductIdentifier": "RefiPossible",
+              "borrowerEligibilityMessage": [
+                {
+                  "messageCode": "AFC0063",
+                  "messageDescription": "Based on the submitted information, the borrower meets the requirements for a Refi Possible loan, available to borrowers earning 100% or less of area median income and offers expanded flexibilities, such as no minimum FICO Score and an expanded DTI ratio, to assist borrowers consider refinancing their current loans to save on their monthly mortgage payments."
+                }
+              ]
+            }
+          ],
+          "defaultedData": {
+            "lienPriorityType": "FirstLien",
+            "loanMaturityPeriodCount": "360",
+            "loanMortgageType": "Conventional"
+          }
+        }
+      },
+      "ResponseExample3": {
+        "summary": "Scenario 3 - Borrower data does not support Home Possible, HFA Advantage & Refi Possible eligibility",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2023-05-05T15:36:23.160Z",
+          "inputSubjectPropertyAddress": {
+            "addressLineText": "13777 Flowing Brook Ct",
+            "cityName": "CHANTILLY",
+            "postalCode": "20151",
+            "stateCode": "VA"
+          },
+          "standardizedSubjectPropertyAddress": {
+            "addressLineText": "13777 FLOWING BROOK CT",
+            "cityName": "CHANTILLY",
+            "postalCode": "20151",
+            "stateCode": "VA",
+            "censusTractIdentifier": "491601",
+            "fipsCountyCode": "059",
+            "fipsStateNumericCode": "51",
+            "countyName": "Fairfax",
+            "coreBasedStatisticalAreaCode": "47900",
+            "minorityPopulationCensusTractPercent": "74.304",
+            "disasterAreaCensusTractIndicator": false,
+            "minorityPopulationCensusTractIndicator": true,
+            "lowIncomeCensusTractIndicator": true,
+            "highNeedsRuralRegionEligibilityAndQualifiedIndicator": false,
+            "ruralAreaIndicator": false,
+            "highCostAreaIndicator": true
+          },
+          "incomeLimitsData": {
+            "derivedLTVRatioPercent": "70.53",
+            "derivedCombinedLTVRatioPercent": "85.37",
+            "incomeToAMIPercentage": "49.82",
+            "amiEffectiveDate": "2022-06-09",
+            "refiPossibleIncomeLimitAmount": "140500.00",
+            "homePossibleIncomeLimitAmount": "112400.00",
+            "hundredAndFortyPercentHUDMedianIncomeAmount": "196700.00",
+            "hundredAndTwentyPercentHUDMedianIncomeAmount": "168600.00",
+            "hundredPercentHUDMedianIncomeAmount": "140500.00",
+            "eightyPercentHUDMedianIncomeAmount": "112400.00",
+            "fiftyPercentHUDMedianIncomeAmount": "70250.00"
+          },
+          "loanLimitsData": {
+            "loanConformityType": "Conforming",
+            "oneUnitLimitAmount": "1089300.0"
+          },
+          "affordableProgramDetails": [
+            {
+              "recommendedProductIdentifier": "HomePossible",
+              "borrowerEligibilityMessage": [
+                {
+                  "messageCode": "AFC0001",
+                  "messageDescription": "Property usage type must be primary residence."
+                },
+                {
+                  "messageCode": "AFC0022",
+                  "messageDescription": "The occupying Borrower must not have an ownership interest in more than two financed residential properties including the subject property for a Home Possible Mortgage."
+                }
+              ]
+            },
+            {
+              "recommendedProductIdentifier": "HFAAdvantage",
+              "borrowerEligibilityMessage": [
+                {
+                  "messageCode": "AFC0032",
+                  "messageDescription": "The occupying Borrower must not have an ownership interest in more than two financed residential properties including the subject property for an HFA Advatage Mortgage."
+                }
+              ]
+            },
+            {
+              "recommendedProductIdentifier": "RefiPossible",
+              "borrowerEligibilityMessage": [
+                {
+                  "messageCode": "AFC0064",
+                  "messageDescription": "Refi Possible requires the existing loan to be owned by Freddie Mac, and we did not find any loans matching the given borrower information."
+                }
+              ]
+            }
+          ],
+          "defaultedData": {
+            "lienPriorityType": "FirstLien",
+            "loanMaturityPeriodCount": "360",
+            "loanMortgageType": "Conventional"
+          }
+        }
+      },
+      "ResponseExample4": {
+        "summary": "Scenario 4 - Borrower data supporting Affordable goals eligibility",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2022-07-18T13:48:10.235Z",
+          "inputSubjectPropertyAddress": {
+            "addressLineText": "",
+            "cityName": "",
+            "postalCode": "40576",
+            "stateCode": "KY"
+          },
+          "standardizedSubjectPropertyAddress": {
+            "addressLineText": "",
+            "cityName": "LEXINGTON",
+            "postalCode": "40576",
+            "stateCode": "KY",
+            "censusTractIdentifier": "003802",
+            "fipsCountyCode": "067",
+            "fipsStateNumericCode": "21",
+            "countyName": "Fayette",
+            "coreBasedStatisticalAreaCode": "30460",
+            "minorityPopulationCensusTractPercent": "34.473",
+            "disasterAreaCensusTractIndicator": true,
+            "minorityPopulationCensusTractIndicator": true,
+            "lowIncomeCensusTractIndicator": false,
+            "highNeedsRuralRegionEligibilityAndQualifiedIndicator": false,
+            "ruralAreaIndicator": true,
+            "highCostAreaIndicator": false
+          },
+          "incomeLimitsData": {
+            "derivedLTVRatioPercent": "70.53",
+            "derivedCombinedLTVRatioPercent": "85.37",
+            "incomeToAMIPercentage": "74.46",
+            "refiPossibleIncomeLimitAmount": "87300.0",
+            "amiEffectiveDate": "2022-05-06",
+            "homePossibleIncomeLimitAmount": "69840.00",
+            "hundredAndFortyPercentHUDMedianIncomeAmount": "122220.00",
+            "hundredAndTwentyPercentHUDMedianIncomeAmount": "104760.00",
+            "hundredPercentHUDMedianIncomeAmount": "87300.00",
+            "eightyPercentHUDMedianIncomeAmount": "69840.00",
+            "fiftyPercentHUDMedianIncomeAmount": "43650.00"
+          },
+          "loanLimitsData": {
+            "loanConformityType": "Conforming",
+            "oneUnitLimitAmount": "726200.00"
+          },
+          "affordableProgramDetails": [
+            {
+              "recommendedProductIdentifier": "HomePossible",
+              "borrowerEligibilityMessage": [
+                {
+                  "messageCode": "AFC0038",
+                  "messageDescription": "Based on the submitted information, the borrower meets the requirements for a Home Possible loan which offers flexible sources of funds, such as gifts and grants towards 3% minimum down payment requirement, no minimum borrower contribution and reduced delivery fees and mortgage insurance coverage levels to enhance affordability."
+                }
+              ]
+            },
+            {
+              "recommendedProductIdentifier": "HFAAdvantage",
+              "borrowerEligibilityMessage": [
+                {
+                  "messageCode": "AFC0037",
+                  "messageDescription": "Based on the submitted information, the borrower meets the requirements for a HFA Advantage loan which is available through participating housing finance agencies, provides a low 3% down payment requirement, HFAs determine area median income requirements, reduced fees and mortgage insurance coverage levels for borrowers earning 80% AMI or less."
+                }
+              ]
+            },
+            {
+              "borrowerEligibilityMessage": [
+                {
+                  "messageCode": "AFC0042",
+                  "messageDescription": "Based on the information provided, the loan meets the criteria of a Low-Income Purchase where the borrower’s income is <= 80% of the Area Median Income."
+                },
+                {
+                  "messageCode": "AFC0045",
+                  "messageDescription": "Based on the information provided, the loan meets the criteria of a Low-Income Disaster Area transaction."
+                },
+                {
+                  "messageCode": "AFC0047",
+                  "messageDescription": "Based on the information provided, the loan meets the criteria of a Minority Census Tract Area transaction."
+                }
+              ]
+            }
+          ],
+          "defaultedData": {
+            "lienPriorityType": "FirstLien",
+            "loanMaturityPeriodCount": "360",
+            "loanMortgageType": "Conventional"
+          }
+        }
+      },
+      "ResponseExample5": {
+        "summary": "Scenario 5 - Property location is outside the core based statistical area",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2022-12-15T12:32:16.951Z",
+          "inputSubjectPropertyAddress": {
+            "addressLineText": "",
+            "cityName": "Tionesta",
+            "postalCode": "16353",
+            "stateCode": "PA"
+          },
+          "standardizedSubjectPropertyAddress": {
+            "addressLineText": "",
+            "cityName": "TIONESTA",
+            "postalCode": "16353",
+            "stateCode": "PA",
+            "censusTractIdentifier": "530200",
+            "fipsCountyCode": "053",
+            "fipsStateNumericCode": "42",
+            "countyName": "Forest",
+            "minorityPopulationCensusTractPercent": "3.867",
+            "disasterAreaCensusTractIndicator": false,
+            "minorityPopulationCensusTractIndicator": false,
+            "lowIncomeCensusTractIndicator": false,
+            "highNeedsRuralRegionEligibilityAndQualifiedIndicator": false,
+            "ruralAreaIndicator": true,
+            "highCostAreaIndicator": false
+          },
+          "incomeLimitsData": {
+            "derivedLTVRatioPercent": "70.53",
+            "derivedCombinedLTVRatioPercent": "85.37",
+            "incomeToAMIPercentage": "0.01",
+            "refiPossibleIncomeLimitAmount": "72900.0",
+            "amiEffectiveDate": "2022-05-06",
+            "homePossibleIncomeLimitAmount": "58320.00",
+            "hundredAndFortyPercentHUDMedianIncomeAmount": "102060.00",
+            "hundredAndTwentyPercentHUDMedianIncomeAmount": "87480.00",
+            "hundredPercentHUDMedianIncomeAmount": "72900.00",
+            "eightyPercentHUDMedianIncomeAmount": "58320.00",
+            "fiftyPercentHUDMedianIncomeAmount": "36450.00"
+          },
+          "loanLimitsData": {
+            "loanConformityType": "Conforming",
+            "fourUnitLimitAmount": "1396800.0"
+          },
+          "affordableProgramDetails": [
+            {
+              "recommendedProductIdentifier": "HomePossible",
+              "borrowerEligibilityMessage": [
+                {
+                  "messageCode": "AFC0038",
+                  "messageDescription": "Based on the submitted information, the borrower meets the requirements for a Home Possible loan which offers flexible sources of funds, such as gifts and grants towards 3% minimum down payment requirement, no minimum borrower contribution and reduced delivery fees and mortgage insurance coverage levels to enhance affordability."
+                }
+              ]
+            },
+            {
+              "recommendedProductIdentifier": "RefiPossible",
+              "borrowerEligibilityMessage": [
+                {
+                  "messageCode": "AFC0064",
+                  "messageDescription": "Refi Possible requires the existing loan to be owned by Freddie Mac, and we did not find any loans matching the given borrower information."
+                }
+              ]
+            }
+          ],
+          "defaultedData": {
+            "lienPriorityType": "FirstLien",
+            "loanMaturityPeriodCount": "360",
+            "loanMortgageType": "Conventional"
+          }
+        }
+      },
+      "ResponseExample6": {
+        "summary": "Scenario 6 - Invalid Request",
+        "value": {
+          "code": "400.002",
+          "message": "Request data does not match the application schema, please validate the request data.",
+          "details": [
+            {
+              "error": "/subjectLoanData should have conditionally required property 'refinanceCashOutDeterminationType'"
+            }
+          ]
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "token"
+      }
+    }
+  }
+}

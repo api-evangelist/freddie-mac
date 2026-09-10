@@ -1,0 +1,701 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Loan Look Up",
+    "description": "",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api-test.freddiemac.com/single-family/loan-advisor-suite/v2"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Loan Look Up",
+      "description": "This service allows you to look up whether there is an existing Freddie Mac mortgage for a specific subject property. Submit request data to initiate a search of Freddie Mac’s datastore for matching records and receive a response."
+    }
+  ],
+  "paths": {
+    "/loanlookup": {
+      "post": {
+        "tags": [
+          "Loan Look Up"
+        ],
+        "summary": "Look up whether there is an existing Freddie Mac mortgage for a specific subject property.",
+        "operationId": "LoanLookup",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoanLookupRequest"
+              },
+              "examples": {
+                "SingleMatchRequest": {
+                  "$ref": "#/components/examples/SingleMatchRequest"
+                },
+                "MultipleMatchRequest": {
+                  "$ref": "#/components/examples/MultipleMatchRequest"
+                },
+                "NoMatchRequest": {
+                  "$ref": "#/components/examples/NoMatchRequest"
+                },
+                "ClosedLoanRequest": {
+                  "$ref": "#/components/examples/ClosedLoanRequest"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "<b>OK</b> \r\n\n <font size='1' color='black'>",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanLookupResponse"
+                },
+                "examples": {
+                  "SingleMatchResponse": {
+                    "$ref": "#/components/examples/SingleMatchResponse"
+                  },
+                  "MultipleMatchResponse": {
+                    "$ref": "#/components/examples/MultipleMatchResponse"
+                  },
+                  "NoMatchResponse": {
+                    "$ref": "#/components/examples/NoMatchResponse"
+                  },
+                  "ClosedLoanResponse": {
+                    "$ref": "#/components/examples/ClosedLoanResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "<b>Bad Request</b> \r\n\n <font size='1' color='black'><b>Error codes & details</b></font> \r\n\n <B>400.001</B> Malformed content from the client \r\n\n <B>400.002</B> Request data does not match the application schema, please validate the request data. \r\n\n<B>400.005</B> Empty request body \r\n\n <B>400.006</B> Content-type must be application/json \r\n\n ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanLookupErrorResponse"
+                },
+                "example": {
+                  "code": "400.006",
+                  "message": "Missing header Content-type",
+                  "details": [
+                    {
+                      "error": "Content-type must be application/json"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "<b>Unauthorized</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>401.001</B> Invalid Access Token, please validate the token, if error persists please renew your token. \r\n\n <b>401.002</b> Access Token Expired, please renew your access token. \r\n\n <b>401.003</b> API Product mismatch for token. Your token does not have access to the requested API \r\n\n <b>401.004</b> Invalid API Key, please validate the Client ID \r\n\n <b>401.005</b> Invalid API Key for given resource \r\n\n <b>401.006</b> Insufficient scope for Application \r\n\n <b>401.007</b> Invalid Username/Password combination, the provided combination of username and password is incorrect, please verify your credentials. \r\n\n <b>401.008</b> Invalid Refresh Token. \r\n\n <b>401.009</b> Invalid client secret \r\n\n <b>401.010</b> Refresh Token expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanLookupErrorResponse"
+                },
+                "example": {
+                  "code": "401.002",
+                  "message": "Access Token Expired",
+                  "details": [
+                    {
+                      "error": "Access Token Expired, please renew your access token."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "<b>Not Found</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>404.001</b> No resource for POST <b>/path</b>",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanLookupErrorResponse"
+                },
+                "example": {
+                  "code": 404.001,
+                  "message": "No resource for POST /path",
+                  "details": {
+                    "error": "No resource for POST /path"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "<b>Too Many Requests</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>429.001</b> Rate limit exceeded, too many requests have been sent per second. \r\n\n <b>429.002</b> Quota limit exceeded, too many requests have been sent per minute.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanLookupErrorResponse"
+                },
+                "example": {
+                  "code": 429.001,
+                  "message": "Rate limit exceeded",
+                  "details": {
+                    "error": "Rate limit exceeded, too many requests have been sent per second."
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "<b>Internal server error.</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>500</b> Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanLookupErrorResponse"
+                },
+                "example": {
+                  "code": "500",
+                  "message": "Internal server error",
+                  "details": [
+                    {
+                      "error": "Loan Look Up API is unable to retrieve data for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LoanLookupRequest": {
+        "required": [
+          "address",
+          "borrowerInformation",
+          "partyRoleIdentifier",
+          "partyRoleType",
+          "requestTransactionIdentifier"
+        ],
+        "type": "object",
+        "properties": {
+          "requestType": {
+            "type": "string",
+            "description": "The search method being requested. Valid Value is LoanLookUp.",
+            "example": "LoanLookUp",
+            "enum": [
+              "LoanLookUp"
+            ]
+          },
+          "requestTransactionIdentifier": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "description": "128-bit Globally unique identifier (GUID) assigned to each request.",
+            "example": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2"
+          },
+          "closedLoanIndicator": {
+            "type": "boolean",
+            "description": "An Boolean indicator, which will include loans which have been paid off recently in the search when set to true. Valid Values are True/False and is set to false by default.",
+            "example": false,
+            "enum": [
+              true,
+              false
+            ]
+          },
+          "partyRoleIdentifier": {
+            "maxLength": 10,
+            "minLength": 1,
+            "type": "string",
+            "description": "The unique identifier assigned to the party role.",
+            "example": "123456"
+          },
+          "partyRoleType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "description": "A value from a MISMO defined list that identifies the role that the party plays in the transaction. Parties may be either a person or legal entity. A party may play multiple roles in a transaction.",
+            "example": "Seller",
+            "enum": [
+              "Broker",
+              "Seller",
+              "Servicer",
+              "Correspondent",
+              "Lender"
+            ]
+          },
+          "address": {
+            "$ref": "#/components/schemas/LoanLookupRequest_address"
+          },
+          "borrowerInformation": {
+            "$ref": "#/components/schemas/LoanLookupRequest_borrowerInformation"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoanLookupResponse": {
+        "required": [
+          "loanMatchIndicator",
+          "loanMatchMessage",
+          "loans",
+          "requestTransactionIdentifier",
+          "transactionDateTime"
+        ],
+        "type": "object",
+        "properties": {
+          "loanMatchIndicator": {
+            "type": "boolean",
+            "example": true,
+            "enum": [
+              true,
+              false
+            ]
+          },
+          "loanMatchMessage": {
+            "type": "string",
+            "example": "Freddie Mac has identified one (or more) loans matching the submitted borrower information."
+          },
+          "requestTransactionIdentifier": {
+            "type": "string",
+            "description": "The unique identifier assigned to each request.",
+            "example": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2"
+          },
+          "transactionDateTime": {
+            "type": "string",
+            "example": "2020-04-08T22:05:37.184Z"
+          },
+          "loans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LoanLookupResponse_loans"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoanLookupErrorResponse": {
+        "title": "LoanLookupErrorResponse",
+        "type": "object",
+        "properties": {
+          "errorEnvelope": {
+            "$ref": "#/components/schemas/ErrorEnvelope"
+          }
+        }
+      },
+      "LoanLookupRequest_address": {
+        "required": [
+          "addressLineText",
+          "cityName",
+          "postalCode",
+          "stateCode"
+        ],
+        "type": "object",
+        "properties": {
+          "addressLineText": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string",
+            "description": "The address with the address number, pre-directional, street name, post-directional, address unit designators and address unit value.",
+            "example": "4317 HIGHLAND HILLS ST"
+          },
+          "addressUnitIdentifier": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string",
+            "description": "The identifier value associated with the Secondary Address Unit Designator.",
+            "example": "B1C"
+          },
+          "cityName": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string",
+            "description": "The name of the city.",
+            "example": "BAKERSFIELD"
+          },
+          "postalCode": {
+            "maxLength": 10,
+            "minLength": 5,
+            "pattern": "^[0-9]{5}(?:-[0-9]{4})?$",
+            "type": "string",
+            "description": "The 5-digit or full 9-digit (xxxxx-xxxx) zip code of the mortgaged property.",
+            "example": "11223"
+          },
+          "stateCode": {
+            "pattern": "^[A-Za-z\\s]*$",
+            "type": "string",
+            "description": "The two-character representation of the US state, US Territory, Canadian Province, Military APO FPO, or Territory.",
+            "example": "CA",
+            "enum": [
+              "AK",
+              "AL",
+              "AR",
+              "AZ",
+              "CA",
+              "CO",
+              "CT",
+              "DC",
+              "DE",
+              "FL",
+              "GA",
+              "GU",
+              "HI",
+              "IA",
+              "ID",
+              "IL",
+              "IN",
+              "KS",
+              "KY",
+              "LA",
+              "MA",
+              "MD",
+              "ME",
+              "MI",
+              "MN",
+              "MO",
+              "MS",
+              "MT",
+              "NC",
+              "ND",
+              "NE",
+              "NH",
+              "NJ",
+              "NM",
+              "NV",
+              "NY",
+              "OH",
+              "OK",
+              "OR",
+              "PA",
+              "PR",
+              "RI",
+              "SC",
+              "SD",
+              "TN",
+              "TX",
+              "UT",
+              "VI",
+              "VA",
+              "VT",
+              "WA",
+              "WI",
+              "WV",
+              "WY"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoanLookupRequest_borrowerInformation": {
+        "required": [
+          "taxpayerIdentifierType",
+          "taxpayerIdentifierValue"
+        ],
+        "type": "object",
+        "properties": {
+          "taxpayerIdentifierType": {
+            "type": "string",
+            "description": "Specifies the type of identification number used by the Internal Revenue Service (IRS) in the administration of tax laws. It is issued either by the Social Security Administration (SSA) or the IRS. A Social Security number (SSN) is issued by the SSA; all other taxpayer identification numbers are issued by the IRS.",
+            "example": "SocialSecurityNumber",
+            "enum": [
+              "SocialSecurityNumber"
+            ]
+          },
+          "taxpayerIdentifierValue": {
+            "maxLength": 9,
+            "minLength": 9,
+            "pattern": "^[0-9]{9}$",
+            "type": "string",
+            "description": "The value of the taxpayer identifier as assigned by the IRS to the individual or legal entity.",
+            "example": "114455778"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoanLookupResponse_address": {
+        "required": [
+          "PostalCode",
+          "addressLineText",
+          "cityName",
+          "stateCode"
+        ],
+        "type": "object",
+        "properties": {
+          "addressLineText": {
+            "type": "string",
+            "description": "The address with the address number, pre-directional, street name, post-directional, address unit designators and address unit value.",
+            "example": "8200 jones branch drive"
+          },
+          "cityName": {
+            "type": "string",
+            "description": "The name of the city.",
+            "example": "Mclean"
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "The 5-digit or full 9-digit (xxxxx-xxxx) zip code of the mortgaged property.",
+            "example": "22102"
+          },
+          "stateCode": {
+            "type": "string",
+            "description": "The two-character representation of the US state, US Territory, Canadian Province, Military APO FPO, or Territory.",
+            "example": "VA"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The street address of a property."
+      },
+      "LoanLookupResponse_loans": {
+        "required": [
+          "address",
+          "investorLoanIdentifier",
+          "mortgageType",
+          "noteDate"
+        ],
+        "type": "object",
+        "properties": {
+          "noteDate": {
+            "type": "string",
+            "description": "The date of the mortgage note document. This is the date on which the loan was originated.",
+            "example": "2015-02-16"
+          },
+          "mortgageType": {
+            "type": "string",
+            "description": "Types Of Mortgages",
+            "example": "Conventional"
+          },
+          "investorLoanIdentifier": {
+            "type": "string",
+            "description": "A unique identifier for a loan, assigned by the investor, used to track or refer to the loan in the investor’s systems.",
+            "example": "620149418"
+          },
+          "loanStatusType": {
+            "type": "string",
+            "description": "A collection of values that summarize the payment status of a loan.",
+            "example": "Closed"
+          },
+          "loanPayoffDate": {
+            "type": "string",
+            "description": "The date when the loan is paid off and liquidated.",
+            "example": "2020-04-13"
+          },
+          "address": {
+            "$ref": "#/components/schemas/LoanLookupResponse_address"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Error": {
+        "title": "Error",
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "errorDescription": {
+            "type": "string"
+          }
+        }
+      },
+      "Errors": {
+        "title": "Errors",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "ErrorEnvelope": {
+        "title": "ErrorEnvelope",
+        "type": "object",
+        "properties": {
+          "errors": {
+            "$ref": "#/components/schemas/Errors"
+          }
+        }
+      }
+    },
+    "examples": {
+      "SingleMatchRequest": {
+        "value": {
+          "requestType": "LoanLookUp",
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "closedLoanIndicator": false,
+          "partyRoleIdentifier": "12345",
+          "partyRoleType": "Seller",
+          "address": {
+            "addressLineText": "22 SPENCER ST",
+            "cityName": "EDISON",
+            "postalCode": "08817",
+            "stateCode": "NJ"
+          },
+          "borrowerInformation": {
+            "taxpayerIdentifierType": "SocialSecurityNumber",
+            "taxpayerIdentifierValue": "888800001"
+          }
+        }
+      },
+      "MultipleMatchRequest": {
+        "value": {
+          "requestType": "LoanLookUp",
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f231b5",
+          "closedLoanIndicator": false,
+          "partyRoleIdentifier": "12345",
+          "partyRoleType": "Servicer",
+          "address": {
+            "addressLineText": "49 HUDSON AVE",
+            "cityName": "EDGEWATER",
+            "postalCode": "07020",
+            "stateCode": "NJ"
+          },
+          "borrowerInformation": {
+            "taxpayerIdentifierType": "SocialSecurityNumber",
+            "taxpayerIdentifierValue": "888800000"
+          }
+        }
+      },
+      "NoMatchRequest": {
+        "value": {
+          "requestType": "LoanLookUp",
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "closedLoanIndicator": false,
+          "partyRoleIdentifier": "12345",
+          "partyRoleType": "Servicer",
+          "address": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "borrowerInformation": {
+            "taxpayerIdentifierType": "SocialSecurityNumber",
+            "taxpayerIdentifierValue": "148239146"
+          }
+        }
+      },
+      "ClosedLoanRequest": {
+        "value": {
+          "requestType": "LoanLookUp",
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "closedLoanIndicator": true,
+          "partyRoleIdentifier": "12345",
+          "partyRoleType": "Servicer",
+          "address": {
+            "addressLineText": "817 W Main St",
+            "cityName": "Waterford",
+            "postalCode": "53185",
+            "stateCode": "WI"
+          },
+          "borrowerInformation": {
+            "taxpayerIdentifierType": "SocialSecurityNumber",
+            "taxpayerIdentifierValue": "888800015"
+          }
+        }
+      },
+      "SingleMatchResponse": {
+        "value": {
+          "loanMatchIndicator": true,
+          "loanMatchMessage": "Freddie Mac has identified one (or more) loans matching the submitted borrower information.",
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2026-03-21T22:07:20.289Z",
+          "loans": [
+            {
+              "noteDate": "2024-12-27",
+              "mortgageType": "Conventional",
+              "investorLoanIdentifier": "000000009",
+              "address": {
+                "addressLineText": "22 Spencer St",
+                "cityName": "Edison",
+                "postalCode": "08817",
+                "stateCode": "NJ"
+              }
+            }
+          ]
+        }
+      },
+      "MultipleMatchResponse": {
+        "value": {
+          "loanMatchIndicator": true,
+          "loanMatchMessage": "Freddie Mac has identified one (or more) loans matching the submitted borrower information.",
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f231b5",
+          "transactionDateTime": "2026-03-06T15:21:27.063Z",
+          "loans": [
+            {
+              "noteDate": "2024-12-27",
+              "mortgageType": "Conventional",
+              "investorLoanIdentifier": "000610979",
+              "address": {
+                "addressLineText": "49 Hudson Ave",
+                "cityName": "Edgewater",
+                "postalCode": "07020",
+                "stateCode": "NJ"
+              }
+            },
+            {
+              "noteDate": "2024-12-27",
+              "mortgageType": "FHA",
+              "investorLoanIdentifier": "000000004",
+              "address": {
+                "addressLineText": "49 Hudson Ave",
+                "cityName": "Edgewater",
+                "postalCode": "07020",
+                "stateCode": "NJ"
+              }
+            }
+          ]
+        }
+      },
+      "NoMatchResponse": {
+        "value": {
+          "loanMatchIndicator": false,
+          "loanMatchMessage": "Freddie Mac did not find any loans matching the given borrower information.",
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2020-04-09T14:05:19.565Z",
+          "loans": [
+            {}
+          ]
+        }
+      },
+      "ClosedLoanResponse": {
+        "value": {
+          "loanMatchIndicator": true,
+          "loanMatchMessage": "Freddie Mac has identified one (or more) loans matching the submitted borrower information.",
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1d7",
+          "transactionDateTime": "2026-03-06T15:28:04.158Z",
+          "loans": [
+           {
+            "noteDate": "2024-12-27",
+            "mortgageType": "Conventional",
+            "investorLoanIdentifier": "000508755",
+            "loanStatusType": "Closed",
+            "loanPayoffDate": "2026-02-27",
+            "address": {
+                "addressLineText": "817 W Main St",
+                "cityName": "Waterford",
+                "postalCode": "53185",
+                "stateCode": "WI"
+            }
+        }
+          ]
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "token"
+      }
+    }
+  }
+}

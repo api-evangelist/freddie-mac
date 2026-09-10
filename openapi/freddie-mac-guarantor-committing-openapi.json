@@ -1,0 +1,2836 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Guarantor Committing",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://lassvcs-uat.fmrei.com/ESO/rest/lsa"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Guarantor Committing",
+      "description": "Execute or modify Single Issue or MultiLender guarantor contracts."
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/guarantor-contracts/price-v1": {
+      "post": {
+        "operationId": "guarantor-price",
+        "tags": [
+          "Guarantor Committing"
+        ],
+        "summary": "Guarantor Committing Price",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Content type to be passed as a header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "application/json",
+              "nullable": false
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Please change following fields to submit a valid request and 'Try it out' (where applicable): <div><ul><li> RequestingPartyAccountIdentifier</li><li> CounterPartyType </li><li>SellerIdentifier</li><li>PricingIdentifier</li><li>CounterpartyAccountIdentifier</li></ul></div><br><B> Please refer to RELATED DOCUMENTATION for more examples.</B>",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuarantorCommitmentRequest"
+              },
+              "examples": {
+                "Request Optional FR Single Issue": {
+                  "$ref": "#/components/examples/OptionalFixedRetainedSellerSingleIssueSecurityCouponLevelContractRequest"
+                },
+                "Request Optional ARM Single Issue": {
+                  "$ref": "#/components/examples/OptionalARMRetainedSellerSingleIssueSecurityCouponLevelContractRequest"
+                },
+                "Request Optional FR Multi-Lender": {
+                  "$ref": "#/components/examples/OptionalFixedRetainedSellerMultiIssueContractRequest"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "<b>OK</b> \r\n\n <font size='2' color='black'><b>Business error codes and details can be found in related documentation.</b></font>\r\n\n <B>Scenarios</B> \r\n\n <B>AUTH0002</B> Invalid Seller Identifier. \r\n\n <B>AUTH0003</B> Seller not eligible to take out contract. \r\n\n <B>AUTH0004</B> Invalid Requesting Party Account Identifier provided. \r\n\n <B>AUTH0007</B> Invalid Organization Identifier provided. \r\n\n <B>7233</B> Available Security Coupon and Pool Numbers is a required field for Multi-Lender Contracts. \r\n\n <B>7261</B> Settlement Date must be greater than or equal to current date plus the Settlement Cycle Days. \r\n\n <B>7652</B> The Pool Type is not allowed to be Multi-Lender for Odd Security Coupon contracts. Please adjust the Pool Type. \r\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuarantorContractPriceResponse"
+                },
+                "examples": {
+                  "Response Optional FR Single Issue": {
+                    "$ref": "#/components/examples/OptionalFixedRetainedSellerSingleIssueSecurityCouponLevelContractResponse"
+                  },
+                  "Response Optional ARM Single Issue": {
+                    "$ref": "#/components/examples/OptionalARMRetainedSellerSingleIssueSecurityCouponLevelContractResponse"
+                  },
+                  "Response Optional FR Multi-Lender": {
+                    "$ref": "#/components/examples/OptionalFixedRetainedSellerMultiIssueContractResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "<b>Unauthorized</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>401</B> Rejected by policy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse401"
+                },
+                "example": {
+                  "error": "Rejected by policy",
+                  "code": 401.007,
+                  "errors": [
+                    {
+                      "status": "Unauthorized",
+                      "detail": [
+                        {
+                          "error": "Invalid User Credentials."
+                        }
+                      ],
+                      "timestamp": "2025-09-15T19:19:39.906Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "<b>The user does not have the permission to access the function</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>403</B> Rejected by policy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse403"
+                },
+                "example": [
+                  {
+                    "ErrorCode": "403",
+                    "ErrorMessage": "Rejected by Policy."
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "<b>Internal server error.</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>500</b> The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance \r\n\n <b>500</b> Message too large \r\n\n <b>500</b> Invalid JSON format \r\n\n <b>500</b> Internal error \r\n\n <b>500</b> Request limit exceeded \r\n\n <b>500</b> Connection timeout from backend \r\n\n <b>500</b> Failed to establish backside connection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse500"
+                },
+                "example": {
+                  "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                  "ResponseTime": "09/15/2025 16:37:23",
+                  "CommitmentPriceResponses": [
+                    {
+                      "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                      "CommitmentRequestErrors": [
+                        {
+                          "ErrorCode": "500",
+                          "ErrorMessage": "The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/guarantor-contracts/price-decision-v1": {
+      "post": {
+        "operationId": "guarantor-price-decision",
+        "tags": [
+          "Guarantor Committing"
+        ],
+        "summary": "Guarantor Committing Price Decision",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Content type to be passed as a header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "application/json",
+              "nullable": false
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Please change following fields to submit a valid request and 'Try it out' (where applicable): <div><ul><li> RequestingPartyAccountIdentifier</li><li> CounterPartyType </li><li>ResponseToken</li><li>SellerIdentifier</li><li>ContractIdentifier</li></ul></div><br><B> Please refer to RELATED DOCUMENTATION for more examples.</B>",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuarantorCommitmentRequest"
+              },
+              "examples": {
+                "Request Decision": {
+                  "$ref": "#/components/examples/GuarantorContractPriceDecisionRequest"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "<b>OK</b> \r\n\n <font size='2' color='black'><b>Business error codes and details can be found in related documentation.</b></font>\r\n\n <B>Scenarios</B> \r\n\n <B>AUTH0002</B> Invalid Seller Identifier. \r\n\n <B>AUTH0003</B> Seller not eligible to take out contract. \r\n\n <B>AUTH0004</B> Invalid Requesting Party Account Identifier provided. \r\n\n <B>AUTH0007</B> Invalid Organization Identifier provided. \r\n\n <B>SYST0001</B> Unable to perform operation on requested contract.  No price available for requested contract or contract may have been previously approved. \r\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuarantorContractPriceDecisionResponse"
+                },
+                "examples": {
+                  "Response Decision": {
+                    "$ref": "#/components/examples/GuarantorContractPriceDecisionResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "<b>Unauthorized</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>401</B> Rejected by policy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse401"
+                },
+                "example": {
+                  "error": "Rejected by policy",
+                  "code": 401.007,
+                  "errors": [
+                    {
+                      "status": "Unauthorized",
+                      "detail": [
+                        {
+                          "error": "Invalid User Credentials."
+                        }
+                      ],
+                      "timestamp": "2025-09-15T19:19:39.906Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "<b>The user does not have the permission to access the function</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>403</B> Rejected by policy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse403"
+                },
+                "example": [
+                  {
+                    "ErrorCode": "403",
+                    "ErrorMessage": "Rejected by Policy."
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "<b>Internal server error.</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>500</b> The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance \r\n\n <b>500</b> Message too large \r\n\n <b>500</b> Invalid JSON format \r\n\n <b>500</b> Internal error \r\n\n <b>500</b> Request limit exceeded \r\n\n <b>500</b> Connection timeout from backend \r\n\n <b>500</b> Failed to establish backside connection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse500"
+                },
+                "example": {
+                  "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                  "ResponseTime": "09/15/2025 16:37:23",
+                  "CommitmentPriceResponses": [
+                    {
+                      "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                      "CommitmentRequestErrors": [
+                        {
+                          "ErrorCode": "500",
+                          "ErrorMessage": "The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/guarantor-contracts/modify-v1": {
+      "post": {
+        "operationId": "guarantor-modify",
+        "tags": [
+          "Guarantor Committing"
+        ],
+        "summary": "Guarantor Committing Modify",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Content type to be passed as a header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "application/json",
+              "nullable": false
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Please change following fields to submit a valid request and 'Try it out' (where applicable): <div><ul><li> RequestingPartyAccountIdentifier</li><li> CounterPartyType </li><li>SellerIdentifier</li><li>ContractIdentifier</li></ul></div><br><B> Please refer to RELATED DOCUMENTATION for more examples.</B>",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuarantorCommitmentRequest"
+              },
+              "examples": {
+                "Request Modify": {
+                  "$ref": "#/components/examples/GuarantorContractModifyRequest"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "<b>OK</b> \r\n\n <font size='2' color='black'><b>Business error codes and details can be found in related documentation.</b></font>\r\n\n <B>Scenarios</B> \r\n\n <B>AUTH0002</B> Invalid Seller Identifier. \r\n\n <B>AUTH0003</B> Seller not eligible to take out contract. \r\n\n <B>AUTH0004</B> Invalid Requesting Party Account Identifier provided. \r\n\n <B>AUTH0007</B> Invalid Organization Identifier provided. \r\n\n <B>7233</B> Available Security Coupon and Pool Numbers is a required field for Multi-Lender Contracts. \r\n\n <B>7261</B> Validate Settlement Date for Settlement Cycle Days - Guarantor Contract. \r\n\n <B>7652</B> The Pool Type is not allowed to be Multi-Lender for Odd Security Coupon contracts. Please adjust the Pool Type. \r\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuarantorContractPriceResponse"
+                },
+                "examples": {
+                  "Response Modify": {
+                    "$ref": "#/components/examples/GuarantorContractModifyResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "<b>Unauthorized</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>401</B> Rejected by policy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse401"
+                },
+                "example": {
+                  "error": "Rejected by policy",
+                  "code": 401.007,
+                  "errors": [
+                    {
+                      "status": "Unauthorized",
+                      "detail": [
+                        {
+                          "error": "Invalid User Credentials."
+                        }
+                      ],
+                      "timestamp": "2025-12-01T19:19:39.906Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "<b>The user does not have the permission to access the function</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>403</B> Rejected by policy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse403"
+                },
+                "example": [
+                  {
+                    "ErrorCode": "403",
+                    "ErrorMessage": "Rejected by Policy."
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "<b>Internal server error.</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>500</b> The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance \r\n\n <b>500</b> Message too large \r\n\n <b>500</b> Invalid JSON format \r\n\n <b>500</b> Internal error \r\n\n <b>500</b> Request limit exceeded \r\n\n <b>500</b> Connection timeout from backend \r\n\n <b>500</b> Failed to establish backside connection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse500"
+                },
+                "example": {
+                  "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                  "ResponseTime": "12/01/2025 16:37:23",
+                  "CommitmentPriceResponses": [
+                    {
+                      "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                      "CommitmentErrors": [
+                        {
+                          "ErrorCode": "500",
+                          "ErrorMessage": "The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/guarantor-contracts/modify-decision-v1": {
+      "post": {
+        "operationId": "guarantor-modify-decision",
+        "tags": [
+          "Guarantor Committing"
+        ],
+        "summary": "Guarantor Committing Modify Decision",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Content type to be passed as a header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "application/json",
+              "nullable": false
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Please change following fields to submit a valid request and 'Try it out' (where applicable):<div><ul><li> RequestingPartyAccountIdentifier</li><li> CounterPartyType </li><li>ResponseToken</li><li>SellerIdentifier</li><li>ContractIdentifier</li></ul></div><br><B> Please refer to RELATED DOCUMENTATION for more examples.</B>",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuarantorCommitmentRequest"
+              },
+              "examples": {
+                "Request Modify Decision": {
+                  "$ref": "#/components/examples/GuarantorContractModifyDecisionRequest"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "<b>OK</b> \r\n\n <font size='2' color='black'><b>Business error codes and details can be found in related documentation.</b></font>\r\n\n <B>Scenarios</B> \r\n\n <B>AUTH0002</B> Invalid Seller Identifier. \r\n\n <B>AUTH0003</B> Seller not eligible to take out contract. \r\n\n <B>AUTH0004</B> Invalid Requesting Party Account Identifier provided. \r\n\n <B>AUTH0007</B> Invalid Organization Identifier provided. \r\n\n <B>SYST0001</B> Unable to perform operation on requested contract.  No price available for requested contract or contract may have been previously approved. \r\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuarantorContractModifyDecisionResponse"
+                },
+                "examples": {
+                  "Response Modify Decision": {
+                    "$ref": "#/components/examples/GuarantorContractModifyDecisionResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "<b>Unauthorized</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>401</B> Rejected by policy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse401"
+                },
+                "example": {
+                  "error": "Rejected by policy",
+                  "code": 401.007,
+                  "errors": [
+                    {
+                      "status": "Unauthorized",
+                      "detail": [
+                        {
+                          "error": "Invalid User Credentials."
+                        }
+                      ],
+                      "timestamp": "2025-12-01T19:19:39.906Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "<b>The user does not have the permission to access the function</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>403</B> Rejected by policy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse403"
+                },
+                "example": [
+                  {
+                    "ErrorCode": "403",
+                    "ErrorMessage": "Rejected by Policy."
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "<b>Internal server error.</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>500</b> The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance \r\n\n <b>500</b> Message too large \r\n\n <b>500</b> Invalid JSON format \r\n\n <b>500</b> Internal error \r\n\n <b>500</b> Request limit exceeded \r\n\n <b>500</b> Connection timeout from backend \r\n\n <b>500</b> Failed to establish backside connection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse500"
+                },
+                "example": {
+                  "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                  "ResponseTime": "12/01/2025 16:37:23",
+                  "CommitmentPriceResponses": [
+                    {
+                      "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                      "CommitmentErrors": [
+                        {
+                          "ErrorCode": "500",
+                          "ErrorMessage": "The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/guarantor-contracts/pairoff-v1": {
+      "post": {
+        "operationId": "guarantor-pairoff",
+        "tags": [
+          "Guarantor Committing"
+        ],
+        "summary": "Guarantor Committing PairOff",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Content type to be passed as a header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "application/json",
+              "nullable": false
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Please change following fields to submit a valid request and 'Try it out' (where applicable): <div><ul><li> RequestingPartyAccountIdentifier</li><li> CounterPartyType </li><li>SellerIdentifier</li><li>ContractIdentifier</li></ul></div><br><B> Please refer to RELATED DOCUMENTATION for more examples.</B>",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuarantorCommitmentRequest"
+              },
+              "examples": {
+                "Request PairOff ": {
+                  "$ref": "#/components/examples/GuarantorContractPairOffSecurityCouponRequest"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "<b>OK</b> \r\n\n <font size='2' color='black'><b>Business error codes and details can be found in related documentation.</b></font>\r\n\n <B>Scenarios</B> \r\n\n <B>AUTH0002</B> Invalid Seller Identifier. \r\n\n <B>AUTH0003</B> Seller not eligible to take out contract. \r\n\n <B>AUTH0004</B> Invalid Requesting Party Account Identifier provided. \r\n\n <B>AUTH0007</B> Invalid Organization Identifier provided. \r\n\n <B>7233</B> Available Security Coupon and Pool Numbers is a required field for Multi-Lender Contracts. \r\n\n <B>7261</B> Validate Settlement Date for Settlement Cycle Days - Guarantor Contract. \r\n\n <B>7652</B> The Pool Type is not allowed to be Multi-Lender for Odd Security Coupon contracts. Please adjust the Pool Type. \r\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuarantorContractPairOffResponse"
+                },
+                "examples": {
+                  "Response PairOff": {
+                    "$ref": "#/components/examples/GuarantorContractPairOffSecurityCouponResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "<b>Unauthorized</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>401</B> Rejected by policy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse401"
+                },
+                "example": {
+                  "error": "Rejected by policy",
+                  "code": 401.007,
+                  "errors": [
+                    {
+                      "status": "Unauthorized",
+                      "detail": [
+                        {
+                          "error": "Invalid User Credentials."
+                        }
+                      ],
+                      "timestamp": "2025-12-01T19:19:39.906Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "<b>The user does not have the permission to access the function</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>403</B> Rejected by policy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse403"
+                },
+                "example": [
+                  {
+                    "ErrorCode": "403",
+                    "ErrorMessage": "Rejected by Policy."
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "<b>Internal server error.</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>500</b> The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance \r\n\n <b>500</b> Message too large \r\n\n <b>500</b> Invalid JSON format \r\n\n <b>500</b> Internal error \r\n\n <b>500</b> Request limit exceeded \r\n\n <b>500</b> Connection timeout from backend \r\n\n <b>500</b> Failed to establish backside connection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse500"
+                },
+                "example": {
+                  "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                  "ResponseTime": "12/01/2025 16:37:23",
+                  "CommitmentPriceResponses": [
+                    {
+                      "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                      "CommitmentErrors": [
+                        {
+                          "ErrorCode": "500",
+                          "ErrorMessage": "The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/guarantor-contracts/pairoff-decision-v1": {
+      "post": {
+        "operationId": "guarantor-pairoff-decision",
+        "tags": [
+          "Guarantor Committing"
+        ],
+        "summary": "Guarantor Committing PairOff Decision",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "Content type to be passed as a header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "application/json",
+              "nullable": false
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Please change following fields to submit a valid request and 'Try it out' (where applicable): <div><ul><li> RequestingPartyAccountIdentifier</li><li> CounterPartyType </li><li>ResponseToken</li><li>SellerIdentifier</li><li>ContractIdentifier</li></ul></div><br><B> Please refer to RELATED DOCUMENTATION for more examples.</B> ",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuarantorCommitmentRequest"
+              },
+              "examples": {
+                "Request PairOff Decision": {
+                  "$ref": "#/components/examples/GuarantorContractPairOffDecisionRequest"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "<b>OK</b> \r\n\n <font size='2' color='black'><b>Business error codes and details can be found in related documentation.</b></font>\r\n\n <B>Scenarios</B> \r\n\n <B>AUTH0002</B> Invalid Seller Identifier. \r\n\n <B>AUTH0003</B> Seller not eligible to take out contract. \r\n\n <B>AUTH0004</B> Invalid Requesting Party Account Identifier provided. \r\n\n <B>AUTH0007</B> Invalid Organization Identifier provided. \r\n\n <B>7233</B> Available Security Coupon and Pool Numbers is a required field for Multi-Lender Contracts. \r\n\n <B>7261</B> Validate Settlement Date for Settlement Cycle Days - Guarantor Contract. \r\n\n <B>7652</B> The Pool Type is not allowed to be Multi-Lender for Odd Security Coupon contracts. Please adjust the Pool Type. \r\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuarantorContractPairOffDecisionResponse"
+                },
+                "examples": {
+                  "Response PairOff Decision": {
+                    "$ref": "#/components/examples/GuarantorContractPairOffDecisionResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "<b>Unauthorized</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>401</B> Rejected by policy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse401"
+                },
+                "example": {
+                  "error": "Rejected by policy",
+                  "code": 401.007,
+                  "errors": [
+                    {
+                      "status": "Unauthorized",
+                      "detail": [
+                        {
+                          "error": "Invalid User Credentials."
+                        }
+                      ],
+                      "timestamp": "2025-12-01T19:19:39.906Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "<b>The user does not have the permission to access the function</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>403</B> Rejected by policy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse403"
+                },
+                "example": [
+                  {
+                    "ErrorCode": "403",
+                    "ErrorMessage": "Rejected by Policy."
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "<b>Internal server error.</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>500</b> The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance \r\n\n <b>500</b> Message too large \r\n\n <b>500</b> Invalid JSON format \r\n\n <b>500</b> Internal error \r\n\n <b>500</b> Request limit exceeded \r\n\n <b>500</b> Connection timeout from backend \r\n\n <b>500</b> Failed to establish backside connection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceErrorResponse500"
+                },
+                "example": {
+                  "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                  "ResponseTime": "12/01/2025 16:37:23",
+                  "CommitmentPriceResponses": [
+                    {
+                      "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                      "CommitmentErrors": [
+                        {
+                          "ErrorCode": "500",
+                          "ErrorMessage": "The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GuarantorCommitmentRequest": {
+        "required": [
+          "CommitmentRequestMetaData"
+        ],
+        "properties": {
+          "CommitmentRequestMetaData": {
+            "type": "object",
+            "properties": {
+              "CorrelationIdentifier": {
+                "type": "string",
+                "example": "533a425b-5823-4b43-9054-73490b7dbde9"
+              },
+              "RequestTime": {
+                "type": "string",
+                "example": "09/15/2025 10:10:10"
+              },
+              "ResponseToken": {
+                "title": "ResponseToken to be sent for price and pairoff decision operations in hexcode format. The value should be same as the ResponseToken sent in price and pairoff operation respectively",
+                "type": "string",
+                "example": "8bbef9261b2b4120de81ec6ce32caec448788cb9cf235bb3887376d3b13845c66713f4c1a2495956dee3915a68d33803"
+              },
+              "RequestingPartyAccountIdentifier": {
+                "type": "string",
+                "example": "999999"
+              },
+              "CounterPartyType": {
+                "type": "string",
+                "example": "Seller"
+              },
+              "OrganizationIdentifier": {
+                "type": "number",
+                "example": 73209
+              },
+              "VendorIdentifier": {
+                "type": "string"
+              },
+              "VendorName": {
+                "type": "string"
+              },
+              "VendorSoftware": {
+                "type": "string"
+              },
+              "VendorSoftwareVersion": {
+                "type": "string"
+              },
+              "TemplateVersion": {
+                "type": "number",
+                "example": 1.0
+              }
+            },
+            "required": [
+              "CorrelationIdentifier"
+            ],
+            "additionalProperties": false
+          },
+          "Commitments": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "properties": {
+                "GuarantorContract": {
+                  "type": "object",
+                  "properties": {
+                    "CorrelationIdentifier": {
+                      "type": "string",
+                      "example": "533a425b-5823-4b43-9054-73490b7dbde9"
+                    },
+                    "ContractIdentifier": {
+                      "type": "string"
+                    },
+                    "PricingIdentifier": {
+                      "type": "string",
+                      "example": "M99999999"
+                    },
+                    "SellerIdentifier": {
+                      "type": "string",
+                      "example": "999999"
+                    },
+                    "ProductOption": {
+                      "type": "object",
+                      "properties": {
+                        "ContractName": {
+                          "type": "string",
+                          "example": "ContractName"
+                        },
+                        "DeliveryType": {
+                          "type": "string",
+                          "example": "Mandatory"
+                        },
+                        "PoolType": {
+                          "type": "string",
+                          "example": "Single Issue/Multi-Lender"
+                        },
+                        "BaseOfferingProduct": {
+                          "type": "string",
+                          "example": "30-Year Fixed"
+                        },
+                        "IndexSourceType": {
+                          "type": "string",
+                          "example": "30 Day Average SOFR"
+                        },
+                        "UserEnteredSecurityProductIdentifier": {
+                          "type": "integer",
+                          "example": 2201
+                        },
+                        "LTVRatioPercentRangeType": {
+                          "type": "string",
+                          "example": "Standard"
+                        },
+                        "PrepaymentPenaltyIndicator": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "InterestandPaymentAdjustmentIndexLeadDaysCount": {
+                          "type": "integer",
+                          "example": 45
+                        },
+                        "AvailableSecurityCouponandPoolNumbers": {
+                          "type": "string",
+                          "example": "RB5362"
+                        },
+                        "SpecifiedPool": {
+                          "type": "string",
+                          "example": "Yes"
+                        },
+                        "SpecifiedAdjuster": {
+                          "type": "string",
+                          "example": "Green"
+                        },
+                        "SecurityCoupon": {
+                          "type": "number",
+                          "example": 6
+                        },
+                        "EarlyFundingTargetDate": {
+                          "type": "string",
+                          "example": "2025-09-17"
+                        },
+                        "SettlementDate": {
+                          "type": "string",
+                          "example": "2025-09-18"
+                        },
+                        "SettlementCycleDays": {
+                          "type": "integer",
+                          "example": 3
+                        },
+                        "UPBLevel": {
+                          "type": "string",
+                          "example": "Security Coupon Level"
+                        },
+                        "UserEnteredSecurityAmount": {
+                          "type": "number",
+                          "example": 100000
+                        },
+                        "SystemUPBGridForNoteRateLevel": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "NoteRateRange": {
+                                "type": "object",
+                                "properties": {
+                                  "MinValue": {
+                                    "type": "number",
+                                    "example": 2
+                                  },
+                                  "MaxValue": {
+                                    "type": "number",
+                                    "example": 200
+                                  }
+                                },
+                                "additionalProperties": false
+                              },
+                              "NoteRateUPBAmount": {
+                                "type": "number",
+                                "example": 200
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "RiskTransfer": {
+                          "type": "string",
+                          "example": "No"
+                        },
+                        "RiskTransferType": {
+                          "type": "string",
+                          "example": "Recourse"
+                        },
+                        "PartialPercent": {
+                          "type": "string",
+                          "example": 20
+                        },
+                        "SunsetPeriod": {
+                          "type": "string",
+                          "example": "N/A"
+                        },
+                        "NegotiatedProductVariationFeatureType": {
+                          "type": "string",
+                          "example": "abc"
+                        }
+                      },
+                      "additionalProperties": true
+                    },
+                    "ServicingOption": {
+                      "type": "object",
+                      "properties": {
+                        "ServicingOptionType": {
+                          "type": "string",
+                          "example": "Retained"
+                        },
+                        "CounterPartyAccountIdentifier": {
+                          "type": "string",
+                          "example": "999999"
+                        },
+                        "MinimumRequiredServicingSpread": {
+                          "type": "number",
+                          "example": 0.25
+                        },
+                        "MinimumContractServicingCoupon": {
+                          "type": "number",
+                          "example": 0.25
+                        },
+                        "MinimumContractServicingNetMargin": {
+                          "type": "number",
+                          "example": 0.25
+                        },
+                        "MinimumContractServicingLifetimeCeiling": {
+                          "type": "number",
+                          "example": 0.25
+                        },
+                        "ContractSuperARCDayCount": {
+                          "type": "string",
+                          "example": 123
+                        },
+                        "ContractRemittanceScheduleType": {
+                          "type": "string",
+                          "example": "Standard"
+                        },
+                        "InterestAccountingMethodType": {
+                          "type": "string",
+                          "example": "Scheduled/Actual"
+                        },
+                        "PayoffRemittanceDayCount": {
+                          "type": "integer",
+                          "example": 5
+                        }
+                      },
+                      "additionalProperties": true
+                    },
+                    "BUBDOption": {
+                      "type": "object",
+                      "properties": {
+                        "BuyUpBuyDownProgram": {
+                          "type": "string",
+                          "example": "Loan Level"
+                        },
+                        "ContractBUBDOption": {
+                          "type": "string",
+                          "example": "Buy up and Buy down"
+                        },
+                        "LoanLevelBuyUpMaximum": {
+                          "type": "number",
+                          "example": 25
+                        },
+                        "LoanLevelBuyDownMaximum": {
+                          "type": "number",
+                          "example": 44
+                        },
+                        "NoteLevelBuyUpMaximum": {
+                          "type": "number",
+                          "example": 25
+                        },
+                        "NoteLevelBuyDownMaximum": {
+                          "type": "number",
+                          "example": 44
+                        }
+                      },
+                      "additionalProperties": true
+                    }
+                  },
+                  "required": [
+                    "CorrelationIdentifier"
+                  ],
+                  "additionalProperties": true
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "Decisions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "SellerIdentifier": {
+                  "type": "string",
+                  "example": "999999"
+                },
+                "ContractIdentifier": {
+                  "type": "string"
+                },
+                "DecisionType": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "required": [
+                "ContractIdentifier"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "CommitmentPairOffs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "CorrelationIdentifier": {
+                  "type": "string",
+                  "example": "533a425b-5823-4b43-9054-73490b7dbde9"
+                },
+                "SellerIdentifier": {
+                  "type": "string",
+                  "example": "999999"
+                },
+                "ContractIdentifier": {
+                  "type": "string"
+                },
+                "PairOffUPBAmount": {
+                  "type": "number"
+                },
+                "SystemUPBGridForNoteRateLevel": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "NoteRateRange": {
+                        "type": "object",
+                        "properties": {
+                          "MinValue": {
+                            "type": "number",
+                            "example": 2
+                          },
+                          "MaxValue": {
+                            "type": "number",
+                            "example": 200
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "NoteRateUPBAmount": {
+                        "type": "number",
+                        "example": 200
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "CorrelationIdentifier",
+                "ContractIdentifier"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+      },
+      "GuarantorContractPriceResponse": {
+        "required": [
+          "CorrelationIdentifier"
+        ],
+        "properties": {
+          "CorrelationIdentifier": {
+            "type": "string",
+            "example": "c31251a3-2fca-4809-a1d2-a806abcd7f68"
+          },
+          "ResponseTime": {
+            "type": "string",
+            "example": "09/15/2025 16:35:13"
+          },
+          "ResponseToken": {
+            "type": "string",
+            "example": "j9S/PxRDgnGXtfT/lRiCgaD8mmGMjFbD6PjPeJ9ahAFUCuCjTQZpEnFsSNIB6U/5D5OQyI4VPyY6agHKPn9Di0iibDxUYtiB9CrxLlYtqjM="
+          },
+          "CommitmentPriceErrors": {
+            "$ref": "#/components/schemas/CommitmentRequestErrors"
+          },
+          "CommitmentPriceResponses": {
+            "type": "array",
+            "example": [
+              {
+                "CorrelationIdentifier": "905dd5df-3352-47a5-aab1-21c99c619239",
+                "ContractIdentifier": "999999999",
+                "PricingIdentifier": "M99999999",
+                "SellerIdentifier": "999999",
+                "ProductOption": {
+                  "ContractName": "Fixed Contract1",
+                  "PriceResultRefreshType": "Periodic",
+                  "PurchaseContractStatusType": "Open",
+                  "UserEnteredSecurityProductIdentifier": "2201",
+                  "UserEnteredSecurityAmount": "1000000.00",
+                  "FinalDeliveryDate": "09/15/2025 20:00",
+                  "SecurityCoupon": "6.500",
+                  "EarlyFundingIndicator": "false",
+                  "SettlementDate": "09/18/2025"
+                },
+                "BUBDOption": {
+                  "BuyUpBuyDownProgram": "Note Level",
+                  "ContractBUBDOption": "Neither Buy up nor Buy down"
+                },
+                "PricingDetails": {
+                  "SystemUPBGridForSecurityCouponLevel": {
+                    "SecurityCouponValues": [
+                      {
+                        "CreditFees": [
+                          {
+                            "CreditFeeName": "Gold Rush",
+                            "CreditFeePrice": "0.000"
+                          },
+                          {
+                            "CreditFeeName": "CFY 30yr Conf FRM",
+                            "CreditFeeYield": "35.000"
+                          }
+                        ],
+                        "TotalCreditFees": {
+                          "TotalCreditFeeYield": "35.000",
+                          "TotalCreditFeePrice": "0.000"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "example": {
+                    "CorrelationIdentifier": "905dd5df-3352-47a5-aab1-21c99c619239",
+                    "ContractIdentifier": "999999999",
+                    "PricingIdentifier": "M99999999",
+                    "SellerIdentifier": "999999",
+                    "ProductOption": {
+                      "ContractName": "Fixed Contract1",
+                      "PriceResultRefreshType": "Periodic",
+                      "PurchaseContractStatusType": "Open",
+                      "UserEnteredSecurityProductIdentifier": "2201",
+                      "UserEnteredSecurityAmount": "1000000.00",
+                      "FinalDeliveryDate": "09/15/2025 20:00",
+                      "SecurityCoupon": "6.500",
+                      "EarlyFundingIndicator": "false",
+                      "SettlementDate": "09/18/2025"
+                    },
+                    "BUBDOption": {
+                      "BuyUpBuyDownProgram": "Note Level",
+                      "ContractBUBDOption": "Neither Buy up nor Buy down"
+                    },
+                    "PricingDetails": {
+                      "SystemUPBGridForSecurityCouponLevel": {
+                        "SecurityCouponValues": [
+                          {
+                            "CreditFees": [
+                              {
+                                "CreditFeeName": "Gold Rush",
+                                "CreditFeePrice": "0.000"
+                              },
+                              {
+                                "CreditFeeName": "CFY 30yr Conf FRM",
+                                "CreditFeeYield": "35.000"
+                              }
+                            ],
+                            "TotalCreditFees": {
+                              "TotalCreditFeeYield": "35.000",
+                              "TotalCreditFeePrice": "0.000"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "CorrelationIdentifier"
+                  ],
+                  "properties": {
+                    "CorrelationIdentifier": {
+                      "type": "string",
+                      "example": "905dd5df-3352-47a5-aab1-21c99c619239"
+                    },
+                    "ContractIdentifier": {
+                      "type": "string",
+                      "example": "999999999"
+                    },
+                    "PricingIdentifier": {
+                      "type": "string",
+                      "example": "M99999999"
+                    },
+                    "SellerIdentifier": {
+                      "type": "string",
+                      "example": "999999"
+                    },
+                    "ProductOption": {
+                      "type": "object",
+                      "example": {
+                        "ContractName": "Fixed Contract1",
+                        "PriceResultRefreshType": "Periodic",
+                        "PurchaseContractStatusType": "Open",
+                        "UserEnteredSecurityProductIdentifier": "2201",
+                        "UserEnteredSecurityAmount": "1000000.00",
+                        "FinalDeliveryDate": "09/15/2025 20:00",
+                        "SecurityCoupon": "6.500",
+                        "EarlyFundingIndicator": "false",
+                        "SettlementDate": "09/18/2025"
+                      },
+                      "required": [
+                        "ContractName",
+                        "PriceResultRefreshType",
+                        "PurchaseContractStatusType",
+                        "UserEnteredSecurityProductIdentifier",
+                        "UserEnteredSecurityAmount",
+                        "FinalDeliveryDate",
+                        "EarlyFundingIndicator",
+                        "SettlementDate"
+                      ],
+                      "properties": {
+                        "ContractName": {
+                          "type": "string",
+                          "example": "Fixed Contract1"
+                        },
+                        "PriceResultRefreshType": {
+                          "type": "string",
+                          "example": "Periodic"
+                        },
+                        "PurchaseContractStatusType": {
+                          "type": "string",
+                          "example": "Open"
+                        },
+                        "UserEnteredSecurityProductIdentifier": {
+                          "type": "string",
+                          "example": "2201"
+                        },
+                        "UserEnteredSecurityAmount": {
+                          "type": "string",
+                          "example": "1000000.00"
+                        },
+                        "FinalDeliveryDate": {
+                          "type": "string",
+                          "example": "09/15/2025 20:00"
+                        },
+                        "SecurityCoupon": {
+                          "type": "string",
+                          "example": "6.500"
+                        },
+                        "EarlyFundingIndicator": {
+                          "type": "string",
+                          "example": "false"
+                        },
+                        "SettlementDate": {
+                          "type": "string",
+                          "example": "09/18/2025"
+                        }
+                      },
+                      "additionalProperties": true
+                    },
+                    "BUBDOption": {
+                      "type": "object",
+                      "example": {
+                        "BuyUpBuyDownProgram": "Note Level",
+                        "ContractBUBDOption": "Neither Buy up nor Buy down"
+                      },
+                      "required": [
+                        "BuyUpBuyDownProgram"
+                      ],
+                      "properties": {
+                        "BuyUpBuyDownProgram": {
+                          "type": "string",
+                          "example": "Note Level"
+                        },
+                        "ContractBUBDOption": {
+                          "type": "string",
+                          "example": "Neither Buy up nor Buy down"
+                        }
+                      },
+                      "additionalProperties": true
+                    },
+                    "PricingDetails": {
+                      "type": "object",
+                      "example": {
+                        "SystemUPBGridForSecurityCouponLevel": {
+                          "SecurityCouponValues": [
+                            {
+                              "CreditFees": [
+                                {
+                                  "CreditFeeName": "Gold Rush",
+                                  "CreditFeePrice": "0.000"
+                                },
+                                {
+                                  "CreditFeeName": "CFY 30yr Conf FRM",
+                                  "CreditFeeYield": "35.000"
+                                }
+                              ],
+                              "TotalCreditFees": {
+                                "TotalCreditFeeYield": "35.000",
+                                "TotalCreditFeePrice": "0.000"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "SystemUPBGridForSecurityCouponLevel"
+                      ],
+                      "properties": {
+                        "SystemUPBGridForSecurityCouponLevel": {
+                          "type": "object",
+                          "example": {
+                            "SecurityCouponValues": [
+                              {
+                                "CreditFees": [
+                                  {
+                                    "CreditFeeName": "Gold Rush",
+                                    "CreditFeePrice": "0.000"
+                                  },
+                                  {
+                                    "CreditFeeName": "CFY 30yr Conf FRM",
+                                    "CreditFeeYield": "35.000"
+                                  }
+                                ],
+                                "TotalCreditFees": {
+                                  "TotalCreditFeeYield": "35.000",
+                                  "TotalCreditFeePrice": "0.000"
+                                }
+                              }
+                            ]
+                          },
+                          "required": [
+                            "SecurityCouponValues"
+                          ],
+                          "properties": {
+                            "SecurityCouponValues": {
+                              "type": "array",
+                              "example": [
+                                {
+                                  "CreditFees": [
+                                    {
+                                      "CreditFeeName": "Gold Rush",
+                                      "CreditFeePrice": "0.000"
+                                    },
+                                    {
+                                      "CreditFeeName": "CFY 30yr Conf FRM",
+                                      "CreditFeeYield": "35.000"
+                                    }
+                                  ],
+                                  "TotalCreditFees": {
+                                    "TotalCreditFeeYield": "35.000",
+                                    "TotalCreditFeePrice": "0.000"
+                                  }
+                                }
+                              ],
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "example": {
+                                      "CreditFees": [
+                                        {
+                                          "CreditFeeName": "Gold Rush",
+                                          "CreditFeePrice": "0.000"
+                                        },
+                                        {
+                                          "CreditFeeName": "CFY 30yr Conf FRM",
+                                          "CreditFeeYield": "35.000"
+                                        }
+                                      ],
+                                      "TotalCreditFees": {
+                                        "TotalCreditFeeYield": "35.000",
+                                        "TotalCreditFeePrice": "0.000"
+                                      }
+                                    },
+                                    "required": [
+                                      "CreditFees",
+                                      "TotalCreditFees"
+                                    ],
+                                    "properties": {
+                                      "CreditFees": {
+                                        "type": "array",
+                                        "example": [
+                                          {
+                                            "CreditFeeName": "Gold Rush",
+                                            "CreditFeePrice": "0.000"
+                                          },
+                                          {
+                                            "CreditFeeName": "CFY 30yr Conf FRM",
+                                            "CreditFeeYield": "35.000"
+                                          }
+                                        ],
+                                        "items": {
+                                          "anyOf": [
+                                            {
+                                              "type": "object",
+                                              "example": {
+                                                "CreditFeeName": "Gold Rush",
+                                                "CreditFeePrice": "0.000"
+                                              },
+                                              "required": [
+                                                "CreditFeeName",
+                                                "CreditFeePrice"
+                                              ],
+                                              "properties": {
+                                                "CreditFeeName": {
+                                                  "type": "string",
+                                                  "example": "Gold Rush"
+                                                },
+                                                "CreditFeePrice": {
+                                                  "type": "string",
+                                                  "example": "0.000"
+                                                }
+                                              },
+                                              "additionalProperties": true
+                                            },
+                                            {
+                                              "type": "object",
+                                              "example": {
+                                                "CreditFeeName": "CFY 30yr Conf FRM",
+                                                "CreditFeeYield": "35.000"
+                                              },
+                                              "required": [
+                                                "CreditFeeName",
+                                                "CreditFeeYield"
+                                              ],
+                                              "properties": {
+                                                "CreditFeeName": {
+                                                  "type": "string",
+                                                  "example": "CFY 30yr Conf FRM"
+                                                },
+                                                "CreditFeeYield": {
+                                                  "type": "string",
+                                                  "example": "35.000"
+                                                }
+                                              },
+                                              "additionalProperties": true
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "TotalCreditFees": {
+                                        "type": "object",
+                                        "example": {
+                                          "TotalCreditFeeYield": "35.000",
+                                          "TotalCreditFeePrice": "0.000"
+                                        },
+                                        "required": [
+                                          "TotalCreditFeeYield",
+                                          "TotalCreditFeePrice"
+                                        ],
+                                        "properties": {
+                                          "TotalCreditFeeYield": {
+                                            "type": "string",
+                                            "example": "35.000"
+                                          },
+                                          "TotalCreditFeePrice": {
+                                            "type": "string",
+                                            "example": "0.000"
+                                          }
+                                        },
+                                        "additionalProperties": true
+                                      }
+                                    },
+                                    "additionalProperties": true
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "additionalProperties": true
+                        }
+                      },
+                      "additionalProperties": true
+                    },
+                    "CommitmentRequestErrors": {
+                      "$ref": "#/components/schemas/CommitmentRequestErrors"
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              ]
+            }
+          }
+        }
+      },
+      "GuarantorContractPriceDecisionResponse": {
+        "required": [
+          "CorrelationIdentifier"
+        ],
+        "properties": {
+          "CorrelationIdentifier": {
+            "type": "string",
+            "example": "533a425b-5823-4b43-9054-73490b7dbde9"
+          },
+          "ResponseTime": {
+            "type": "string",
+            "example": "09/15/2025 16:56:32"
+          },
+          "CommitmentPriceErrors": {
+            "$ref": "#/components/schemas/CommitmentRequestErrors"
+          },
+          "CommitmentDecisionErrors":{
+            "$ref": "#/components/schemas/CommitmentRequestErrors"
+          },
+          "CommitmentPriceDecisionResponses": {
+            "type": "array",
+            "example": [
+              {
+                "SellerIdentifier": "999999",
+                "ContractIdentifier": "999999999",
+                "ContractStatus": "Accepted",
+                "AcceptedDateTime": "09/15/2025 16:55:42",
+                "DecisionStatus": "Accept",
+                "PoolNumber": "QD1810",
+                "CUSIP": "3133AYAK6",
+                "MBSPoolPrefixCode": "CL"
+              }
+            ],
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "example": {
+                    "SellerIdentifier": "999999",
+                    "ContractIdentifier": "999999999",
+                    "ContractStatus": "Accepted",
+                    "AcceptedDateTime": "09/15/2025 16:55:42",
+                    "DecisionStatus": "Accept",
+                    "PoolNumber": "QD1810",
+                    "CUSIP": "3133AYAK6",
+                    "MBSPoolPrefixCode": "CL"
+                  },
+                  "required": [
+                    "ContractIdentifier"
+                  ],
+                  "properties": {
+                    "SellerIdentifier": {
+                      "type": "string",
+                      "example": "999999"
+                    },
+                    "ContractIdentifier": {
+                      "type": "string",
+                      "example": "999999999"
+                    },
+                    "ContractStatus": {
+                      "type": "string",
+                      "example": "Accepted"
+                    },
+                    "AcceptedDateTime": {
+                      "type": "string",
+                      "example": "09/15/2025 16:55:42"
+                    },
+                    "DecisionStatus": {
+                      "type": "string",
+                      "example": "Accept"
+                    },
+                    "PoolNumber": {
+                      "type": "string",
+                      "example": "QD1810"
+                    },
+                    "CUSIP": {
+                      "type": "string",
+                      "example": "3133AYAK6"
+                    },
+                    "MBSPoolPrefixCode": {
+                      "type": "string",
+                      "example": "CL"
+                    },
+                    "CommitmentErrors": {
+                      "$ref": "#/components/schemas/CommitmentRequestErrors"
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              ]
+            }
+          }
+        }
+      },
+      "GuarantorContractModifyDecisionResponse": {
+        "required": [
+          "CorrelationIdentifier"
+        ],
+        "properties": {
+          "CorrelationIdentifier": {
+            "type": "string",
+            "example": "533a425b-5823-4b43-9054-73490b7dbde9"
+          },
+          "ResponseTime": {
+            "type": "string",
+            "example": "12/02/2025 16:56:32"
+          },
+          "CommitmentDecisionErrors":{
+            "$ref": "#/components/schemas/CommitmentRequestErrors"
+          },
+          "CommitmentPriceDecisionResponses": {
+            "type": "array",
+            "example": [
+              {
+                "SellerIdentifier": "999999",
+                "ContractIdentifier": "999999999",
+                "ContractStatus": "Accepted",
+                "AcceptedDateTime": "12/02/2025 16:55:42",
+                "DecisionStatus": "Accept",
+                "PoolNumber": "QD1810",
+                "CUSIP": "3133AYAK6",
+                "MBSPoolPrefixCode": "CL",
+                "AllocatedLoanUPB": "0.00",
+                "RemainingBalance": "1000000.00"
+              }
+            ],
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "example": {
+                    "SellerIdentifier": "999999",
+                    "ContractIdentifier": "999999999",
+                    "ContractStatus": "Accepted",
+                    "AcceptedDateTime": "12/02/2025 16:55:42",
+                    "DecisionStatus": "Accept",
+                    "PoolNumber": "QD1810",
+                    "CUSIP": "3133AYAK6",
+                    "MBSPoolPrefixCode": "CL",
+                    "AllocatedLoanUPB": "0.00",
+                    "RemainingBalance": "1000000.00"
+                  },
+                  "required": [
+                    "ContractIdentifier"
+                  ],
+                  "properties": {
+                    "SellerIdentifier": {
+                      "type": "string",
+                      "example": "999999"
+                    },
+                    "ContractIdentifier": {
+                      "type": "string",
+                      "example": "999999999"
+                    },
+                    "ContractStatus": {
+                      "type": "string",
+                      "example": "Accepted"
+                    },
+                    "AcceptedDateTime": {
+                      "type": "string",
+                      "example": "12/02/2025 16:55:42"
+                    },
+                    "DecisionStatus": {
+                      "type": "string",
+                      "example": "Accept"
+                    },
+                    "PoolNumber": {
+                      "type": "string",
+                      "example": "QD1810"
+                    },
+                    "CUSIP": {
+                      "type": "string",
+                      "example": "3133AYAK6"
+                    },
+                    "MBSPoolPrefixCode": {
+                      "type": "string",
+                      "example": "CL"
+                    },
+                    "AllocatedLoanUPB": {
+                      "type": "string",
+                      "example": "0.00"
+                    },
+                    "RemainingBalance": {
+                      "type": "string",
+                      "example": "1000000.00"
+                    },
+                    "CommitmentRequestErrors": {
+                      "$ref": "#/components/schemas/CommitmentRequestErrors"
+                    },
+                    "CommitmentErrors": {
+                      "$ref": "#/components/schemas/CommitmentRequestErrors"
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              ]
+            }
+          }
+        }
+      },
+      "GuarantorContractPairOffResponse": {
+        "required": [
+          "CorrelationIdentifier"
+        ],
+        "properties": {
+          "CorrelationIdentifier": {
+            "type": "string",
+            "example": "533a425b-5823-4b43-9054-73490b7dbde9"
+          },
+          "ResponseTime": {
+            "type": "string",
+            "example": "12/02/2025 16:56:32"
+          },
+          "ResponseToken": {
+            "type": "string",
+            "example": "j9S/PxRDgnGXtfT/lRiCgaD8mmGMjFbD6PjPeJ9ahAFUCuCjTQZpEnFsSNIB6U/5D5OQyI4VPyY6agHKPn9Di0iibDxUYtiB9CrxLlYtqjM="
+          },
+          "ResponseDateTime": {
+            "type": "string",
+            "example": "12/02/2025 16:56:32"
+          },
+          "CommitmentPairOffResponses": {
+              "type": "array",
+              "example": [
+                {
+                  "ContractIdentifier": "999999999",
+                  "CorrelationIdentifier": "1234-25b-5823-4b43-9054-73490b7dbd11",
+                  "ContractStatus": "Accepted",
+                  "PairOffAmount": "1000.00",
+                  "TotalPairOffFee": "10.00"
+                }
+              ],
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "example": {
+                      "ContractIdentifier": "999999999",
+                      "CorrelationIdentifier": "1234-25b-5823-4b43-9054-73490b7dbd11",
+                      "ContractStatus": "Accepted",
+                      "PairOffAmount": "1000.00",
+                      "TotalPairOffFee": "10.00"
+                    },
+                    "required": [
+                      "CorrelationIdentifier"
+                    ],
+                    "properties": {
+                      "ContractIdentifier": {
+                        "type": "string",
+                        "example": "999999999"
+                      },
+                      "CorrelationIdentifier": {
+                        "type": "string",
+                        "example": "1234-25b-5823-4b43-9054-73490b7dbd11"
+                      },
+                      "ContractStatus": {
+                        "type": "string",
+                        "example": "Accepted"
+                      },
+                      "PairOffAmount": {
+                        "type": "number",
+                        "example": "1000.00"
+                      },
+                      "TotalPairOffFee": {
+                        "type": "number",
+                        "example": "10.00"
+                      },
+                      "CommitmentErrors": {
+                        "$ref": "#/components/schemas/CommitmentRequestErrors"
+                      },
+                      "PairOffContractErrors": {
+                        "$ref": "#/components/schemas/CommitmentRequestErrors"
+                      }
+                    },
+                    "additionalProperties": true
+                  }
+                ]
+              }
+            },
+          "CommitmentPairOffErrors": {
+            "$ref": "#/components/schemas/CommitmentRequestErrors"
+          },
+          "CommitmentRequestErrors": {
+            "$ref": "#/components/schemas/CommitmentRequestErrors"
+          }
+        }
+      },
+      "GuarantorContractPairOffDecisionResponse": {
+        "required": [
+          "CorrelationIdentifier"
+        ],
+        "properties": {
+          "CorrelationIdentifier": {
+            "type": "string",
+            "example": "533a425b-5823-4b43-9054-73490b7dbde9"
+          },
+          "ResponseTime": {
+            "type": "string",
+            "example": "12/02/2025 16:56:32"
+          },
+          "CommitmentPairOffDecisionResponses": {
+            "type": "array",
+            "example": [
+              {
+                "ContractIdentifier": "999999999",
+                "DecisionType": "Accept",
+                "ContractStatus": "Accepted",
+                "AcceptedDateTime": "09/15/2025 15:26:17",
+                "SecurityAmount": "999000.00",
+                "TotalPairOffAmount": "1000.00",
+                "RemainingBalance": "999000.00",
+                "AllocatedLoanUPB": "0.00"
+              }
+            ],
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "example": {
+                    "ContractIdentifier": "999999999",
+                    "DecisionType": "Accept",
+                    "ContractStatus": "Accepted",
+                    "AcceptedDateTime": "09/15/2025 15:26:17",
+                    "SecurityAmount": "999000.00",
+                    "TotalPairOffAmount": "1000.00",
+                    "RemainingBalance": "999000.00",
+                    "AllocatedLoanUPB": "0.00"
+                  },
+                  "required": [
+                    "ContractIdentifier"
+                  ],
+                  "properties": {
+                    "ContractIdentifier": {
+                      "type": "string",
+                      "example": "999999999"
+                    },
+                    "DecisionType": {
+                      "type": "string",
+                      "example": "Accept"
+                    },
+                    "ContractStatus": {
+                      "type": "string",
+                      "example": "Accepted"
+                    },
+                    "AcceptedDateTime": {
+                      "type": "string",
+                      "example": "09/15/2025 15:26:17"
+                    },
+                    "SecurityAmount": {
+                      "type": "number",
+                      "example": "999000.00"
+                    },
+                    "TotalPairOffAmount": {
+                      "type": "number",
+                      "example": "1000.00"
+                    },
+                    "RemainingBalance": {
+                      "type": "number",
+                      "example": "999000.00"
+                    },
+                    "AllocatedLoanUPB": {
+                      "type": "number",
+                      "example": "0.00"
+                    },
+                    "Warnings": {
+                      "type": "string"
+                    },
+                    "CommitmentErrors": {
+                      "$ref": "#/components/schemas/CommitmentRequestErrors"
+                    },
+                    "CommitmentPairOffErrors": {
+                      "$ref": "#/components/schemas/CommitmentRequestErrors"
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              ]
+            }
+          },
+          "CommitmentDecisionErrors": {
+            "$ref": "#/components/schemas/CommitmentRequestErrors"
+          },
+          "CommitmentRequestErrors": {
+            "$ref": "#/components/schemas/CommitmentRequestErrors"
+          }
+        }
+      },
+      "errors": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "errorMessage"
+              ],
+              "properties": {
+                "errorCode": {
+                  "type": "string",
+                  "description": "Error code"
+                },
+                "errorMessage": {
+                  "type": "string",
+                  "description": "Error message"
+                }
+              }
+            }
+          }
+        }
+      },
+      "CommitmentRequestErrors": {
+        "type": "array",
+        "example": [
+          {
+            "ErrorCode": "DATA7219",
+            "ErrorMessage": "Invalid value for Pool Type. Valid values are [Single Issue, Multi-Lender]."
+          }
+        ],
+        "items": {
+          "anyOf": [
+            {
+              "type": "object",
+              "example": {
+                "ErrorCode": "DATA7219",
+                "ErrorMessage": "Invalid value for Pool Type. Valid values are [Single Issue, Multi-Lender]."
+              },
+              "required": [
+                "ErrorMessage"
+              ],
+              "properties": {
+                "ErrorCode": {
+                  "type": "string",
+                  "example": "DATA7219"
+                },
+                "ErrorMessage": {
+                  "type": "string",
+                  "example": "Invalid value for Pool Type. Valid values are [Single Issue, Multi-Lender]."
+                }
+              },
+              "additionalProperties": true
+            }
+          ]
+        }
+      },
+      "PriceErrorResponse401": {
+        "required": [
+          "error",
+          "code",
+          "errors"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Rejected by policy"
+          },
+          "code": {
+            "type": "number",
+            "example": 401.007
+          },
+          "errors": {
+            "type": "array",
+            "example": [
+              {
+                "status": "Unauthorized",
+                "detail": [
+                  {
+                    "error": "Invalid User Credentials."
+                  }
+                ],
+                "timestamp": "2025-09-15T19:19:39.906Z"
+              }
+            ],
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "example": {
+                    "status": "Unauthorized",
+                    "detail": [
+                      {
+                        "error": "Invalid User Credentials."
+                      }
+                    ],
+                    "timestamp": "2025-09-15T19:19:39.906Z"
+                  },
+                  "required": [
+                    "status",
+                    "detail",
+                    "timestamp"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "detail": {
+                      "type": "array",
+                      "example": [
+                        {
+                          "error": "Invalid User Credentials."
+                        }
+                      ],
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "example": {
+                              "error": "Invalid User Credentials."
+                            },
+                            "required": [
+                              "error"
+                            ],
+                            "properties": {
+                              "error": {
+                                "type": "string",
+                                "example": "Invalid User Credentials."
+                              }
+                            },
+                            "additionalProperties": true
+                          }
+                        ]
+                      }
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2025-09-15T19:19:39.906Z"
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              ]
+            }
+          }
+        }
+      },
+      "PriceErrorResponse403": {
+        "required": [
+          "ErrorCode",
+          "ErrorMessage"
+        ],
+        "properties": {
+          "ErrorCode": {
+            "type": "string",
+            "example": "403"
+          },
+          "ErrorMessage": {
+            "type": "string",
+            "example": "Rejected by Policy."
+          }
+        }
+      },
+      "PriceErrorResponse429": {
+        "required": [
+          "code",
+          "details",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Error Code"
+          },
+          "message": {
+            "type": "string",
+            "description": "Error Description"
+          },
+          "details": {
+            "type": "array",
+            "description": "A collection of error details. Details container will contain error format.",
+            "items": {
+              "type": "object",
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "Information about the error."
+                }
+              }
+            }
+          }
+        }
+      },
+      "PriceErrorResponse500": {
+        "required": [
+          "CorrelationIdentifier",
+          "ResponseTime",
+          "CommitmentPriceResponses"
+        ],
+        "properties": {
+          "CorrelationIdentifier": {
+            "type": "string",
+            "example": "e2b7048e-6307-48a5-b8a1-29235a91183a"
+          },
+          "ResponseTime": {
+            "type": "string",
+            "example": "09/15/2025 16:37:23"
+          },
+          "CommitmentPriceResponses": {
+            "type": "array",
+            "example": [
+              {
+                "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                "CommitmentRequestErrors": [
+                  {
+                    "ErrorCode": "500",
+                    "ErrorMessage": "The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance."
+                  }
+                ]
+              }
+            ],
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "example": {
+                    "CorrelationIdentifier": "e2b7048e-6307-48a5-b8a1-29235a91183a",
+                    "CommitmentRequestErrors": [
+                      {
+                        "ErrorCode": "500",
+                        "ErrorMessage": "The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance."
+                      }
+                    ]
+                  },
+                  "required": [
+                    "CorrelationIdentifier",
+                    "CommitmentRequestErrors"
+                  ],
+                  "properties": {
+                    "CorrelationIdentifier": {
+                      "type": "string",
+                      "example": "e2b7048e-6307-48a5-b8a1-29235a91183a"
+                    },
+                    "CommitmentRequestErrors": {
+                      "type": "array",
+                      "example": [
+                        {
+                          "ErrorCode": "500",
+                          "ErrorMessage": "The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance."
+                        }
+                      ],
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "example": {
+                              "ErrorCode": "500",
+                              "ErrorMessage": "The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance."
+                            },
+                            "required": [
+                              "ErrorCode",
+                              "ErrorMessage"
+                            ],
+                            "properties": {
+                              "ErrorCode": {
+                                "type": "string",
+                                "example": "500"
+                              },
+                              "ErrorMessage": {
+                                "type": "string",
+                                "example": "The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance."
+                              }
+                            },
+                            "additionalProperties": true
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "examples": {
+      "OptionalFixedRetainedSellerSingleIssueSecurityCouponLevelContractRequest": {
+        "value":{
+          "CommitmentRequestMetaData": {
+            "CorrelationIdentifier": "c31251a3-2fca-4809-a1d2-a806abcd7f68",
+            "RequestTime": "09/15/2025 10:10:10",
+            "RequestingPartyAccountIdentifier": "999999",
+            "CounterPartyType": "Seller",
+            "VendorIdentifier": "",
+            "VendorName": "",
+            "VendorSoftware": "",
+            "VendorSoftwareVersion": "",
+            "TemplateVersion": 1.0
+          },
+          "Commitments": [
+            {
+              "GuarantorContract": {
+                "CorrelationIdentifier": "905dd5df-3352-47a5-aab1-21c99c619239",
+                "PricingIdentifier": "M99999999",
+                "SellerIdentifier": "999999",
+                "ProductOption": {
+                  "ContractName": "ContractName",
+                  "DeliveryType": "Optional",
+                  "PoolType": "Single Issue",
+                  "BaseOfferingProduct": "10-Year Fixed",
+                  "UserEnteredSecurityProductIdentifier": 2204,
+                  "LTVRatioPercentRangeType": "Standard",
+                  "PrepaymentPenaltyIndicator": "False",
+                  "SpecifiedPool": "No",
+                  "SecurityCoupon": 6.5,
+                  "EarlyFundingTargetDate": "09/17/2025",
+                  "SettlementDate": "09/18/2025",
+                  "SettlementCycleDays": 3,
+                  "UPBLevel": "Security Coupon Level",
+                  "UserEnteredSecurityAmount": 1000000,
+                  "RiskTransfer": "No"
+                },
+                "ServicingOption": {
+                  "ServicingOptionType" : "Retained",
+                  "CounterPartyAccountIdentifier": "999999",
+                  "MinimumRequiredServicingSpread": 0.25,
+                  "ContractRemittanceScheduleType": "Standard",
+                  "InterestAccountingMethodType": "Scheduled/Actual",
+                  "PayoffRemittanceDayCount": 5
+                },
+                "BUBDOption": {
+                  "BuyUpBuyDownProgram": "Note Level",
+                  "ContractBUBDOption": "Buy down",
+                  "NoteLevelBuyDownMaximum": 25
+                }
+              }
+            }
+          ]
+        }
+      },
+      "OptionalARMRetainedSellerSingleIssueSecurityCouponLevelContractRequest": {
+        "value": {
+          "CommitmentRequestMetaData": {
+            "CorrelationIdentifier": "c31251a3-2fca-4809-a1d2-a806abcd7f68",
+            "RequestTime": "09/15/2025 10:10:10",
+            "RequestingPartyAccountIdentifier": "999999",
+            "CounterPartyType": "Seller",
+            "VendorIdentifier": "",
+            "VendorName": "",
+            "VendorSoftware": "",
+            "VendorSoftwareVersion": "",
+            "TemplateVersion": 1.0
+          },
+          "Commitments": [
+            {
+              "GuarantorContract": {
+                "CorrelationIdentifier": "905dd5df-3352-47a5-aab1-21c99c619239",
+                "PricingIdentifier": "M99999999",
+                "SellerIdentifier": "999999",
+                "ProductOption":{
+                  "DeliveryType": "Optional",
+                  "PoolType": "Single Issue",
+                  "BaseOfferingProduct": "7/6 SOFR ARM",
+                  "IndexSourceType": "30 Day Average SOFR",
+                  "UserEnteredSecurityProductIdentifier": 2065,
+                  "LTVRatioPercentRangeType": "Standard",
+                  "PrepaymentPenaltyIndicator": "False",
+                  "InterestandPaymentAdjustmentIndexLeadDaysCount": 45,
+                  "SpecifiedPool": "No",
+                  "SettlementDate": "09/18/2025",
+                  "SettlementCycleDays": 3,
+                  "UPBLevel": "Security Coupon Level",
+                  "UserEnteredSecurityAmount": 1000000,
+                  "RiskTransfer": "No"
+                },
+                "ServicingOption": {
+                  "ServicingOptionType": "Retained",
+                  "CounterPartyAccountIdentifier": "999999",
+                  "MinimumContractServicingLifetimeCeiling": 0.25,
+                  "MinimumContractServicingNetMargin": 0.25,
+                  "MinimumContractServicingCoupon": 0.25,
+                  "ContractRemittanceScheduleType": "Standard",
+                  "InterestAccountingMethodType": "Scheduled/Actual",
+                  "PayoffRemittanceDayCount": 5
+                },
+                "BUBDOption": {
+                  "BuyUpBuyDownProgram": "Contract Level",
+                  "ContractBUBDOption": "Neither Buy up nor Buy down"
+                }
+              }
+            }
+          ]
+        }
+
+      },
+      "OptionalFixedRetainedSellerMultiIssueContractRequest" :{
+        "value" : {
+          "CommitmentRequestMetaData": {
+            "CorrelationIdentifier": "c31251a3-2fca-4809-a1d2-a806abcd7f68",
+            "RequestTime": "09/15/2025 10:10:10",
+            "RequestingPartyAccountIdentifier": "999999",
+            "CounterPartyType": "Seller",
+            "VendorIdentifier": "",
+            "VendorName": "",
+            "VendorSoftware": "",
+            "VendorSoftwareVersion": "",
+            "TemplateVersion": 1.0
+          },
+          "Commitments": [
+            {
+              "GuarantorContract": {
+                "CorrelationIdentifier": "533a425b-5823-4b43-9054-73490b7dbd11",
+                "PricingIdentifier": "M99999999",
+                "SellerIdentifier": "999999",
+                "ProductOption": {
+                  "ContractName": "ContractName",
+                  "DeliveryType": "Optional",
+                  "PoolType": "Multi-Lender",
+                  "BaseOfferingProduct": "30-Year Fixed",
+                  "UserEnteredSecurityProductIdentifier": 2201,
+                  "LTVRatioPercentRangeType": "Standard",
+                  "PrepaymentPenaltyIndicator": "False",
+                  "AvailableSecurityCouponandPoolNumbers": "RA0203",
+                  "SpecifiedPool": "No",
+                  "SettlementDate": "09/16/2025",
+                  "SettlementCycleDays": 1,
+                  "UPBLevel": "Security Coupon Level",
+                  "UserEnteredSecurityAmount": 1000000,
+                  "RiskTransfer": "No"
+                },
+                "ServicingOption": {
+                  "ServicingOptionType" : "Retained",
+                  "CounterPartyAccountIdentifier": "999999",
+                  "MinimumRequiredServicingSpread": 0.25,
+                  "ContractRemittanceScheduleType": "Standard",
+                  "InterestAccountingMethodType": "Scheduled/Actual",
+                  "PayoffRemittanceDayCount": 5
+                },
+                "BUBDOption": {
+                  "BuyUpBuyDownProgram": "Note Level",
+                  "ContractBUBDOption": "Buy up and Buy down",
+                  "NoteLevelBuyUpMaximum": 25,
+                  "NoteLevelBuyDownMaximum": 44
+                }
+              }
+            }
+          ]
+        }
+      },
+      "OptionalFixedRetainedSellerSingleIssueSecurityCouponLevelContractResponse": {
+        "value": {
+          "CorrelationIdentifier": "c31251a3-2fca-4809-a1d2-a806abcd7f68",
+          "ResponseTime": "09/15/2025 15:10:32",
+          "ResponseToken": "UOf+9goVPigd2YRUITxH1wxrdQbBdIGX6WtKoJ2mxGIqjZGZjG3YXnU0wQu8ng3UK1l375Jrk1flW+vyH6l4XO6NKHURCLHJDiNMj5r+k2o=",
+          "CommitmentPriceResponses": [
+            {
+              "CorrelationIdentifier": "905dd5df-3352-47a5-aab1-21c99c619239",
+              "ContractIdentifier": "999999999",
+              "PricingIdentifier": "M99999999",
+              "SellerIdentifier": "999999",
+              "ProductOption": {
+                "ContractName": "ContractName",
+                "PriceResultRefreshType": "Periodic",
+                "PurchaseContractStatusType": "Open",
+                "UserEnteredSecurityProductIdentifier": "2204",
+                "UserEnteredSecurityAmount": "1000000.00",
+                "FinalDeliveryDate": "09/15/2025 20:00",
+                "SecurityCoupon": "6.500",
+                "EarlyFundingIndicator": "true",
+                "EarlyFundingTargetDate": "09/17/2025",
+                "SettlementDate": "09/18/2025"
+              },
+              "BUBDOption": {
+                "BuyUpBuyDownProgram": "Note Level",
+                "ContractBUBDOption": "Buy down",
+                "NoteLevelBuyDownMaximum": "25.00"
+              },
+              "PricingDetails": {
+                "SystemUPBGridForSecurityCouponLevel": {
+                  "SecurityCouponValues": [
+                    {
+                      "CreditFees": [
+                        {
+                          "CreditFeeName": "CFY 10yr FRM",
+                          "CreditFeeYield": "30.000"
+                        },
+                        {
+                          "CreditFeeName": "Gold Rush",
+                          "CreditFeePrice": "0.000"
+                        }
+                      ],
+                      "TotalCreditFees": {
+                        "TotalCreditFeeYield": "30.000",
+                        "TotalCreditFeePrice": "0.000"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      "OptionalARMRetainedSellerSingleIssueSecurityCouponLevelContractResponse": {
+        "value": {
+          "CorrelationIdentifier": "c31251a3-2fca-4809-a1d2-a806abcd7f68",
+          "ResponseTime": "09/15/2025 16:16:34",
+          "ResponseToken": "fCnkbYbGVSMRafIegVBrGTltPB3IVfxWzeTrGw5z2ihp258XygobIrc01CXwHOrhOsHSsiTIZaWnaZ2vTK4Xk6HB/7M3irzEn0AUjZp0vAQ=",
+          "CommitmentPriceResponses": [
+            {
+              "CorrelationIdentifier": "905dd5df-3352-47a5-aab1-21c99c619239",
+              "ContractIdentifier": "999999999",
+              "PricingIdentifier": "M99999999",
+              "SellerIdentifier": "999999",
+              "ProductOption": {
+                "PriceResultRefreshType": "Periodic",
+                "PurchaseContractStatusType": "Open",
+                "UserEnteredSecurityProductIdentifier": "2065",
+                "UserEnteredSecurityAmount": "1000000.00",
+                "FinalDeliveryDate": "09/15/2025 20:00",
+                "EarlyFundingIndicator": "false",
+                "SettlementDate": "09/18/2025"
+              },
+              "BUBDOption": {
+                "BuyUpBuyDownProgram": "Contract Level",
+                "ContractBUBDOption": "Neither Buy up nor Buy down"
+              },
+              "PricingDetails": {
+                "SystemUPBGridForSecurityCouponLevel": {
+                  "SecurityCouponValues": [
+                    {
+                      "CreditFees": [
+                        {
+                          "CreditFeeName": "Gold Rush",
+                          "CreditFeePrice": "0.000"
+                        },
+                        {
+                          "CreditFeeName": "ARMS CFY SOFR ",
+                          "CreditFeeYield": "37.000"
+                        }
+                      ],
+                      "TotalCreditFees": {
+                        "TotalCreditFeeYield": "37.000",
+                        "TotalCreditFeePrice": "0.000"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      "OptionalFixedRetainedSellerMultiIssueContractResponse" :{
+        "value" :{
+          "CorrelationIdentifier": "c31251a3-2fca-4809-a1d2-a806abcd7f68",
+          "ResponseTime": "09/15/2025 08:48:26",
+          "ResponseToken": "EzKGzJl4ySdtKtqY7y9jjymJozmsl+a4u7kvS+UjpPRFr9CsfZvcRhdqNEMMUhkSs7oTBxrsDUJaeI2TeF8rAOJAkHuTl5GNBPtHf0ivwNE=",
+          "CommitmentPriceResponses": [
+            {
+              "CorrelationIdentifier": "533a425b-5823-4b43-9054-73490b7dbd11",
+              "ContractIdentifier": "999999999",
+              "PricingIdentifier": "M99999999",
+              "SellerIdentifier": "999999",
+              "ProductOption": {
+                "ContractName": "ContractName",
+                "PriceResultRefreshType": "Periodic",
+                "PurchaseContractStatusType": "Open",
+                "UserEnteredSecurityProductIdentifier": "2201",
+                "PoolNumber": "RA0203",
+                "UserEnteredSecurityAmount": "1000000.00",
+                "FinalDeliveryDate": "09/15/2025 20:00",
+                "SecurityCoupon": "6.500",
+                "EarlyFundingIndicator": "false",
+                "SettlementDate": "09/16/2025"
+              },
+              "BUBDOption": {
+                "BuyUpBuyDownProgram": "Note Level",
+                "ContractBUBDOption": "Buy up and Buy down",
+                "NoteLevelBuyUpMaximum": "25.00",
+                "NoteLevelBuyDownMaximum": "44.00"
+              },
+              "PricingDetails": {
+                "SystemUPBGridForSecurityCouponLevel": {
+                  "SecurityCouponValues": [
+                    {
+                      "CreditFees": [
+                        {
+                          "CreditFeeName": "Gold Rush",
+                          "CreditFeePrice": "0.000"
+                        },
+                        {
+                          "CreditFeeName": "CFY 30yr Conf FRM",
+                          "CreditFeeYield": "45.000"
+                        }
+                      ],
+                      "TotalCreditFees": {
+                        "TotalCreditFeeYield": "45.000",
+                        "TotalCreditFeePrice": "0.000"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+
+      },
+      "GuarantorContractPriceDecisionRequest": {
+        "value": {
+          "CommitmentRequestMetaData": {
+            "CorrelationIdentifier": "533a425b-5823-4b43-9054-73490b7dbde9",
+            "RequestTime": "09/15/2025 10:10:10",
+            "CounterPartyType": "Seller",
+            "RequestingPartyAccountIdentifier": "999999",
+            "ResponseToken": "UOf+9goVPigd2YRUITxH1wxrdQbBdIGX6WtKoJ2mxGIqjZGZjG3YXnU0wQu8ng3UK1l375Jrk1flW+vyH6l4XO6NKHURCLHJDiNMj5r+k2o=",
+            "VendorIdentifier": "",
+            "VendorName": "",
+            "VendorSoftware": "",
+            "VendorSoftwareVersion": "",
+            "TemplateVersion": 1.0
+          },
+          "Decisions": [
+            {
+              "SellerIdentifier": "999999",
+              "ContractIdentifier": "999999999",
+              "DecisionType": "Accept"
+            }
+          ]
+        }
+      },
+      "GuarantorContractPriceDecisionResponse": {
+        "value":{
+
+          "CorrelationIdentifier": "533a425b-5823-4b43-9054-73490b7dbde9",
+
+          "ResponseTime": "09/15/2025 15:22:26",
+
+          "CommitmentPriceDecisionResponses": [
+
+            {
+
+              "SellerIdentifier": "999999",
+
+              "ContractIdentifier": "999999999",
+
+              "ContractStatus": "Accepted",
+
+              "AcceptedDateTime": "09/15/2025 15:21:51",
+
+              "DecisionStatus": "Accept",
+
+              "PoolNumber": "QS0001",
+
+              "CUSIP": "3133HMAA7",
+
+              "MBSPoolPrefixCode": "CN"
+
+            }
+
+          ]
+
+        }
+      },
+      "GuarantorContractModifyRequest": {
+        "value": {
+          "CommitmentRequestMetaData": {
+            "CorrelationIdentifier": "444a425b-5823-4b43-9054-73490b7dbde9",
+            "RequestTime": "09/15/2025 11:22:05",
+            "RequestingPartyAccountIdentifier": "999999",
+            "CounterPartyType": "Seller",
+            "VendorIdentifier": "",
+            "VendorName": "",
+            "VendorSoftware": "",
+            "VendorSoftwareVersion": "",
+            "TemplateVersion": 1.0
+          },
+          "Commitments": [
+            {
+              "GuarantorContract": {
+                "CorrelationIdentifier": "544a425b-5823-4b43-9054-73490b7dbdg9",
+                "SellerIdentifier": "999999",
+                "ContractIdentifier": "999999999",
+                "ProductOption": {
+                  "ContractName": "Modify Contract",
+                  "SettlementDate": "09/26/2025",
+                  "SettlementCycleDays": 3
+                }
+              }
+            }
+          ]
+        }
+      },
+      "GuarantorContractModifyResponse": {
+        "value": {
+          "CorrelationIdentifier": "444a425b-5823-4b43-9054-73490b7dbde9",
+          "ResponseTime": "09/15/2025 14:19:56",
+          "ResponseToken": "TGQcc/LhrglxOm9GACs2f0pEfIb/gLnwrfDXAYRZI1Uk900AJPaMLxeK52ax9FQC9yQ/60cR9fnYfj1p4pYE7Q==",
+          "CommitmentPriceResponses": [
+            {
+              "CorrelationIdentifier": "544a425b-5823-4b43-9054-73490b7dbdg9",
+              "ContractIdentifier": "999999999",
+              "PricingIdentifier": "M99999999",
+              "SellerIdentifier": "999999",
+              "ProductOption": {
+                "ContractName": "Modify Contract",
+                "PriceResultRefreshType": "Periodic",
+                "PurchaseContractStatusType": "Accepted",
+                "UserEnteredSecurityProductIdentifier": "2204",
+                "PoolNumber": "QS0238",
+                "UserEnteredSecurityAmount": "1000000.00",
+                "FinalDeliveryDate": "09/18/2025 20:00",
+                "SecurityCoupon": "3.500",
+                "EarlyFundingIndicator": "true",
+                "EarlyFundingTargetDate": "09/17/2025",
+                "SettlementDate": "09/23/2025",
+                "PoolNumberRange": "QS0239 - QT9999"
+              },
+              "BUBDOption": {
+                "BuyUpBuyDownProgram": "Note Level",
+                "ContractBUBDOption": "Buy down",
+                "NoteLevelBuyDownMaximum": "25.00"
+              },
+              "PricingDetails": {
+                "SystemUPBGridForSecurityCouponLevel": {
+                  "SecurityCouponValues": [
+                    {
+                      "CreditFees": [
+                        {
+                          "CreditFeeName": "Gold Rush",
+                          "CreditFeePrice": "0.000"
+                        },
+                        {
+                          "CreditFeeName": "CFY 10yr FRM",
+                          "CreditFeeYield": "30.000"
+                        }
+                      ],
+                      "TotalCreditFees": {
+                        "TotalCreditFeeYield": "30.000",
+                        "TotalCreditFeePrice": "0.000"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      "GuarantorContractModifyDecisionRequest": {
+        "value": {
+          "CommitmentRequestMetaData": {
+            "CorrelationIdentifier": "533a425b-5823-4b43-9054-73490b7dbde9",
+            "RequestTime": "09/15/2025 11:22:05",
+            "CounterPartyType": "Seller",
+            "RequestingPartyAccountIdentifier": "999999",
+            "ResponseToken": "TGQcc/LhrglxOm9GACs2f0pEfIb/gLnwrfDXAYRZI1Uk900AJPaMLxeK52ax9FQC9yQ/60cR9fnYfj1p4pYE7Q==",
+            "VendorIdentifier": "",
+            "VendorName": "",
+            "VendorSoftware": "",
+            "VendorSoftwareVersion": "",
+            "TemplateVersion": 1.0
+          },
+          "Decisions": [
+            {
+              "SellerIdentifier": "999999",
+              "ContractIdentifier": "999999999",
+              "DecisionType": "Accept"
+            }
+          ]
+        }
+      },
+      "GuarantorContractModifyDecisionResponse": {
+        "value": {
+          "CorrelationIdentifier": "533a425b-5823-4b43-9054-73490b7dbde9",
+          "ResponseTime": "09/15/2025 14:20:16",
+          "CommitmentPriceDecisionResponses": [
+            {
+              "SellerIdentifier": "147357",
+              "ContractIdentifier": "808921511",
+              "ContractStatus": "Accepted",
+              "AcceptedDateTime": "09/15/2025 14:19:56",
+              "DecisionStatus": "Accept",
+              "PoolNumber": "QS0238",
+              "CUSIP": "3133HMHP7",
+              "MBSPoolPrefixCode": "CN",
+              "AllocatedLoanUPB": "0.00",
+              "RemainingBalance": "1000000.00"
+            }
+          ]
+        }
+      },
+      "GuarantorContractPairOffSecurityCouponRequest": {
+        "value": {
+          "CommitmentRequestMetaData": {
+            "CorrelationIdentifier": "533a425b-5823-4b43-9054-73490b7ddfgh",
+            "RequestTime": "09/15/2025 15:23:51",
+            "RequestingPartyAccountIdentifier": "999999",
+            "CounterPartyType": "Seller",
+            "VendorIdentifier": "",
+            "VendorName": "",
+            "VendorSoftware": "",
+            "VendorSoftwareVersion": "",
+            "TemplateVersion": 1.0
+          },
+          "CommitmentPairOffs": [
+            {
+              "CorrelationIdentifier": "1234-25b-5823-4b43-9054-73490b7dbd11",
+              "SellerIdentifier": "999999",
+              "ContractIdentifier": "999999999",
+              "PairOffUPBAmount": 1000
+            }
+          ]
+        }
+      },
+      "GuarantorContractPairOffSecurityCouponResponse": {
+        "value": {
+          "CorrelationIdentifier": "533a425b-5823-4b43-9054-73490b7ddfgh",
+          "ResponseTime": "09/15/2025 15:25:15",
+          "ResponseToken": "QR6QMnUR7YJPc/5WC2XNVTcGX+3fzyVi+IW+pnCvqoksmosOvygVVh203wsZamm5pHK/09D+BBqgC6Sj5LikCvC9VbE/UdemL46hYwbs9Cw=",
+          "CommitmentPairOffResponses": [
+            {
+              "ContractIdentifier": "999999999",
+              "CorrelationIdentifier": "1234-25b-5823-4b43-9054-73490b7dbd11",
+              "ContractStatus": "Accepted",
+              "PairOffAmount": "1000.00",
+              "TotalPairOffFee": "10.00"
+            }
+          ]
+        }
+      },
+      "GuarantorContractPairOffDecisionRequest": {
+        "value": {
+          "CommitmentRequestMetaData": {
+            "CorrelationIdentifier": "533a425b-5823-4b43-9054-73490b7dbde9",
+            "RequestTime": "09/15/2025 15:23:51",
+            "RequestingPartyAccountIdentifier": "999999",
+            "CounterPartyType": "Seller",
+            "ResponseToken": "QR6QMnUR7YJPc/5WC2XNVTcGX+3fzyVi+IW+pnCvqoksmosOvygVVh203wsZamm5pHK/09D+BBqgC6Sj5LikCvC9VbE/UdemL46hYwbs9Cw=",
+            "VendorIdentifier": "",
+            "VendorName": "",
+            "VendorSoftware": "",
+            "VendorSoftwareVersion": "",
+            "TemplateVersion": 1.0
+          },
+          "Decisions": [
+            {
+              "SellerIdentifier": "999999",
+              "ContractIdentifier": "999999999",
+              "DecisionType": "Accept"
+            }
+          ]
+        }
+      },
+      "GuarantorContractPairOffDecisionResponse": {
+        "value": {
+          "CorrelationIdentifier": "533a425b-5823-4b43-9054-73490b7dbde9",
+          "ResponseTime": "09/15/2025 15:26:18",
+          "CommitmentPairOffDecisionResponses": [
+            {
+              "ContractIdentifier": "999999999",
+              "DecisionType": "Accept",
+              "ContractStatus": "Accepted",
+              "AcceptedDateTime": "09/15/2025 15:26:17",
+              "SecurityAmount": "999000.00",
+              "TotalPairOffAmount": "1000.00",
+              "RemainingBalance": "999000.00",
+              "AllocatedLoanUPB": "0.00"
+            }
+          ]
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}

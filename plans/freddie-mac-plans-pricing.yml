@@ -4,46 +4,73 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Freddie Mac
 providerId: freddie-mac
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: false
+method: searched
+modified: '2026-09-10'
+reconciled: true
 tags:
-  - Mortgage
-  - Housing Finance
-  - Government Sponsored Enterprise
-description: Freddie Mac operates a developer portal at developer.freddiemac.com for partner-facing
-  APIs (Loan Product Advisor, Loan Closing Advisor, etc.), but published pricing for individual API
-  access is not available — access is contingent on Seller/Servicer or technology-partner
-  relationships rather than self-service paid plans.
-notes: developer.freddiemac.com page content was not extractable during reconciliation. Access
-  generally requires an existing counterparty relationship; no public per-API price list is
-  published.
+- Mortgage
+- Housing Finance
+- Government Sponsored Enterprise
+description: 'Freddie Mac publishes no plans and no prices for its APIs. There is no pricing page, no
+  tier list, no free tier and no self-service signup. The Developer Portal''s own Getting Started page
+  states the only route: contact your Freddie Mac representative or the Contact Us form, request a Developer
+  Portal username and your organisation''s system-to-system API credentials, then log in. Eligibility
+  is counterparty status - Seller/Servicer approval or an approved technology-partner relationship - and
+  the cost of the APIs is embedded in the counterparty economics (guarantee fees, delivery fees, Loan
+  Advisor Suite access) rather than billed per call. plan_count is 0 because that is the honest number,
+  not because nothing was found.'
+notes: Re-verified 2026-09-10 against the live portal. The public API catalog (https://developer.freddiemac.com/public/api-catalog,
+  200 application/json, 20 APIs) and every OpenAPI in it are anonymously readable - the documentation
+  is open, the access is not.
 sources:
-  - https://developer.freddiemac.com/
+- https://sf.freddiemac.com/tools-learning/apis/getting-started-with-apis
+- https://developer.freddiemac.com/public/#/contact-us
+- https://sf.freddiemac.com/docs/pdf/api-playbook.pdf
 plans:
-  - id: freddie-mac-partner
-    name: Partner Access
-    type: enterprise
-    description: API access tied to Seller/Servicer agreements or technology-vendor partnerships;
-      no public self-service pricing.
-    entries:
-      - label: Counterparty agreement
-        name: counterparty
-        type: subscription
-        metric: contract
-        limit: -1
-        timeFrame: year
-        geo: US
-        unit: 1
-        price: contact freddie mac
-        userMultiplied: false
-    elements:
-      - name: Loan Product Advisor
-      - name: Loan Closing Advisor
-      - name: Servicing technology APIs
-      - name: Seller/Servicer credentials required
+- id: freddie-mac-counterparty
+  name: Counterparty access
+  type: enterprise
+  description: API access tied to Seller/Servicer approval or an approved technology-partner relationship.
+    No published price. Credentials are issued per organisation by a Freddie Mac representative.
+  public_price: null
+  free_tier: false
+  self_service: false
+  roles:
+  - name: Business User
+    grants: browse the API catalog, read overviews and API documentation
+  - name: Developer
+    grants: everything a Business User has, plus create, edit and view the organisation's apps
+  - name: Developer Administrator
+    grants: everything above, plus request app promotion to production, reset passwords and add/edit/delete
+      users
+  entries:
+  - label: Counterparty agreement
+    name: counterparty
+    type: subscription
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: US
+    unit: 1
+    price: contact freddie mac
+    userMultiplied: false
+  elements:
+  - name: Loan Advisor Suite (Loan Product Advisor, Loan Quality Advisor, Loan Collateral Advisor, Loan
+      Closing Advisor)
+  - name: Loan Selling Advisor pricing, committing and delivery
+  - name: Resolve default servicing decisioning
+  - name: Seller/Servicer credentials required
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+generated: '2026-09-10'
+plan_count: 0
+source: https://sf.freddiemac.com/tools-learning/apis/getting-started-with-apis
+evidence:
+- url: https://sf.freddiemac.com/tools-learning/apis/getting-started-with-apis
+  http_status: 200
+  finding: Three access tiers are documented as ROLES (Business User, Developer, Developer Administrator),
+    not as priced plans.
+- url: https://developer.freddiemac.com/public/api-catalog
+  http_status: 200
+  finding: The catalog itself carries no pricing, plan, quota or entitlement field on any of the 20 APIs.

@@ -1,0 +1,1781 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Property Insights",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api-test.freddiemac.com/single-family/property-insights-api/v2"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Property Insights",
+      "description": "Get access to Freddie Mac property data to help identify and overcome pain points."
+    }
+  ],
+  "paths": {
+    "/requestPropertyData": {
+      "post": {
+        "tags": [
+          "Property Insights"
+        ],
+        "summary": "Retrieve property and appraisal information and standardized address.",
+        "operationId": "requestPropertyData",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PropertyInsightsAPIRequest"
+              },
+              "examples": {
+                "Example1": {
+                  "$ref": "#/components/examples/RequestExample1"
+                },
+                "Example2": {
+                  "$ref": "#/components/examples/RequestExample2"
+                },
+                "Example3": {
+                  "$ref": "#/components/examples/RequestExample3"
+                },
+                "Example4": {
+                  "$ref": "#/components/examples/RequestExample4"
+                },
+                "Example5": {
+                  "$ref": "#/components/examples/RequestExample5"
+                },
+                "Example6": {
+                  "$ref": "#/components/examples/RequestExample6"
+                },
+                "Example7": {
+                  "$ref": "#/components/examples/RequestExample7"
+                },
+                "Example8": {
+                  "$ref": "#/components/examples/RequestExample8"
+                },
+                "Example9": {
+                  "$ref": "#/components/examples/RequestExample9"
+                },
+                "Example10": {
+                  "$ref": "#/components/examples/RequestExample10"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "<b>OK</b> \r\n\n <font size='1' color='black'>",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyInsightsAPIResponse"
+                },
+                "examples": {
+                  "Example1": {
+                    "$ref": "#/components/examples/ResponseExample1"
+                  },
+                  "Example2": {
+                    "$ref": "#/components/examples/ResponseExample2"
+                  },
+                  "Example3": {
+                    "$ref": "#/components/examples/ResponseExample3"
+                  },
+                  "Example4": {
+                    "$ref": "#/components/examples/ResponseExample4"
+                  },
+                  "Example5": {
+                    "$ref": "#/components/examples/ResponseExample5"
+                  },
+                  "Example6": {
+                    "$ref": "#/components/examples/ResponseExample6"
+                  },
+                  "Example7": {
+                    "$ref": "#/components/examples/ResponseExample7"
+                  },
+                  "Example8": {
+                    "$ref": "#/components/examples/ResponseExample8"
+                  },
+                  "Example9": {
+                    "$ref": "#/components/examples/ResponseExample9"
+                  },
+                  "Example10": {
+                    "$ref": "#/components/examples/ResponseExample10"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "<b>Bad Request</b> \r\n\n <font size='1' color='black'><b>Error codes & details</b></font> \r\n\n <B>400.001</B> Malformed content from the client \r\n\n <B>400.002</B> Request data does not match the application schema, please validate the request data. \r\n\n<B>400.005</B> Empty request body \r\n\n <B>400.006</B> Content-type must be application/json \r\n\n ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyInsightsAPIErrorResponse"
+                },
+                "example": {
+                  "code": "400.006",
+                  "message": "Missing header Content-type",
+                  "details": [
+                    {
+                      "error": "Content-type must be application/json"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "<b>Unauthorized</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>401.001</B> Invalid Access Token, please validate the token, if error persists please renew your token. \r\n\n <b>401.002</b> Access Token Expired, please renew your access token. \r\n\n <b>401.003</b> API Product mismatch for token. Your token does not have access to the requested API \r\n\n <b>401.004</b> Invalid API Key, please validate the Client ID \r\n\n <b>401.005</b> Invalid API Key for given resource \r\n\n <b>401.006</b> Insufficient scope for Application \r\n\n <b>401.007</b> Invalid Username/Password combination, the provided combination of username and password is incorrect, please verify your credentials. \r\n\n <b>401.008</b> Invalid Refresh Token. \r\n\n <b>401.009</b> Invalid client secret \r\n\n <b>401.010</b> Refresh Token expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyInsightsAPIErrorResponse"
+                },
+                "example": {
+                  "code": "401.002",
+                  "message": "Access Token Expired",
+                  "details": [
+                    {
+                      "error": "Access Token Expired, please renew your access token."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "<b>Not Found</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>404.001</b> No resource for POST <b>/path</b>",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyInsightsAPIErrorResponse"
+                },
+                "example": {
+                  "code": 404.001,
+                  "message": "No resource for POST /path",
+                  "details": {
+                    "error": "No resource for POST /path"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "<b>Too Many Requests</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>429.001</b> Rate limit exceeded, too many requests have been sent per second. \r\n\n <b>429.002</b> Quota limit exceeded, too many requests have been sent per minute.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyInsightsAPIErrorResponse"
+                },
+                "example": {
+                  "code": 429.001,
+                  "message": "Rate limit exceeded",
+                  "details": {
+                    "error": "Rate limit exceeded, too many requests have been sent per second."
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "<b>Internal server error.</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>500</b> Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyInsightsAPIErrorResponse"
+                },
+                "example": {
+                  "code": "500",
+                  "message": "Internal server error",
+                  "details": [
+                    {
+                      "error": "API  is unable to retrieve data for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PropertyInsightsAPIRequest": {
+        "required": [
+          "inputAddress",
+          "origination_System",
+          "partyRoleIdentifier",
+          "partyRoleType",
+          "requestTransactionIdentifier"
+        ],
+        "type": "object",
+        "properties": {
+          "requestTransactionIdentifier": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "description": "128-bit Globally unique identifier (GUID) assigned to each request.",
+            "example": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2"
+          },
+          "partyRoleIdentifier": {
+            "maxLength": 10,
+            "minLength": 1,
+            "type": "string",
+            "description": "The unique identifier assigned to the party role.",
+            "example": "123456"
+          },
+          "partyRoleType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "description": "Identifies the role that the party plays in the transaction. Parties may be either a person or legal entity. A party may play multiple roles in a transaction.",
+            "example": "Seller",
+            "enum": [
+              "Broker",
+              "Seller",
+              "Servicer",
+              "Correspondent",
+              "Lender",
+              "Other"
+            ]
+          },
+          "partyRoleTypeOtherDescription": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "description": "A free-form text field used to collect additional information when \"Other\" is selected for Party Role Type."
+          },
+          "loan_Identifier": {
+            "$ref": "#/components/schemas/PropertyInsightsAPIRequest_loan_Identifier"
+          },
+          "origination_System": {
+            "$ref": "#/components/schemas/PropertyInsightsAPIRequest_origination_System"
+          },
+          "inputAddress": {
+            "$ref": "#/components/schemas/PropertyInsightsAPIRequest_inputAddress"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PropertyInsightsAPIResponse": {
+        "required": [
+          "inputAddress",
+          "propertyData",
+          "requestTransactionIdentifier",
+          "standardizedAddress",
+          "transactionDateTime"
+        ],
+        "type": "object",
+        "properties": {
+          "requestTransactionIdentifier": {
+            "type": "string",
+            "description": "128-bit Globally unique identifier (GUID) assigned to each request.",
+            "example": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2"
+          },
+          "transactionDateTime": {
+            "type": "string",
+            "example": "2020-09-10T22:05:37.184Z"
+          },
+          "inputAddress": {
+            "$ref": "#/components/schemas/PropertyInsightsAPIResponse_inputAddress"
+          },
+          "standardizedAddress": {
+            "$ref": "#/components/schemas/PropertyInsightsAPIResponse_standardizedAddress"
+          },
+          "propertyData": {
+            "$ref": "#/components/schemas/PropertyInsightsAPIResponse_propertyData"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PropertyInsightsAPIErrorResponse": {
+        "title": "PropertyInsightsAPIErrorResponse",
+        "type": "object",
+        "properties": {
+          "errorEnvelope": {
+            "$ref": "#/components/schemas/ErrorEnvelope"
+          }
+        }
+      },
+      "PropertyInsightsAPIRequest_loan_Identifier": {
+        "type": "object",
+        "properties": {
+          "loanIdentifier": {
+            "type": "string",
+            "description": "A unique identifier assigned by an entity to identify the loan",
+            "example": "L104231"
+          },
+          "loanIdentifierType": {
+            "type": "string",
+            "description": "A value from a MISMO prescribed list that specifies the type of loan identifier.",
+            "example": "LenderLoan",
+            "enum": [
+              "LenderLoan",
+              "AgencyCase",
+              "UniversalLoan"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "PropertyInsightsAPIRequest_origination_System": {
+        "required": [
+          "loanOriginationSystemVendorIdentifier",
+          "loanOriginationSystemVersionIdentifier"
+        ],
+        "type": "object",
+        "properties": {
+          "loanOriginationSystemVendorIdentifier": {
+            "minLength": 1,
+            "type": "string",
+            "description": "A unique identifier agreed upon by the parties to the transaction to identify the vendor of the loan origination system used to process the loan",
+            "example": "AccurateLOS"
+          },
+          "loanOriginationSystemVersionIdentifier": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Specifies the version of the loan origination system used to process the loan",
+            "example": "2.7"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PropertyInsightsAPIRequest_inputAddress": {
+        "required": [
+          "addressLineText",
+          "cityName",
+          "postalCode",
+          "stateCode"
+        ],
+        "type": "object",
+        "properties": {
+          "addressLineText": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string",
+            "description": "The address with the address number, pre-directional, street name, post-directional, address unit designators and address unit value.",
+            "example": "8200 Jones Branch Drive"
+          },
+          "addressUnitIdentifier": {
+            "type": "string",
+            "description": "The identifier value associated with the Secondary Address Unit Designator of the subject property.",
+            "example": "B1C"
+          },
+          "cityName": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string",
+            "description": "The name of the city.",
+            "example": "McLean"
+          },
+          "postalCode": {
+            "maxLength": 10,
+            "minLength": 5,
+            "pattern": "^[0-9]{5}(?:-[0-9]{4})?$",
+            "type": "string",
+            "description": "The postal code (ZIP Code in the US) for the address. ZIP Code may be either 5 or 9 digits.",
+            "example": "22102"
+          },
+          "stateCode": {
+            "pattern": "^[A-Za-z\\s]*$",
+            "type": "string",
+            "description": "The two-character representation of the US state, US Territory, Canadian Province, Military APO FPO, or Territory.",
+            "example": "VA",
+            "enum": [
+              "AK",
+              "AL",
+              "AR",
+              "AZ",
+              "CA",
+              "CO",
+              "CT",
+              "DC",
+              "DE",
+              "FL",
+              "GA",
+              "GU",
+              "HI",
+              "IA",
+              "ID",
+              "IL",
+              "IN",
+              "KS",
+              "KY",
+              "LA",
+              "MA",
+              "MD",
+              "ME",
+              "MI",
+              "MN",
+              "MO",
+              "MS",
+              "MT",
+              "NC",
+              "ND",
+              "NE",
+              "NH",
+              "NJ",
+              "NM",
+              "NV",
+              "NY",
+              "OH",
+              "OK",
+              "OR",
+              "PA",
+              "PR",
+              "RI",
+              "SC",
+              "SD",
+              "TN",
+              "TX",
+              "UT",
+              "VI",
+              "VA",
+              "VT",
+              "WA",
+              "WI",
+              "WV",
+              "WY"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "PropertyInsightsAPIResponse_inputAddress": {
+        "required": [
+          "addressLineText",
+          "cityName",
+          "postalCode",
+          "stateCode"
+        ],
+        "type": "object",
+        "properties": {
+          "addressLineText": {
+            "type": "string",
+            "description": "The address with the address number, pre-directional, street name, post-directional, address unit designators and address unit value.",
+            "example": "8200 Jones Branch Drive"
+          },
+          "addressUnitIdentifier": {
+            "type": "string",
+            "description": "The identifier value associated with the Secondary Address Unit Designator of the subject property.",
+            "example": "B1C"
+          },
+          "cityName": {
+            "type": "string",
+            "description": "The name of the city.",
+            "example": "McLean"
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "The postal code (ZIP Code in the US) for the address. ZIP Code may be either 5 or 9 digits.",
+            "example": "22102"
+          },
+          "stateCode": {
+            "type": "string",
+            "description": "The two-character representation of the US state, US Territory, Canadian Province, Military APO FPO, or Territory.",
+            "example": "VA"
+          }
+        }
+      },
+      "PropertyInsightsAPIResponse_standardizedAddress": {
+        "required": [
+          "addressLineText",
+          "cityName",
+          "countyName",
+          "fipsCountyCode",
+          "fipsStateNumericCode",
+          "latitudeCoordinateValue",
+          "longitudeCoordinateValue",
+          "postalCode",
+          "stateCode"
+        ],
+        "type": "object",
+        "properties": {
+          "addressLineText": {
+            "type": "string",
+            "description": "The address with the address number, pre-directional, street name, post-directional, address unit designators and address unit value.",
+            "example": "8200 Jones Branch Drive"
+          },
+          "addressUnitIdentifier": {
+            "type": "string",
+            "description": "The identifier value associated with the Secondary Address Unit Designator of the subject property.",
+            "example": "B1C"
+          },
+          "cityName": {
+            "type": "string",
+            "description": "The name of the city.",
+            "example": "McLean"
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "The postal code (ZIP Code in the US) for the address. ZIP Code may be either 5 or 9 digits.",
+            "example": "22102"
+          },
+          "stateCode": {
+            "type": "string",
+            "description": "The two-character representation of the US state, US Territory, Canadian Province, Military APO FPO, or Territory.",
+            "example": "VA"
+          },
+          "fipsCountyCode": {
+            "type": "string",
+            "description": "Code identifying the county. (Designator Code based on Federal Information Processing Standard Publication 6-4).",
+            "example": "059"
+          },
+          "fipsStateNumericCode": {
+            "type": "string",
+            "description": "A unique two digit numeric code to identify each State and State equivalent entity. These State codes are part of the Federal Information Processing Standards (FIPS), an official coding system developed by the National Institute of Standards and Technology (NIST, formerly the National Bureau of Standards), U.S. Department of Commerce, and maintained by the U.S. Geological Survey (USGS).",
+            "example": "51"
+          },
+          "countyName": {
+            "type": "string",
+            "description": "The county name of the area.",
+            "example": "Fairfax"
+          },
+          "latitudeCoordinateValue": {
+            "type": "string",
+            "example": "41.509600"
+          },
+          "longitudeCoordinateValue": {
+            "type": "string",
+            "example": "-81.675600"
+          }
+        }
+      },
+      "PropertyInsightsAPIResponse_propertyData_appraisalData": {
+        "required": [
+          "PUDIndicator",
+          "PUDLegalName",
+          "accessoryUnitIndicator",
+          "appraisaleffectivedate",
+          "attachmentType",
+          "homeOwnersAssociationDuesPaymentAmountMonthly",
+          "homeOwnersAssociationDuesPaymentAmountYearly",
+          "livingUnitCount",
+          "neighborhoodBoundariesDescription",
+          "neighborhoodName",
+          "ownerOfPublicRecordName",
+          "projectDesignType",
+          "projectDeveloperControlledIndicator",
+          "projectName",
+          "propertyDesignStyleDescription",
+          "propertyRightsAppraised",
+          "propertyStructureBuiltYear",
+          "propertyZoningCategoryType",
+          "siteZoningClassificationDescription",
+          "siteZoningComplianceDescription",
+          "specialFloodHazardAreaIndicator",
+          "structureAreaMeasure"
+        ],
+        "type": "object",
+        "properties": {
+          "appraisalFormType": {
+            "type": "string",
+            "description": "Specifies the form used to provide the property valuation. <b><center>Note: Data field no longer supported in MISMO 3.6v</center></b>",
+            "example": "FreddieMac2055_FannieMae2055",
+            "enum": [
+              "FreddieMac70_FannieMae1004",
+              "FreddieMac70B_FannieMae1004C",
+              "FreddieMac72_FannieMae1025",
+              "FreddieMac465_FannieMae1073",
+              "FreddieMac2055_FannieMae2055",
+              "FreddieMac2090_FannieMae2090",
+              "FreddieMac2095_FannieMae2095",
+              "FreddieMac466_FannieMae1075"
+            ]
+          },
+          "appraisalMismoVersion": {
+            "type": "string",
+            "description": "Specifies the MISMO version for the appraisal data. <b><center>Note: Data field new to MISMO 3.6v</center></b>",
+            "example": "3.6"
+          },
+          "propertyDesignStyleDescription": {
+            "type": "string",
+            "description": "A free form text field used to further describe the property features. The text prior to the semicolon includes the Attachment Type and Number of Levels.  The text after the semicolon includes a description of the style.",
+            "example": "DT2;traditional"
+          },
+          "attachmentType": {
+            "type": "string",
+            "description": "Specifies the type of physical attachment, if any, between the dwelling units.",
+            "example": "Detached",
+            "enum": [
+              "Attached",
+              "Detached",
+              "Semi-Detached"
+            ]
+          },
+          "projectDesignType": {
+            "type": "string",
+            "description": "This field specifies the type of design for the multiple-unit buildings in a project",
+            "example": "GardenProject"
+          },
+          "accessoryUnitIndicator": {
+            "type": "boolean",
+            "description": "Indicates if a one-unit property has an accessory unit in addition to the main unit.",
+            "example": false,
+            "enum": [
+              true,
+              false
+            ]
+          },
+          "PUDIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the project in which the subject property is located is a Planned Unit Development (PUD).",
+            "example": true,
+            "enum": [
+              true,
+              false
+            ]
+          },
+          "appraisaleffectivedate": {
+            "type": "string",
+            "description": "Effective date of the appraisal on the subject property.",
+            "example": "2018-12-11"
+          },
+          "projectName": {
+            "type": "string",
+            "description": "The legal name of the project in which the subject property is located.",
+            "example": "Winchester Point"
+          },
+          "neighborhoodName": {
+            "type": "string",
+            "description": "The name of the neighbourhood in which the subject property is located as recognized by the municipality or residents of the municipality.",
+            "example": "Grove Point"
+          },
+          "PUDLegalName": {
+            "type": "string",
+            "description": "The name of the planned Unit Development.",
+            "example": "Chimney Hill"
+          },
+          "projectDeveloperControlledIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that developer/builder is in control of the Home Owner's Association.",
+            "example": true,
+            "enum": [
+              true,
+              false
+            ]
+          },
+          "siteZoningComplianceDescription": {
+            "type": "string",
+            "description": "A free-form text field describing any issues concerning how the site complies with zoning regulations including limitations on future development.",
+            "example": "Legal",
+            "enum": [
+              "Legal",
+              "Illegal",
+              "NoZoning",
+              "LegalNonConforming"
+            ]
+          },
+          "ownerOfPublicRecordName": {
+            "type": "string",
+            "description": "The owner of public record.",
+            "example": "John Doe"
+          },
+          "homeOwnersAssociationDuesPaymentAmountYearly": {
+            "type": "string",
+            "description": "The portion of the yealy mortgage payment that represents funds for the homeowner's association dues.",
+            "example": "250'/Year'"
+          },
+          "homeOwnersAssociationDuesPaymentAmountMonthly": {
+            "type": "string",
+            "description": "The portion of the monthly mortgage payment that represents funds for the homeowner's association dues.",
+            "example": "250'/Year'"
+          },
+          "propertyRightsAppraised": {
+            "type": "string",
+            "description": "Indicates the type of ownership rights in the subject property - Fee Simple or Leasehold. Can include text comment.",
+            "example": "FEESIMPLE",
+            "enum": [
+              "FEESIMPLE",
+              "LEASEHOLD",
+              "OTHER"
+            ]
+          },
+          "neighborhoodCharacteristicsDescription": {
+            "type": "string",
+            "description": "A free-form text field used to describe the bordering streets and the physical and economic characteristics of the neighborhood. <b><center>Note: Data field no longer supported in MISMO 3.6v</center></b>",
+            "example": "SUBURBAN",
+            "enum": [
+              "URBAN",
+              "SUBURBAN",
+              "RURAL"
+            ]
+          },
+          "neighborhoodBoundariesDescription": {
+            "type": "string",
+            "description": "AA free-form text field describing the boundaries of the subject neighborhood. These boundaries may include but are not limited to streets, legally recognized neighborhood boundaries, waterways, or other natural boundaries that define the separation of one neighborhood from another.",
+            "example": "Boundaried to the N by Providence Road W, S by Ardrey Kell Road, W by Johnston Road, and E by  Community House Road."
+          },
+          "neighborhoodDescription": {
+            "type": "string",
+            "description": "A free-form text field describing the neighborhood. <b><center>Note: Data field no longer supported in MISMO 3.6v</center></b>",
+            "example": "No adverse neighborhood factors were noted. The subject is located in reasonable proximity to shopping, employment, schools, and churches. Neighborhood has average market appeal and acceptance. Commerical uses have no adverse affect on value. Neighborhood has mix of residential properties."
+          },
+          "propertyZoningCategoryType": {
+            "type": "string",
+            "description": "Specifies the property zoning category. ",
+            "example": "R3"
+          },
+          "siteZoningClassificationDescription": {
+            "type": "string",
+            "description": "A free-form text field used to describe the zoning classification of the property site. ",
+            "example": "SINGLE FAMILY RESIDENTIAL"
+          },
+          "specialFloodHazardAreaIndicator": {
+            "type": "boolean",
+            "description": "Flag that indicates if any portion of the building/mobile home is in an identified Special Flood Hazard Area (SFHA) and that flood insurance is required.",
+            "example": false
+          },
+          "NFIPFloodZoneIdentifier": {
+            "type": "string",
+            "description": "The flood zone covering the building or mobile home. <b><center>Note: Data field no longer supported in MISMO 3.6v</center></b>",
+            "example": "X"
+          },
+          "livingUnitCount": {
+            "type": "string",
+            "description": "The number of separate living units in the structure, including any accessory dwelling units.",
+            "example": "30+"
+          },
+          "propertyStructureBuiltYear": {
+            "type": "string",
+            "description": "The calendar year in which the construction of the structure was completed.",
+            "example": "2001"
+          },
+          "energyEfficientItemDescription": {
+            "type": "string",
+            "description": "A free-form text field describing energy efficient items. <b><center>Note: Data field no longer supported in MISMO 3.6v</center></b>",
+            "example": "In/Win/Doors"
+          },
+          "structureAreaMeasure": {
+            "type": "string",
+            "description": "A measurement that specifies the total interior area of the structure (a.k.a. gross building area (GBA)). The applicable unit of measurement is specified by the Area Unit Of Measure Type.",
+            "example": "3769"
+          },
+          "landOwnedInCommonIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates land associated with the subject property parcel is owned by an association, condominium project, or cooperative. <b><center>Note: Data field new to MISMO 3.6v</center></b>",
+            "example": true,
+            "enum": [
+              true,
+              false
+            ]
+          },
+          "projectLegalStructureType": {
+            "type": "string",
+            "description": "A value from a MISMO prescribed list that specifies the form of ownership of a project. The Project Legal Structure Type defines the quality and quantity of project ownership and rights accruing to the individual unit owner. <b><center>Note: Data field new to MISMO 3.6v</center></b>",
+            "example": "Condominium",
+            "enum": [
+              "Condominium",
+              "Cooperative",
+              "Condop"
+            ]
+          },
+          "appraisalAssignmentType": {
+            "type": "string",
+            "description": "A value from a MISMO prescribed list that specifies the method by which the property value was assessed. <b><center>Note: Data field new to MISMO 3.6v</center></b>",
+            "example": "DesktopAppraisal",
+            "enum": [
+              "DesktopAppraisal",
+              "ExteriorAppraisal",
+              "HybridAppraisal",
+              "TraditionalAppraisal"
+            ]
+          },
+          "documentType": {
+            "type": "string",
+            "description": "A value from a MISMO prescribed list that represents either a category of document or a category and sublevel of a document combined into a single enumeration. <b><center>Note: Data field new to MISMO 3.6v</center></b>",
+            "example": "AppraisalReport",
+            "enum": [
+              "AppraisalReport",
+              "ValuationUpdate",
+              "ValuationCompletion"
+            ]
+          },
+          "livingUnitExcludingADUCount": {
+            "type": "integer",
+            "description": "The number of separate living units in the subject property, excluding any accessory dwelling units. <b><center>Note: Data field new to MISMO 3.6v</center></b>",
+            "example": 1
+          },
+          "constructionMethodType": {
+            "type": "string",
+            "description": "A value from a MISMO prescribed list that represents the manner in which the structure was constructed. <b><center>Note: Data field new to MISMO 3.6v</center></b>",
+            "example": "SiteBuilt",
+            "enum": [
+              "SiteBuilt",
+              "Container",
+              "Manufactured",
+              "Modular",
+              "OnFrameModular",
+              "ThreeDimensionalPrintingTechnology",
+              "Other"
+            ]
+          }
+        }
+      },
+      "PropertyInsightsAPIResponse_propertyData": {
+        "type": "object",
+        "properties": {
+          "appraisalData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyInsightsAPIResponse_propertyData_appraisalData"
+            }
+          },
+          "propertyMatchMessage": {
+            "type": "string",
+            "example": "Freddie Mac did not find any appraisal data matching the property information."
+          },
+          "conditionRiskIndicator": {
+            "type": "boolean",
+            "description": "When true, one or more of the appraisals for the subject property indicates a condition rating of C5 or C6.",
+            "example": true,
+            "enum": [
+              true,
+              false
+            ]
+          },
+          "qualityRiskIndicator": {
+            "type": "boolean",
+            "description": "When true, one or more of the appraisals for the subject property indicates a quality rating of Q6.",
+            "example": true,
+            "enum": [
+              true,
+              false
+            ]
+          }
+        }
+      },
+      "Error": {
+        "title": "Error",
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "errorDescription": {
+            "type": "string"
+          }
+        }
+      },
+      "Errors": {
+        "title": "Errors",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "ErrorEnvelope": {
+        "title": "ErrorEnvelope",
+        "type": "object",
+        "properties": {
+          "errors": {
+            "$ref": "#/components/schemas/Errors"
+          }
+        }
+      }
+    },
+    "examples": {
+      "RequestExample1": {
+        "summary": "Scenario 1 - Three recent appraisals for Condo property type",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loan_Identifier": {
+            "loanIdentifier": "L104231",
+            "loanIdentifierType": "LenderLoan"
+          },
+          "origination_System": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputAddress": {
+            "addressLineText": "1419 Montrose Blvd",
+            "addressUnitIdentifier": "",
+            "cityName": "Houston",
+            "postalCode": "77019",
+            "stateCode": "TX"
+          }
+        }
+      },
+      "RequestExample2": {
+        "summary": "Scenario 2 - Two recent appraisals with different property types Appraisals",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loan_Identifier": {
+            "loanIdentifier": "L104231",
+            "loanIdentifierType": "LenderLoan"
+          },
+          "origination_System": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputAddress": {
+            "addressLineText": "16742 Krishna Ln",
+            "addressUnitIdentifier": "",
+            "cityName": "Charlotte",
+            "postalCode": "28277",
+            "stateCode": "NC"
+          }
+        }
+      },
+      "RequestExample3": {
+        "summary": "Scenario 3 - Three recent appraisals for Single Family property type",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loan_Identifier": {
+            "loanIdentifier": "L104231",
+            "loanIdentifierType": "LenderLoan"
+          },
+          "origination_System": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputAddress": {
+            "addressLineText": "801 Pennsylvania Avenue, NW",
+            "cityName": "Washington",
+            "postalCode": "20004",
+            "stateCode": "DC"
+          }
+        }
+      },
+      "RequestExample4": {
+        "summary": "Scenario 4 - One recent appraisal for Single Family PUD property type",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loan_Identifier": {
+            "loanIdentifier": "L104231",
+            "loanIdentifierType": "LenderLoan"
+          },
+          "origination_System": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputAddress": {
+            "addressLineText": "6508 Willows Bend Dr",
+            "addressUnitIdentifier": "",
+            "cityName": "LoveLand",
+            "postalCode": "45140",
+            "stateCode": "OH"
+          }
+        }
+      },
+      "RequestExample5": {
+        "summary": "Scenario 5 - Address match for Manufactured Form type",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loan_Identifier": {
+            "loanIdentifier": "L104231",
+            "loanIdentifierType": "LenderLoan"
+          },
+          "origination_System": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputAddress": {
+            "addressLineText": "5000 Plano Parkway",
+            "addressUnitIdentifier": "",
+            "cityName": "Dallas",
+            "postalCode": "75010",
+            "stateCode": "TX"
+          }
+        }
+      },
+      "RequestExample6": {
+        "summary": "Scenario 6 - Invalid request schema",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loan_Identifier": {
+            "loanIdentifier": "L104231",
+            "loanIdentifierType": "LenderLoan"
+          },
+          "origination_System": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputAddress": {
+            "addressLineText": "200 Park Avenue",
+            "cityName": "New York",
+            "postalCode": "10166",
+            "stateCode": "NX"
+          }
+        }
+      },
+      "RequestExample7": {
+        "summary": "Scenario 7 - No matching appraisal data",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loan_Identifier": {
+            "loanIdentifier": "L104231",
+            "loanIdentifierType": "LenderLoan"
+          },
+          "origination_System": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputAddress": {
+            "addressLineText": "1551 Park Run Drive",
+            "addressUnitIdentifier": "",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          }
+        }
+      },
+      "RequestExample8": {
+        "summary": "Scenario 8 - Three recent appraisals for Ranch property type for mismo version 3.6",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loan_Identifier": {
+            "loanIdentifier": "L104231",
+            "loanIdentifierType": "LenderLoan"
+          },
+          "origination_System": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputAddress": {
+            "addressLineText": "209 Lakeshore Parkway",
+            "addressUnitIdentifier": "",
+            "cityName": "Homewood",
+            "postalCode": "35209",
+            "stateCode": "AL"
+          }
+        }
+      },
+      "RequestExample9": {
+        "summary": "Scenario 9 - One recent appraisal for Single Family PUD property type in MISMO version 3.6 format.",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loan_Identifier": {
+            "loanIdentifier": "L104231",
+            "loanIdentifierType": "LenderLoan"
+          },
+          "origination_System": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputAddress": {
+            "addressLineText": "5335 Hwy 280 South",
+            "addressUnitIdentifier": "",
+            "cityName": "Hoover",
+            "postalCode": "35242",
+            "stateCode": "AL"
+          }
+        }
+      },
+      "RequestExample10": {
+        "summary": "Scenario 10 - Three recent appraisal examples for different property types, combination of MISMO 2.6 and 3.6 version.",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loan_Identifier": {
+            "loanIdentifier": "L104231",
+            "loanIdentifierType": "LenderLoan"
+          },
+          "origination_System": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "inputAddress": {
+            "addressLineText": "4601 S ATLANTIC AVE",
+            "addressUnitIdentifier": "",
+            "cityName": "PORT ORANGE",
+            "postalCode": "32127",
+            "stateCode": "FL"
+          }
+        }
+      },
+      "ResponseExample1": {
+        "summary": "Response 1 - Three recent appraisals for Condo property type",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2024-09-26T16:01:57.193288075Z",
+          "inputAddress": {
+            "addressLineText": "1419 Montrose Blvd",
+            "cityName": "Houston",
+            "postalCode": "77019",
+            "stateCode": "TX"
+          },
+          "standardizedAddress": {
+            "addressLineText": "1419 MONTROSE BLVD",
+            "countyName": "Harris",
+            "cityName": "HOUSTON",
+            "postalCode": "77019",
+            "stateCode": "TX",
+            "fipsCountyCode": "201",
+            "fipsStateNumericCode": "48",
+            "latitudeCoordinateValue": "29.753966",
+            "longitudeCoordinateValue": "-95.391693"
+          },
+          "propertyData": {
+            "appraisalData": [
+              {
+                "nfipfloodZoneIdentifier": "X",
+                "appraisalFormType": "FreddieMac465_FannieMae1073",
+                "propertyDesignStyleDescription": "MR1L;condo",
+                "projectDesignType": "MidriseProject",
+                "appraisaleffectivedate": "2021-03-08",
+                "projectName": "One Montrose Place",
+                "homeOwnersAssociationDuesPaymentAmountMonthly": "553/Month",
+                "propertyRightsAppraised": "FEESIMPLE",
+                "projectDeveloperControlledIndicator": false,
+                "siteZoningComplianceDescription": "NoZoning",
+                "ownerOfPublicRecordName": "Noel Carlos Gonzalez-Luna",
+                "neighborhoodBoundariesDescription": "Washington Ave. to the north, Hwy 45 to the east, Kirby dr. to the west and Richmond to the south.",
+                "neighborhoodDescription": "The subject is located in the Montrose at the Museum Condo development in Houston, TX. The market area is accessible to schools, shopping, and recreational facilities. There are pools, parks and tennis courts in the area. All residential amenities are located within good proximity.",
+                "propertyZoningCategoryType": "None Exists",
+                "siteZoningClassificationDescription": "None exists",
+                "specialFloodHazardAreaIndicator": false,
+                "NFIPFloodZoneIdentifier": "X",
+                "energyEfficientItemDescription": "Standard"
+              },
+              {
+                "nfipfloodZoneIdentifier": "X",
+                "appraisalFormType": "FreddieMac465_FannieMae1073",
+                "propertyDesignStyleDescription": "MR1L;Condo",
+                "projectDesignType": "MidriseProject",
+                "appraisaleffectivedate": "2020-07-16",
+                "projectName": "One Montrose Place",
+                "homeOwnersAssociationDuesPaymentAmountMonthly": "556/Month",
+                "propertyRightsAppraised": "FEESIMPLE",
+                "projectDeveloperControlledIndicator": false,
+                "siteZoningComplianceDescription": "NoZoning",
+                "ownerOfPublicRecordName": "Norris Mark M",
+                "neighborhoodBoundariesDescription": "Buffalo Bayou to the north, W Gray Street to the south, Highway 45 to the east and Shepherd Drive to the west.",
+                "neighborhoodDescription": "The neighborhood is a mixed use neighborhood comprised of condominiums intermixed with single family residences, commercial shopping centers and business towers.  Schools, employment centers and most other residential support facilities are located within reasonable distances.",
+                "propertyZoningCategoryType": "None exists",
+                "siteZoningClassificationDescription": "None exists",
+                "specialFloodHazardAreaIndicator": false,
+                "NFIPFloodZoneIdentifier": "X",
+                "energyEfficientItemDescription": "None"
+              },
+              {
+                "nfipfloodZoneIdentifier": "X",
+                "appraisalFormType": "FreddieMac465_FannieMae1073",
+                "propertyDesignStyleDescription": "MR8L;Traditional",
+                "projectDesignType": "MidriseProject",
+                "appraisaleffectivedate": "2020-03-06",
+                "projectName": "One Montrose Place Condo",
+                "homeOwnersAssociationDuesPaymentAmountMonthly": "500/Month",
+                "propertyRightsAppraised": "FEESIMPLE",
+                "projectDeveloperControlledIndicator": false,
+                "siteZoningComplianceDescription": "NoZoning",
+                "ownerOfPublicRecordName": "Reyes Gerardo & Jacquelin",
+                "neighborhoodBoundariesDescription": "Allen Pkwy to the North; Gulf Fwy to the East; Richmond Ave to the South; Kirby Dr to the West.",
+                "neighborhoodDescription": "Several employers are within reasonable commuting distance. Schools, shopping, medical facilities, and places of worship,are all nearby. The subject is located 2 miles Northwest of Houston's CBD. \"Other\" refers to vacant  land and public related properties such as county and city owned buildings, including fire and police stations, and does not negatively affect the subject's marketability or value.",
+                "propertyZoningCategoryType": "No Zoning",
+                "siteZoningClassificationDescription": "No zoning typical for area.Unaware of any reason why it couldn't be rebuilt.",
+                "specialFloodHazardAreaIndicator": false,
+                "NFIPFloodZoneIdentifier": "X",
+                "energyEfficientItemDescription": "None Noted"
+              }
+            ],
+            "conditionRiskIndicator": false,
+            "qualityRiskIndicator": false
+          }
+        }
+      },
+      "ResponseExample2": {
+        "summary": "Response 2 - Two recent appraisals with different property types",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2024-09-26T16:03:19.599072028Z",
+          "inputAddress": {
+            "addressLineText": "16742 Krishna Ln",
+            "cityName": "Charlotte",
+            "postalCode": "28277",
+            "stateCode": "NC"
+          },
+          "standardizedAddress": {
+            "addressLineText": "16742 KRISHNA LN",
+            "countyName": "Mecklenburg",
+            "cityName": "CHARLOTTE",
+            "postalCode": "28277",
+            "stateCode": "NC",
+            "fipsCountyCode": "119",
+            "fipsStateNumericCode": "37",
+            "latitudeCoordinateValue": "35.028666",
+            "longitudeCoordinateValue": "-80.838775"
+          },
+          "propertyData": {
+            "appraisalData": [
+              {
+                "nfipfloodZoneIdentifier": "X",
+                "appraisalFormType": "FreddieMac70_FannieMae1004",
+                "propertyDesignStyleDescription": "DT2;Transitional",
+                "attachmentType": "Detached",
+                "PUDIndicator": false,
+                "appraisaleffectivedate": "2020-03-31",
+                "propertyRightsAppraised": "FEESIMPLE",
+                "neighborhoodName": "Centurion Estates",
+                "projectDeveloperControlledIndicator": false,
+                "siteZoningComplianceDescription": "Legal",
+                "ownerOfPublicRecordName": "Brian M & Brandi R Cope",
+                "neighborhoodBoundariesDescription": "BALLANTYNE COMMONS PKWY TO THE NORTH, RAE RD TO THE EAST, COUNTY LINE TO THE SOUTH, JOHNSTON RD & STATE LINE TO THE WEST.",
+                "neighborhoodDescription": "THE SUBJECT NEIGHBORHOOD IS CONVENIENT TO EMPLOYMENT, EDUCATIONAL, MEDICAL, SOCIAL, RELIGIOUS, AND ENTERTAINMENT FACILITIES.  THIS IS A RESIDENTIAL AREA COMPRISED OF SIMILAR HOMES TO THE SUBJECT PROPERTY IN SIZE AND CHARACTER WHICH APPEAR ADEQUATELY MAINTAINED.",
+                "propertyZoningCategoryType": "R3",
+                "siteZoningClassificationDescription": "SINGLE FAMILY RESIDENTIAL",
+                "specialFloodHazardAreaIndicator": false,
+                "NFIPFloodZoneIdentifier": "X",
+                "propertyStructureBuiltYear": "2001",
+                "energyEfficientItemDescription": "None Noted",
+                "structureAreaMeasure": "3702"
+              },
+              {
+                "nfipfloodZoneIdentifier": "X",
+                "appraisalFormType": "FreddieMac70_FannieMae1004",
+                "propertyDesignStyleDescription": "2 Story/Avg.",
+                "attachmentType": "Detached",
+                "PUDIndicator": true,
+                "appraisaleffectivedate": "2011-11-26",
+                "homeOwnersAssociationDuesPaymentAmountYearly": "250/Year",
+                "propertyRightsAppraised": "FEESIMPLE",
+                "neighborhoodName": "Centurion Estates",
+                "PUDLegalName": "Centurion Estates",
+                "projectDeveloperControlledIndicator": false,
+                "siteZoningComplianceDescription": "Legal",
+                "ownerOfPublicRecordName": "Same",
+                "neighborhoodBoundariesDescription": "Boundaried to the N by Providence Road W, S by Ardrey Kell Road, W by Johnston Road, and E by  Community House Road.",
+                "neighborhoodDescription": "No adverse neighborhood factors were noted. The subject is located in reasonable proximity to shopping, employment, schools, and churches. Neighborhood has average market appeal and acceptance. Commerical uses have no adverse affect on value. Neighborhood has mix of residential properties.",
+                "propertyZoningCategoryType": "Residential",
+                "siteZoningClassificationDescription": "Residential",
+                "specialFloodHazardAreaIndicator": false,
+                "NFIPFloodZoneIdentifier": "X",
+                "livingUnitCount": "30+",
+                "propertyStructureBuiltYear": "2001",
+                "energyEfficientItemDescription": "In/Win/Doors",
+                "structureAreaMeasure": "3769"
+              }
+            ],
+            "conditionRiskIndicator": false,
+            "qualityRiskIndicator": false
+          }
+        }
+      },
+      "ResponseExample3": {
+        "summary": "Response 3 - Three recent appraisals for Single Family property type",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2024-09-26T16:04:14.274925402Z",
+          "inputAddress": {
+            "addressLineText": "13777 Flowing Brook Ct",
+            "cityName": "CHANTILLY",
+            "postalCode": "20151",
+            "stateCode": "VA"
+          },
+          "standardizedAddress": {
+            "addressLineText": "13777 FLOWING BROOK CT",
+            "countyName": "Fairfax",
+            "cityName": "CHANTILLY",
+            "postalCode": "20151",
+            "stateCode": "VA",
+            "fipsCountyCode": "059",
+            "fipsStateNumericCode": "51",
+            "latitudeCoordinateValue": "38.888998",
+            "longitudeCoordinateValue": "-77.423369"
+          },
+          "propertyData": {
+            "appraisalData": [
+              {
+                "nfipfloodZoneIdentifier": "X",
+                "appraisalFormType": "FreddieMac465_FannieMae1073",
+                "propertyDesignStyleDescription": "RT1L;TH/End",
+                "projectDesignType": "TownhouseRowhouse",
+                "appraisaleffectivedate": "2020-12-21",
+                "projectName": "Winding Brook",
+                "homeOwnersAssociationDuesPaymentAmountMonthly": "194/Month",
+                "propertyRightsAppraised": "FEESIMPLE",
+                "projectDeveloperControlledIndicator": false,
+                "siteZoningComplianceDescription": "Legal",
+                "ownerOfPublicRecordName": "Maimoona & Anchal Asghar",
+                "neighborhoodBoundariesDescription": "The subject is located in Chantilly, VA east of Walney Rd, south of Franklin Farm Rd, north of Poplar Tree Rd, west of Stringfellow Rd. See attached map.",
+                "neighborhoodDescription": "The subject is located in a suburban part of Fairfax County within the project of Winding Brook.The subject is within close proximity to employment, education, retail, public transportation, and recreation.  No specifically negative marketability traits were discovered or believed to be in effect and impacting the subject from a value or marketability posture.",
+                "propertyZoningCategoryType": "220 R-20",
+                "siteZoningClassificationDescription": "Residential 20 DU/AC",
+                "specialFloodHazardAreaIndicator": false,
+                "NFIPFloodZoneIdentifier": "X",
+                "energyEfficientItemDescription": "Standard"
+              },
+              {
+                "nfipfloodZoneIdentifier": "X",
+                "appraisalFormType": "FreddieMac465_FannieMae1073",
+                "propertyDesignStyleDescription": "GR1L;Garden",
+                "projectDesignType": "GardenProject",
+                "appraisaleffectivedate": "2018-04-10",
+                "projectName": "Winding Brook",
+                "homeOwnersAssociationDuesPaymentAmountMonthly": "195/Month",
+                "propertyRightsAppraised": "FEESIMPLE",
+                "projectDeveloperControlledIndicator": false,
+                "siteZoningComplianceDescription": "Legal",
+                "ownerOfPublicRecordName": "Israel Clavijo",
+                "neighborhoodBoundariesDescription": "North: Route 50; South: I-66; West: Sully Rd; East: Fairfax County Pkwy.",
+                "neighborhoodDescription": "Winding Brook is an established garden-style condominium neighborhood in Chantilly, VA. This area has good curb appeal, high demand schools and very good access to major commuter routes and public transportation. 5% \"other\" land use refers to community parks and recreational facilities, as well as government buildings/schools.",
+                "propertyZoningCategoryType": "R-20",
+                "siteZoningClassificationDescription": "R-20(Residential 20 DU/AC)",
+                "specialFloodHazardAreaIndicator": false,
+                "NFIPFloodZoneIdentifier": "X",
+                "energyEfficientItemDescription": "None"
+              },
+              {
+                "nfipfloodZoneIdentifier": "X",
+                "appraisalFormType": "FreddieMac465_FannieMae1073",
+                "propertyDesignStyleDescription": "GR1L;Garden APT",
+                "projectDesignType": "GardenProject",
+                "appraisaleffectivedate": "2018-02-05",
+                "projectName": "Winding Brook",
+                "homeOwnersAssociationDuesPaymentAmountMonthly": "195/Month",
+                "propertyRightsAppraised": "FEESIMPLE",
+                "projectDeveloperControlledIndicator": false,
+                "siteZoningComplianceDescription": "Legal",
+                "ownerOfPublicRecordName": "***SEE ATTACHED ADDENDUM***",
+                "neighborhoodBoundariesDescription": "WALNEY RD TOT HE WEST, POPLAR TREE RD TO THE SOUTH, LEES CORNER RD TO THE EAST, RT 50 TO THE NORTH.",
+                "neighborhoodDescription": "***SEE ATTACHED ADDENDUM*** THE INTENDED USER OF THIS APPRAISAL REPORT IS THE LENDER/CLIENT. THE INTENDED USE IS TO EVALUATE THE PROPERTY THAT IS THE SUBJECT OF THIS APPRAISAL FOR A MORTGAGE FINANCE TRANSACTION, SUBJECT TO THE STATED SCOPE OF WORK, PURPOSE OF THE APPRAISAL, REPORTING REQUIREMENTS OF THIS APPRAISAL REPORT FORM, AND THE DEFINITION OF MARKET VALUE. NO ADDITIONAL INTENDED USERS ARE IDENTIFIED BY THE APPRAISER. \n\nI CERTIFY THAT THIS APPRAISAL REPORT WAS COMPLETED IN COMPLIANCE WITH ALL CURRENT APPRAISER INDEPENDENCE REQUIREMENTS AS DEFINED BY THE DODD-FRANK WALL STREET REFORM AND CONSUMER PROTECTION ACT, FANNIE MAE, FREDDIE MAC AND THE FEDERAL HOUSING ADMINISTRATION. \n\nI HAVE PERFORMED NO SERVICES, AS AN APPRAISER OR IN ANY OTHER CAPACITY, REGARDING THE PROPERTY THAT IS THE SUBJECT OF THIS REPORT WITHIN THE THREE-YEAR PERIOD IMMEDIATELY PRECEDING ACCEPTANCE OF THIS ASSIGNMENT. \n\nA REASONABLE EXPOSURE TIME FOR THE SUBJECT PROPERTY AT THE OPINION OF VALUE INDICATED IS ESTIMATED TO BE LESS THAN 3 MONTHS AND WAS DERIVED USING SUBJECT MARKET RESEARCH SUCH AS 1004MC. \n\nTHE PHYSICAL INSPECTION OF THE PROPERTY IS NECESSARY TO GATHER THE DATA FOR AN APPRAISAL OF MARKET VALUE. THE APPRAISAL REPORT IS NOT A PROFESSIONAL HOME INSPECTION REPORT. THE APPRAISER IS NOT QUALIFIED AS A STRUCTURAL EXPERT OR HOME ENGINEER. THE APPRAISER HAS NOT TESTED THE PROPERTY'S INSULATION OR TESTED FOR THE PRESENCE OF RADON GAS. UNLESS OTHERWISE NOTED. THE INSULATION ADEQUACY IS CONSIDERED TYPICAL OF THE NEIGHBORHOOD AND EVERY EFFORT HAS BEEN MADE TO CONFIRM SUCH ADEQUACY WITH THE OWNER, OCCUPANT OR OTHER THIRD PARTY KNOWLEDGEABLE ABOUT THE PROPERTY. NO OBVIOUS EVIDENCE OF TERMITES OR PEST INFESTATION EXISTS UNLESS OTHERWISE NOTED ON THE APPRAISAL REPORT. THE APPRAISER IS NOT QUALIFIED TO DETECT TERMITES OR OTHER SUCH INFESTATIONS. TERMITE INSPECTIONS ARE CUSTOMARY IN THE AREA AND SHOULD BE PERFORMED BY QUALIFIED PEST CONTROL EXPERT. NO OPINION IS RENDERED IN THE APPRAISAL REPORT AS TO THE STRUCTURAL INTEGRITY OF THE PROPERTY.\n\nTHE SUBJECT HAS BEEN UPDATED AND IS MARKETABLE IN ITS PRESENT CONDITION. THE EFFECTIVE AGE IS SIGNIFICANTLY LESS THAN IT'S ACTUAL AGE. \n\nPERSONAL PROPERTY WAS NOT INCLUDED IN THIS APPRAISAL.\n\nAT THE TIME OF INSPECTION, THE SUBJECT UNIT WAS WINTERIZED AND ALL UTILITIES WERE TURNED OFF.\n\n • Owner of Public Record\n\nDEUTSCHE BANK TRUST COMPANY AMERICAS, C/O OCWEN LOAN SERVICING LLC.\n\n• Condo : Neighborhood - Description   \n\nCONDOS IN THE SUBJECT MARKET AREA ARE OF MIXED DESIGN AND AGE WITH OVERALL AVERAGE MARKET APPEAL. MAJOR ESSENTIAL SERVICES ARE WITHIN CLOSE PROXIMITY OF THE SUBJECT. SUPPORTING SERVICES INCLUDE SHOPPING, RECREATION, AND EMPLOYMENT ARE READILY AVAILABLE. ESSENTIAL POLICE, FIRE, MEDICAL AND SCHOOL SERVICES ENHANCE THE SUBJECTS MARKET APPEAL.\n\nTHE PREDOMINANT VALUE OF SUBJECT'S NEIGHBORHOOD IS HIGHER THAN THE SUBJECT PROPERTY'S MARKET VALUE. HOWEVER, THE APPRAISED VALUE OF THE SUBJECT IS WITHIN THE PRICE RANGE OF THE NEIGHBORHOOD AND THE SUBJECT IS NOT CONSIDERED AN UNDER-IMPROVEMENT AND IT SHOULD NOT IMPACT THE MARKETABILITY OF THE SUBJECT.\n\nTHE 10% LAND USE IS VACANT LAND, LOCAL AND FEDERAL GOVERNMENT USES. THIS SHOULD NOT IMPACT THE MARKETABILITY OF THE SUBJECT. \n \n • Condo : Neighborhood - Market Conditions \n \nTHE SELLER PAYING POINTS AND OR CLOSING COSTS IN AMOUNTS UP TO 0-5% OF SALES PRICE IS TYPICAL OF THE LOCAL MARKET. MARKET CONDITIONS INDICATES A PROBABLE MARKETING TIME FOR  THE SUBJECT OF  30-100+- DAYS. SETTLED SALES FOR PROPERTIES COMPARABLES TO THE SUBJECT AND IN THE SAME MARKET AREA HAVE BEEN PLACED UNDER CONTRACT IN APPROXIMATELY 30-100+- DAYS INDICATING AVERAGE DEMAND FOR PROPERTIES IN THIS MARKET AREA. \nSEE 1004MC FOR MORE INFORMATION.\n \n • Condo : Subject - Overall Condition of the Property \n  \nI AM NOT A LICENSED STRUCTURAL ENGINEER OR HOME INSPECTOR. I AM NOT A LICENSED TO INSPECT OR ADVICE ON PLUMBING, AIR-CONDITIONING OR HEATING SYSTEMS. I AM NOT A LICENSED PROFESSIONAL FOUNDATIO",
+                "propertyZoningCategoryType": "220",
+                "siteZoningClassificationDescription": "R-20(RESIDENTIAL 20 DU/AC)",
+                "specialFloodHazardAreaIndicator": false,
+                "NFIPFloodZoneIdentifier": "X",
+                "energyEfficientItemDescription": "THERMAL WIN"
+              }
+            ],
+            "conditionRiskIndicator": false,
+            "qualityRiskIndicator": false
+          }
+        }
+      },
+      "ResponseExample4": {
+        "summary": "Response 4 - One recent appraisal for Single Family PUD property type",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2024-09-26T16:05:25.173376511Z",
+          "inputAddress": {
+            "addressLineText": "6508 Willows Bend Dr",
+            "cityName": "LoveLand",
+            "postalCode": "45140",
+            "stateCode": "OH"
+          },
+          "standardizedAddress": {
+            "addressLineText": "6508 WILLOWS BEND DR",
+            "countyName": "Clermont",
+            "cityName": "LOVELAND",
+            "postalCode": "45140",
+            "stateCode": "OH",
+            "fipsCountyCode": "025",
+            "fipsStateNumericCode": "39",
+            "latitudeCoordinateValue": "39.230909",
+            "longitudeCoordinateValue": "-84.270546"
+          },
+          "propertyData": {
+            "appraisalData": [
+              {
+                "nfipfloodZoneIdentifier": "X",
+                "appraisalFormType": "FreddieMac70_FannieMae1004",
+                "propertyDesignStyleDescription": "1 Story",
+                "attachmentType": "Detached",
+                "PUDIndicator": true,
+                "appraisaleffectivedate": "2012-11-27",
+                "homeOwnersAssociationDuesPaymentAmountMonthly": "50/Month",
+                "propertyRightsAppraised": "FEESIMPLE",
+                "neighborhoodName": "Loveland",
+                "projectDeveloperControlledIndicator": true,
+                "siteZoningComplianceDescription": "Legal",
+                "ownerOfPublicRecordName": "Same",
+                "neighborhoodBoundariesDescription": "Bounded North by Loveland Miamiville Rd, South by Ibold Rd, East by loveland Miamiville Rd, West by Branch Hill Miamiville Rd.",
+                "neighborhoodDescription": "The subject is located in a single family residential area. It has average access to all local amenities including\ntransportation, employment, schools, shopping, parks and recreation.  The subject is located in a future \"Homearama\" subdivision.",
+                "propertyZoningCategoryType": "R-1",
+                "siteZoningClassificationDescription": "Single Family Residential",
+                "specialFloodHazardAreaIndicator": false,
+                "NFIPFloodZoneIdentifier": "X",
+                "propertyStructureBuiltYear": "2011",
+                "energyEfficientItemDescription": "None",
+                "structureAreaMeasure": "2162"
+              },
+              {
+                "nfipfloodZoneIdentifier": "X",
+                "appraisalFormType": "FreddieMac70_FannieMae1004",
+                "propertyDesignStyleDescription": "1 Story",
+                "attachmentType": "Detached",
+                "PUDIndicator": true,
+                "appraisaleffectivedate": "2011-11-22",
+                "homeOwnersAssociationDuesPaymentAmountMonthly": "50/Month",
+                "propertyRightsAppraised": "FEESIMPLE",
+                "neighborhoodName": "Loveland",
+                "projectDeveloperControlledIndicator": true,
+                "siteZoningComplianceDescription": "Legal",
+                "ownerOfPublicRecordName": "Same",
+                "neighborhoodBoundariesDescription": "Bounded North by Loveland Miamiville Rd, South by Ibold Rd, East by loveland Miamiville Rd, West by Branch Hill Miamiville Rd.",
+                "neighborhoodDescription": "The subject is located in a single family residential area. It has average access to all local amenities including\r\ntransportation, employment, schools, shopping, parks and recreation.  The subject is located in a future \"Homearama\" subdivision.",
+                "propertyZoningCategoryType": "R-1",
+                "siteZoningClassificationDescription": "Single Family Residential",
+                "specialFloodHazardAreaIndicator": false,
+                "NFIPFloodZoneIdentifier": "X",
+                "propertyStructureBuiltYear": "2011",
+                "energyEfficientItemDescription": "None",
+                "structureAreaMeasure": "2162"
+              },
+              {
+                "nfipfloodZoneIdentifier": "X",
+                "appraisalFormType": "FreddieMac70_FannieMae1004",
+                "propertyDesignStyleDescription": "1 Story",
+                "attachmentType": "Detached",
+                "PUDIndicator": true,
+                "appraisaleffectivedate": "2011-11-22",
+                "homeOwnersAssociationDuesPaymentAmountMonthly": "50/Month",
+                "propertyRightsAppraised": "FEESIMPLE",
+                "neighborhoodName": "Loveland",
+                "projectDeveloperControlledIndicator": true,
+                "siteZoningComplianceDescription": "Legal",
+                "ownerOfPublicRecordName": "Same",
+                "neighborhoodBoundariesDescription": "Bounded North by Loveland Miamiville Rd, South by Ibold Rd, East by loveland Miamiville Rd, West by Branch Hill Miamiville Rd.",
+                "neighborhoodDescription": "The subject is located in a single family residential area. It has average access to all local amenities including\r\ntransportation, employment, schools, shopping, parks and recreation.  The subject is located in a future \"Homearama\" subdivision.",
+                "propertyZoningCategoryType": "R-1",
+                "siteZoningClassificationDescription": "Single Family Residential",
+                "specialFloodHazardAreaIndicator": false,
+                "NFIPFloodZoneIdentifier": "X",
+                "propertyStructureBuiltYear": "2011",
+                "energyEfficientItemDescription": "None",
+                "structureAreaMeasure": "2162"
+              }
+            ],
+            "conditionRiskIndicator": false,
+            "qualityRiskIndicator": false
+          }
+        }
+      },
+      "ResponseExample5": {
+        "summary": "Response 5 - Address match for Manufactured Form type",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2021-07-12T20:33:53.688Z",
+          "inputAddress": {
+            "addressLineText": "5000 Plano Parkway",
+            "addressUnitIdentifier": "",
+            "cityName": "Dallas",
+            "postalCode": "75010",
+            "stateCode": "TX"
+          },
+          "standardizedAddress": {
+            "addressLineText": "5000 PLANO PKWY",
+            "cityName": "CARROLLTON",
+            "postalCode": "75010",
+            "stateCode": "TX",
+            "fipsCountyCode": "121",
+            "fipsStateNumericCode": "48",
+            "countyName": "Denton",
+            "latitudeCoordinateValue": "33.046981",
+            "longitudeCoordinateValue": "-96.870269"
+          },
+          "propertyData": {
+            "appraisalData": [
+              {
+                "appraisalFormType": "FreddieMac70B_FannieMae1004C",
+                "appraisaleffectivedate": "2011-11-30"
+              }
+            ]
+          }
+        }
+      },
+      "ResponseExample6": {
+        "summary": "Response 6 - Invalid request schema",
+        "value": {
+          "code": "400.002",
+          "message": "Request data does not match the application schema, please validate the request data.",
+          "details": [
+            {
+              "error": "/inputAddress/stateCode should be equal to one of the allowed values"
+            }
+          ]
+        }
+      },
+      "ResponseExample7": {
+        "summary": "Response 7 - No matching appraisal data",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2021-07-12T20:33:53.688Z",
+          "inputAddress": {
+            "addressLineText": "1551 Park Run Drive",
+            "addressUnitIdentifier": "",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "standardizedAddress": {
+            "addressLineText": "1551 PARK RUN DR",
+            "cityName": "MCLEAN",
+            "postalCode": "22102",
+            "stateCode": "VA",
+            "fipsCountyCode": "059",
+            "fipsStateNumericCode": "51",
+            "countyName": "Fairfax",
+            "latitudeCoordinateValue": "38.930272",
+            "longitudeCoordinateValue": "-77.226270"
+          },
+          "propertyData": {
+            "propertyMatchMessage": "Freddie Mac did not find any appraisal data matching the property information"
+          }
+        }
+      },
+      "ResponseExample8": {
+        "summary": "Response 8 - Three recent appraisals for Ranch property type for mismo version 3.6",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2025-08-21T13:44:13.208438388Z",
+          "inputAddress": {
+            "addressLineText": "209 Lakeshore Parkway",
+            "cityName": "Homewood",
+            "postalCode": "35209",
+            "stateCode": "AL"
+          },
+          "standardizedAddress": {
+            "addressLineText": "209 LAKESHORE PKWY",
+            "countyName": "Jefferson",
+            "cityName": "HOMEWOOD",
+            "postalCode": "35209",
+            "stateCode": "AL",
+            "fipsCountyCode": "073",
+            "fipsStateNumericCode": "01",
+            "latitudeCoordinateValue": "33.446983",
+            "longitudeCoordinateValue": "-86.820958"
+          },
+          "propertyData": {
+            "appraisalData": [
+              {
+                "propertyDesignStyleDescription": "Ranch",
+                "attachmentType": "Detached",
+                "accessoryUnitIndicator": false,
+                "PUDIndicator": false,
+                "appraisaleffectivedate": "2025-07-16",
+                "neighborhoodName": "Magic Hill",
+                "siteZoningComplianceDescription": "NoZoning",
+                "ownerOfPublicRecordName": " ",
+                "specialFloodHazardAreaIndicator": false,
+                "documentType": "AppraisalReport",
+                "appraisalAssignmentType": "TraditionalAppraisal",
+                "livingUnitExcludingAduCount": 1,
+                "constructionMethodType": "Manufactured",
+                "landOwnedInCommonIndicator": false,
+                "appraisalMismoVersion": "3.6"
+              },
+              {
+                "propertyDesignStyleDescription": "Ranch",
+                "attachmentType": "Detached",
+                "accessoryUnitIndicator": false,
+                "PUDIndicator": false,
+                "appraisaleffectivedate": "2025-07-16",
+                "neighborhoodName": "Magic Hill",
+                "siteZoningComplianceDescription": "NoZoning",
+                "ownerOfPublicRecordName": " ",
+                "specialFloodHazardAreaIndicator": false,
+                "documentType": "AppraisalReport",
+                "appraisalAssignmentType": "TraditionalAppraisal",
+                "livingUnitExcludingAduCount": 1,
+                "constructionMethodType": "Manufactured",
+                "landOwnedInCommonIndicator": false,
+                "appraisalMismoVersion": "3.6"
+              },
+              {
+                "propertyDesignStyleDescription": "Ranch",
+                "attachmentType": "Detached",
+                "accessoryUnitIndicator": false,
+                "PUDIndicator": false,
+                "appraisaleffectivedate": "2025-07-16",
+                "neighborhoodName": "Magic Hill",
+                "siteZoningComplianceDescription": "NoZoning",
+                "ownerOfPublicRecordName": " ",
+                "specialFloodHazardAreaIndicator": false,
+                "documentType": "AppraisalReport",
+                "appraisalAssignmentType": "TraditionalAppraisal",
+                "livingUnitExcludingAduCount": 1,
+                "constructionMethodType": "Manufactured",
+                "landOwnedInCommonIndicator": false,
+                "appraisalMismoVersion": "3.6"
+              }
+            ]
+          },
+          "conditionRiskIndicator": false,
+          "qualityRiskIndicator": false
+        }
+      },
+      "ResponseExample9": {
+        "summary": "Response 9 - Recent appraisal for Single Family PUD property type in MISMO version 3.6 format.",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2025-08-21T14:04:20.321714800Z",
+          "inputAddress": {
+            "addressLineText": "5335 Hwy 280 South",
+            "cityName": "Hoover",
+            "postalCode": "35242",
+            "stateCode": "AL"
+          },
+          "standardizedAddress": {
+            "addressLineText": "5335 HIGHWAY 280",
+            "countyName": "Shelby",
+            "cityName": "HOOVER",
+            "postalCode": "35242",
+            "stateCode": "AL",
+            "fipsCountyCode": "117",
+            "fipsStateNumericCode": "01",
+            "latitudeCoordinateValue": "33.421902",
+            "longitudeCoordinateValue": "-86.676082"
+          },
+          "propertyData": {
+            "appraisalData": [
+              {
+                "propertyDesignStyleDescription": "Colonial",
+                "attachmentType": "Detached",
+                "accessoryUnitIndicator": false,
+                "PUDIndicator": true,
+                "appraisaleffectivedate": "2025-03-15",
+                "neighborhoodName": "Sunnyside",
+                "projectDeveloperControlledIndicator": false,
+                "siteZoningComplianceDescription": "Legal",
+                "ownerOfPublicRecordName": "Jane Doe",
+                "propertyZoningCategoryType": "R10",
+                "specialFloodHazardAreaIndicator": false,
+                "documentType": "AppraisalReport",
+                "appraisalAssignmentType": "TraditionalAppraisal",
+                "livingUnitExcludingAduCount": 1,
+                "constructionMethodType": "SiteBuilt",
+                "landOwnedInCommonIndicator": false,
+                "appraisalMismoVersion": "3.6"
+              }
+            ],
+            "conditionRiskIndicator": false,
+            "qualityRiskIndicator": false
+          }
+        }
+      },
+      "ResponseExample10": {
+        "summary": "Response 10 - Three recent appraisal examples for different property types, combination of MISMO 2.6 and 3.6 version.",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2025-08-21T14:09:25.024751575Z",
+          "inputAddress": {
+            "addressLineText": "4601 S ATLANTIC AVE",
+            "cityName": "PORT ORANGE",
+            "postalCode": "32127",
+            "stateCode": "FL"
+          },
+          "standardizedAddress": {
+            "addressLineText": "4601 S ATLANTIC AVE",
+            "countyName": "Volusia",
+            "cityName": "PORT ORANGE",
+            "postalCode": "32127",
+            "stateCode": "FL",
+            "fipsCountyCode": "127",
+            "fipsStateNumericCode": "12",
+            "latitudeCoordinateValue": "29.103778",
+            "longitudeCoordinateValue": "-80.940284"
+          },
+          "propertyData": {
+            "appraisalData": [
+              {
+                "propertyDesignStyleDescription": "Colonial",
+                "attachmentType": "Detached",
+                "accessoryUnitIndicator": false,
+                "PUDIndicator": true,
+                "appraisaleffectivedate": "2025-07-15",
+                "neighborhoodName": "Sunnyside",
+                "projectDeveloperControlledIndicator": false,
+                "siteZoningComplianceDescription": "Legal",
+                "ownerOfPublicRecordName": "Jane Doe",
+                "propertyZoningCategoryType": "R10",
+                "specialFloodHazardAreaIndicator": false,
+                "documentType": "AppraisalReport",
+                "appraisalAssignmentType": "TraditionalAppraisal",
+                "livingUnitExcludingAduCount": 1,
+                "constructionMethodType": "SiteBuilt",
+                "landOwnedInCommonIndicator": false,
+                "appraisalMismoVersion": "3.6"
+              },
+              {
+                "appraisalFormType": "FreddieMac465_FannieMae1073",
+                "propertyDesignStyleDescription": "HR1L;High Rise",
+                "projectDesignType": "MidriseProject",
+                "appraisaleffectivedate": "2021-03-09",
+                "projectName": "ATLANTICA CONDO",
+                "homeOwnersAssociationDuesPaymentAmountMonthly": "600/Month",
+                "propertyRightsAppraised": "FEESIMPLE",
+                "neighborhoodCharacteristicsDescription": "SUBURBAN",
+                "projectDeveloperControlledIndicator": false,
+                "siteZoningComplianceDescription": "Legal",
+                "ownerOfPublicRecordName": "MICHAEL L & SUSAN M SORENSEN",
+                "neighborhoodBoundariesDescription": "DUNLAWTON AVENUE TO THE NORTH, PONCE INLET JETTY TO THE SOUTH, INTRACOASTAL WATERWAY TO THE WEST AND ATLANTIC OCEAN TO THE EAST.",
+                "neighborhoodDescription": "THE SUBJECT IS A CONDOMINIUM LOCATED DIRECTLY ON THE ATLANTIC OCEAN WITH OCEAN VIEWS. THE SUBJECT IS  IN CLOSE PROXIMITY  TO EMPLOYMENT CENTERS, SHOPPING, RECREATIONAL FACILITIES, AND OTHER TYPICAL AMENITIES AND SERVICES. PROPERTIES IN THE AREA HAVE RECEIVED AVERAGE MAINTENANCE AND THERE WERE NO NEGATIVE MARKETING FACTORS NOTED.",
+                "propertyZoningCategoryType": "T-RMF-1",
+                "siteZoningClassificationDescription": "TOURIST MULTI FAMILY RESIDENTIAL DISTRICT (HIGH DENSITY)",
+                "specialFloodHazardAreaIndicator": false,
+                "NFIPFloodZoneIdentifier": "X",
+                "energyEfficientItemDescription": "NONE",
+                "appraisalMismoVersion": "2.6"
+              },
+              {
+                "appraisalFormType": "FreddieMac465_FannieMae1073",
+                "propertyDesignStyleDescription": "MR7L;Cntmp",
+                "projectDesignType": "MidriseProject",
+                "appraisaleffectivedate": "2020-08-18",
+                "projectName": "Atlantica Condo",
+                "homeOwnersAssociationDuesPaymentAmountMonthly": "540/Month",
+                "propertyRightsAppraised": "FEESIMPLE",
+                "neighborhoodCharacteristicsDescription": "SUBURBAN",
+                "projectDeveloperControlledIndicator": false,
+                "siteZoningComplianceDescription": "Legal",
+                "ownerOfPublicRecordName": "Mahler Michael T & Judith L",
+                "neighborhoodBoundariesDescription": "Bounded on the North by Old Carriage Rd,  on the East by the Atlantic Ocean,  on the South by Inlet Harbor Rd and on the West by Atlantic Ave.",
+                "neighborhoodDescription": "Neighborhood considered consists of condominiums of various age, size and value. Proximity to employment and amenities is average, with access to shopping, banking and medical facilities.  Employment is primarily semi-professional.   Appeal to market for homes similar to subject is good.",
+                "propertyZoningCategoryType": "MF",
+                "siteZoningClassificationDescription": "Multi-Family",
+                "specialFloodHazardAreaIndicator": false,
+                "NFIPFloodZoneIdentifier": "X",
+                "energyEfficientItemDescription": "Ceiling Fans",
+                "appraisalMismoVersion": "2.6"
+              }
+            ],
+            "conditionRiskIndicator": false,
+            "qualityRiskIndicator": false
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "token"
+      }
+    }
+  }
+}

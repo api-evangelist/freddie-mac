@@ -1,0 +1,181 @@
+generated: '2026-09-10'
+method: derived
+source: the 20 first-party OpenAPI 3.0 contracts in openapi/, harvested verbatim from the Freddie Mac
+  Developer Portal public API catalog on 2026-09-10
+format: vendor
+format_note: 'NOT RFC 9457. Every 4xx/5xx body is application/json but the envelope is provider-specific
+  and varies by API family - a census of the error schemas across the 20 specs found at least eight distinct
+  shapes: {code, message, details[]} (11 schemas, the Apigee product APIs), {error} (13), {errorCode,
+  errorDescription} (7), {errorEnvelope} (5), {errors[]} (5), {ErrorCode, ErrorMessage} (2), {Error} (2,
+  Loan Selling Advisor pricing), {fault:{faultstring,detail:{errorcode}}} (2, raw Apigee fault passthrough)
+  and {workoutErrorCode, workoutErrorDescription, workoutErrorType} (2, Resolve). An agent integrating
+  across the catalog has to write a different error parser per API family. The Developer Portal''s OWN
+  backend, by contrast, does return application/problem+json (probed 2026-09-10: GET https://developer.freddiemac.com/public/llms.txt
+  -> 404 {"type":"about:blank","title":"Not Found","status":404,"detail":...,"instance":...}) - so the
+  RFC 9457 shape exists in-house on the portal service but has not reached the product APIs.'
+gateway: Apigee (api.freddiemac.com, api-test.freddiemac.com, lassvcs-uat.fmrei.com/ESO)
+status_codes:
+  '200': 41
+  '201': 4
+  '400': 22
+  '401': 45
+  '403': 18
+  '404': 30
+  '429': 28
+  '431': 1
+  '500': 45
+  '502': 2
+status_codes_note: Counts are per-operation across all 45 operations in the catalog.
+problem_types:
+- code: '400.001'
+  status: 400
+  title: Malformed content from the client
+  remediation: Send syntactically valid JSON.
+  apis: 11
+- code: '400.002'
+  status: 400
+  title: Request data does not match the application schema
+  remediation: Validate the request body against the operation's requestBody schema before sending.
+  apis: 11
+- code: '400.005'
+  status: 400
+  title: Empty request body
+  remediation: Send a body; these are all POST operations.
+  apis: 11
+- code: '400.006'
+  status: 400
+  title: Content-type must be application/json
+  remediation: 'Set Content-Type: application/json explicitly - several operations declare it as a required
+    header parameter.'
+  apis: 8
+- code: '400.003'
+  status: 400
+  title: FileIdentifier required
+  apis: 2
+  scope: Loan Import
+- code: '400.004'
+  status: 400
+  title: FileIdentifier invalid request type
+  apis: 2
+  scope: Loan Import
+- code: '400.007'
+  status: 400
+  title: CorrelationIdentifier invalid data type
+  apis: 2
+  scope: Loan Import
+- code: '400.008'
+  status: 400
+  title: PoolNumber invalid request type
+  apis: 1
+  scope: Guarantor Settlement
+- code: '400.010'
+  status: 400
+  title: ContractUPBLimitIndicator required
+  apis: 1
+  scope: Guarantor Settlement
+- code: '401.001'
+  status: 401
+  title: Invalid access token
+  remediation: Validate the token; if it persists, renew it.
+  apis: 29
+- code: '401.002'
+  status: 401
+  title: Access token expired
+  remediation: Renew the access token.
+  apis: 28
+- code: '401.003'
+  status: 401
+  title: API product mismatch for token
+  remediation: The token was minted for a different Apigee API product; request a token scoped to this
+    API.
+  apis: 28
+- code: '401.004'
+  status: 401
+  title: Invalid API key
+  remediation: Validate the client ID.
+  apis: 28
+- code: '401.005'
+  status: 401
+  title: Invalid API key for given resource
+  apis: 28
+- code: '401.006'
+  status: 401
+  title: Insufficient scope for application
+  remediation: The app's product entitlement does not cover this operation; a Developer Administrator
+    must add it.
+  apis: 28
+- code: '401.007'
+  status: 401
+  title: Invalid username/password combination
+  apis: 13
+- code: '401.008'
+  status: 401
+  title: Invalid refresh token
+  apis: 28
+- code: '401.009'
+  status: 401
+  title: Invalid client secret
+  apis: 28
+- code: '401.010'
+  status: 401
+  title: Refresh token expired
+  remediation: Re-authenticate to obtain a new refresh token.
+  apis: 28
+- code: '404.001'
+  status: 404
+  title: No resource for <method> <path>
+  apis: 16
+- code: '429.001'
+  status: 429
+  title: Rate limit exceeded - too many requests per second
+  remediation: Reduce request rate; back off and retry. This is the Apigee spike-arrest tier.
+  apis: 28
+- code: '429.002'
+  status: 429
+  title: Quota limit exceeded - too many requests per minute
+  remediation: Reduce request volume; this is the Apigee quota tier and resets on the quota window.
+  apis: 28
+- code: '500.001'
+  status: 500
+  title: Malformed XML
+  apis: 1
+  scope: Loan Closing Advisor Loan Submission
+- code: '500.002'
+  status: 500
+  title: Target server not reachable / invalid user credentials
+  apis: 5
+- code: '500.003'
+  status: 500
+  title: Failed to establish a backside connection
+  apis: 1
+- code: '500.004'
+  status: 500
+  title: Schema validation error
+  apis: 1
+- code: '500'
+  status: 500
+  title: Loan Selling Advisor unavailable / message too large / invalid JSON format / request limit exceeded
+    / connection timeout from backend
+  apis: 4
+  scope: Cash and Guarantor Pricing and Committing
+  remediation: Retry; if it persists call 1-800-FREDDIE. Note that these services return several distinct
+    conditions - including 'Request limit exceeded' - all under a bare 500 rather than a 429.
+business_message_codes:
+  note: Data Share and Data Share Bid Tape additionally publish a DSA* business-message vocabulary (DSA001-DSA061
+    request/validation, DSA100-DSA109 document-availability outcomes such as 'Requested UCD_XML documents
+    not found', DSA201-DSA204, DSA300-DSA304, DSA400, DSA700-DSA701, DSA800, DSA900-DSA903) carried in
+    successful 200 responses, not in the HTTP error status. An agent must read the body to know whether
+    the requested documents were actually found.
+  families:
+  - DSA0xx request/validation
+  - DSA1xx document availability
+  - DSA2xx
+  - DSA3xx
+  - DSA4xx
+  - DSA7xx
+  - DSA8xx
+  - DSA9xx
+anti_pattern: Error codes are published only as HTML fragments inside the OpenAPI response `description`
+  strings (bold tags, font tags and <ul> lists embedded in the description), not as enumerated values
+  in a schema. They are readable by a human rendering SwaggerUI and are not machine-addressable without
+  parsing prose out of a description field - which is how this catalog was derived.

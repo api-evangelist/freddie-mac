@@ -1,0 +1,84 @@
+generated: '2026-09-10'
+method: searched
+source: 20 first-party OpenAPI contracts harvested from the Freddie Mac Developer Portal public API catalog,
+  plus the portal's own Getting Started page and the OAuth error taxonomy the specs publish in their 401
+  response descriptions.
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: token
+  sources:
+  - openapi/freddie-mac-affordable-check-openapi.json
+  - openapi/freddie-mac-beyond-ace-openapi.yaml
+  - openapi/freddie-mac-cash-settlement-purchase-statement-openapi.json
+  - openapi/freddie-mac-current-mortgage-snapshot-openapi.json
+  - openapi/freddie-mac-data-share-bid-tape-openapi.json
+  - openapi/freddie-mac-data-share-openapi.json
+  - openapi/freddie-mac-guarantor-settlement-purchase-statement-openapi.json
+  - openapi/freddie-mac-income-limits-openapi.json
+  - openapi/freddie-mac-loan-closing-advisor-loan-submission-openapi.yaml
+  - openapi/freddie-mac-loan-import-openapi.json
+  - openapi/freddie-mac-loan-look-up-openapi.json
+  - openapi/freddie-mac-property-insights-openapi.json
+  - openapi/freddie-mac-resolve-liquidation-openapi.json
+  - openapi/freddie-mac-resolve-retention-openapi.json
+  - openapi/freddie-mac-resolve-valuation-pricing-openapi.json
+  - openapi/freddie-mac-resolve-workout-options-openapi.json
+- name: basicAuth
+  type: http
+  scheme: basic
+  sources:
+  - openapi/freddie-mac-cash-committing-openapi.json
+  - openapi/freddie-mac-cash-pricing-openapi.json
+  - openapi/freddie-mac-guarantor-committing-openapi.json
+  - openapi/freddie-mac-guarantor-pricing-openapi.json
+docs: https://sf.freddiemac.com/tools-learning/apis/getting-started-with-apis
+profile:
+  primary: OAuth 2.0 bearer token issued by the Freddie Mac Apigee gateway
+  secondary: HTTP Basic on the four Loan Selling Advisor pricing/committing services (lassvcs-uat.fmrei.com/ESO/rest)
+  credential_issuance: System-to-system API credentials are issued by a Freddie Mac representative to
+    an organisation with counterparty (Seller/Servicer) or approved technology-partner status; there is
+    no self-service signup. A Developer Administrator then creates an app in the Developer Portal and
+    requests promotion to production.
+  token_endpoint_published: false
+  token_endpoint_note: 'No OAuth token endpoint, authorization-server metadata document or /.well-known/oauth-authorization-server
+    is published anonymously. Probed 2026-09-10: api.freddiemac.com and api-test.freddiemac.com both 404
+    that path; developer.freddiemac.com 401s it. The token URL is documented only inside the authenticated
+    portal.'
+  grant_evidence: 'The 401 response descriptions in every gateway-fronted spec enumerate an OAuth 2.0
+    credential lifecycle: 401.001 invalid access token, 401.002 access token expired, 401.003 API product
+    mismatch for token, 401.004 invalid API key (client ID), 401.005 invalid API key for resource, 401.006
+    insufficient scope for application, 401.007 invalid username/password combination, 401.008 invalid
+    refresh token, 401.009 invalid client secret, 401.010 refresh token expired. Client ID + client secret
+    + refresh tokens + per-product scope is an Apigee OAuth 2.0 deployment; the username/password code
+    additionally implies a resource-owner-password grant.'
+  scopes_published: false
+  scopes_note: Scope is enforced (401.006 'Insufficient scope for Application' and 401.003 'API Product
+    mismatch for token') but no scope names are published in any spec or on any public page, so no scopes/
+    artifact was written rather than an invented one.
+vendor_headers:
+- name: X-Lender-Id
+  apis:
+  - Beyond ACE
+  - Property Insights
+  note: lender identifier, sent on 11 operations
+- name: X-Amc-Id
+  apis:
+  - Beyond ACE
+  note: appraisal management company identifier
+- name: X-LenderLoan-Id
+  apis:
+  - Beyond ACE
+  note: lender loan identifier
+- name: X-CSS-VENDOR-IDENTIFIER / -NAME / -SOFTWARE / -SOFTWARE-VERSION
+  apis:
+  - Cash Settlement Purchase Statement
+  note: software-provider attribution headers required alongside the bearer token
+- name: X-LIS-VENDOR-IDENTIFIER / -NAME / -SOFTWARE / -SOFTWARE-VERSION
+  apis:
+  - Loan Import
+  note: software-provider attribution headers required alongside the bearer token

@@ -1,0 +1,55 @@
+generated: '2026-09-10'
+method: searched
+source: registry searches on 2026-09-10 against registry.npmjs.org, pypi.org, rubygems.org, crates.io
+  and api.github.com, plus the Freddie Mac Developer Portal public API catalog and its API Releases pages
+packages: []
+package_count: 0
+official_sdks_exist: true
+official_sdks_public: false
+detail: 'Freddie Mac DOES ship first-party SDKs - the portal''s own release notes reference them repeatedly
+  (''Cash Pricing and Cash Committing: Swagger and SDK Updates'', 2026-03-26; ''Loan Import: Swagger and
+  SDK Updates for CTE Validation'', 2025-10-23; ''Updated Data Share and SDKs to eliminate all Loan Advisor
+  references'', 2025-05-08; and the Affordable Check v1 retirement on 2025-10-29 explicitly removed ''its
+  Swagger documentation, SDKs, and all related materials''). None of them is published to any public package
+  registry. They are distributed as downloads inside the authenticated Developer Portal, alongside the
+  Related Documents attached to each API''s details page.'
+registries_checked:
+- registry: npm
+  query: freddiemac
+  results: 0
+  version: null
+  published: null
+  note: registry.npmjs.org/-/v1/search returned total 0. A search for 'freddie mac' returns only unrelated
+    packages.
+- registry: pypi
+  query: freddiemac
+  http_status: 404
+  version: null
+  published: null
+- registry: rubygems
+  query: freddiemac
+  http_status: 404
+  version: null
+  published: null
+- registry: crates.io
+  query: freddiemac
+  results: 0
+  version: null
+  published: null
+- registry: github
+  query: github.com/freddiemac
+  version: null
+  published: null
+  note: api.github.com/users/freddiemac resolves, but it is a personal User account created 2009-12-18
+    with one repository named 'test' and no company metadata - it is NOT a Freddie Mac organisation. No
+    GitHubOrganization pointer is emitted.
+decay_signal:
+  measurable: false
+  note: 'The strongest abandonment signal this pipeline reads - a first-party SDK whose last registry
+    release predates the API it wraps - cannot be computed for Freddie Mac, because no SDK has a public
+    registry record with a date. What IS datable is that the SDKs are maintained: they were regenerated
+    alongside the contracts on 2026-03-26, 2025-10-23 and 2025-05-08 per the portal release notes. The
+    gap is distribution, not upkeep.'
+recommendation: Publishing the generated clients to npm/PyPI/Maven under a freddiemac scope would cost
+  nothing in access control - the SDK is not the credential - and would make the currency of the integration
+  surface verifiable from outside the portal.

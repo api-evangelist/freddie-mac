@@ -1,0 +1,62 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Freddie Mac Cash Settlement Purchase Statement
+  version: 1.0.0
+extends: https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/openapi/freddie-mac-cash-settlement-purchase-statement-openapi.json
+x-generated: '2026-09-10'
+x-method: generated
+x-source: derived from openapi/freddie-mac-cash-settlement-purchase-statement-openapi.json, harvested
+  verbatim from the Freddie Mac Developer Portal on 2026-09-10
+actions:
+- target: $.info
+  description: Record API Evangelist provenance for this harvested contract.
+  update:
+    x-apievangelist:
+      provider: Freddie Mac
+      providerId: freddie-mac
+      harvested: '2026-09-10'
+      harvested_from: https://developer.freddiemac.com/public/api-details/download-swagger-file/<swaggerOpenApiId>
+      portal: https://developer.freddiemac.com/public/
+      ownership: Served by Freddie Mac's own Developer Portal; servers[] resolves inside 161.107.0.0/16,
+        ARIN NetName FHLMC, OrgName Federal Home Loan Mortgage Corporation.
+      note: The contract in openapi/ is byte-identical to what the provider served. This overlay is additive
+        and is never applied to it.
+- target: $.info
+  description: Cross-link the derived artifacts that describe this contract's runtime semantics.
+  update:
+    x-artifacts:
+      authentication: https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/authentication/freddie-mac-authentication.yml
+      conventions: https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/conventions/freddie-mac-conventions.yml
+      errors: https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/errors/freddie-mac-problem-types.yml
+      rate_limits: https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/rate-limits/freddie-mac-rate-limits.yml
+      lifecycle: https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/lifecycle/freddie-mac-lifecycle.yml
+      conformance: https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/conformance/freddie-mac-conformance.yml
+      data_model: https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/data-model/freddie-mac-data-model.yml
+      sandbox: https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/sandbox/freddie-mac-sandbox.yml
+      skills: https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/skills/_index.yml
+- target: $.info
+  description: Record the domain standard this contract's payloads conform to.
+  update:
+    x-domain-standard:
+      standard: MISMO / GSE Uniform Mortgage Data Program
+      evidence: https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/conformance/freddie-mac-conformance.yml
+      note: Applies across the Freddie Mac Single-Family catalog; see the per-spec evidence in the conformance
+        artifact.
+- target: $.info
+  description: Record the agent-safety posture of this contract's write surface.
+  update:
+    x-agent-safety:
+      idempotency_key: false
+      delete_operations: 0
+      rate_limit_headers: false
+      note: No Idempotency-Key header, no DELETE operation and no rate-limit response header exists in
+        this contract. See conventions/freddie-mac-conventions.yml for the reversibility grade of each
+        write surface in the catalog.
+- target: $.servers
+  description: Flag that the published server is a test environment.
+  update:
+  - url: https://api-test.freddiemac.com/single-family/css/v1/cashsettlement
+    description: Published by Freddie Mac as the base URL for this API. This is the TEST/UAT environment;
+      the production base path is issued inside the authenticated Developer Portal at app-promotion time
+      and is not published anywhere. Recorded here as a note - the servers[] block of the harvested contract
+      is not modified.

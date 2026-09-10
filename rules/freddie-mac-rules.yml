@@ -1,9 +1,9 @@
-aid: freddie-mac:rules
-name: Freddie Mac API Operational Rules
+x-aid: freddie-mac:rules
+x-name: Freddie Mac API Operational Rules
 description: >-
   Operational rules for accessing and using Freddie Mac Single-Family API
   solutions through the Developer Portal.
-modified: '2026-04-28'
+x-modified: '2026-04-28'
 rules:
   - id: developer-portal-access
     title: Developer Portal Required

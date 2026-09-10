@@ -1,0 +1,131 @@
+generated: '2026-09-10'
+method: searched
+source: the 20 first-party OpenAPI contracts in openapi/ (read for standard signatures in the contract
+  itself, not for prose claims), plus the Freddie Mac Single-Family Uniform Mortgage Data Program pages
+  at sf.freddiemac.com/tools-learning/uniform-mortgage-data-program/*
+conformance:
+- id: openapi-3.0
+  conforms: true
+  evidence: 'All 20 published contracts declare openapi: 3.0.0 / 3.0.1 / 3.0.3. None is Swagger 2.0 and
+    none is 3.1.'
+  detail: 3.0.1 x14, 3.0.0 x5, 3.0.3 x1.
+- id: oauth2
+  conforms: true
+  evidence: '16 of 20 specs declare securitySchemes.bearerAuth {type: http, scheme: bearer}; the 401 response
+    taxonomy published in those specs enumerates client ID, client secret, access token, refresh token,
+    token expiry, API-product mismatch and insufficient scope (401.001-401.010), which is an OAuth 2.0
+    credential lifecycle on an Apigee gateway.'
+  gap: No token endpoint, no /.well-known/oauth-authorization-server (404 on api.freddiemac.com, probed
+    2026-09-10), and no published scope names.
+- id: http-basic
+  conforms: true
+  evidence: '4 Loan Selling Advisor specs (Cash Pricing, Cash Committing, Guarantor Pricing, Guarantor
+    Committing) declare securitySchemes.basicAuth {type: http, scheme: basic} against lassvcs-uat.fmrei.com/ESO/rest.'
+  note: Two different auth regimes coexist inside one published catalog; an integrator crossing from origination
+    to selling changes credential model.
+- id: oidc
+  conforms: false
+  evidence: No /.well-known/openid-configuration on any of the 10 hosts probed 2026-09-10; every one 404s,
+    401s or 302s.
+- id: rfc9457
+  conforms: false
+  evidence: 'No 4xx/5xx response in any product spec declares application/problem+json; all are application/json
+    with provider-specific envelopes. The Developer Portal''s own backend DOES return problem+json (probed
+    2026-09-10: GET https://developer.freddiemac.com/public/llms.txt -> 404 application/problem+json with
+    type/title/status/detail/instance), but that is the portal service, not the mortgage APIs.'
+- id: rfc9116
+  conforms: true
+  evidence: https://api.freddiemac.com/.well-known/security.txt returns 200 text/plain with Canonical,
+    Contact, Expires (2027-06-30) and Preferred-Languages. Mirrored on api-test.freddiemac.com.
+  gap: Not served from www.freddiemac.com, sf.freddiemac.com or developer.freddiemac.com.
+- id: rfc8594-sunset
+  conforms: false
+  evidence: No Sunset or Deprecation response header is declared anywhere in the 20 specs; retirement
+    is announced only in prose on the portal's API Releases pages.
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key header parameter appears in any of the 45 operations, and no request-replay
+    semantics are documented.
+- id: pagination
+  conforms: false
+  evidence: No page/limit/offset/cursor parameter exists on any operation; every operation is a single-shot
+    POST that returns a complete document set.
+- id: api-catalog-rfc9727
+  conforms: false
+  evidence: /.well-known/api-catalog 404s on api.freddiemac.com and api-test.freddiemac.com and 401s on
+    developer.freddiemac.com. A machine-readable catalog DOES exist at https://developer.freddiemac.com/public/api-catalog
+    (200 application/json, 20 APIs) but is not advertised at the RFC 9727 well-known path.
+domain_standard:
+  standard: MISMO (Mortgage Industry Standards Maintenance Organization) reference model, as profiled
+    by the FHFA/GSE Uniform Mortgage Data Program
+  market: US residential mortgage origination, delivery and servicing
+  conforms: true
+  declared_in_contract: true
+  evidence:
+  - claim: MISMO reference model version declared in the contract's own request payload
+    spec: openapi/freddie-mac-loan-closing-advisor-loan-submission-openapi.yaml
+    location: requestBody example XML root
+    excerpt: <DOCUMENT MISMOReferenceModelIdentifier="3.3.0299" xmlns:mismo="http://www.mismo.org/residential/2009/schemas">
+  - claim: MISMO relationship URNs used as the payload's link vocabulary
+    spec: openapi/freddie-mac-loan-closing-advisor-loan-submission-openapi.yaml
+    location: RELATIONSHIP elements in the request example
+    excerpt: xlink:arcrole="urn:fdc:mismo.org:2009:residential/ROLE_IsEmployedBy_ROLE" (30 urn:fdc:mismo.org
+      occurrences)
+  - claim: MISMO version carried as a first-class response field
+    spec: openapi/freddie-mac-data-share-openapi.json
+    location: components.schemas.Document.properties.MISMOVersionNumber
+    excerpt: '"MISMOVersionNumber": {"type": "string", "description": "MISMO Version Number of the document."}'
+  - claim: MISMO 3.6 appraisal version negotiated per request
+    spec: openapi/freddie-mac-property-insights-openapi.json
+    location: components.schemas ... appraisalMismoVersion
+    excerpt: '"appraisalMismoVersion": {"description": "Specifies the MISMO version for the appraisal
+      data. Note: Data field new to MISMO 3.6v", "example": "3.6"}'
+  - claim: MISMO-prescribed enumerations bound to schema fields
+    spec: openapi/freddie-mac-loan-look-up-openapi.json, openapi/freddie-mac-property-insights-openapi.json,
+      openapi/freddie-mac-data-share-bid-tape-openapi.json
+    location: partyRoleType / loanIdentifierType descriptions
+    excerpt: '"A value from a MISMO defined list that identifies the role that the party plays in the
+      transaction."'
+  gse_datasets:
+  - id: UAD
+    name: Uniform Appraisal Dataset
+    conforms: true
+    evidence: 'openapi/freddie-mac-data-share-openapi.json /getLCAdocuments summary: ''Loan Collateral
+      Advisor: Get appraisal (UAD) XMLs, appraisal PDFs and feedback response XML.'' Property Insights
+      v2 was released 2025-08-21 explicitly to align UAD with MISMO v3.6.'
+  - id: ULDD
+    name: Uniform Loan Delivery Dataset
+    conforms: true
+    evidence: 'openapi/freddie-mac-data-share-openapi.json /getLQAdocuments summary: ''Loan Quality Advisor:
+      Get ULDD XML and feedback response PDF.'' Cash and Guarantor Settlement Purchase Statement schemas
+      annotate fields with ''The related ULDD Data Point name is ...''.'
+  - id: UCD
+    name: Uniform Closing Dataset
+    conforms: true
+    evidence: 'openapi/freddie-mac-loan-closing-advisor-loan-submission-openapi.yaml info.description:
+      ''the Seller/Vendor system to submit a single loan Uniform Closing Dataset (UCD) file to Loan Closing
+      Advisor for assessment.'' Data Share /getLCLAdocuments returns UCD XMLs.'
+  - id: ULAD
+    name: Uniform Loan Application Dataset
+    conforms: true
+    evidence: openapi/freddie-mac-data-share-openapi.json publishes named request/response examples '5.0AllDocumentsfoundRequest'
+      / 'Scenario 2 All Documents Found Request for ULAD 5.0'.
+  - id: UCDP
+    name: Uniform Collateral Data Portal
+    conforms: true
+    evidence: 'openapi/freddie-mac-data-share-bid-tape-openapi.json AppraisalDocumentType: ''one of the
+      three UCDP-submitted evaluation data file[s] associated with the property''; LoanCollateralAdvisorSubmissionDatetime:
+      ''when the appraisal was submitted in UCDP''.'
+  why_it_matters: A lender or LOS vendor that already speaks MISMO 3.3/3.6 and the GSE uniform datasets
+    can integrate these APIs without a bespoke field mapping, because the payloads ARE those datasets
+    carried over HTTP. One that does not needs a bilateral mapping per API. Freddie Mac declares the standard
+    inside the contract - reference model identifier, MISMO URNs, version fields and MISMO-prescribed
+    enumerations - rather than only asserting it on a marketing page.
+compliance_programs:
+  note: 'Freddie Mac is a congressionally chartered government-sponsored enterprise in FHFA conservatorship;
+    its regulatory posture is statutory rather than a published SOC 2 / ISO 27001 trust centre. No trust
+    centre or named certification page was found: probe-security-programs.py returned trust=none on 2026-09-10,
+    and www.freddiemac.com/security and /about/security both 404. No Compliance pointer is emitted, because
+    there is no published certification programme to point at.'
+  regulator: Federal Housing Finance Agency (FHFA)
+  certifications_published: []

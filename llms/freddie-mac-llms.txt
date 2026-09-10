@@ -1,0 +1,91 @@
+# Freddie Mac
+
+> Freddie Mac (Federal Home Loan Mortgage Corporation) is the government-sponsored enterprise that
+> provides liquidity, stability and affordability to the U.S. housing market. Its Single-Family API
+> programme is published through the Freddie Mac Developer Portal and covers the whole mortgage
+> lifecycle: origination, closing, selling and delivery, post-close document retrieval, and default
+> servicing. 20 OpenAPI 3.0 contracts covering 45 operations are published anonymously; calling them
+> requires credentials issued to a Seller/Servicer or approved technology partner.
+
+Generated 2026-09-10 by the API Evangelist enrichment pipeline (method: generated, from the provider's
+own published catalog at https://developer.freddiemac.com/public/api-catalog). Freddie Mac does not
+publish an llms.txt of its own — probed 2026-09-10, /llms.txt returns 404 on www.freddiemac.com,
+sf.freddiemac.com and developer.freddiemac.com/public, and 401 on developer.freddiemac.com.
+
+## What you need to know before calling anything
+
+- Documentation is public. Access is not. There is no self-service signup, no free tier, no API key
+  form and no published price. Credentials are issued per organisation by a Freddie Mac representative
+  to counterparties. Start at the Contact Us form.
+- Auth: OAuth 2.0 bearer token on 16 of the 20 APIs; HTTP Basic on the four Loan Selling Advisor
+  pricing and committing services. No token endpoint and no scope names are published anonymously.
+- The base URLs published in the contracts are TEST hosts (api-test.freddiemac.com,
+  lassvcs-uat.fmrei.com). The production host api.freddiemac.com exists but no production base path is
+  published anywhere; it is issued inside the portal at app-promotion time.
+- 43 of the 45 operations are POST, including every read. There are no DELETE operations anywhere.
+- There is no Idempotency-Key header on any operation, and no pagination of any kind.
+- Payloads are MISMO. The contracts declare MISMOReferenceModelIdentifier="3.3.0299", carry
+  urn:fdc:mismo.org relationship URNs, negotiate appraisalMismoVersion 3.6, and move the GSE Uniform
+  Mortgage Data Program datasets (UAD, ULAD, ULDD, UCD, UCDP) over HTTP. If you already speak MISMO,
+  you already speak these APIs.
+
+## Origination
+
+- [Affordable Check](https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71): preliminary eligibility for Home Possible, HFA Advantage, Refi Possible and HomeOne from a minimal borrower data set. POST /requestBorrowerEligibilityData (requestEligibility). v1 was retired 2025-10-29.
+- [Income Limits](https://developer.freddiemac.com/public/#/api-info/overview/6197b8395032a264da85a01b): area median income values and income-to-AMI percentages. POST /incomeLimitsData (incomeLimitsData).
+- [Loan Look Up](https://developer.freddiemac.com/public/#/api-info/overview/6197bab05032a264da85a02b): whether Freddie Mac owns a mortgage, or paid one off in the last 90 days. POST /loanlookup (LoanLookup).
+- [Property Insights](https://developer.freddiemac.com/public/#/api-info/overview/619720835032a264da859ff4): Freddie Mac property and appraisal data, UAD-aligned to MISMO 3.6. POST /requestPropertyData (requestPropertyData).
+- [Current Mortgage Snapshot](https://developer.freddiemac.com/public/#/api-info/overview/6197b94aa8adda2fb7323736): POST /requestMortgageData (requestMortgageData).
+- [Beyond ACE](https://developer.freddiemac.com/public/#/api-info/overview/6197ea655032a264da85a08c): property data collection — the only API in the catalog with GET and PUT. 11 operations across /property, /image/{imageId} and /pdf/{propertyDataId}.
+
+## Closing
+
+- [Loan Closing Advisor Loan Submission](https://developer.freddiemac.com/public/#/api-info/overview/660f427090f1397952c8a9a0): submit a single-loan Uniform Closing Dataset (UCD) file for assessment. POST /EWSG_LCLALoanEvaluationServiceV2.0 (submitLoan). No withdrawal operation exists.
+
+## Selling and delivery
+
+- [Cash Pricing](https://developer.freddiemac.com/public/#/api-info/overview/623d0826c48acc2401ba22da) / [Guarantor Pricing](https://developer.freddiemac.com/public/#/api-info/overview/623d08d5fddb9917ea999f68): cash-sheet and guarantor-sheet pricing. HTTP Basic, on lassvcs-uat.fmrei.com.
+- [Cash Committing](https://developer.freddiemac.com/public/#/api-info/overview/623d0765fddb9917ea999f3b): price, extension and pairoff, each split into a quote call and a decision call bound by ResponseToken. pairoff → pairoff-decision is the reversal path for an accepted commitment.
+- [Guarantor Committing](https://developer.freddiemac.com/public/#/api-info/overview/623d087efddb9917ea999f5a): the same quote/decide split for guarantor execution, plus modify.
+- [Loan Import](https://developer.freddiemac.com/public/#/api-info/overview/68df12b88875c078cd3faf22): system-to-system loan delivery into Loan Selling Advisor. POST /v1/loans/import (importLoanS2S) and /v1/loans/import-status (importLoanS2SStatus). Newest API in the catalog — went to production 2025-12-04. There is no way to undo an import.
+- [Cash Settlement Purchase Statement](https://developer.freddiemac.com/public/#/api-info/overview/624f7c78b1e1c3419ba58885) / [Guarantor Settlement Purchase Statement](https://developer.freddiemac.com/public/#/api-info/overview/6531c4a3276bea497cf1cad4): POST /purchase_statement (getPurchaseStatement).
+
+## Post-close
+
+- [Data Share](https://developer.freddiemac.com/public/#/api-info/overview/6197eb69a8adda2fb732376d): retrieve the source and feedback documents a loan generated across Loan Product Advisor, Loan Quality Advisor (ULDD XML), Loan Closing Advisor (UCD XML, closing disclosures) and Loan Collateral Advisor (UAD appraisal XML). Five POST operations. Returns DSA* business-message codes inside 200 responses — read the body to know whether documents were actually found.
+- [Data Share Bid Tape](https://developer.freddiemac.com/public/#/api-info/overview/6233cd01689af970cd9a0b43): POST /getbidsummary (getbidsummaryPOST).
+
+## Servicing (Resolve)
+
+- [Resolve Workout Options](https://developer.freddiemac.com/public/#/api-info/overview/6198025c5032a264da85a176): POST /api/evaluateWorkout (evaluateWorkoutUsingPOST).
+- [Resolve Retention](https://developer.freddiemac.com/public/#/api-info/overview/619801965032a264da85a168): POST /api/v3/requestWorkout (requestWorkoutV3UsingPOST).
+- [Resolve Liquidation](https://developer.freddiemac.com/public/#/api-info/overview/6198033aa8adda2fb732385d): POST /shortsale (requestWorkoutUsingPOST).
+- [Resolve Valuation & Pricing](https://developer.freddiemac.com/public/#/api-info/overview/619803ca5032a264da85a185): POST /rvpService (ShortSaleMNPUsingPOST).
+- A Resolve Default Event Reporting API is announced for November 2026, replacing monthly EDR action-code submissions with event-based reporting.
+
+## Errors and limits
+
+- Error bodies are application/json but the envelope differs per API family — at least eight shapes across the catalog. This is NOT RFC 9457.
+- Codes are dotted: 400.001–400.010 (request), 401.001–401.010 (OAuth credential lifecycle), 404.001, 429.001 (per-second rate), 429.002 (per-minute quota), 500.001–500.004.
+- No rate-limit response headers of any kind, and no Retry-After. The four Loan Selling Advisor pricing/committing services do not use 429 at all — they report "Request limit exceeded" as a bare 500.
+
+## Operations
+
+- [Developer Portal](https://developer.freddiemac.com/public/)
+- [API catalog](https://developer.freddiemac.com/public/#/api-catalog)
+- [Getting started](https://sf.freddiemac.com/tools-learning/apis/getting-started-with-apis)
+- [Our API solutions](https://sf.freddiemac.com/tools-learning/apis/our-api-solutions)
+- [Origination API Playbook (PDF)](https://sf.freddiemac.com/docs/pdf/api-playbook.pdf)
+- [System status](https://sf.freddiemac.com/tools-learning/system-status) — per-system, 16 Freddie Mac systems
+- [Technology tool releases](https://sf.freddiemac.com/tools-learning/technology-tools/releases)
+- [Security contact](https://api.freddiemac.com/.well-known/security.txt) — Bugcrowd intake, private program
+- [Terms](https://www.freddiemac.com/terms) · [Privacy](https://www.freddiemac.com/terms/privacy)
+
+## What Freddie Mac does not publish
+
+No MCP server. No A2A agent card. No AsyncAPI, webhooks or event surface. No GraphQL. No WSDL. No CLI.
+No public SDK on npm, PyPI, RubyGems or crates.io — first-party SDKs exist and are maintained, but they
+are distributed only inside the authenticated portal. No GitHub organisation (github.com/freddiemac is
+an unrelated personal account). No Postman workspace. No OpenID Connect discovery document. No
+/.well-known/api-catalog, despite a machine-readable catalog existing at
+https://developer.freddiemac.com/public/api-catalog.

@@ -1,0 +1,1748 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Income Limits",
+    "version": "2.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://api-test.freddiemac.com/single-family/income-limits-api/v2"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Income Limits",
+      "description": "Simplify your process of determining whether a borrower can qualify for a Freddie Mac Home Possible® mortgage with easy access to qualifying income limits based on property location."
+    }
+  ],
+  "paths": {
+    "/incomeLimitsData": {
+      "post": {
+        "tags": [
+          "Income Limits"
+        ],
+        "summary": "Retrieve standardized address and area median income information.",
+        "operationId": "incomeLimitsData",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IncomeLimitsRequest"
+              },
+              "examples": {
+                "Example1": {
+                  "$ref": "#/components/examples/RequestExample1"
+                },
+                "Example2": {
+                  "$ref": "#/components/examples/RequestExample2"
+                },
+                "Example3": {
+                  "$ref": "#/components/examples/RequestExample3"
+                },
+                "Example4": {
+                  "$ref": "#/components/examples/RequestExample4"
+                },
+                "Example5": {
+                  "$ref": "#/components/examples/RequestExample5"
+                },
+                "Example6": {
+                  "$ref": "#/components/examples/RequestExample6"
+                },
+                "Example7": {
+                  "$ref": "#/components/examples/RequestExample7"
+                },
+                "Example8": {
+                  "$ref": "#/components/examples/RequestExample8"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "<b>Ok</b> <center><b>Success Messages</b></center><hr><br> <center><b>Error Messages</b></center> <hr> <ul><li><strong>IL0001 </strong>Unable to determine if the borrower(s) lives in an underserved market due to missing Borrower data {data field} in the request. Please verify and resubmit.</li><li><strong>IL0002 </strong> The Financed Unit Count needs to match the total number of property unit data containers provided in the request.  Please verify and resubmit.</li><li><strong>IL0003</strong> Unable to assess the Social Dimension Scores due to missing {data field} in the request. Please verify and resubmit.</li><li><strong>IL0005 </strong> Unable to determine if the borrower(s) lives in an underserved market due to invalid value provided for {data field} in the request. Please verify and resubmit.</li><li><strong>IL0006 </strong> Unable to assess the Social Dimension Scores due to invalid value provided for {data field} in the request. Please verify and resubmit.</li><li><strong>IL0007 </strong> The Loan Calculation Service is down at this time. Please try again later.</li><li><strong>IL0008 </strong> Maximum limit of 5 borrower exceeded for {borrower(s)} in the request. Please verify and resubmit.</li>",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncomeLimitsResponse"
+                },
+                "examples": {
+                  "Example1": {
+                    "$ref": "#/components/examples/ResponseExample1"
+                  },
+                  "Example2": {
+                    "$ref": "#/components/examples/ResponseExample2"
+                  },
+                  "Example3": {
+                    "$ref": "#/components/examples/ResponseExample3"
+                  },
+				  "Example4": {
+                    "$ref": "#/components/examples/ResponseExample4"
+				  },
+                  "Example5": {
+                    "$ref": "#/components/examples/ResponseExample5"
+                  },
+                  "Example6": {
+                    "$ref": "#/components/examples/ResponseExample6"
+                  },
+                  "Example7": {
+                    "$ref": "#/components/examples/ResponseExample7"
+                  },
+                  "Example8": {
+                    "$ref": "#/components/examples/ResponseExample8"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "<b>Bad Request</b> \r\n\n <font size='1' color='black'><b>Error codes & details</b></font> \r\n\n <B>400.001</B> Malformed content from the client \r\n\n <B>400.002</B> Request data does not match the application schema, please validate the request data. \r\n\n<B>400.005</B> Empty request body \r\n\n <B>400.006</B> Content-type must be application/json \r\n\n ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": "400.006",
+                  "message": "Missing header Content-type",
+                  "details": [
+                    {
+                      "error": "Content-type must be application/json"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "<b>Unauthorized</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>401.001</B> Invalid Access Token, please validate the token, if error persists please renew your token. \r\n\n <b>401.002</b> Access Token Expired, please renew your access token. \r\n\n <b>401.003</b> API Product mismatch for token. Your token does not have access to the requested API \r\n\n <b>401.004</b> Invalid API Key, please validate the Client ID \r\n\n <b>401.005</b> Invalid API Key for given resource \r\n\n <b>401.006</b> Insufficient scope for Application \r\n\n <b>401.007</b> Invalid Username/Password combination, the provided combination of username and password is incorrect, please verify your credentials. \r\n\n <b>401.008</b> Invalid Refresh Token. \r\n\n <b>401.009</b> Invalid client secret \r\n\n <b>401.010</b> Refresh Token expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": "401.002",
+                  "message": "Access Token Expired",
+                  "details": [
+                    {
+                      "error": "Access Token Expired, please renew your access token."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "<b>Not Found</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>404.001</b> No resource for POST <b>/path</b>",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404.001,
+                  "message": "No resource for POST /path",
+                  "details": {
+                    "error": "No resource for POST /path"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "<b>Too Many Requests</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>429.001</b> Rate limit exceeded, too many requests have been sent per second. \r\n\n <b>429.002</b> Quota limit exceeded, too many requests have been sent per minute.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 429.001,
+                  "message": "Rate limit exceeded",
+                  "details": {
+                    "error": "Rate limit exceeded, too many requests have been sent per second."
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "<b>Internal server error.</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <b>500</b> Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": "500",
+                  "message": "Internal server error",
+                  "details": [
+                    {
+                      "error": "Income Limits API is unable to retrieve data for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "IncomeLimitsRequest": {
+        "required": [
+          "address",
+          "partyRoleIdentifier",
+          "partyRoleType",
+          "requestTransactionIdentifier"
+        ],
+        "type": "object",
+        "properties": {
+          "requestTransactionIdentifier": {
+            "maxLength": 36,
+            "minLength": 36,
+            "pattern": "^([0-9a-fA-F]{8})-(([0-9a-fA-F]{4}/-){3})([0-9a-fA-F]{12})$",
+            "type": "string",
+            "description": "128-bit Globally unique identifier (GUID) assigned to each request.",
+            "example": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2"
+          },
+          "loanIdentifier": {
+            "maxLength": 36,
+            "minLength": 36,
+            "pattern": "^([0-9a-fA-F]{8})-(([0-9a-fA-F]{4}/-){3})([0-9a-fA-F]{12})$",
+            "type": "string",
+            "description": "The value of the unique identifier (GUID) assigned to a mortgage loan.",
+            "example": "7r5da9da-6b10-4995-89a0-b793b6f2f6a3"
+          },
+          "partyRoleIdentifier": {
+            "maxLength": 10,
+            "minLength": 1,
+            "type": "string",
+            "description": "The unique identifier assigned to the party role.",
+            "example": "123456"
+          },
+          "partyRoleType": {
+            "type": "string",
+            "description": "Identifies the role that the party plays in the transaction. Parties may be either a person or legal entity. A party may play multiple roles in a transaction.",
+            "example": "Seller",
+            "enum": [
+              "ThirdPartyOriginator TPO",
+              "Seller",
+              "Servicer",
+              "Correspondent",
+              "Lender",
+              "Other"
+            ]
+          },
+          "partyRoleTypeOtherDescription": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "description": "A free-form text field used to collect additional information when \"Other\" is selected for Party Role Type."
+          },
+          "loanOriginationSystem": {
+            "$ref": "#/components/schemas/IncomeLimitsRequest_loanOriginationSystem"
+          },
+          "address": {
+            "$ref": "#/components/schemas/address"
+          },
+          "borrowerInformation": {
+            "$ref": "#/components/schemas/IncomeLimitsRequest_borrowerInformation"
+          },
+          "subjectLoanData": {
+            "$ref": "#/components/schemas/IncomeLimitsRequest_subjectLoanData"
+          },
+          "missionIndexScoreIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the file submitter requests that the Mission Index Score be included in the response.",
+            "example": true
+          },
+          "specialPurposeCreditProgramIndicator": {
+            "type": "string",
+            "description": "When Y, indicates that is a Special Purpose Credit Program.",
+            "example": "Y",
+            "enum": [
+              "Y",
+              "N"
+            ]
+          },
+          "subjectPropertyData": {
+            "$ref": "#/components/schemas/IncomeLimitsRequest_subjectPropertyData"
+          },
+          "previousYearAMIValue": {
+            "type": "boolean",
+            "description": "A value when selected that allows a user to request the Previous Year Area Median Income (AMI) in addition to the current year AMI.",
+            "example": true
+          },
+          "applicationReceivedDate": {
+            "type": "string",
+            "description": "The date the creditor or originator received the application from the borrower for the subject mortgage loan.",
+            "format": "date",
+            "example": "2024-02-22"
+          }
+        },
+        "additionalProperties": false
+      },
+      "IncomeLimitsResponse": {
+        "required": [
+          "address",
+          "incomeLimitsData",
+          "inputAddress",
+          "requestTransactionIdentifier",
+          "transactionDateTime"
+        ],
+        "type": "object",
+        "properties": {
+          "requestTransactionIdentifier": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "description": "128-bit Globally unique identifier (GUID) assigned to each request.",
+            "example": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2"
+          },
+          "transactionDateTime": {
+            "type": "string",
+            "example": "2020-09-10T22:05:37.184Z"
+          },
+          "inputAddress": {
+            "$ref": "#/components/schemas/address"
+          },
+          "address": {
+            "$ref": "#/components/schemas/IncomeLimitsResponse_address"
+          },
+          "incomeLimitsData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IncomeLimitsResponse_incomeLimitsData"
+            }
+          },
+          "loanLimitsData": {
+            "$ref": "#/components/schemas/IncomeLimitsResponse_loanLimitsData"
+          },
+          "borrowerEstimatedPovertyData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/borrowerEstimatedPovertyData"
+            }
+          },
+          "loanScores": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/loanScores"
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "title": "ErrorResponse",
+        "type": "object",
+        "properties": {
+          "errorEnvelope": {
+            "$ref": "#/components/schemas/ErrorEnvelope"
+          }
+        }
+      },
+      "address": {
+        "required": [
+          "postalCode",
+          "stateCode"
+        ],
+        "type": "object",
+        "properties": {
+          "addressLineText": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "The address with the address number, pre-directional, street name, post-directional, address unit designators and address unit value.",
+            "example": "8200 Jones Branch Drive"
+          },
+          "cityName": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "The name of the city.",
+            "example": "McLean"
+          },
+          "postalCode": {
+            "maxLength": 10,
+            "minLength": 5,
+            "pattern": "^[0-9]{5}(?:-[0-9]{4})?$",
+            "type": "string",
+            "description": "The postal code (ZIP Code in the US) for the address. ZIP Code may be either 5 or 9 digits.",
+            "example": "22102"
+          },
+          "stateCode": {
+            "pattern": "^[A-Za-z\\s]*$",
+            "type": "string",
+            "description": "The two-character representation of the US state, US Territory, Canadian Province, Military APO FPO, or Territory.",
+            "example": "VA",
+            "enum": [
+              "AK",
+              "AL",
+              "AR",
+              "AZ",
+              "CA",
+              "CO",
+              "CT",
+              "DC",
+              "DE",
+              "FL",
+              "GA",
+              "GU",
+              "HI",
+              "IA",
+              "ID",
+              "IL",
+              "IN",
+              "KS",
+              "KY",
+              "LA",
+              "MA",
+              "MD",
+              "ME",
+              "MI",
+              "MN",
+              "MO",
+              "MS",
+              "MT",
+              "NC",
+              "ND",
+              "NE",
+              "NH",
+              "NJ",
+              "NM",
+              "NV",
+              "NY",
+              "OH",
+              "OK",
+              "OR",
+              "PA",
+              "PR",
+              "RI",
+              "SC",
+              "SD",
+              "TN",
+              "TX",
+              "UT",
+              "VI",
+              "VA",
+              "VT",
+              "WA",
+              "WI",
+              "WV",
+              "WY"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "propertyInformation": {
+        "type": "object",
+        "properties": {
+          "unitID": {
+            "maxLength": 1,
+            "type": "string",
+            "description": "A unique identifier assigned to the Unit.<br> This field is optional unless missionIndexScoreIndicator is true, and propertyInformation container is provided for each financed unit on the loan, when totalBedRoomCount and rentalEstimatedGrossMonthlyRentAmount are being provided Unit ID must be provided.",
+            "enum": [
+              "1",
+              "2",
+              "3",
+              "4"
+            ]
+          },
+          "totalBedRoomCount": {
+            "type": "string",
+            "description": "Specifies the total number of bedrooms.",
+            "example": "1"
+          },
+          "rentalEstimatedGrossMonthlyRentAmount": {
+            "pattern": "^[.]?[0-9]+(?:.[0-9]{2})?$",
+            "type": "string",
+            "description": "The estimated dollar value of the estimated gross monthly rental income derived from a single rental unit or property.",
+            "example": "400000.00"
+          }
+        }
+      },
+      "borrowerEstimatedPovertyData": {
+        "type": "object",
+        "properties": {
+          "borrowerId": {
+            "type": "string",
+            "description": "The unique identifier assigned to the borrower.",
+            "example": "879568259"
+          },
+          "addressMatchLevel": {
+            "type": "string",
+            "description": "The address scrubber will return the confidence of the attempted address match based on how similar the input address is to the matched adress. Vendor software codes(E=Exact Match,T=Tight Match,M=Medium Match,N=No Match) will be used to determine the appropriate \"Address Match Level.\"",
+            "example": "E",
+            "enum": [
+              "E",
+              "T",
+              "M",
+              "N"
+            ]
+          },
+          "estimatedPovertyPercent": {
+            "type": "string",
+            "description": "Percent below poverty level for whom the poverty status is determined as per the 5-year estimates from the American Community Survey (ACS) file.",
+            "example": "97.90"
+          },
+          "borrowerAddressExclusionCode": {
+            "type": "string",
+            "description": "This code indicates whether the identified address was a ‘Post Office Box’ (POB), ‘Private Mail Box’ (PMB), ‘Military Addresses’ (MIL). The valid values are POB, PMB, and MIL. The absence of a value/NULL indicates that the address was not identified as a Post Office Box, Private Mail Box, or Military Address.",
+            "example": "POB",
+            "enum": [
+              "POB",
+              "PMB",
+              "MIL"
+            ]
+          },
+          "Errors": {
+            "$ref": "#/components/schemas/Errors"
+          }
+        }
+      },
+      "loanScores": {
+        "type": "object",
+        "properties": {
+          "loanIdentifier": {
+            "type": "string",
+            "description": "The value of the unique identifier (GUID) assigned to a mortgage loan.",
+            "example": "7r5da9da-6b10-4995-89a0-b793b6f2f6a3"
+          },
+          "missionScoreEvaluationDate": {
+            "type": "string",
+            "description": "Date that the referenced score was produced.",
+            "example": "2020-09-10"
+          },
+          "missionIndicationScore": {
+            "type": "string",
+            "description": "A numeric score that is determined by the eight social criteria that were evaluated when generating the Social Criteria Share (SCS). Those eight criteria are grouped into three dimensions (Income, Borrower, Property). If any single criteria within a dimension is met, then that dimension receives a score of “1\". If the criteria for two dimensions are met then score will be \"2\" and so on.",
+            "example": "2"
+          },
+          "incomeDimensionScoreNumber": {
+            "type": "string",
+            "description": "The income dimension score calculated for the record provided. It is one of the dimensions in determining social criteria evaluated when generating the Social Criteria Share.",
+            "example": "1"
+          },
+          "borrowerDimensionScoreNumber": {
+            "type": "string",
+            "description": "The borrower dimension score calculated for the record provided. It is one of the dimensions in determining social criteria evaluated when generating the Social Criteria Share.",
+            "example": "1"
+          },
+          "propertyDimensionScoreNumber": {
+            "type": "string",
+            "description": "The property dimension score calculated for the record provided. It is one of the dimensions in determining social criteria evaluated when generating the Social Criteria Share. .",
+            "example": "1"
+          },
+          "affordableRentalIndicator": {
+            "type": "string",
+            "description": "When true (indicator is 1), indicates that the loan meets the Mission Index Affordable Rental Criteria for making housing units affordable to low-income renters.",
+            "example": "1"
+          },
+          "borrowerResidenceInUnderservedMarketIndicator": {
+            "type": "string",
+            "description": "When true (indicator is 1), indicates that the borrower currently lives in in an area providing limited opportunities to access quality affordable housing.",
+            "example": "1"
+          },
+          "amiRatio": {
+            "type": "string",
+            "description": "The borrower(s) qualifying annual income divided by the area median income amount for the Metropolitan Statistical Area (MSA) location of the subject property, at the time of loan origination.",
+            "example": "0.7313"
+          },
+          "amiAmount": {
+            "type": "string",
+            "description": "The dollar amount representing the Area Median Income (AMI) for the subject property address.",
+            "example": "164100.0"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "errorDescription": {
+            "type": "string"
+          }
+        }
+      },
+      "Errors": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "ErrorEnvelope": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "$ref": "#/components/schemas/Errors"
+          }
+        }
+      },
+      "IncomeLimitsRequest_loanOriginationSystem": {
+        "type": "object",
+        "properties": {
+          "loanOriginationSystemVendorIdentifier": {
+            "type": "string",
+            "description": "A unique identifier agreed upon by the parties to the transaction to identify the vendor of the loan origination system used to process the loan.",
+            "example": "AccurateLOS"
+          },
+          "loanOriginationSystemVersionIdentifier": {
+            "type": "string",
+            "description": "Specifies the version of the loan origination system used to process the loan.",
+            "example": "2.7"
+          }
+        },
+        "additionalProperties": false
+      },
+      "IncomeLimitsRequest_borrowerInformation_borrower": {
+        "type": "object",
+        "properties": {
+          "borrowerID": {
+            "pattern": "^((?![nN][uU][lL])|([a-zA-Z0-9-]{1,64}))$",
+            "type": "string",
+            "description": "The unique identifier assigned to the borrower.<br> This field is optional unless missionIndexScoreIndicator is true, and borrowerInformation container is provided for each borrower, when incomeFrequencyType and loanLevelQualifyingIncomeAmount are being provided Borrower ID must be provided.",
+            "example": "457653980"
+          },
+          "borrowerFirstTimeHomebuyerIndicator": {
+            "type": "string",
+            "description": "Indicates that the borrower qualifies as a first time homebuyer as determined by the lender and/or investor.",
+            "example": "Y",
+            "enum": [
+              "Y",
+              "N"
+            ]
+          },
+          "address": {
+            "$ref": "#/components/schemas/address"
+          }
+        }
+      },
+      "IncomeLimitsRequest_borrowerInformation": {
+        "type": "object",
+        "properties": {
+          "incomeFrequencyType": {
+            "type": "string",
+            "description": "A value from a Freddie Mac-defined list that represents how often the loanLevelQualifyingIncomeAmount is earned.",
+            "example": "Monthly",
+            "enum": [
+              "Monthly",
+              "Yearly"
+            ]
+          },
+          "loanLevelQualifyingIncomeAmount": {
+            "pattern": "^[0-9]*(?:.[0-9]{2})?$",
+            "type": "string",
+            "description": "The total amount of qualifying income for all borrowers on the loan.",
+            "example": "6000.00"
+          },
+          "borrower": {
+            "maxItems": 5,
+            "minItems": 0,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IncomeLimitsRequest_borrowerInformation_borrower"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "IncomeLimitsRequest_subjectLoanData": {
+        "type": "object",
+        "properties": {
+          "loanLimitRequestIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the requestor wants to receive the conforming loan limits for the corresponding county in the API response.",
+            "example": true,
+            "enum": [
+              true,
+              false
+            ]
+          },
+          "baseLoanAmount": {
+            "pattern": "^[0-9]*(?:.[0-9]{2})?$",
+            "type": "string",
+            "description": "The base loan amount to be loaned to the borrower not including PMI, MIP, or Funding Fee.",
+            "example": "400000.00"
+          },
+          "financedUnitCount": {
+            "type": "string",
+            "description": "The number of individual family dwelling units being financed in the subject property. FinancedUnitCount is conditionally required when baseLoanAmount is present",
+            "example": "1",
+            "enum": [
+              "1",
+              "2",
+              "3",
+              "4"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "IncomeLimitsRequest_subjectPropertyData": {
+        "type": "object",
+        "properties": {
+          "financedUnitCount": {
+            "type": "string",
+            "description": "The number of individual family dwelling units being financed in the subject property. FinancedUnitCount is conditionally required when baseLoanAmount is present",
+            "example": "1",
+            "enum": [
+              "1",
+              "2",
+              "3",
+              "4"
+            ]
+          },
+          "constructionMethodType": {
+            "type": "string",
+            "description": "Describes the construction process for the main dwelling unit of the subject property as \"Manufactured\" for a factory-built dwelling or \"SiteBuilt\" when most elements are created at the home's permanent site.",
+            "example": "Manufactured",
+            "enum": [
+              "Manufactured",
+              "SiteBuilt"
+            ]
+          },
+          "propertyUsageType": {
+            "type": "string",
+            "description": "A value that specifies the intended usage of the property by the borrower as \"Investment\" when the home will be owned for the purpose of generating income by renting the property; \"PrimaryResidence\" when the owner will physically occupy the home and use it for their principal residence; or \"SecondHome\" when the home will be occupied by the owner for a portion of the year and is not the primary residence.<br> This field is optional unless missionIndexScoreIndicator is true, when true this field is a required field to receive the score.",
+            "example": "PrimaryResidence",
+            "enum": [
+              "Investment",
+              "PrimaryResidence",
+              "SecondHome"
+            ]
+          },
+          "loanPurposeType": {
+            "type": "string",
+            "description": "Specifies the purpose for which the loan proceeds will be used. Purchase: A loan made in association with the original purchase of a piece of property. Refinance: The repayment of a debt from proceeds of a new loan using the same property as security or a mortgage secured by a property previously owned free and clear by the Borrower.",
+            "example": "Purchase",
+            "enum": [
+              "Purchase",
+              "Refinance"
+            ]
+          },
+          "propertyInformation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/propertyInformation"
+            }
+          }
+        }
+      },
+      "IncomeLimitsResponse_address": {
+        "required": [
+          "addressLineText",
+          "censusTractIdentifier",
+          "cityName",
+          "coreBasedStatisticalAreaCode",
+          "countyName",
+          "disasterAreaCensusTractIndicator",
+          "fipsCountyCode",
+          "fipsStateNumericCode",
+          "highCostAreaIndicator",
+          "highNeedsRuralRegionEligibilityAndQualifiedIndicator",
+          "lowIncomeCensusTractIndicator",
+          "minorityPopulationCensusTractIndicator",
+          "minorityPopulationCensusTractPercent",
+          "postalCode",
+          "ruralAreaIndicator",
+          "stateCode"
+        ],
+        "type": "object",
+        "properties": {
+          "censusTractIdentifier": {
+            "type": "string",
+            "description": "Identifies census tract as defined by the U.S. Census Bureau where subject property is located.",
+            "example": "480202"
+          },
+          "fipsCountyCode": {
+            "type": "string",
+            "description": "Code identifying the county. (Designator Code based on Federal Information Processing Standard Publication 6-4).",
+            "example": "059"
+          },
+          "countyName": {
+            "type": "string",
+            "description": "The name of the county within a state. (Designator Name based on FIPS Publication 6-4)",
+            "example": "Fairfax"
+          },
+          "addressLineText": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "The address with the address number, pre-directional, street name, post-directional, address unit designators and address unit value.",
+            "example": "8200 JONES BRANCH DR"
+          },
+          "cityName": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string",
+            "description": "The name of the city.",
+            "example": "MCLEAN"
+          },
+          "postalCode": {
+            "maxLength": 10,
+            "minLength": 5,
+            "type": "string",
+            "description": "The postal code (ZIP Code in the US) for the address. ZIP Code may be either 5 or 9 digits.",
+            "example": "22102"
+          },
+          "stateCode": {
+            "type": "string",
+            "description": "The two-character representation of the US state, US Territory, Canadian Province, Military APO FPO, or Territory.",
+            "example": "VA",
+            "enum": [
+              "AK",
+              "AL",
+              "AR",
+              "AZ",
+              "CA",
+              "CO",
+              "CT",
+              "DC",
+              "DE",
+              "FL",
+              "GA",
+              "GU",
+              "HI",
+              "IA",
+              "ID",
+              "IL",
+              "IN",
+              "KS",
+              "KY",
+              "LA",
+              "MA",
+              "MD",
+              "ME",
+              "MI",
+              "MN",
+              "MO",
+              "MS",
+              "MT",
+              "NC",
+              "ND",
+              "NE",
+              "NH",
+              "NJ",
+              "NM",
+              "NV",
+              "NY",
+              "OH",
+              "OK",
+              "OR",
+              "PA",
+              "PR",
+              "RI",
+              "SC",
+              "SD",
+              "TN",
+              "TX",
+              "UT",
+              "VI",
+              "VA",
+              "VT",
+              "WA",
+              "WI",
+              "WV",
+              "WY"
+            ]
+          },
+          "addressMatchLevel": {
+            "type": "string",
+            "description": "The address scrubber will return the confidence of the attempted address match based on how similar the input address is to the matched adress. Vendor software codes(E=Exact Match,T=Tight Match,M=Medium Match,N=No Match) will be used to determine the appropriate \"Address Match Level.\"",
+            "example": "E",
+            "enum": [
+              "E",
+              "T",
+              "M",
+              "N"
+            ]
+          },
+          "fipsStateNumericCode": {
+            "type": "string",
+            "description": "A unique two digit numeric code to identify each State and State equivalent entity. These State codes are part of the Federal Information Processing Standards (FIPS), an official coding system developed by the National Institute of Standards and Technology (NIST, formerly the National Bureau of Standards), U.S. Department of Commerce, and maintained by the U.S. Geological Survey (USGS).",
+            "example": "51"
+          },
+          "highNeedsRuralRegionEligibilityAndQualifiedIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the loan is both eligible and qualified for the Duty-to-Serve (DTS) High Needs Rural RegionHNRR objective. The loan is in one of the following DTS rural regions: Lower Mississippi Delta, Mid-Appalachia, Colonias or Persistent Poverty."
+          },
+          "ruralAreaIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the Census Block Group is more than 90% percent rural."
+          },
+          "highCostAreaIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates if a county, consistent with Loan Limits terminology, has been labeled a High Cost Area where these loan limits exceed the base conforming limit."
+          },
+          "lowIncomeCensusTractIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates the census tract income is less than or equal to 80% of the national average median income."
+          },
+          "minorityPopulationCensusTractIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the census tract has a minority population of at least 30% and a median income of less than 100% of the area median income."
+          },
+          "disasterAreaCensusTractIndicator": {
+            "type": "boolean",
+            "description": "When true, indicates that the census tract is in a disaster area Indicator."
+          },
+          "coreBasedStatisticalAreaCode": {
+            "type": "string",
+            "description": "A value from a Census Bureau-define list that classifies an urban cluster."
+          },
+          "minorityPopulationCensusTractPercent": {
+            "type": "string",
+            "description": "The percent of minorities living in the census tract based on data provided by the Secondary Mortgage Market Regulator."
+          }
+        },
+        "description": "standardized address of a property."
+      },
+      "IncomeLimitsResponse_incomeLimitsData": {
+        "type": "object",
+        "properties": {
+          "amiEffectiveDate": {
+            "type": "string",
+            "description": "The date that new Area Median Income (AMI) limits will go into effect."
+          },
+          "incometoAMIRatioPercent": {
+            "type": "string",
+            "description": "A portion of 100 that represents the loan level qualifying income amount to the area median income (AMI) amounts. ((Income / AMI) * 100)",
+            "example": "97.90"
+          },
+          "refiPossibleIncomeLimitAmount": {
+            "type": "string",
+            "description": "The maximum loan level borrower income for the specific census tract, allowed to qualify for Refi Possible.",
+            "example": "124900.00"
+          },
+          "homePossibleIncomeLimitAmount": {
+            "type": "string",
+            "description": "For the specific census tract, this is the maximum borrower income allowed to qualify for Home Possible.",
+            "example": "99920.00"
+          },
+          "hundredAndFortyPercentHUDMedianIncomeAmount": {
+            "type": "string",
+            "description": "The HUD estimated 140% median family incomes to determine borrower eligibility for all applications related to affordable lending products.",
+            "example": "174860.00"
+          },
+          "hundredAndTwentyPercentHUDMedianIncomeAmount": {
+            "type": "string",
+            "description": "A household whose aggregate gross income equals 120% or less of Area Median Income (AMI), as adjusted for family size.",
+            "example": "149880.00"
+          },
+          "hundredPercentHUDMedianIncomeAmount": {
+            "type": "string",
+            "description": "The HUD estimated 100% median family incomes to determine borrower eligibility for all applications related to affordable lending products.",
+            "example": "124900.00"
+          },
+          "eightyPercentHUDMedianIncomeAmount": {
+            "type": "string",
+            "description": "The HUD estimated 80% median family incomes to determine borrower eligibility for all applications related to affordable lending products.",
+            "example": "99920.00"
+          },
+          "fiftyPercentHUDMedianIncomeAmount": {
+            "type": "string",
+            "description": "The HUD estimated 50% median family incomes to determine borrower eligibility for all applications related to affordable lending products.",
+            "example": "62450.00"
+          }
+        }
+      },
+      "IncomeLimitsResponse_loanLimitsData": {
+        "type": "object",
+        "properties": {
+          "loanConformityType": {
+            "type": "string",
+            "description": "A value from a Freddie Mac-defined list that provides an early indication of whether a loan is conforming, super-conforming, non-conforming.",
+            "example": "Conforming",
+            "enum": [
+              "Conforming",
+              "SuperConforming",
+              "NonConforming"
+            ]
+          },
+          "oneUnitLimitAmount": {
+            "type": "string",
+            "description": "National conforming loan limit for a single-family one-unit property for the provided property address.",
+            "example": "970800.00"
+          },
+          "twoUnitLimitAmount": {
+            "type": "string",
+            "description": "National conforming loan limit for a single-family two-unit property for the provided property address.",
+            "example": "1243050.00"
+          },
+          "threeUnitLimitAmount": {
+            "type": "string",
+            "description": "National conforming loan limit for a single-family three-unit property for the provided property address.",
+            "example": "1502475.00"
+          },
+          "fourUnitLimitAmount": {
+            "type": "string",
+            "description": "National conforming loan limit for a single-family four-unit property for the provided property address.",
+            "example": "1867275.00"
+          }
+        }
+      }
+    },
+    "examples": {
+      "RequestExample1": {
+        "summary": "Scenario 1 - Get property address and relevant income limits data",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "address": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "borrowerInformation": {
+            "incomeFrequencyType": "Monthly",
+            "loanLevelQualifyingIncomeAmount": "6000.00"
+          },
+          "previousYearAMIValue": false
+        }
+      },
+      "RequestExample2": {
+        "summary": "Scenario 2 - Get property address, relevant income limits and loan limits data",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "address": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "borrowerInformation": {
+            "incomeFrequencyType": "Monthly",
+            "loanLevelQualifyingIncomeAmount": "6000.00"
+          },
+          "subjectLoanData": {
+            "loanLimitRequestIndicator": true
+          },
+          "previousYearAMIValue": false
+        }
+      },
+      "RequestExample3": {
+        "summary": "Scenario 3 - Get property address, relevant income limits and loan limit data for a specific financed unit count",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "address": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "borrowerInformation": {
+            "incomeFrequencyType": "Monthly",
+            "loanLevelQualifyingIncomeAmount": "6000.00"
+          },
+          "subjectLoanData": {
+            "loanLimitRequestIndicator": true,
+            "baseLoanAmount": "400000.00",
+            "financedUnitCount": "1"
+          },
+          "previousYearAMIValue": false
+        }
+      },
+      "RequestExample4": {
+        "summary": "Scenario 4 - Get income limits data - Unsuccessful request",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Other",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "address": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "borrowerInformation": {
+            "incomeFrequencyType": "Monthly"
+          },
+          "subjectLoanData": {
+            "loanLimitRequestIndicator": true,
+            "baseLoanAmount": "400000.00"
+          },
+          "previousYearAMIValue": false
+        }
+      },
+      "RequestExample5": {
+        "summary": "Scenario 5 - Get income limits data and borrower estimated poverty data",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "address": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "borrowerInformation": {
+            "incomeFrequencyType": "Monthly",
+            "loanLevelQualifyingIncomeAmount": "6000.00",
+            "borrower": [
+              {
+                "borrowerID": "897956867",
+                "borrowerFirstTimeHomebuyerIndicator": "Y",
+                "address": {
+                  "addressLineText": "8200 Jones Branch Drive",
+                  "cityName": "McLean",
+                  "postalCode": "22102",
+                  "stateCode": "VA"
+                }
+              }
+            ]
+          },
+          "subjectLoanData": {
+            "loanLimitRequestIndicator": true
+          },
+          "previousYearAMIValue": false
+        }
+      },
+      "RequestExample6": {
+        "summary": "Scenario 6 - Get income limits data and borrower estimated poverty data for multiple borrowers",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "partyRoleIdentifier": "123456",
+          "partyRoleType": "Seller",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "address": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "borrowerInformation": {
+            "incomeFrequencyType": "Monthly",
+            "loanLevelQualifyingIncomeAmount": "6000.00",
+            "borrower": [
+              {
+                "borrowerID": "897956867",
+                "borrowerFirstTimeHomebuyerIndicator": "Y",
+                "address": {
+                  "addressLineText": "8200 Jones Branch Drive",
+                  "cityName": "McLean",
+                  "postalCode": "22102",
+                  "stateCode": "VA"
+                }
+              },
+              {
+                "borrowerID": "302956259",
+                "borrowerFirstTimeHomebuyerIndicator": "Y",
+                "address": {
+                  "addressLineText": "86 GRAND KEY DR",
+                  "cityName": "McLean",
+                  "postalCode": "22102",
+                  "stateCode": "VA"
+                }
+              }
+            ]
+          },
+          "subjectLoanData": {
+            "loanLimitRequestIndicator": true
+          },
+          "previousYearAMIValue": false
+        }
+      },
+      "RequestExample7": {
+        "summary": "Scenario 7 - Get income limits data, borrower estimated poverty data & Mission Index Score",
+        "value": {
+          "requestTransactionIdentifier": "28b81891-258f-41a8-ab95-c5eb4457fe26",
+          "partyRoleIdentifier": "123456",
+          "loanIdentifier": "28b81891-258f-41a8-ab95-c5eb4457fe26",
+          "partyRoleType": "Seller",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "address": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "borrowerInformation": {
+            "incomeFrequencyType": "Monthly",
+            "loanLevelQualifyingIncomeAmount": "6000.00",
+            "borrower": [
+              {
+                "borrowerID": "897956867",
+                "borrowerFirstTimeHomebuyerIndicator": "Y",
+                "address": {
+                  "addressLineText": "8200 Jones Branch Drive",
+                  "cityName": "McLean",
+                  "postalCode": "22102",
+                  "stateCode": "VA"
+                }
+              }
+            ]
+          },
+          "subjectLoanData": {
+            "loanLimitRequestIndicator": true,
+            "financedUnitCount": "1"
+          },
+          "missionIndexScoreIndicator": true,
+          "specialPurposeCreditProgramIndicator": "Y",
+          "subjectPropertyData": {
+            "constructionMethodType": "SiteBuilt",
+            "loanPurposeType": "Purchase",
+            "financedUnitCount": "1",
+            "propertyUsageType": "PrimaryResidence",
+            "propertyInformation": [
+              {
+                "unitID": "1",
+                "totalBedRoomCount": "3",
+                "rentalEstimatedGrossMonthlyRentAmount": "32300.12"
+              }
+            ]
+          },
+          "previousYearAMIValue": false
+        }
+      },
+      "RequestExample8": {
+        "summary": "Scenario 8 - Get income limits data, borrower estimated poverty data & Mission Index Score with applicationReceivedDate",
+        "value": {
+          "requestTransactionIdentifier": "28b81891-258f-41a8-ab95-c5eb4457fe26",
+          "partyRoleIdentifier": "123456",
+          "loanIdentifier": "28b81891-258f-41a8-ab95-c5eb4457fe26",
+          "partyRoleType": "Seller",
+          "loanOriginationSystem": {
+            "loanOriginationSystemVendorIdentifier": "AccurateLOS",
+            "loanOriginationSystemVersionIdentifier": "2.7"
+          },
+          "address": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "borrowerInformation": {
+            "incomeFrequencyType": "Monthly",
+            "loanLevelQualifyingIncomeAmount": "6000.00",
+            "borrower": [
+              {
+                "borrowerID": "897956867",
+                "borrowerFirstTimeHomebuyerIndicator": "Y",
+                "address": {
+                  "addressLineText": "8200 Jones Branch Drive",
+                  "cityName": "McLean",
+                  "postalCode": "22102",
+                  "stateCode": "VA"
+                }
+              }
+            ]
+          },
+          "subjectLoanData": {
+            "loanLimitRequestIndicator": true,
+            "financedUnitCount": "1"
+          },
+          "missionIndexScoreIndicator": true,
+          "applicationReceivedDate": "2025-02-22",
+          "specialPurposeCreditProgramIndicator": "Y",
+          "subjectPropertyData": {
+            "constructionMethodType": "SiteBuilt",
+            "loanPurposeType": "Purchase",
+            "financedUnitCount": "1",
+            "propertyUsageType": "PrimaryResidence",
+            "propertyInformation": [
+              {
+                "unitID": "1",
+                "totalBedRoomCount": "3",
+                "rentalEstimatedGrossMonthlyRentAmount": "32300.12"
+              }
+            ]
+          },
+          "previousYearAMIValue": false
+        }
+      },
+      "ResponseExample1": {
+        "summary": "Scenario 1 - Response with standardized property address with relevant income limits",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2020-09-10T22:05:37.184Z",
+          "inputAddress": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "address": {
+            "censusTractIdentifier": "480202",
+            "fipsCountyCode": "059",
+            "countyName": "Fairfax",
+            "addressLineText": "8200 JONES BRANCH DR",
+            "cityName": "MCLEAN",
+            "postalCode": "22102",
+            "stateCode": "VA",
+            "addressMatchLevel": "E",
+            "fipsStateNumericCode": "51",
+            "highNeedsRuralRegionEligibilityAndQualifiedIndicator": false,
+            "ruralAreaIndicator": false,
+            "highCostAreaIndicator": true,
+            "lowIncomeCensusTractIndicator": false,
+            "minorityPopulationCensusTractIndicator": true,
+            "disasterAreaCensusTractIndicator": false,
+            "coreBasedStatisticalAreaCode": "47900",
+            "minorityPopulationCensusTractPercent": "53.937"
+          },
+          "incomeLimitsData": [
+            {
+              "amiEffectiveDate": "2022-05-06",
+              "incometoAMIRatioPercent": "51.25",
+              "refiPossibleIncomeLimitAmount": "140500.00",
+              "homePossibleIncomeLimitAmount": "112400.00",
+              "hundredAndFortyPercentHUDMedianIncomeAmount": "196700.00",
+              "hundredAndTwentyPercentHUDMedianIncomeAmount": "168600.00",
+              "hundredPercentHUDMedianIncomeAmount": "140500.00",
+              "eightyPercentHUDMedianIncomeAmount": "112400.00",
+              "fiftyPercentHUDMedianIncomeAmount": "70250.00"
+            }
+          ]
+        }
+      },
+      "ResponseExample2": {
+        "summary": "Scenario 2 - Response with standardized property address, relevant income limits and loan limits data",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2020-09-10T22:05:37.184Z",
+          "inputAddress": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "address": {
+            "censusTractIdentifier": "480202",
+            "fipsCountyCode": "059",
+            "countyName": "Fairfax",
+            "addressLineText": "8200 JONES BRANCH DR",
+            "cityName": "MCLEAN",
+            "postalCode": "22102",
+            "stateCode": "VA",
+            "addressMatchLevel": "T",
+            "fipsStateNumericCode": "51",
+            "highNeedsRuralRegionEligibilityAndQualifiedIndicator": false,
+            "ruralAreaIndicator": false,
+            "highCostAreaIndicator": true,
+            "lowIncomeCensusTractIndicator": false,
+            "minorityPopulationCensusTractIndicator": true,
+            "disasterAreaCensusTractIndicator": false,
+            "coreBasedStatisticalAreaCode": "47900",
+            "minorityPopulationCensusTractPercent": "53.937"
+          },
+          "incomeLimitsData": [
+            {
+              "amiEffectiveDate": "2022-05-06",
+              "incometoAMIRatioPercent": "51.25",
+              "refiPossibleIncomeLimitAmount": "140500.00",
+              "homePossibleIncomeLimitAmount": "112400.00",
+              "hundredAndFortyPercentHUDMedianIncomeAmount": "196700.00",
+              "hundredAndTwentyPercentHUDMedianIncomeAmount": "168600.00",
+              "hundredPercentHUDMedianIncomeAmount": "140500.00",
+              "eightyPercentHUDMedianIncomeAmount": "112400.00",
+              "fiftyPercentHUDMedianIncomeAmount": "70250.00"
+            }
+          ],
+          "loanLimitsData": {
+            "oneUnitLimitAmount": "970800.00",
+            "twoUnitLimitAmount": "1243050.00",
+            "threeUnitLimitAmount": "1502475.00",
+            "fourUnitLimitAmount": "1867275.00"
+          }
+        }
+      },
+      "ResponseExample3": {
+        "summary": "Scenario 3 - Response with standardized property address, relevant income limits and loan limit data for a specific financed unit count",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2020-09-10T22:05:37.184Z",
+          "inputAddress": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "address": {
+            "censusTractIdentifier": "480202",
+            "fipsCountyCode": "059",
+            "countyName": "Fairfax",
+            "addressLineText": "8200 JONES BRANCH DR",
+            "cityName": "MCLEAN",
+            "postalCode": "22102",
+            "stateCode": "VA",
+            "addressMatchLevel": "N",
+            "fipsStateNumericCode": "51",
+            "highNeedsRuralRegionEligibilityAndQualifiedIndicator": false,
+            "ruralAreaIndicator": false,
+            "highCostAreaIndicator": true,
+            "lowIncomeCensusTractIndicator": false,
+            "minorityPopulationCensusTractIndicator": true,
+            "disasterAreaCensusTractIndicator": false,
+            "coreBasedStatisticalAreaCode": "47900",
+            "minorityPopulationCensusTractPercent": "53.937"
+          },
+          "incomeLimitsData": [
+            {
+              "amiEffectiveDate": "2022-05-06",
+              "incometoAMIRatioPercent": "51.25",
+              "refiPossibleIncomeLimitAmount": "140500.00",
+              "homePossibleIncomeLimitAmount": "112400.00",
+              "hundredAndFortyPercentHUDMedianIncomeAmount": "196700.00",
+              "hundredAndTwentyPercentHUDMedianIncomeAmount": "168600.00",
+              "hundredPercentHUDMedianIncomeAmount": "140500.00",
+              "eightyPercentHUDMedianIncomeAmount": "112400.00",
+              "fiftyPercentHUDMedianIncomeAmount": "70250.00"
+            }
+          ],
+          "loanLimitsData": {
+            "loanConformityType": "Conforming",
+            "oneUnitLimitAmount": "970800.00"
+          }
+        }
+      },
+	"ResponseExample4": {
+	  "summary": "Scenario 4 - Response for unsuccessful request, schema validation errors",
+	  "value": {
+		"code": "400.002",
+		"message": "Request data does not match the application schema, please validate the request data.",
+		"details": [
+		  {
+			"error": "/subjectLoanData should have conditionally required property 'financedUnitCount'"
+		  },
+		  {
+			"error": " should have conditionally required property 'partyRoleTypeOtherDescription'"
+		  },
+		  {
+			"error": "/borrowerInformation should have conditionally required property 'loanLevelQualifyingIncomeAmount'"
+		  }
+		]
+	  }
+	},	  
+      "ResponseExample5": {
+        "summary": "Scenario 5 - Response with standardized property address, relevant income limits and loan limit data for a specific financed unit count & borrower poverty data",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2020-09-10T22:05:37.184Z",
+          "inputAddress": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "address": {
+            "censusTractIdentifier": "480202",
+            "fipsCountyCode": "059",
+            "countyName": "Fairfax",
+            "addressLineText": "8200 JONES BRANCH DR",
+            "cityName": "MCLEAN",
+            "postalCode": "22102",
+            "stateCode": "VA",
+            "addressMatchLevel": "M",
+            "fipsStateNumericCode": "51",
+            "highNeedsRuralRegionEligibilityAndQualifiedIndicator": false,
+            "ruralAreaIndicator": false,
+            "highCostAreaIndicator": true,
+            "lowIncomeCensusTractIndicator": false,
+            "minorityPopulationCensusTractIndicator": true,
+            "disasterAreaCensusTractIndicator": false,
+            "coreBasedStatisticalAreaCode": "47900",
+            "minorityPopulationCensusTractPercent": "53.937"
+          },
+          "incomeLimitsData": [
+            {
+              "amiEffectiveDate": "2022-05-06",
+              "incometoAMIRatioPercent": "51.25",
+              "refiPossibleIncomeLimitAmount": "140500.00",
+              "homePossibleIncomeLimitAmount": "112400.00",
+              "hundredAndFortyPercentHUDMedianIncomeAmount": "196700.00",
+              "hundredAndTwentyPercentHUDMedianIncomeAmount": "168600.00",
+              "hundredPercentHUDMedianIncomeAmount": "140500.00",
+              "eightyPercentHUDMedianIncomeAmount": "112400.00",
+              "fiftyPercentHUDMedianIncomeAmount": "70250.00"
+            }
+          ],
+          "loanLimitsData": {
+            "loanConformityType": "Conforming",
+            "oneUnitLimitAmount": "970800.00"
+          },
+          "borrowerEstimatedPovertyData": [
+            {
+              "borrowerId": "712698325",
+              "addressMatchLevel": "E",
+              "estimatedPovertyPercent": "20.56",
+              "borrowerAddressExclusionCode": "PMB"
+            }
+          ]
+        }
+      },
+      "ResponseExample6": {
+        "summary": "Scenario 6 - Response with standardized property address, relevant income limits and loan limit data for a specific financed unit count & multiple borrower poverty data",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2020-09-10T22:05:37.184Z",
+          "inputAddress": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "address": {
+            "censusTractIdentifier": "480202",
+            "fipsCountyCode": "059",
+            "countyName": "Fairfax",
+            "addressLineText": "8200 JONES BRANCH DR",
+            "cityName": "MCLEAN",
+            "postalCode": "22102",
+            "stateCode": "VA",
+            "addressMatchLevel": "T",
+            "fipsStateNumericCode": "51",
+            "highNeedsRuralRegionEligibilityAndQualifiedIndicator": false,
+            "ruralAreaIndicator": false,
+            "highCostAreaIndicator": true,
+            "lowIncomeCensusTractIndicator": false,
+            "minorityPopulationCensusTractIndicator": true,
+            "disasterAreaCensusTractIndicator": false,
+            "coreBasedStatisticalAreaCode": "47900",
+            "minorityPopulationCensusTractPercent": "53.937"
+          },
+          "incomeLimitsData": [
+            {
+              "amiEffectiveDate": "2022-05-06",
+              "incometoAMIRatioPercent": "51.25",
+              "refiPossibleIncomeLimitAmount": "140500.00",
+              "homePossibleIncomeLimitAmount": "112400.00",
+              "hundredAndFortyPercentHUDMedianIncomeAmount": "196700.00",
+              "hundredAndTwentyPercentHUDMedianIncomeAmount": "168600.00",
+              "hundredPercentHUDMedianIncomeAmount": "140500.00",
+              "eightyPercentHUDMedianIncomeAmount": "112400.00",
+              "fiftyPercentHUDMedianIncomeAmount": "70250.00"
+            }
+          ],
+          "loanLimitsData": {
+            "loanConformityType": "Conforming",
+            "oneUnitLimitAmount": "970800.00"
+          },
+          "borrowerEstimatedPovertyData": [
+            {
+              "borrowerId": "712698325",
+              "addressMatchLevel": "E",
+              "estimatedPovertyPercent": "20.56",
+              "borrowerAddressExclusionCode": "PMB"
+            },
+            {
+              "borrowerId": "652698325",
+              "Errors": [
+                {
+                  "errorCode": "IL0005",
+                  "errorDescription": "Social Dimension Scores are not yet available through the Income Limits API. Once they are available, they will be provided in the response through the new fields available in version 2.2.0"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "ResponseExample7": {
+        "summary": "Scenario 7 - Response with standardized property address, relevant income limits and loan limit data for a specific financed unit count, borrower poverty data & mission index score",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2020-09-10T22:05:37.184Z",
+          "inputAddress": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "address": {
+            "censusTractIdentifier": "480202",
+            "fipsCountyCode": "059",
+            "countyName": "Fairfax",
+            "addressLineText": "8200 JONES BRANCH DR",
+            "cityName": "MCLEAN",
+            "postalCode": "22102",
+            "stateCode": "VA",
+            "addressMatchLevel": "N",
+            "fipsStateNumericCode": "51",
+            "highNeedsRuralRegionEligibilityAndQualifiedIndicator": false,
+            "ruralAreaIndicator": false,
+            "highCostAreaIndicator": true,
+            "lowIncomeCensusTractIndicator": false,
+            "minorityPopulationCensusTractIndicator": true,
+            "disasterAreaCensusTractIndicator": false,
+            "coreBasedStatisticalAreaCode": "47900",
+            "minorityPopulationCensusTractPercent": "53.937"
+          },
+          "incomeLimitsData": [
+            {
+              "amiEffectiveDate": "2022-05-06",
+              "incometoAMIRatioPercent": "51.25",
+              "refiPossibleIncomeLimitAmount": "140500.00",
+              "homePossibleIncomeLimitAmount": "112400.00",
+              "hundredAndFortyPercentHUDMedianIncomeAmount": "196700.00",
+              "hundredAndTwentyPercentHUDMedianIncomeAmount": "168600.00",
+              "hundredPercentHUDMedianIncomeAmount": "140500.00",
+              "eightyPercentHUDMedianIncomeAmount": "112400.00",
+              "fiftyPercentHUDMedianIncomeAmount": "70250.00"
+            }
+          ],
+          "loanLimitsData": {
+            "loanConformityType": "Conforming",
+            "oneUnitLimitAmount": "970800.00"
+          },
+          "borrowerEstimatedPovertyData": [
+            {
+              "borrowerId": "712698325",
+              "addressMatchLevel": "E",
+              "estimatedPovertyPercent": "20.56",
+              "borrowerAddressExclusionCode": "PMB"
+            },
+            {
+              "borrowerId": "652698325",
+              "addressMatchLevel": "T",
+              "estimatedPovertyPercent": "50.56",
+              "borrowerAddressExclusionCode": "POB"
+            }
+          ],
+          "loanScores": [
+            {
+              "loanIdentifier": "111167e-f99c-42f6-a8f9-bd4b395722222",
+              "missionScoreEvaluationDate": "2024-06-12",
+              "missionIndicationScore": "3",
+              "incomeDimensionScoreNumber": "1",
+              "borrowerDimensionScoreNumber": "1",
+              "propertyDimensionScoreNumber": "1",
+              "borrowerResidenceInUnderservedMarketIndicator": "1",
+              "affordableRentalIndicator": "0"
+            }
+          ]
+        }
+      },
+      "ResponseExample8": {
+        "summary": "Scenario 8 - Response with standardized property address, relevant income limits and loan limit data for a specific financed unit count, borrower poverty data & mission index score along with applicationReceivedDate",
+        "value": {
+          "requestTransactionIdentifier": "4e6da9da-6b10-4995-89a0-b793b6f2b1b2",
+          "transactionDateTime": "2020-09-10T22:05:37.184Z",
+          "inputAddress": {
+            "addressLineText": "8200 Jones Branch Drive",
+            "cityName": "McLean",
+            "postalCode": "22102",
+            "stateCode": "VA"
+          },
+          "address": {
+            "censusTractIdentifier": "480202",
+            "fipsCountyCode": "059",
+            "countyName": "Fairfax",
+            "addressLineText": "8200 JONES BRANCH DR",
+            "cityName": "MCLEAN",
+            "postalCode": "22102",
+            "stateCode": "VA",
+            "addressMatchLevel": "N",
+            "fipsStateNumericCode": "51",
+            "highNeedsRuralRegionEligibilityAndQualifiedIndicator": false,
+            "ruralAreaIndicator": false,
+            "highCostAreaIndicator": true,
+            "lowIncomeCensusTractIndicator": false,
+            "minorityPopulationCensusTractIndicator": true,
+            "disasterAreaCensusTractIndicator": false,
+            "coreBasedStatisticalAreaCode": "47900",
+            "minorityPopulationCensusTractPercent": "53.937"
+          },
+          "incomeLimitsData": [
+            {
+              "amiEffectiveDate": "2022-05-06",
+              "incometoAMIRatioPercent": "51.25",
+              "refiPossibleIncomeLimitAmount": "140500.00",
+              "homePossibleIncomeLimitAmount": "112400.00",
+              "hundredAndFortyPercentHUDMedianIncomeAmount": "196700.00",
+              "hundredAndTwentyPercentHUDMedianIncomeAmount": "168600.00",
+              "hundredPercentHUDMedianIncomeAmount": "140500.00",
+              "eightyPercentHUDMedianIncomeAmount": "112400.00",
+              "fiftyPercentHUDMedianIncomeAmount": "70250.00"
+            }
+          ],
+          "loanLimitsData": {
+            "loanConformityType": "Conforming",
+            "oneUnitLimitAmount": "970800.00"
+          },
+          "borrowerEstimatedPovertyData": [
+            {
+              "borrowerId": "712698325",
+              "addressMatchLevel": "E",
+              "estimatedPovertyPercent": "20.56",
+              "borrowerAddressExclusionCode": "PMB"
+            },
+            {
+              "borrowerId": "652698325",
+              "addressMatchLevel": "T",
+              "estimatedPovertyPercent": "50.56",
+              "borrowerAddressExclusionCode": "POB"
+            }
+          ],
+          "loanScores": [
+            {
+              "loanIdentifier": "111167e-f99c-42f6-a8f9-bd4b395722222",
+              "missionScoreEvaluationDate": "2026-08-12",
+              "amiRatio": "0.7313",
+              "amiAmount": "164100.0",
+              "missionIndicationScore": "3",
+              "incomeDimensionScoreNumber": "1",
+              "borrowerDimensionScoreNumber": "1",
+              "propertyDimensionScoreNumber": "1",
+              "borrowerResidenceInUnderservedMarketIndicator": "1",
+              "affordableRentalIndicator": "0"
+            }
+          ]
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "token"
+      }
+    }
+  }
+}

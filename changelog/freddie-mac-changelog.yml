@@ -1,0 +1,140 @@
+generated: '2026-09-10'
+method: searched
+source: https://developer.freddiemac.com/public/infohub/690121e7b6f460572256d685/page/{690121e7b6f460572256d684,69024b8ab6f460572256d849,69024cbeb6f460572256d90a,69024d65b6f460572256d954}
+  - the portal's four per-category API Releases pages, each 200 application/json - plus the Future API
+  Updates page (690121... /6901115355b3873d79a10296)
+url: https://sf.freddiemac.com/tools-learning/technology-tools/releases
+portal_url: https://developer.freddiemac.com/public/#/api-catalog
+scheme: 'dated release notes grouped by mortgage-lifecycle category, each labelled Release Type: New |
+  Major | Minor'
+categories:
+- Origination
+- Closing
+- Post-Close
+- Selling
+entry_count: 15
+note: The changelog is per-API and per-category rather than a single stream, and it is published as structured
+  JSON behind the portal SPA (each entry carries h1, h2 date, apis[], description, releaseNotes and relatedDocuments)
+  - so it is machine-readable, but only if you know the endpoint. Nothing links it from a stable public
+  URL per entry.
+entries:
+- date: '2026-08-06'
+  apis:
+  - Income Limits
+  type: minor
+  title: New optional request and response fields
+  highlights: Supports Mission Indication scoring via a new optional request field (loan application date)
+    and additional response fields.
+  breaking: false
+- date: '2026-03-26'
+  apis:
+  - Cash Committing
+  - Cash Pricing
+  type: minor
+  title: Swagger and SDK updates
+  highlights: New Servicing Released attributes; SRP values and Contract Asset Price included when a designated
+    Servicer is set.
+  breaking: false
+- date: '2025-12-04'
+  apis:
+  - Loan Import
+  type: major
+  title: Production deployment
+  highlights: Loan Import moved from a CTE-only environment to full production availability; production
+    URL activated.
+  breaking: false
+- date: '2025-12-04'
+  apis:
+  - Cash Committing
+  type: minor
+  title: Endpoint and response updates
+  highlights: Pair-off endpoint re-introduced; extension endpoint updated; attributes revised.
+  breaking: false
+- date: '2025-10-29'
+  apis:
+  - Affordable Check
+  type: minor
+  title: Retirement of version 1
+  highlights: Affordable Check v1, its Swagger, SDKs and related materials fully retired and removed from
+    the Developer Portal.
+  breaking: true
+- date: '2025-10-23'
+  apis:
+  - Loan Import
+  type: minor
+  title: Swagger and SDK updates for CTE validation and schema enhancements
+  breaking: false
+- date: '2025-10-12'
+  apis:
+  - Loan Import
+  type: new
+  title: New Selling-category API for loan management via S2S interface
+  highlights: Creation, modification and evaluation of loans through a system-to-system interface into
+    Loan Selling Advisor.
+  breaking: false
+- date: '2025-10-09'
+  apis:
+  - Loan Import
+  type: minor
+  title: Request headers and schema references cleanup
+  highlights: Missing vendor header information added to requests; outdated schema references removed.
+  breaking: false
+- date: '2025-10-02'
+  apis:
+  - Loan Import
+  type: major
+  title: New API
+  highlights: Introduces Loan Import for Sellers and development partners to deliver and manage loan data
+    by direct S2S integration with Loan Selling Advisor.
+  breaking: false
+- date: '2025-09-25'
+  apis:
+  - Loan Closing Advisor Loan Submission
+  type: minor
+  title: OAuth deployment to production
+  highlights: OAuth authentication deployed to the production environment for LCLA Loan Submission.
+  breaking: false
+- date: '2025-09-11'
+  apis:
+  - Guarantor Committing
+  type: minor
+  title: Minor version update with documentation and specification revisions
+  breaking: false
+- date: '2025-08-21'
+  apis:
+  - Property Insights
+  type: major
+  title: 'Version 2: UAD alignment with MISMO v3.6'
+  highlights: Phase one of the multi-year Uniform Appraisal Dataset rollout. The MISMO v2.6 version stays
+    supported until its retirement in May 2027.
+  breaking: true
+- date: '2025-07-24'
+  apis:
+  - Cash Committing
+  - Cash Pricing
+  type: minor
+  title: Best-efforts contracts and pool-type enhancements
+  highlights: Best-efforts contracts without an associated loan; expanded pool types; finer data granularity.
+  breaking: false
+- date: '2025-05-08'
+  apis:
+  - Data Share
+  type: minor
+  title: Removal of 'Loan Advisor' terminology for consistency
+  breaking: false
+- date: '2025-04-10'
+  apis:
+  - Loan Look Up
+  type: minor
+  title: Enhanced payoff-type field support
+  highlights: Additional Payoff Type fields for more accurate responses on Freddie Mac owned loans.
+  breaking: false
+upcoming:
+- date: 2026-11
+  apis:
+  - Resolve Default Event Reporting
+  type: major
+  title: New Resolve Default Event Reporting API
+  highlights: Event-based default reporting submitted by servicers with near real-time acceptance or error
+    responses, replacing reliance on monthly EDR action-code submissions. Announced on the Future API
+    Updates page with a Default Reporting Dataset Guidelines workbook attached.

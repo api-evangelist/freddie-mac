@@ -1,0 +1,88 @@
+generated: '2026-09-10'
+method: searched
+source: https://developer.freddiemac.com/public/infohub/690121e7b6f460572256d685/page/* (the portal's
+  API Releases pages for Origination, Closing, Post-Close and Selling), the Future API Updates page, https://sf.freddiemac.com/tools-learning/system-status,
+  and the info.version of each contract in openapi/
+versioning:
+  scheme: major version in the URL path, plus a semver info.version inside each contract
+  evidence: 'Path versions observed in servers[]: /v1, /v2, /v3 (Resolve Retention is /singlefamily/v3/...,
+    Resolve Valuation & Pricing /v2, Resolve Workout Options /v1). info.version values span 1.0.0 to 4.0.0.'
+  note: The portal's own swaggerVersion metadata and the contract's info.version disagree on several APIs
+    - Loan Import is listed as 1.0.0 in the catalog and declares 4.0.0 in the spec; Resolve Workout Options
+    is listed 1.0.0 and declares 1.3.0. An agent reading the catalog and an agent reading the contract
+    see different version numbers for the same API.
+status_page:
+  url: https://sf.freddiemac.com/tools-learning/system-status
+  http_status: 200
+  granularity: per-system
+  systems:
+  - Loan Product Advisor
+  - Loan Selling Advisor
+  - Loan Closing Advisor
+  - Loan Collateral Advisor
+  - Loan Quality Advisor
+  - Loan Coverage Advisor
+  - Condo Project Advisor
+  - Cash Manager
+  - Freddie Mac Gateway
+  - Loan-Level Reporting
+  - EDR
+  - eBilling
+  - BPO Direct
+  - Attorney Data Reporting
+  - Default Fee Appeal System
+  - PAID
+  machine_readable: true
+  machine_readable_note: Freddie Mac also ships a System Availability API - documented in the Origination
+    API Playbook (sf.freddiemac.com/docs/pdf/api-playbook.pdf, p.13) - returning current application status
+    (Operational / Degraded / Full Outage), maintenance status and up to 168 hours of history for Loan
+    Product Advisor. It is NOT in the public developer-portal catalog, so no contract for it could be
+    harvested.
+deprecation_policy:
+  published: true
+  mechanism: prose announcements on the portal's per-category API Releases pages, with a named retirement
+    date
+  headers: none - no Sunset or Deprecation response header is declared in any of the 20 contracts
+  advance_notice: variable; the Property Insights MISMO v2.6 retirement was announced 2025-08-21 for May
+    2027, roughly 21 months of notice
+  url: https://developer.freddiemac.com/public/#/text/690121e7b6f460572256d685/690121e7b6f460572256d684
+deprecations:
+- api: Affordable Check
+  event: Version 1 fully retired
+  date: '2025-10-29'
+  status: retired
+  detail: Version 1 of the Affordable Check API, including its Swagger documentation, SDKs and all related
+    materials, was removed from the Developer Portal. Only v2 remains in the catalog.
+  source: Origination API Releases
+- api: Property Insights
+  event: MISMO v2.6 support ends
+  date: 2027-05
+  status: announced
+  detail: Property Insights v2 introduced UAD alignment with MISMO v3.6 on 2025-08-21 as phase one of
+    a multi-year UAD rollout; the original MISMO v2.6 version is supported until its retirement in May
+    2027.
+  source: Origination API Releases
+- api: Resolve default reporting
+  event: Legacy Electronic Default Reporting (EDR) transitions to the Resolve Platform
+  date: 2026-11
+  status: announced
+  detail: A new Resolve Default Event Reporting API is scheduled for November 2026 to replace reliance
+    on monthly EDR action-code submissions with event-based reporting.
+  source: Future API Updates
+- api: Data Share
+  event: '''Loan Advisor'' terminology removed from Data Share and its SDKs'
+  date: '2025-05-08'
+  status: completed
+  source: Post-Close API Releases
+deprecated_operations_in_spec: 0
+deprecated_operations_note: 'No operation in any of the 20 contracts carries deprecated: true; retirement
+  is communicated out of band.'
+sla:
+  published: false
+  note: No public SLA or uptime commitment. Availability is governed by the Seller/Servicer or technology-partner
+    agreement, not a published document.
+support:
+  channel: Developer Portal Contact Us form and the assigned Freddie Mac representative
+  url: https://developer.freddiemac.com/public/#/contact-us
+  phone: 1-800-FREDDIE (published inside the 500 response descriptions of the Cash and Guarantor Pricing/Committing
+    contracts)

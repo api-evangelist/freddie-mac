@@ -1,0 +1,206 @@
+generated: '2026-09-10'
+method: derived
+source: the 20 first-party OpenAPI contracts in openapi/ (45 operations), read operation by operation,
+  cross-checked against the Developer Portal Getting Started page and the portal's API Releases pages
+cross_links:
+  errors: errors/freddie-mac-problem-types.yml
+  lifecycle: lifecycle/freddie-mac-lifecycle.yml
+  authentication: authentication/freddie-mac-authentication.yml
+  rate_limits: rate-limits/freddie-mac-rate-limits.yml
+  conformance: conformance/freddie-mac-conformance.yml
+  sandbox: sandbox/freddie-mac-sandbox.yml
+auth_style:
+  summary: OAuth 2.0 bearer token on 16 of 20 APIs; HTTP Basic on the four Loan Selling Advisor pricing/committing
+    services.
+  header: 'Authorization: Bearer <token>'
+  note: Credentials are issued to an organisation, not a developer; there is no self-service key. See
+    authentication/.
+idempotency:
+  coverage: partial
+  scope:
+  - price-decision
+  - extension-decision
+  - pairoff-decision
+  - guarantor-price-decision
+  - guarantor-modify-decision
+  - guarantor-pairoff-decision
+  mechanism: ResponseToken binding, not an Idempotency-Key header
+  header: null
+  retention: null
+  detail: 'There is NO Idempotency-Key header anywhere in the catalog - a scan of all 45 operations found
+    none, and no request-replay semantics are documented on any public page. What does exist is a quote-then-decide
+    token binding on the six Cash and Guarantor Committing decision operations: the `price`, `extension`
+    and `pairoff` operations return a ResponseToken, and the matching `*-decision` operation requires
+    it back - the contract states ''ResponseToken to be sent for price decision operations in hexcode
+    format. The value should be same as the ResponseToken sent in price operation respectively''. That
+    binds a commitment decision to one specific quote, so a replayed decision cannot silently create a
+    second contract. It is scoped to 6 of the 45 operations and the provider never states retry-safety,
+    so this is partial coverage of a mechanism that was not designed as idempotency.'
+  correlation: A CorrelationIdentifier (UUID) is required in CommitmentRequestMetaData on the Loan Selling
+    Advisor surface and echoed in every response, and 400.006/400.007 fire when it is missing or the wrong
+    type. It is a tracing key, not a dedupe key.
+  gap: The other 39 operations - including every Beyond ACE write (POST /property, POST /image/{imageId},
+    PUT /image/{imageId}, POST /pdf/{propertyDataId}) and POST /v1/loans/import - have no replay protection
+    of any kind. An agent that times out on a loan import has no safe way to retry.
+dry_run_mode:
+  supported: true
+  grade: documented
+  mechanism: two-phase quote-then-decide
+  operations:
+  - rehearse: price
+    commit: price-decision
+    api: Cash Committing
+  - rehearse: extension
+    commit: extension-decision
+    api: Cash Committing
+  - rehearse: pairoff
+    commit: pairoff-decision
+    api: Cash Committing
+  - rehearse: guarantor-price
+    commit: guarantor-price-decision
+    api: Guarantor Committing
+  - rehearse: guarantor-modify
+    commit: guarantor-modify-decision
+    api: Guarantor Committing
+  - rehearse: guarantor-pairoff
+    commit: guarantor-pairoff-decision
+    api: Guarantor Committing
+  detail: 'Every committing action is split in two: the first call prices the action and returns a ResponseToken
+    plus the resulting terms (ContractDurationDayCount, prices, SRP values); nothing is committed until
+    the paired `*-decision` call is made with that token and a DecisionStatus. An agent can therefore
+    see the exact consequence of a commitment before taking it. This is a genuine rehearsal surface, but
+    it is confined to the two Committing APIs.'
+  gap: Not available on the decisioning APIs an agent is most likely to call - Affordable Check, Income
+    Limits, Property Insights, Loan Look Up and the whole Resolve family are single-shot POSTs. Those
+    are read-shaped assessments, so the absence matters less there than on Loan Import, which has no rehearsal.
+reversibility:
+  grade: documented
+  detail: 'A reversal path exists on the Committing surface and nowhere else. No window is stated in any
+    published contract or page, so this grades `documented` rather than `verified`. Do not infer a window:
+    the commitment deadlines are governed by the Seller/Servicer agreement and the Guide, neither of which
+    states one in a form we fetched.'
+  surfaces:
+  - write: price-decision (Cash Committing)
+    reversal: pairoff -> pairoff-decision
+    operationIds:
+    - pairoff
+    - pairoff-decision
+    semantics: A pair-off offsets/cancels an accepted cash commitment; the pairoff call returns the pair-off
+      terms and the decision call executes it.
+    window: null
+    window_source: null
+  - write: guarantor-price-decision (Guarantor Committing)
+    reversal: guarantor-pairoff -> guarantor-pairoff-decision
+    operationIds:
+    - guarantor-pairoff
+    - guarantor-pairoff-decision
+    semantics: Same pair-off mechanic for a guarantor commitment.
+    window: null
+    window_source: null
+  - write: guarantor-price-decision (Guarantor Committing)
+    reversal: guarantor-modify -> guarantor-modify-decision
+    operationIds:
+    - guarantor-modify
+    - guarantor-modify-decision
+    semantics: Amends an existing guarantor contract rather than reversing it.
+    window: null
+    window_source: null
+  - write: extension-decision (Cash Committing)
+    reversal: null
+    semantics: An extension lengthens a commitment; nothing published un-extends it.
+    window: null
+  - write: importLoanS2S (Loan Import, POST /v1/loans/import)
+    reversal: null
+    semantics: No delete, cancel or rollback operation is published. importLoanS2SStatus reads the status
+      of an import but cannot undo it. This is the highest-consequence unreversed write in the catalog.
+    window: null
+  - write: submitLoan (Loan Closing Advisor Loan Submission)
+    reversal: null
+    semantics: A UCD file assessment submission; no withdrawal operation is published.
+    window: null
+  - write: postPropertyData / insertDaImage / savePDF (Beyond ACE)
+    reversal: partial - PUT /image/{imageId} and PUT /property/imagemeta/{imageId} replace, they do not
+      delete
+    operationIds:
+    - updatePropertyImage
+    - updateMetadata
+    semantics: Overwrite-in-place is available for images and image metadata; there is no DELETE anywhere
+      in the catalog.
+    window: null
+  no_delete_note: Zero DELETE operations exist across all 20 contracts. Nothing an agent writes here can
+    be removed.
+  read_only_apis:
+  - Affordable Check
+  - Income Limits
+  - Loan Look Up
+  - Property Insights
+  - Current Mortgage Snapshot
+  - Data Share
+  - Data Share Bid Tape
+  - Cash Pricing
+  - Guarantor Pricing
+  - Cash Settlement Purchase Statement
+  - Guarantor Settlement Purchase Statement
+  - Resolve Liquidation
+  - Resolve Retention
+  - Resolve Valuation & Pricing
+  - Resolve Workout Options
+  read_only_note: 15 of the 20 APIs are POST-shaped queries that return an assessment or a document set
+    and change nothing, so reversibility is `na` for them. The five with real write surfaces are Cash
+    Committing, Guarantor Committing, Loan Import, Loan Closing Advisor Loan Submission and Beyond ACE.
+pagination:
+  style: none
+  detail: No page, limit, offset, cursor, pageSize or nextToken parameter exists on any of the 45 operations.
+    Every response is a complete document set; Data Share returns all matching documents for a loan in
+    one body, and the Beyond ACE metadata list is unbounded.
+field_expansion:
+  supported: false
+  detail: 'Data Share is the nearest thing: the request carries a documentRequests[] list naming which
+    document types to return (UCD_XML, Closing_Disclosure_PDF, feedback XML/PDF), so the caller selects
+    the payload rather than filtering fields of a fixed one. There is no ?fields=, ?expand= or sparse-fieldset
+    convention.'
+metadata:
+  supported: false
+  detail: No customer-defined metadata bag on any resource.
+request_id_tracing:
+  supported: true
+  fields:
+  - CorrelationIdentifier
+  - correlationID
+  - proxyCorrelationId
+  - uuid
+  detail: The Loan Selling Advisor surface requires a CorrelationIdentifier UUID in the request metadata
+    and echoes it in every response, including error responses (PairoffErrorResponse500 requires it).
+    Data Share carries a correlationID per loan identifier. One error schema additionally exposes proxyCorrelationId,
+    the Apigee-side trace id. There is no X-Request-Id response header - the trace key travels in the
+    body, so a caller cannot correlate a 429 or a gateway 500 that never reached the backend.
+  response_headers: none - not a single response in the catalog declares a header
+versioning:
+  style: path + explicit version parameters
+  detail: Major version in the path (/v1, /v2, /v3). The Loan Selling Advisor services additionally take
+    `version` (default 1.0) and `env` as required header parameters on 10 and 8 operations respectively,
+    so the version is negotiated per call rather than fixed by the URL. Beyond ACE takes X-Dataset-Version.
+error_envelope:
+  shape: vendor-specific, at least eight distinct shapes across the catalog
+  rfc9457: false
+  see: errors/freddie-mac-problem-types.yml
+rate_limit_signaling:
+  documented_in_contract: true
+  response_headers: none published
+  detail: 429 is declared on 28 of 45 operations with two distinct sub-codes - 429.001 (per-second spike
+    arrest) and 429.002 (per-minute quota) - which tells an agent WHICH limit it hit. No X-RateLimit-*,
+    RateLimit-* or Retry-After header is declared anywhere, so an agent learns the limit exists only by
+    exceeding it and cannot see how much budget remains. The four Loan Selling Advisor pricing/committing
+    services do not declare 429 at all; they surface 'Request limit exceeded' as a bare 500.
+  see: rate-limits/freddie-mac-rate-limits.yml
+content_type:
+  request: application/json (declared as a required header parameter on 14 operations)
+  response: application/json; Data Share and Loan Closing Advisor carry base64-encoded XML and PDF documents
+    inside the JSON body
+  note: 431 Request Header Fields Too Large is declared on one operation - the only spec in the catalog
+    that anticipates it.
+method_convention:
+  detail: 43 of 45 operations are POST, including every read. GET appears only on Beyond ACE (5 operations)
+    and PUT only on Beyond ACE (2). There are no DELETE or PATCH operations. Queries are modelled as POST
+    bodies rather than GET query strings throughout, which means no operation in the catalog is cacheable
+    or safely retryable by HTTP semantics alone.

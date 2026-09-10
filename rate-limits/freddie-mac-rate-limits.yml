@@ -4,35 +4,73 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Freddie Mac
 providerId: freddie-mac
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: false
+modified: '2026-09-10'
+generated: '2026-09-10'
+method: searched
+reconciled: true
+source: the 429 response definitions published in 16 of the 20 first-party OpenAPI contracts harvested
+  from https://developer.freddiemac.com/public/api-catalog on 2026-09-10, plus live probes of api.freddiemac.com
+  confirming an Apigee gateway
 tags:
-  - Mortgage
-  - Housing Finance
-  - Rate Limiting
-description: Freddie Mac partner APIs enforce limits negotiated within Seller/Servicer or
-  technology-partner agreements. Public, consolidated rate-limit documentation is not published.
-notes: developer.freddiemac.com was not retrievable during reconciliation; specific per-API limits
-  should be confirmed in the partner agreement or the live developer portal.
-sources:
-  - https://developer.freddiemac.com/
+- Mortgage
+- Housing Finance
+- Rate Limiting
+description: 'Freddie Mac publishes the SHAPE of its rate limiting inside every gateway-fronted contract
+  but never the NUMBERS. 28 of the 45 operations declare a 429 response with two distinct sub-codes: 429.001
+  ''Rate limit exceeded, too many requests have been sent per second'' and 429.002 ''Quota limit exceeded,
+  too many requests have been sent per minute''. That is a standard Apigee spike-arrest plus quota policy
+  pair, and it tells a caller which of the two ceilings it hit. The actual per-second rate and per-minute
+  quota are set per app/product and are negotiated in the Seller/Servicer or technology-partner agreement.'
+limit_count: 2
 responseCodes:
   throttled: 429
+headers:
+  published: []
+  note: No X-RateLimit-*, RateLimit-* or Retry-After response header is declared anywhere in the catalog
+    - not a single response object in any of the 20 contracts declares a headers block at all. An agent
+    cannot see remaining budget or a server-suggested backoff; it learns the limit exists only by hitting
+    it, and must pick its own backoff.
 limits:
-  - name: Partner API limits
-    scope: counterparty
-    metric: varies
-    limit: see partner agreement
+- name: Spike arrest (per-second rate)
+  scope: per-app
+  metric: requests
+  window: second
+  limit: not published
+  code: '429.001'
+  enforced_on: 28 of 45 operations
+  evidence: 429 response description, e.g. openapi/freddie-mac-affordable-check-openapi.json
+- name: Quota (per-minute volume)
+  scope: per-app
+  metric: requests
+  window: minute
+  limit: not published
+  code: '429.002'
+  enforced_on: 28 of 45 operations
+  evidence: 429 response description, e.g. openapi/freddie-mac-property-insights-openapi.json
+gaps:
+- apis:
+  - Cash Committing
+  - Cash Pricing
+  - Guarantor Committing
+  - Guarantor Pricing
+  issue: These four Loan Selling Advisor services declare no 429 at all. They surface 'Request limit exceeded'
+    as one of several conditions under a bare HTTP 500, alongside 'Message too large', 'Invalid JSON format'
+    and 'Connection timeout from backend'. A client cannot distinguish throttling from a real server fault,
+    and 500 is not safely retryable the way 429 is.
+  evidence: 500 response description, openapi/freddie-mac-cash-committing-openapi.json
 policies:
-  - name: Counterparty-scoped
-    description: Limits apply per Seller/Servicer ID or partner credential and are governed by
-      the partnership terms rather than a public tier.
-  - name: Backoff on 429
-    description: Standard exponential-backoff retry with Retry-After honoring is recommended for
-      partner integrations.
+- name: Per-app, counterparty-scoped
+  description: Limits attach to the Developer Portal app (client ID) created by the counterparty's Developer,
+    and are governed by the partnership terms rather than a public tier.
+- name: Backoff on 429
+  description: With no Retry-After published, exponential backoff with jitter is the only available strategy;
+    429.001 clears within a second and 429.002 on the quota window.
+notes: 'Upgraded from a 2026-05-04 bulk-sweep guess to a harvested finding on 2026-09-10: the previous
+  version of this file said limits were undocumented, which was wrong - the mechanism and its two tiers
+  are documented in the contracts; only the numbers are withheld.'
+sources:
+- https://developer.freddiemac.com/public/api-catalog
+- https://developer.freddiemac.com/public/#/api-catalog
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com

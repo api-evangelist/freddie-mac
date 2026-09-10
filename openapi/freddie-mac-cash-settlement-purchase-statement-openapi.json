@@ -1,0 +1,728 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Cash Settlement Purchase Statement",
+        "version": "1.0.1"
+    },
+    "servers": [
+        {
+            "url": "https://api-test.freddiemac.com/single-family/css/v1/cashsettlement"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Cash Contract",
+            "description": "This service allows you to retrieve the Seller/Servicer cash contract details by Submitting request data"
+        }
+    ],
+    "paths": {
+        "/purchase_statement": {
+            "post": {
+                "tags": [
+                    "Cash Contract"
+                ],
+                "summary": "Get Details of Cash Contract",
+                "description": "Get Details of Cash Contract",
+                "operationId": "getPurchaseStatement",
+                "parameters": [
+                    {
+                        "name": "X-CSS-VENDOR-IDENTIFIER",
+                        "in": "header",
+                        "description": "A unique identifier that identifies the vendor.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "X-CSS-VENDOR-NAME",
+                        "in": "header",
+                        "description": "The vendor company name that identifies the vendor identifier",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "X-CSS-VENDOR-SOFTWARE",
+                        "in": "header",
+                        "description": "The vendor software name utilized to submit the loan through the system",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "X-CSS-VENDOR-SOFTWARE-VERSION",
+                        "in": "header",
+                        "description": "The vendor software version name utilized to submit the loan through the system",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Sample Request",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Request"
+                            },
+                            "examples": {
+                                "ValidRequest - 1": {
+                                    "description": "ValidRequest - 1",
+                                    "value": {
+                                        "date": "2022-07-05",
+                                        "sellerId": "196598",
+                                        "correlationID": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                                    }
+                                },
+                                "ValidRequest - 2 ": {
+                                    "description": "ValidRequest - 2 ",
+                                    "value": {
+                                        "date": "2022-08-02",
+                                        "sellerId": "196598",
+                                        "correlationID": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                                    }
+                                },
+                                "InvalidRequest - 1": {
+                                    "description": "InvalidRequest - 1",
+                                    "value": {
+                                        "date": "2999-12-31",
+                                        "sellerId": "999999",
+                                        "correlationID": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                                    }
+                                },
+                                "InvalidRequest - 2": {
+                                    "description": "InvalidRequest - 2",
+                                    "value": {
+                                        "date": "2022-06-27",
+                                        "sellerId": "99999",
+                                        "correlationID": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PurchaseStatement"
+                                },
+                                "example": {
+                                    "requestReceivedOn": "2022-06-27T14:53:48.5268441-04:00",
+                                    "processingTimeInSeconds": 1,
+                                    "correlationId": "e3d73b0e-c4b0-4db1-ae76-5caf816fe57a",
+                                    "response": [
+                                        {
+                                            "sellerName": "sellerName",
+                                            "sellerAccountNumber": "999999",
+                                            "sellerOrganizationID": "123456",
+                                            "sellerAddress": "sellerAddress",
+                                            "contractName": "contractName",
+                                            "contractNumber": 30000000,
+                                            "contractExpirationDate": "2022-05-09",
+                                            "contractAmount": 108000.0,
+                                            "contractOutstandingBalance": 0,
+                                            "contractProduct": "15-Year Fixed Rate Conventional",
+                                            "remittanceType": "STANDARD",
+                                            "prePaymentRemittanceDueDays": 5,
+                                            "participationPercentageRate": "100.000",
+                                            "servicingFeeRate": "0.250",
+                                            "indexSourceType": null,
+                                            "firstPerChangeMaximumIncreaseRatePercent": null,
+                                            "subsequentPerChangeMaximumIncreaseRatePercent": null,
+                                            "contractLifeofLoanRateCapPercent": null,
+                                            "minMonthsCountNextRateAdjust": null,
+                                            "maxMonthsCountNextRateAdjust": null,
+                                            "rateMinLoanInt": null,
+                                            "rateMaxLoanInt": null,
+                                            "servicingOptionType": "RELEASED",
+                                            "loanSettlement": [
+                                                {
+                                                    "sellerLoanIdentifier": "sellerLoanIdentifier",
+                                                    "freddieMacLoanNumber": "010000000",
+                                                    "basePrice": "106.000",
+                                                    "netPrice": "106.000",
+                                                    "interestRate": "3.000",
+                                                    "anyRate": "3.000",
+                                                    "dateFirstRateAdjustmentEff": "2027-05-09",
+                                                    "accountingNetMargin": "3.000",
+                                                    "accountingNetLifeCap": "3.00",
+                                                    "principalPurchased": 108000.0,
+                                                    "premiumDiscount": 1000.0,
+                                                    "accruedInterest": 5.0,
+                                                    "totalDisbursement": 110000.0,
+                                                    "totalFees": 1000.0,
+                                                    "beneficiaryBankName": "beneficiaryBankName",
+                                                    "beneficiaryBankAbaNumber": "123456789",
+                                                    "receivingBankName": "receivingBankName",
+                                                    "whlOrgId": 999999,
+                                                    "transferFundsTimestamp": "2022-05-31T10:30:33.053Z",
+                                                    "servicerLoanIdentifier": "servicerLoanIdentifier",
+                                                    "srpRate": "0.00",
+                                                    "srpAmount": "0.00",
+                                                    "escrow": "0.00",
+                                                    "interestAdjustment": "0.00",
+                                                    "servicingAdjustment": "0.00",
+                                                    "taxFee": "0.00",
+                                                    "transactionFee": "0.00",
+                                                    "lastPaidInstallmentDueDate": "",
+                                                    "servicerName": "servicerName",
+                                                    "servicerNumber": "999999",
+                                                    "servicerAddress": "servicerAddress",
+                                                    "piPaymentFREAmount": 100.0,
+                                                    "bubdCollectedAmount": "0.00",
+                                                    "dateFirstPIPaymentDate": "",
+                                                    "deliveryFeesList": [
+                                                        {
+                                                            "feeName": "Delivery Fee Name",
+                                                            "feeRate": "1.625",
+                                                            "feeAmount": "1000.00"
+                                                        }
+                                                    ],
+                                                    "gFeeList": [
+                                                        {
+                                                            "feeName": "Gfee Name",
+                                                            "feeRate": "1.625"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": "400",
+                                    "message": "Missing header Content-type",
+                                    "details": "Content-type must be application/json"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "<li>You are not authorized to view the resource</li><li>401.001 - Invalid Access Token, please validate the token, if error persists, please renew your token.</li><li>401.002 - Access Token Expired, please renew your access token.</li><li>401.003 - API Product mismatch for token,your token does not have access to the requested API.</li><li>401.004 - Invalid API Key, please validate the client ID.</li><li>401.005 - Invalid API Key for given resource.</li><li>401.006 - Insufficient scope for Application.</li><li>401.007 - Invalid Username/password combination, please verify the credentials.</li><li>401.008 - Invalid Refresh Token.</li><li>401.009 - Invalid client secret.</li><li>401.010 - Refresh Token expired.</li>",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": "401.001",
+                                    "message": "Not Authorized",
+                                    "details": "Invalid Access Token, please validate the token, if error persists, please renew your token."
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Accessing the resource you were trying to reach is forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": "403",
+                                    "message": "Access Forbidden",
+                                    "details": "Accessing the resource you were trying to reach is forbidden"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The resource you were trying to reach is not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": "404",
+                                    "message": "Resource Not Found",
+                                    "details": "The resource you were trying to reach is not found"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": "500",
+                                    "message": "Internal Server Error",
+                                    "details": "Unable to retrieve data for the submitted request at this time due to Internal Server error. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance"
+                                }
+                            }
+                        }
+                    },
+                    "502": {
+                        "description": "Bad Gateway",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": "502",
+                                    "message": "Server experienced some Internal Error",
+                                    "details": "Unable to retrieve data for the submitted request at this time due to invalid response from the gateway. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Contract": {
+                "title": "Purchase Statement Report Data",
+                "type": "object",
+                "properties": {
+                    "sellerName": {
+                        "type": "string",
+                        "description": "Company name of the Seller"
+                    },
+                    "sellerAccountNumber": {
+                        "type": "string",
+                        "description": "Unique 6 digit numeric identifier assigned by Freddie Mac"
+                    },
+                    "sellerOrganizationID": {
+                        "type": "string",
+                        "description": "Unique numeric identifier assigned by Freddie Mac for the Seller Organization"
+                    },
+                    "sellerAddress": {
+                        "type": "string",
+                        "description": "Street address of the Seller"
+                    },
+                    "contractName": {
+                        "type": "string",
+                        "description": "A unique name you may enter to identify the contract when taking out the contract in Loan Selling Advisor"
+                    },
+                    "contractNumber": {
+                        "type": "integer",
+                        "description": "Unique contract identifier assigned by Freddie Mac",
+                        "format": "int32"
+                    },
+                    "contractExpirationDate": {
+                        "type": "string",
+                        "description": "The date in which you must fulfill the terms of your purchase contract to Freddie Mac",
+                        "format": "date"
+                    },
+                    "contractAmount": {
+                        "type": "number",
+                        "description": "The aggregate unpaid principal balance of mortgages that you agree to sell to Freddie Mac under the contract"
+                    },
+                    "contractOutstandingBalance": {
+                        "type": "number",
+                        "description": "Remaining amount of the unfulfilled principal balance of the contract"
+                    },
+                    "contractProduct": {
+                        "type": "string",
+                        "description": "The highest indicator of the types of mortgages that can be delivered under a contract"
+                    },
+                    "remittanceType": {
+                        "type": "string",
+                        "description": "Determines the due date for remitting monthly principal and interest due to Freddie Mac for servicing purposes",
+                        "enum": [
+                            "FIRST_TUESDAY",
+                            "GOLD",
+                            "ARC",
+                            "SUPER_ARC",
+                            "DARC",
+                            "DDARC",
+                            "CD",
+                            "DAYS_POST_CUTOFF",
+                            "DAYS_POST_FIRST",
+                            "ARC_4",
+                            "ARC_5",
+                            "STANDARD"
+                        ]
+                    },
+                    "prePaymentRemittanceDueDays": {
+                        "type": "integer",
+                        "description": "Indicates the number of days you will have to remit the unpaid principal balance to Freddie Mac if a loan is paid off early",
+                        "format": "int32"
+                    },
+                    "participationPercentageRate": {
+                        "type": "number",
+                        "description": "Identifies the percentage amount of the loan owned by the investor.  This is also known as the Investor Ownership Percent"
+                    },
+                    "servicingFeeRate": {
+                        "type": "number",
+                        "description": "A servicing spread, usually 0.25% to 0.5% of the mortgage balance, is a portion of a mortgage payment that's paid monthly to a mortgage servicer for collecting payments and passing them to the lender"
+                    },
+                    "indexSourceType": {
+                        "type": "string",
+                        "description": "Specifies the type and source of index to be used to determine the interest rate at each adjustment",
+                        "enum": [
+                            "Weekly One Year Treasury Securities Constant Maturity FRBH15",
+                            "Weekly Three Year Treasury Securities Constant Maturity FRBH15",
+                            "Weekly Five Year Treasury Securities Constant Maturity FRBH15",
+                            "LIBOR One Year WSJ Daily",
+                            "Six Month LIBOR WSJ Daily",
+                            "30 Day Average SOFR"
+                        ]
+                    },
+                    "firstPerChangeMaximumIncreaseRatePercent": {
+                        "type": "number",
+                        "description": "The maximum number of percentage points by which the rate can increase from the previous interest rate.\nThe related ULDD Data Point name is Per Change Maximum Increase Rate Percent."
+                    },
+                    "subsequentPerChangeMaximumIncreaseRatePercent": {
+                        "type": "number",
+                        "description": "Periodic interest rate cap refers to the maximum interest rate adjustment allowed during a particular period of an adjustable rate loan or mortgage. The periodic rate cap protects the borrower by limiting how much an adjustable-rate mortgage (ARM) product may change or adjust during any single interval"
+                    },
+                    "contractLifeofLoanRateCapPercent": {
+                        "type": "number",
+                        "description": "The average length of time that each dollar of unpaid principal on a loan remains outstanding for all the loans on the contract"
+                    },
+                    "minMonthsCountNextRateAdjust": {
+                        "type": "integer",
+                        "description": "The count of months until the next rate adjustment of all the loans on the contract",
+                        "format": "int32"
+                    },
+                    "maxMonthsCountNextRateAdjust": {
+                        "type": "integer",
+                        "description": "The count of months until the next rate adjustment of all the loans on the contract",
+                        "format": "int32"
+                    },
+                    "rateMinLoanInt": {
+                        "type": "number",
+                        "description": "Minimum Interest rate of the contract"
+                    },
+                    "rateMaxLoanInt": {
+                        "type": "number",
+                        "description": "Maximum Interest rate of the contract"
+                    },
+                    "servicingOptionType": {
+                        "type": "string",
+                        "description": "Determines the ServicingOptionType of the contract",
+                        "enum": [
+                            "RETAINED",
+                            "CONCURRENT_TRANSFER_OF_SERVICING",
+                            "RELEASED"
+                        ]
+                    },
+                    "loanSettlement": {
+                        "type": "array",
+                        "description": "Settlement Data for Each Loan",
+                        "items": {
+                            "$ref": "#/components/schemas/LoanSettlement"
+                        }
+                    }
+                },
+                "description": "Purchase Statement Report Data Element/Attribute Details "
+            },
+            "DeliveryFees": {
+                "type": "object",
+                "properties": {
+                    "feeName": {
+                        "type": "string",
+                        "description": "Name of the Fee"
+                    },
+                    "feeRate": {
+                        "type": "number",
+                        "description": "A fee charged to deliver a loan as percent Values"
+                    },
+                    "feeAmount": {
+                        "type": "number",
+                        "description": "The value of the delivery fee in dollars"
+                    }
+                },
+                "description": "A fee charged to deliver a loan"
+            },
+            "Gfee": {
+                "type": "object",
+                "properties": {
+                    "feeName": {
+                        "type": "string",
+                        "description": "Name of the Fee"
+                    },
+                    "feeRate": {
+                        "type": "number",
+                        "description": "Fees built into the Gfee instead of a Delivery Fee as percent Values"
+                    }
+                }
+            },
+            "LoanSettlement": {
+                "type": "object",
+                "properties": {
+                    "sellerLoanIdentifier": {
+                        "type": "string",
+                        "description": "A unique identifier assigned by the Seller to the loan"
+                    },
+                    "freddieMacLoanNumber": {
+                        "type": "string",
+                        "description": "Loan number assigned by Freddie Mac"
+                    },
+                    "basePrice": {
+                        "type": "number",
+                        "description": "The base Contract price includes the Freddie Mac Cash Price and, if applicable,\n the Servicing Released Premium (SRP) for mortgages sold through the, Cash-Released XChange. For Best Efforts Cash contracts, the price includes the fees for contract extensions and/or relocks (if applicable)"
+                    },
+                    "netPrice": {
+                        "type": "number",
+                        "description": "Loan base price minus delivery fees"
+                    },
+                    "interestRate": {
+                        "type": "number",
+                        "description": "Note Rate or coupon rate"
+                    },
+                    "anyRate": {
+                        "type": "number",
+                        "description": "The ANY is the net yield rate that the Servicer uses to report and remit interest to Freddie Mac each month. The ANY for each Mortgage is equal to the Note Rate less the Servicing Spread of the Mortgage.\nThe ANY for Mortgages purchased through RNY Cash or ARM Cash equals the Required Net Yield (RNY) except for Mortgages sold to Freddie Mac at a discount.\nHow to Calculate:\n \tNote/Coupon rate - servicing spread fee."
+                    },
+                    "dateFirstRateAdjustmentEff": {
+                        "type": "string",
+                        "description": "The date, as established in the Note, on which the first adjustment in the Note Rate is effective The related ULDD Data Point name is First Rate Change Payment Effective Date and it also known as the Payment Change Date",
+                        "format": "date"
+                    },
+                    "accountingNetMargin": {
+                        "type": "number",
+                        "description": "The net margin is the gross margin minus the minimum contract servicing spread.  It is used to calculate the new ANY for ARMs sold under the Cash program"
+                    },
+                    "accountingNetLifeCap": {
+                        "type": "number",
+                        "description": "Lifetime Ceiling minus the Required Spread and the Minimum Contract Servicing Spread.\nThe related ULDD Data Point name is Ceiling Rate Percent and and it also known as the Payment Change Date."
+                    },
+                    "principalPurchased": {
+                        "type": "number",
+                        "description": "Principal amount of the mortgage purchased by Freddie Mac.  The related ULDD Data Point name is the Loan Acquisition Scheduled UPB Amount"
+                    },
+                    "premiumDiscount": {
+                        "type": "number",
+                        "description": "A premium price is the portion of the price above par"
+                    },
+                    "accruedInterest": {
+                        "type": "number",
+                        "description": "The amount of interest that has been incurred on a loan, as of a specific date, but has not yet been paid out"
+                    },
+                    "totalDisbursement": {
+                        "type": "number",
+                        "description": "Settlement proceeds wired to the seller.  For Cash-Released XChange, this amount includes the servicing released adjustments displayed in the Cash-Released XChange Proceeds Summary section of the Loan Purchase Statement"
+                    },
+                    "totalFees": {
+                        "type": "number",
+                        "description": "Dollar amount of total exhibit 19 delivery fees for the loan"
+                    },
+                    "beneficiaryBankName": {
+                        "type": "string",
+                        "description": "The name of the bank that is the ultimate target of a funds transfer"
+                    },
+                    "beneficiaryBankAbaNumber": {
+                        "type": "string",
+                        "description": "The ABA routing number of the Beneficiary bank for three-party wire transfers"
+                    },
+                    "receivingBankName": {
+                        "type": "string",
+                        "description": "Receiving Bank Name (ACH & Wire)\nThe name of the bank that FreddieMac will send wire funds to or ACH draft funds from."
+                    },
+                    "receivingBankAbaNumber": {
+                        "type": "string",
+                        "description": "Receiving Bank ABA Routing # (ACH & Wire) \nThe ABA routing number of the bank that FreddieMac will send wire funds to or ACH draft funds from"
+                    },
+                    "whlOrgId": {
+                        "type": "integer",
+                        "description": "Warehouse Lender Organization ID - Unique numeric identifier assigned by Freddie Mac for the Warehouse Lender Organization",
+                        "format": "int32"
+                    },
+                    "transferFundsTimestamp": {
+                        "type": "string",
+                        "description": "Date funds are wired",
+                        "format": "date-time"
+                    },
+                    "servicerLoanIdentifier": {
+                        "type": "string",
+                        "description": "A unique identifier assigned by the Servicer to the loan"
+                    },
+                    "srpRate": {
+                        "type": "number",
+                        "description": "The final rate percent of SRP without the Transferee Servicer related fees"
+                    },
+                    "srpAmount": {
+                        "type": "number",
+                        "description": "The invoice price of the SRP (Transferee Servicer Proceeds). Dollar amount for the UPB - Unpaid Balance"
+                    },
+                    "escrow": {
+                        "type": "number",
+                        "description": "The amount of escrow funds collected at closing"
+                    },
+                    "interestAdjustment": {
+                        "type": "number",
+                        "description": "Interest Adjustment  =  loan settlement proceed amount for this proceed x ( Accounting Net Yield / 12 )"
+                    },
+                    "servicingAdjustment": {
+                        "type": "number",
+                        "description": "Servicing Spread Adjustment calculated at settlement"
+                    },
+                    "taxFee": {
+                        "type": "number",
+                        "description": "Tax Fee calculated at settlement"
+                    },
+                    "transactionFee": {
+                        "type": "number",
+                        "description": "Transaction Fee calculated at settlement"
+                    },
+                    "lastPaidInstallmentDueDate": {
+                        "type": "string",
+                        "description": "The due date of last paid installment that had been collected for the mortgage",
+                        "format": "date"
+                    },
+                    "servicerName": {
+                        "type": "string",
+                        "description": "Company name of the Designated Servicer"
+                    },
+                    "servicerNumber": {
+                        "type": "string",
+                        "description": "Unique 6 digit numeric identifier assigned by Freddie Mac to Servicer"
+                    },
+                    "servicerAddress": {
+                        "type": "string",
+                        "description": "Street address of designated servicer"
+                    },
+                    "piPaymentFREAmount": {
+                        "type": "number",
+                        "description": "The dollar amount of the principal and interest payment as stated on the Note"
+                    },
+                    "bubdCollectedAmount": {
+                        "type": "number",
+                        "description": "The amount provided to subsidize the Borrower's interest rate on the Mortgage for the remaining time during which the lower interest rate applies.Refer to the Cash-Released XChange Process Servicing Transfer Instructions"
+                    },
+                    "deliveryFeesList": {
+                        "type": "array",
+                        "description": "A fee charged to deliver a loan",
+                        "items": {
+                            "$ref": "#/components/schemas/DeliveryFees"
+                        }
+                    },
+                    "gfeeList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Gfee"
+                        }
+                    },
+                    "dateFirstPIPaymentDate": {
+                        "type": "string",
+                        "description": "The date of the first scheduled mortgage payment to be made by the borrower under the terms of the mortgage.",
+                        "format": "date"
+                    }
+                },
+                "description": "Settlement Data for Each Loan"
+            },
+            "PurchaseStatement": {
+                "type": "object",
+                "properties": {
+                    "requestReceivedOn": {
+                        "title": "Request received Time",
+                        "type": "string",
+                        "description": "Request received time to api,\nA date-time with an offset from UTC/Greenwich in the ISO-8601 calendar system,\nsuch as 2020-12-21T10:00:25+01:00",
+                        "format": "date-time"
+                    },
+                    "processingTimeInSeconds": {
+                        "title": "Processing Time In Seconds",
+                        "type": "integer",
+                        "description": "Time taken by API to process the request (in seconds)",
+                        "format": "int64"
+                    },
+                    "correlationId": {
+                        "type": "string",
+                        "description": "Randomly generated identifier value that is added to every request and response.In a microservice architecture, the initial Correlation ID is passed to your sub-processes.If a sub-system also makes sub-requests, it will also pass the Correlation ID to those systems",
+                        "format": "uuid",
+                        "example": "11cfc0f4-4544-43de-b9f6-f3b419b82e19"
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Status of the request",
+                        "example": "Success"
+                    },
+                    "response": {
+                        "title": "Purchase Statement Report Data",
+                        "type": "array",
+                        "description": "Purchase Statement Report Data Element/Attribute Details ",
+                        "items": {
+                            "$ref": "#/components/schemas/Contract"
+                        }
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "Request": {
+                "title": "Purchase Statement Request Parameters",
+                "required": [
+                    "date",
+                    "sellerId"
+                ],
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "title": "Purchase Statement, Loan Settlement Date",
+                        "type": "string",
+                        "description": "Requested Date for the Purchase Statement API must be Current Date Or in the Past upto 61 Days",
+                        "format": "date",
+                        "example": "2022-07-22"
+                    },
+                    "sellerId": {
+                        "pattern": "[\\d]{6}",
+                        "type": "string",
+                        "description": "ID of the Seller for who purchase statement is requested",
+                        "example": "999999"
+                    },
+                    "correlationID": {
+                        "type": "string",
+                        "description": "Randomly generated identifier value that is added to every request and response.In a microservice architecture, the initial Correlation ID is passed to your sub-processes.If a sub-system also makes sub-requests, it will also pass the Correlation ID to those systems",
+                        "format": "uuid",
+                        "nullable": true,
+                        "example": "11cfc0f4-4544-43de-b9f6-f3b419b82e19"
+                    }
+                },
+                "description": "This provides details on request parameter for the Purchase Statement API"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "token"
+            }
+        }
+    }
+}

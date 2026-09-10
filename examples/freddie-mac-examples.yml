@@ -1,0 +1,272 @@
+generated: '2026-09-10'
+method: derived
+source: counted directly out of the 20 first-party OpenAPI contracts in openapi/
+total_examples: 515
+note: Examples are carried inline in the contracts rather than in a separate examples/ tree, so this file
+  is an index of where they live, not a copy. Every operation in the catalog ships at least one worked
+  request and response body, and the Committing and Data Share contracts ship named multi-scenario sets
+  (ULAD 5.0 document-found/not-found scenarios, price/extension/pairoff decision requests). No example
+  carries a live credential; the bearer tokens in the examples are placeholder strings.
+specs:
+- spec: openapi/freddie-mac-affordable-check-openapi.json
+  inline_examples: 17
+  component_examples: 12
+  named:
+  - Example1
+  - Example2
+  - Example3
+  - Example4
+  - Example5
+  - Example6
+- spec: openapi/freddie-mac-beyond-ace-openapi.yaml
+  inline_examples: 59
+  component_examples: 13
+  named:
+  - BACEAPIBadRequestCustomResponse
+  - BACEAPIBadRequestCustomResponseInvalid
+  - BACEAPIBadRequestMissingResponse
+  - BACEAPIInternalErrorResponse
+  - BACEAPILimitExceededResponse
+  - BACEAPINotFoundResponse
+  - BACEAPIUnauthorizedResponse
+  - CondoExample
+  - GETImageMetaNotFoundResponse
+  - GETResourceNotFound
+  - ImageNotFoundResponse
+  - PDFNotFoundResponse
+- spec: openapi/freddie-mac-cash-committing-openapi.json
+  inline_examples: 42
+  component_examples: 24
+  named:
+  - Request Best Efforts Fixed Retained
+  - Request Decision
+  - Request Extension
+  - Request Extension Decision
+  - Request Mandatory ARM Retained
+  - Request Mandatory Fixed CTOS
+  - Request Mandatory Fixed CTOS With AIF v2.0
+  - Request Mandatory Fixed CTOS v2.0
+  - Request Mandatory Fixed Released
+  - Request Mandatory Fixed Retained
+  - Request Pairoff
+  - Request Pairoff Decision
+- spec: openapi/freddie-mac-cash-pricing-openapi.json
+  inline_examples: 26
+  component_examples: 22
+  named:
+  - Cash All In Request Best Efforts FR CTOS
+  - Cash All In Request Mandatory FR CTOS
+  - Cash All In Request Mandatory FR Retained
+  - Cash All In Response Best Efforts FR CTOS
+  - Cash All In Response Mandatory FR CTOS
+  - Cash All In Response Mandatory FR Retained
+  - Cash Asset Request Best Efforts FR CTOS
+  - Cash Asset Request Best Efforts FR Released
+  - Cash Asset Request Best Efforts FR Retained
+  - Cash Asset Request Mandatory ARM Retained
+  - Cash Asset Request Mandatory FR CTOS
+  - Cash Asset Request Mandatory FR Released
+- spec: openapi/freddie-mac-cash-settlement-purchase-statement-openapi.json
+  inline_examples: 11
+  component_examples: 0
+  named:
+  - InvalidRequest - 1
+  - InvalidRequest - 2
+  - ValidRequest - 1
+  - 'ValidRequest - 2 '
+- spec: openapi/freddie-mac-current-mortgage-snapshot-openapi.json
+  inline_examples: 12
+  component_examples: 7
+  named:
+  - Example1
+  - Example2
+  - Example3
+  - Example4
+- spec: openapi/freddie-mac-data-share-bid-tape-openapi.json
+  inline_examples: 27
+  component_examples: 23
+  named:
+  - BadRequestSchemaFailureBidSummaryResultsRequest
+  - BadRequestSchemaFailureBidSummaryResultsResponse
+  - CDDSDownBidSummaryResultsRequest
+  - CDDSDownBidSummaryResultsResponse
+  - ERRSDownBidSummaryResultsRequest
+  - ERRSDownBidSummaryResultsResponse
+  - ERRSandCDDSDocumentsMissingBidSummaryResultsRequest
+  - ERRSandCDDSDocumentsMissingBidSummaryResultsResponse
+  - ERRSandCDDSDownBidSummaryResultsRequest
+  - ERRSandCDDSDownBidSummaryResultsResponse
+  - NoSLIDMatchfromSRSBidSummaryResultsRequest
+  - NoSLIDMatchfromSRSBidSummaryResultsResponse
+- spec: openapi/freddie-mac-data-share-openapi.json
+  inline_examples: 87
+  component_examples: 56
+  named:
+  - 4.8AllDocumentsfoundRequest
+  - 4.8AllDocumentsfoundResponse
+  - 4.8LPALoanFeedbackandLPARequestnotfoundRequest
+  - 4.8LPALoanFeedbackandLPARequestnotfoundResponse
+  - 4.8LPALoanXMLRequestnotfoundRequest
+  - 4.8LPALoanXMLRequestnotfoundResponse
+  - 4.8NoDocumentsFoundRequest
+  - 4.8NoDocumentsFoundResponse
+  - 5.0AllDocumentsfoundRequest
+  - 5.0AllDocumentsfoundResponse
+  - 5.0LPALoanFeedbacknotfoundRequest
+  - 5.0LPALoanFeedbacknotfoundResponse
+- spec: openapi/freddie-mac-guarantor-committing-openapi.json
+  inline_examples: 34
+  component_examples: 16
+  named:
+  - Request Decision
+  - Request Modify
+  - Request Modify Decision
+  - Request Optional ARM Single Issue
+  - Request Optional FR Multi-Lender
+  - Request Optional FR Single Issue
+  - 'Request PairOff '
+  - Request PairOff Decision
+  - Response Decision
+  - Response Modify
+  - Response Modify Decision
+  - Response Optional ARM Single Issue
+- spec: openapi/freddie-mac-guarantor-pricing-openapi.json
+  inline_examples: 20
+  component_examples: 16
+  named:
+  - Price Request BUBD All
+  - Price Request BUBD Specific
+  - Price Request CFFD All
+  - Price Request CFFD Specific
+  - Price Request CFP All
+  - Price Request CFP Specific
+  - Price Request CFY All
+  - Price Request CFY Specific
+  - Price Response BUBD All
+  - Price Response BUBD Specific
+  - Price Response CFFD All
+  - Price Response CFFD Specific
+- spec: openapi/freddie-mac-guarantor-settlement-purchase-statement-openapi.json
+  inline_examples: 11
+  component_examples: 0
+  named:
+  - InvalidRequest - 1
+  - InvalidRequest - 2
+  - ValidRequest - 1
+  - 'ValidRequest - 2 '
+- spec: openapi/freddie-mac-income-limits-openapi.json
+  inline_examples: 21
+  component_examples: 16
+  named:
+  - Example1
+  - Example2
+  - Example3
+  - Example4
+  - Example5
+  - Example6
+  - Example7
+  - Example8
+- spec: openapi/freddie-mac-loan-closing-advisor-loan-submission-openapi.yaml
+  inline_examples: 22
+  component_examples: 21
+  named:
+  - LCLAAlternateFormRequest_1.5
+  - LCLAAlternateFormRequest_2.0
+  - LCLAAlternateFormResponse_1.5
+  - LCLAAlternateFormResponse_2.0
+  - LCLABadResponse
+  - LCLAFailedResponse
+  - LCLAInvalidCredResponse
+  - LCLAMalformedResponse
+  - 'LCLAMessageTooLargeResponse:'
+  - LCLAModelFormRequest_1.5
+  - LCLAModelFormRequest_2.0
+  - LCLAModelFormResponse_1.5
+- spec: openapi/freddie-mac-loan-import-openapi.json
+  inline_examples: 29
+  component_examples: 24
+  named:
+  - ContractUPBLimitIndicatorRequiredResponse
+  - CorrelationIdentifierInvalidDataTypeResponse
+  - CorrelationIdentifierRequiredResponse
+  - FileIdentifierInvalidRequestTypeResponse
+  - FileIdentifierRequiredResponse
+  - FileImportStatusInternalErrorResponse
+  - ImportErrorResponse401
+  - ImportErrorResponse403
+  - ImportLoanResponse
+  - InvalidPoolNumberResponse
+  - LoanImportFileStatusIntermediateResponse
+  - LoanImportFileStatusReponseWithErrors
+- spec: openapi/freddie-mac-loan-look-up-openapi.json
+  inline_examples: 13
+  component_examples: 8
+  named:
+  - ClosedLoanRequest
+  - ClosedLoanResponse
+  - MultipleMatchRequest
+  - MultipleMatchResponse
+  - NoMatchRequest
+  - NoMatchResponse
+  - SingleMatchRequest
+  - SingleMatchResponse
+- spec: openapi/freddie-mac-property-insights-openapi.json
+  inline_examples: 25
+  component_examples: 20
+  named:
+  - Example1
+  - Example10
+  - Example2
+  - Example3
+  - Example4
+  - Example5
+  - Example6
+  - Example7
+  - Example8
+  - Example9
+- spec: openapi/freddie-mac-resolve-liquidation-openapi.json
+  inline_examples: 11
+  component_examples: 6
+  named:
+  - LoanEligibleForShortSale
+  - LoanEligibleForShortSaleResponse
+  - LoanNotEligibleExceptionReviewNotRequested
+  - LoanNotEligibleExceptionReviewNotRequestedResponse
+  - LoanNotEligibleExceptionReviewRequested
+  - LoanNotEligibleExceptionReviewRequestedResponse
+- spec: openapi/freddie-mac-resolve-retention-openapi.json
+  inline_examples: 25
+  component_examples: 0
+  named:
+  - DelegatedReviewRequest
+  - DisasterFlexModifications(FLXDM)forTrialApproval
+  - FatalEligibilityError
+  - FlexModifications(FLXM)forAppeals
+  - FlexModifications(FLXM)forAppealsInvalid
+  - FlexModifications(FLXM)forTrialApproval
+  - ForbearanceRequest(FB)forApproval
+  - InquireStatusDecision
+  - InquireStatusProgress
+  - RepaymentPlanRequest(RP)forApproval
+  - Response 1 - Request for a delegated review
+  - Response 10 - Request for Repayment Plan (RP) for approval
+- spec: openapi/freddie-mac-resolve-valuation-pricing-openapi.json
+  inline_examples: 9
+  component_examples: 4
+  named:
+  - RequestCompletedMNPWithFutureGTD
+  - RequestOrderMNP
+  - ResponseCompletedMNPWithFutureGTD
+  - ResponseOrderMNP
+- spec: openapi/freddie-mac-resolve-workout-options-openapi.json
+  inline_examples: 14
+  component_examples: 0
+  named:
+  - ConditionalRequest
+  - EligibilityDecisionRequest
+  - InvalidRequest
+  - Response 1 - Request with an eligibility decision
+  - Response 2 - Request with a 'Conditional' eligibility decision
+  - Response 3 - Request with atleast one upfront validation error
+  - Response 4 - Request with an 'Undetermined' eligibility decision
+  - UndeterminedDecision

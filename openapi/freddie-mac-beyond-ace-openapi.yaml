@@ -1,0 +1,3853 @@
+---
+openapi: 3.0.1
+info:
+  title: Beyond ACE
+  version: 3.0.0
+servers:
+- url: https://api-test.freddiemac.com/single-family/loan-advisor-suite/las-beyondace-api/v2
+paths:
+  /image/{imageId}:
+    get:
+      tags:
+      - Property Data Images
+      summary: "Retrieve image."
+      description: Endpoint to retrieve Image.
+      operationId: getPropertyImage
+      parameters:
+      - name: imageId
+        in: path
+        description: image meta Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: actual Image
+        "401":
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        "404":
+          description: Image not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                GETResourceNotFound:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+                ImageNotFoundResponse:
+                  $ref: '#/components/examples/ImageNotFoundResponse'
+        "429":
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        "500":
+          description: |-
+            <p><strong>Internal Server Error</strong></p>
+             <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Property Data Images
+      summary: "Endpoint to upload and replace existing image."
+      description: End point to update image. Image size must be within 1 MB to 50 MB.Image must be submitted in a valid format of JPG/PNG/JPEG.
+      operationId: updatePropertyImage
+      parameters:
+      - name: imageId
+        in: path
+        description: image Id to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/insertDaImage'
+      responses:
+        "200":
+          description: Updated Image successfully
+        "401":
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        "404":
+          description: Image not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+                ImageNotFoundResponse:
+                  $ref: '#/components/examples/ImageNotFoundResponse'
+        "429":
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        "500":
+          description: |-
+            <p><strong>Internal Server Error</strong></p>
+             <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Property Data Images
+      summary: "Endpoint to upload image."
+      description: Endpoint to upload custom image for user entered comparable.Image size must be within 1 MB to 50 MB.Image must be submitted in a valid format of JPG/PNG/JPEG.
+      operationId: insertDaImage
+      parameters:
+      - name: imageId
+        in: path
+        description: image meta Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/insertDaImage'
+      responses:
+        "201":
+          description: Image stored
+        "401":
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        "404":
+          description: Image Meta not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+                ImageNotFoundResponse:
+                  $ref: '#/components/examples/ImageNotFoundResponse'
+        "429":
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        "500":
+          description: |-
+            <p><strong>Internal Server Error</strong></p>
+             <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+  /property/{propertyDataId}/imagemetalist:
+    get:
+      tags:
+      - Metadata
+      summary: "Get existing metadata list."
+      description: Endpoint to get the exisitng Image metadata.
+      operationId: getMetaDataList
+      parameters:
+      - name: propertyDataId
+        in: path
+        description: Existing PropertyDataID generated during initial submission.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Data has been found. Request body contains Property Data object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageMetaDataList'
+        "401":
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        "404":
+          description: Property not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+                PropertyNotFoundResponse:
+                  $ref: '#/components/examples/GETImageMetaNotFoundResponse'
+        "429":
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        "500":
+          description: |-
+            <p><strong>Internal Server Error</strong></p>
+             <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+  /property:
+    post:
+      tags:
+      - Property Data
+      summary: "Submit new Property Data set."
+      description: Endpoint to submit property data.
+      operationId: postPropertyData
+      parameters:
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Dataset-Version
+        in: header
+        description: Version of Uniform Property Dataset the property data submission conforms to.  The current version is UPD1.  This is not to be confused with the UPD Document Version Number which may be UPD1.0 or UPD1.1.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-PropertyDataReportType
+        in: header
+        description: The LPA offering associated with the request for a PDR. Use ACEPDR for ACE+ PDR or HYBRID for hybrid appraisals (only when LPA offered a hybrid appraisal, NOT when you know you might upgrade to a HYBRID appraisal from an ACE+ PDR).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropertyDataReport'
+            examples:
+              SingleFamilyExample:
+                $ref: '#/components/examples/SingleFamilyExample'
+              CondoExample:
+                $ref: '#/components/examples/CondoExample'
+      responses:
+        "201":
+          description: Data has been submitted successfully.Based on the request  submitted,Response body contains Data Quality Errors or Image Requirements as part Property Data Status object.</br><b>Note*:</b> Refer UPD specifications for Image Requirements
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyDataReportStatus'
+        "400":
+          description: Bad request. Request body contains PropertyDataReportStatus object with validationErrors definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIBadRequestMissingResponse:
+                  $ref: '#/components/examples/BACEAPIBadRequestMissingResponse'
+                BACEAPIBadRequestCustomResponse:
+                  $ref: '#/components/examples/BACEAPIBadRequestCustomResponse'
+                BACEAPIBadRequestCustomResponseInvalid:
+                  $ref: '#/components/examples/BACEAPIBadRequestCustomResponseInvalid'
+        "401":
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        "404":
+          description: "<p><strong>Resource not found</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p> <ul> <li><strong>404.001:</strong> No resource for {user provided value} uri. </li> </ul>          "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+        "429":
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        "500":
+          description: |-
+            <p><strong>Internal Server Error</strong></p>
+             <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+  /property/{propertyDataId}/imagemeta:
+    post:
+      tags:
+      - Metadata
+      summary: "Submit Property Data Image MetaData."
+      description: Endpoint to submit Image metadata.
+      operationId: postPropertyDataImage
+      parameters:
+      - name: propertyDataId
+        in: path
+        description: Existing PropertyDataID generated during initial submission.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Image metadata
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageMetaData'
+          application/pda.v3+json:
+            schema:
+              $ref: '#/components/schemas/ImageMetaData'
+          application/pda.v4+json:
+            schema:
+              $ref: '#/components/schemas/ImageMetaData'
+        required: true
+      responses:
+        "201":
+          description: Metadata created, image Id returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageStorageLocation'
+        "400":
+          description: Bad request. Request body contains ErrorResponse object with validationErrors definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        "404":
+          description: Property not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+                GETImageMetaNotFoundResponse:
+                  $ref: '#/components/examples/GETImageMetaNotFoundResponse'
+        "429":
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        "500":
+          description: |-
+            <p><strong>Internal Server Error</strong></p>
+             <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+  /property/{propertyDataId}/status:
+    get:
+      tags:
+      - Submission Status
+      summary: "Get Existing Property Data Status."
+      description: Endpoint to get the status of property data submitted.
+      operationId: getPropertyDataStatus
+      parameters:
+      - name: propertyDataId
+        in: path
+        description: Existing PropertyDataID generated during initial submission.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Data has been found. Request body contains Property Data Status object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyDataReportStatus'
+        "401":
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        "404":
+          description: Property not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+                PropertyNotFoundResponse:
+                  $ref: '#/components/examples/PropertyNotFoundResponse'
+        "429":
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        "500":
+          description: |-
+            <p><strong>Internal Server Error</strong></p>
+             <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+  /property/imagemeta/{imageId}:
+    put:
+      tags:
+      - Metadata
+      summary: "Update Property Data Image MetaData."
+      description: Endpoint to update Image metadata.
+      operationId: updateMetadata
+      parameters:
+      - name: imageId
+        in: path
+        description: Existing Image Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Image metadata
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageMetaData'
+        required: true
+      responses:
+        "200":
+          description: Metadata updated.
+        "400":
+          description: Bad request. Request body contains ErrorResponse object with validationErrors definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        "404":
+          description: Property not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+        "429":
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        "500":
+          description: |-
+            <p><strong>Internal Server Error</strong></p>
+             <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+  /property/{propertyDataId}:
+    get:
+      tags:
+      - Property Data
+      summary: "Get Existing Property Data set."
+      description: Endpoint to retrieve submitted property data.
+      operationId: getPropertyData
+      parameters:
+      - name: propertyDataId
+        in: path
+        description: Existing PropertyDataID generated during initial submission.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Data has been found. Request body contains Property Data object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyDataReportWithImages'
+        "401":
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        "404":
+          description: Property not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+                PropertyNotFoundResponse:
+                  $ref: '#/components/examples/PropertyNotFoundResponse'
+        "429":
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        "500":
+          description: |-
+            <p><strong>Internal Server Error</strong></p>
+             <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+  /pdf/{propertyDataId}:
+    get:
+      tags:
+      - Property Data PDF
+      summary: "Retrieve PDF."
+      description: Endpoint to get the PDF submitted.
+      operationId: getPDF
+      parameters:
+      - name: propertyDataId
+        in: path
+        description: Existing PropertyDataID generated during initial submission.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200": 
+          description: PDF retrieved Sucussesfully
+        "401":
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+                PDFNotFoundResponse:
+                  $ref: '#/components/examples/PDFNotFoundResponse'
+        "404":
+          description: Url malformed found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+                PDFNotFoundResponse:
+                  $ref: '#/components/examples/PDFNotFoundResponse'
+        "429":
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        "500":
+          description: |-
+            <p><strong>Internal Server Error</strong></p>
+             <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Property Data PDF
+      summary: "Endpoint to upload PDF."
+      description: Endpoint to submit the PDF.
+      operationId: savePDF
+      parameters:
+      - name: propertyDataId
+        in: path
+        description: Existing PropertyDataID generated during initial submission.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/insertDaImage'
+      responses:
+        "201":
+          description: PDF Saved Sucussesfully
+        "401":
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        "404":
+          description: Image Meta not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+                PDFNotFoundResponse:
+                  $ref: '#/components/examples/PDFNotFoundResponse'
+        "429":
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        "500":
+          description: |-
+            <p><strong>Internal Server Error</strong></p>
+             <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    GPSCoordinates:
+      required:
+      - latitude
+      - longitude
+      type: object
+      properties:
+        latitude:
+          type: number
+          description: Waterfall Subject Latitude as centroid of latitude of all images, OR a specific image likely to be present in all dwellings, such as the kitchen OR a photo of the main entrance of the dwelling. If latitude from images is unavailable, use geocoder from subject address.
+          format: float
+          example: 38.889248
+        longitude:
+          type: number
+          description: Waterfall Subject Longitude as centroid of longitude of all images, OR a specific image likely to be present in all dwellings, such as the kitchen OR a photo of the main entrance of the dwelling. If latitude/longitude from images is unavailable, use geocoder from subject address.
+          format: float
+          example: -77.050636
+      additionalProperties: false
+    ImageMetaDataList:
+      required:
+      - metadataList
+      type: object
+      properties:
+        metadataList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageStorageLocation'
+    ImageMetaData:
+      required:
+      - description
+      - geoPosition
+      - imageNotAvailable
+      - imageType
+      - parentObjectJsonPath
+      - timestamp
+      type: object
+      properties:
+        propertyDataId:
+          type: string
+          example: acde070d-8c4c-4f0d-9d8a-162843c10333
+        imageType:
+          type: string
+          enum:
+          - STREET_ADDRESS
+          - UNIT_NUMBER
+          - STREET_LEFT
+          - STREET_RIGHT
+          - ROAD_UNDER_MAINTAINED
+          - ADVERSE_SITE_CONDITIONS
+          - ATTACHED_GARAGE_EXTERIOR
+          - ATTACHED_GARAGE_INTERIOR
+          - DETACHED_GARAGE_EXTERIOR
+          - DETACHED_GARAGE_INTERIOR
+          - BUILTIN_GARAGE_EXTERIOR
+          - BUILTIN_GARAGE_INTERIOR
+          - SIDING_GARAGE_DEFICIENCY
+          - WINDOWS_GARAGE_DEFICIENCY
+          - DOORS_GARAGE_DEFICIENCY
+          - GARAGE_DOOR_GARAGE_DEFICIENCY
+          - EXTERIOR_WALLS_GARAGE_DEFICIENCY
+          - INTERIOR_WALLS_GARAGE_DEFICIENCY
+          - CEILING_GARAGE_DEFICIENCY
+          - ROOF_GARAGE_DEFICIENCY
+          - FOUNDATION_GARAGE_DEFICIENCY
+          - OTHER_GARAGE_DEFICIENCY
+          - SIDING_CARSTORAGE_DEFICIENCY
+          - WINDOWS_CARSTORAGE_DEFICIENCY
+          - DOORS_CARSTORAGE_DEFICIENCY
+          - GARAGE_DOOR_CARSTORAGE_DEFICIENCY
+          - EXTERIOR_WALLS_CARSTORAGE_DEFICIENCY
+          - INTERIOR_WALLS_CARSTORAGE_DEFICIENCY
+          - CEILING_CARSTORAGE_DEFICIENCY
+          - ROOF_CARSTORAGE_DEFICIENCY
+          - FOUNDATION_CARSTORAGE_DEFICIENCY
+          - OTHER_CARSTORAGE_DEFICIENCY
+          - CARPORT
+          - OPEN_ASSIGNED
+          - SF_VIEW
+          - CONDO_VIEW
+          - VIEW_FRONT
+          - VIEW_LEFT_SIDE
+          - VIEW_RIGHT_SIDE
+          - VIEW_REAR
+          - BORDERING_INFLUENCE
+          - WATERFRONT
+          - WATERFRONT_SITE_IMPROVEMENTS
+          - PROPERTY_IMPROVEMENTS
+          - FEATURE_TYPE
+          - INGROUND_POOL_CONCERNS
+          - NONRESIDENTIAL_USE
+          - STRUCTURE_FRONT
+          - STRUCTURE_LEFT_SIDE
+          - STRUCTURE_RIGHT_SIDE
+          - STRUCTURE_REAR
+          - BUILDING_FRONT
+          - BUILDING_LEFT
+          - BUILDING_RIGHT
+          - BUILDING_REAR
+          - ROOM
+          - KITCHEN
+          - BATHROOM
+          - LIVING_ROOM
+          - OVEN_RANGE
+          - FLOORING_INTERIOR_DEFICIENCY
+          - PLUMBING_FIXTURES_INTERIOR_DEFICIENCY
+          - ELECTRICAL_FIXTURES_INTERIOR_DEFICIENCY
+          - CABINET_COUNTERTOPS_INTERIOR_DEFICIENCY
+          - APPLIANCES_INTERIOR_DEFICIENCY
+          - WALLS_INTERIOR_DEFICIENCY
+          - CEILING_INTERIOR_DEFICIENCY
+          - SHOWER_TUB_SURROUND_INTERIOR_DEFICIENCY
+          - OTHER_INTERIOR_DEFICIENCY
+          - FLOORING_INTERIOR_UPDATE
+          - PLUMBING_FIXTURES_INTERIOR_UPDATE
+          - ELECTRICAL_FIXTURES_INTERIOR_UPDATE
+          - CABINET_COUNTERTOPS_INTERIOR_UPDATE
+          - APPLIANCES_INTERIOR_UPDATE
+          - WALLS_INTERIOR_UPDATE
+          - CEILING_INTERIOR_UPDATE
+          - OTHER_INTERIOR_UPDATE
+          - FLOOR_PLAN
+          - FOUNDATION_EXTERIOR_DEFICIENCY
+          - ROOF_EXTERIOR_DEFICIENCY
+          - SIDING_EXTERIOR_DEFICIENCY
+          - FASCIA_EXTERIOR_DEFICIENCY
+          - WINDOWS_EXTERIOR_DEFICIENCY
+          - DOORS_EXTERIOR_DEFICIENCY
+          - GUTTERS_DOWNSPOUTS_EXTERIOR_DEFICIENCY
+          - EAVES_EXTERIOR_DEFICIENCY
+          - CHIMNEY_EXTERIOR_DEFICIENCY
+          - PORCH_EXTERIOR_DEFICIENCY
+          - PATIO_EXTERIOR_DEFICIENCY
+          - DECK_EXTERIOR_DEFICIENCY
+          - BALCONY_EXTERIOR_DEFICIENCY
+          - ENTRY_STAIRS_EXTERIOR_DEFICIENCY
+          - CARPORT_EXTERIOR_DEFICIENCY
+          - DRIVEWAY_EXTERIOR_DEFICIENCY
+          - INCOMPLETE_LANDSCAPING_EXTERIOR_DEFICIENCY
+          - OTHER_EXTERIOR_DEFICIENCY
+          - EXTERIOR_WALLS_EXTERIOR_DEFICIENCY
+          - SIDING_EXTERIOR_UPDATE
+          - DOORS_EXTERIOR_UPDATE
+          - WALLS_EXTERIOR_UPDATE
+          - ROOF_EXTERIOR_UPDATE
+          - FOUNDATION_EXTERIOR_UPDATE
+          - FENCE_EXTERIOR_UPDATE
+          - OTHER_EXTERIOR_UPDATE
+          - WINDOWS_EXTERIOR_UPDATE
+          - PLUMBING_MECHANICAL_DEFICIENCY
+          - ELECTRICAL_MECHANICAL_DEFICIENCY
+          - HEATING_MECHANICAL_DEFICIENCY
+          - WATER_HEATER_MECHANICAL_DEFICIENCY
+          - COOLING_MECHANICAL_DEFICIENCY
+          - SUMP_PUMP_MECHANICAL_DEFICIENCY
+          - OTHER_MECHANICAL_DEFICIENCY
+          - PLUMBING_MECHANICAL_UPDATE
+          - ELECTRICAL_MECHANICAL_UPDATE
+          - HEATING_MECHANICAL_UPDATE
+          - WATER_HEATER_MECHANICAL_UPDATE
+          - COOLING_MECHANICAL_UPDATE
+          - SUMP_PUMP_MECHANICAL_UPDATE
+          - OTHER_MECHANICAL_UPDATE
+          - OTHER
+        description:
+          type: string
+          description: Image Description
+        imageTags:
+          type: array
+          description: optional image tags
+          items:
+            type: string
+        geoPosition:
+          $ref: '#/components/schemas/GPSCoordinates'
+        timestamp:
+          type: integer
+          description: Must be UTC timestamp in seconds.
+          format: int64
+          example: 1694559274
+        imageNotAvailable:
+          type: boolean
+          description: true/false (if an image is not available then this field should be set to true, otherwise it should be false.) <b>Note:</b>  Image omission will affect Waiver Eligibility. Conditional value, if alwaysRequired is true, imageNotAvailable must be false, image must be provided.
+        alwaysRequired:
+          type: boolean
+          description: true/false (This field will be true for images that are required for the Inspection to be considered Complete).
+        parentObjectJsonPath:
+          type: string
+    feature:
+      type: object
+      properties:
+        featureType:
+          type: string
+          description: 'Indicate all features specific to the unit. If there are no additional unit features, “None” must be selected. Required (/property/propertyType = CONDO) '
+          enum:
+          - ORNATE_LANDSCAPING
+          - OUTDOOR_KITCHEN
+          - INGROUND_POOL
+          - INGROUND_HOTTUB
+          - SPORTS_COURT
+          - SAUNA
+          - GAZEBO
+          - PATIO
+          - DECK
+          - BALCONY
+          - UNCOVERED_PORCH
+          - COVERED_PORCH
+          - ENCLOSED_PORCH
+          - WRAP_AROUND_PORCH
+          - STOOP
+          - FIREPIT
+          - OUTDOOR_FIREPLACE
+          - OTHER
+          - NONE
+          - CARPORT
+          - ABOVE_GROUND_POOL
+    ImageStorageLocation:
+      type: object
+      properties:
+        imageId:
+          type: string
+          example: bcde070d-8c4c-4f0d-9d8a-162843c10334
+        imageMeta:
+          $ref: '#/components/schemas/ImageMetaData'
+        uploadUrl:
+          type: string
+    ValidationError:
+      type: object
+      properties:
+        jsonPath:
+          type: string
+        validationErrorMessage:
+          type: string
+    Address:
+      required:
+      - city
+      - county
+      - postalCode
+      - state
+      - streetAddress
+      type: object
+      properties:
+        streetAddress:
+          type: string
+          description: House number and street name.
+          example: 123 Main St 
+        unitNumber:
+          maxLength: 10
+          minLength: 0
+          type: string
+          description: Unit number of the property, if applicable.
+          example: Unit 2B
+        city:
+          type: string
+          description: City
+          example: City
+        county:
+          type: string
+          description: County or parish
+          example: County
+        state:
+          maxLength: 2
+          minLength: 2
+          type: string
+          description: Provide the state abbrevaition
+          example: VA
+        postalCode:
+          maxLength: 5
+          minLength: 5
+          type: string
+          description: Zip code
+          example: 98765
+      additionalProperties: false
+    AdverseSiteCondition:
+      required:
+      - adverseType
+      type: object
+      properties:
+        adverseType:
+          type: string
+          description: "Indicate any adverse site conditions observed on the subject property.  \r\nSelect one or more of the items from the list of allowable values.  If there is an observation not listed, choose “Other” and provide a description of the observation.  If there are none, then choose “None Observed”.\r\n"
+          enum:
+          - CONTAMINATION
+          - FAILING_SITE_IMPROVEMENT
+          - ENCROACHMENTS
+          - SIGNIFICANT_JUNK_TRASH
+          - SINKHOLE
+          - WETLANDS
+          - EXTREME_SLOPE
+          - OTHER
+          - NONE_OBSERVED
+        adverseSiteConditionDescription:
+          type: string
+          description: Provide a description of the adverse site condition observed. Required IF ( /property/site/siteFeature/adverseSiteConditions/adverseType  !=  'NONE_OBSERVED' ).<b>Note*</b> Maximum length must be less than 2500  characters.
+      additionalProperties: false
+    Ancillary:
+      type: object
+      properties:
+        roadDesc:
+          type: string
+          description: A free-form text field used to describe the property off-site improvement specified by Property Off Site Improvement Feature Type.<b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Asphalt
+        atticFloorExists:
+          type: boolean
+          description: Indicates if the feature specified in Attic Feature Type is present in the structure.
+          example: false
+        atticHeated:
+          type: boolean
+          description: Indicates if the feature specified in Attic Feature Type is present in the structure.
+          example: false
+        heatingFuelDesc:
+          type: string
+          description: A free-form text field used to describe the fuel used by the heating unit.<b>Note*</b> Maximum length must be less than 2500  characters.
+        drivewaySurfaceDesc:
+          type: string
+          description: A free-form text field used to describe or comment on the aspect of the property named in the Site Feature Type.<b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Concrete
+        alley:
+          $ref: '#/components/schemas/AncillaryAlley'
+        appliances:
+          $ref: '#/components/schemas/AncillaryAppliances'
+        exterior:
+          $ref: '#/components/schemas/AncillaryExterior'
+        gas:
+          $ref: '#/components/schemas/AncillaryGas'
+        interior:
+          $ref: '#/components/schemas/AncillaryInterior'
+    AncillaryAlley:
+      type: object
+      properties:
+        desc:
+          type: string
+          description: A free-form text field used to describe the property off-site improvement specified by Property Off Site Improvement Feature Type.<b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Gravel
+        public:
+          type: boolean
+          description: Indicates that the particular off-site improvement feature specified by Property Off Site Improvement Feature Type is present.
+          example: false
+        private:
+          type: boolean
+          description: Indicates that the particular off-site improvement feature specified by Property Off Site Improvement Feature Type is present.
+          example: false
+    AncillaryAppliances:
+      type: object
+      properties:
+        refrigeratorExists:
+          type: boolean
+          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
+          example: true
+        dishwasherExists:
+          type: boolean
+          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
+          example: true
+        disposalExists:
+          type: boolean
+          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
+          example: true
+        microwaveExists:
+          type: boolean
+          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
+          example: true
+        washerDryerExists:
+          type: boolean
+          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
+          example: true
+        otherExists:
+          type: boolean
+          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
+          example: false
+        otherDesc:
+          type: string
+          description: A free-form text field used to describe the kitchen equipment if Other is selected as the Kitchen Equipment Type.<b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Wine Cooler
+    AncillaryExterior:
+      type: object
+      properties:
+        descFoundationWalls:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Concrete Block
+        descExtWalls:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Concrete Block
+        descRoofSurface:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Standing Seam Metal 
+        descGuttersDownspouts:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Aluminum
+        descWindowType:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Vinyl Double Hung
+        descStormSashInsulated:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Metal
+        descScreens:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Fabric
+    AncillaryGas:
+      type: object
+      properties:
+        otherDesc:
+          type: string
+          description: A free-form text field used to describe the ownership of the utility specified by Site Utility Type if it is a non-public utility. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Propane
+    AncillaryInterior:
+      type: object
+      properties:
+        floorsDesc:
+          type: string
+          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Carpet
+        wallsDesc:
+          type: string
+          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Plaster
+        trimFinishDesc:
+          type: string
+          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Crown
+        bathFloorDesc:
+          type: string
+          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Tile
+        bathWainscotDesc:
+          type: string
+          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Tile
+    ElectricalService:
+      required:
+      - electricalType
+      type: object
+      properties:
+        electricalType:
+          type: string
+          description: Indicate the electrical service type(s) for the subject property.  If more than one type is available, select all that apply.  If the property has both public service as well as private service, select both public and all other electrical service types.  If there is no electrical service at the property, select “No Electrical Service.”
+          enum:
+          - PUBLIC
+          - SOLAR
+          - GENERATOR
+          - WIND
+          - HYDRO_ELECTRIC
+          - NO_ELECTRICAL_SERVICE
+        offGridService:
+          type: boolean
+          description: If an alternative electrical source is indicated for electrical service type and connected to the grid.True = identified electrical service is connected to the public utility.False = identified electrical service is NOT connected to the public utility.Required IF ( /property/site/siteUtility/electricalServices/electricalType  =  'SOLAR' OR 'GENERATOR' OR 'WIND' OR 'HYDRO_ELECTRIC' )
+      additionalProperties: false
+    ExteriorDeficiency:
+      required:
+      - exteriorDeficiencyName
+      type: object
+      properties:
+        exteriorDeficiencyName:
+          type: string
+          description: Indicate the item or component of the exterior of the property that has deferred maintenance requiring significant repairs (e.g. - missing siding, boarded up windows, hole in door, etc.).  If an item or component is missing, identify that it is deficient. Select all that apply.
+          enum:
+          - NONE_OBSERVED
+          - FOUNDATION
+          - ROOF
+          - SIDING
+          - FASCIA
+          - WINDOWS
+          - DOORS
+          - GUTTERS_DOWNSPOUTS
+          - EAVES
+          - CHIMNEY
+          - PORCH
+          - PATIO
+          - DECK
+          - BALCONY
+          - ENTRY_STAIRS
+          - CARPORT
+          - DRIVEWAY
+          - INCOMPLETE_LANDSCAPING
+          - OTHER
+          - EXTERIOR_WALLS
+        exteriorDeficiencyType:
+          type: string
+          description: Identify the type of deficiencies associated with the exterior of the property.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName != ‘NONE_OBSERVED’
+          enum:
+          - EXCESSIVE_WEAR
+          - DAMAGE
+          - EVIDENCE_OF_INFESTATION
+          - MISSING
+          - OTHER
+        exteriorDeficiencyDetailFoundation:
+          type: array
+          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = 'FOUNDATION'
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - SETTLEMENT
+            - EVIDENCE_OF_MOISTURE
+            - SEEPAGE
+            - INFESTATION
+            - LEANING_OR_BOWING_WALLS
+            - HEAVING
+            - OTHER
+        exteriorDeficiencyDetailExteriorWalls:
+          type: array
+          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = 'EXTERIOR_WALLS'
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - HOLES
+            - DRY_ROT
+            - MOISTURE_ROT
+            - SETTLEMENT
+            - WIND_DAMAGE
+            - MISSING_MATERIAL
+            - OTHER
+        exteriorDeficiencyDetailRoofSurface:
+          type: array
+          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = 'ROOF'
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - TARP_ON_ROOF
+            - LEAK_EVIDENT
+            - MISSING_MATERIAL
+            - WOOD_ROT
+            - SOFFIT_DAMAGE
+            - FASCIA_DAMAGE
+            - OTHER
+        exteriorDeficiencyDetailGuttersandDownspouts:
+          type: array
+          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = GUTTERS_DOWNSPOUTS
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - MISSING_DOWNSPOUTS
+            - DAMAGED
+            - LEAKING
+            - INFESTATION
+            - IMPROPER_FLOW
+            - MISSING_GUTTER
+            - OTHER
+        exteriorDeficiencyDetailWindows:
+          type: array
+          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = 'WINDOWS'
+          items:
+            type: string
+            enum:
+            - CRACKING
+            - MISSING_WINDOW_PANE
+            - DRY_ROT
+            - BROKEN_GLASS
+            - BOARDED_UP
+            - MISSING_WINDOW
+            - EXPOSED_WOOD
+            - STORM_SASH_DAMAGE
+            - THERMOPANE_DAMAGE
+            - OTHER
+        exteriorDeficiencySeverity:
+          type: boolean
+          description: Indicate if the noted deficiency to the exterior item or component impacts the safety, soundness, or structural integrity of the structure or unit.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName != ‘NONE_OBSERVED’
+        exteriorDeficiencyDescription:
+          type: string
+          description: Provide a brief description of each exterior item or component deficiency observed.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName != ‘NONE_OBSERVED’. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: The balcony is only partially attached to the exterior wall of the structure.
+      additionalProperties: false
+    ExteriorUpdate:
+      required:
+      - exteriorUpdatedComponent
+      type: object
+      properties:
+        exteriorUpdatedComponent:
+          type: string
+          description: 'Indicate which component(s) has been updated if there have been updates to the exterior of the structure. Select all that apply. '
+          enum:
+          - NONE_OBSERVED
+          - SIDING
+          - WINDOWS
+          - DOORS
+          - WALLS
+          - ROOF
+          - FOUNDATION
+          - FENCE
+          - OTHER
+        exteriorUpdateType:
+          type: string
+          description: Indicate to what degree the component(s) have been updated, if there have been updates to the exterior of the structure.Refinished = Changed the existing component, such as by painting or refacing.Replaced = Removed and replaced the existing component with new materials.Required IF ( /property/buildings/exteriorUpdates/exteriorUpdatedComponent != 'NONE_OBSERVED' )
+          enum:
+          - FULLY_UPDATED
+          - PARTIALLY_UPDATED
+        exteriorUpdateTimeframe:
+          type: string
+          description: Indicate what timeframe the updates to the exterior of the structure have been completed.   If not known, an estimated timeframe may be provided. For instance, if an update was made approximately 3 years ago, then the user would select '1_TO_10_YEARS'. Required IF ( /property/buildings/exteriorUpdates/exteriorUpdatedComponent != 'NONE_OBSERVED' )
+          enum:
+          - LESS_THAN_1_YEAR
+          - 1_TO_10_YEARS
+          - 10_TO_20_YEARS
+          - MORE_THAN_20_YEARS
+        exteriorUpdateDescription:
+          type: string
+          description: "Exterior Update Description\r\nProvide a brief description of the nature of the improvements, if there have been updates to the exterior of the structure.\r\nRequired IF ( /property/buildings/exteriorUpdates/exteriorUpdatedComponent != 'NONE_OBSERVED' ). <b>Note*</b> Maximum length must be less than 2500  characters."
+          example: The garage door was replaced 16 months ago. 
+      additionalProperties: false
+    garage:
+      type: object
+      properties:
+        garageType:
+          type: string
+          description: Indicate the type of garage.  If more than one type of garage is available, choose all that apply. Required IF ( /property/propertyType = SF or (/property/propertyType = CONDO & property/buildings/buildingDesign = ROWHOUSE_TOWNHOUSE or DETACHED OR OTHER))
+          enum:
+          - ATTACHED_GARAGE
+          - DETACHED_GARAGE
+          - BUILTIN_GARAGE
+          - NONE
+        garageSpaceCount:
+          type: integer
+          description: Indicate the count of spaces for each garage type indicated.  If multiple types were indicated, assign the correct number of spaces for each type. A tandem garage can be counted as one or more spaces if the depth of the garage allows for two or more cars to be parked front to back.Required IF(/property/buildings/units/garages/garageType != NONE)
+        garageSpaceArea:
+          type: integer
+          description: Indicate the square footage of the garage for each instance of Attached Garage, Built-In Garage or Detached Garage selected.Required IF(/property/buildings/units/garages/garageType != NONE)
+        garageConversionIndicator:
+          type: boolean
+          description: User to indicate whether the garage was converted to finished area.Possible indicators of a garage conversion:1. Garage door may have been removed or modified.2. Garage has been improved with finishes such as drywall, flooring, heating/cooling, etc. 3. Converted space has heating and/or cooling at least equal to main dwelling.TRUE = garage was converted.FALSE = garage is utilized car storage or original use, not converted.Required IF(/property/buildings/units/garages/garageType != NONE)
+        garageDeficiencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/garageDeficiency'
+      additionalProperties: false
+    garageDeficiency:
+      type: object
+      properties:
+        garageDeficiencyName:
+          type: string
+          description: User to identify any garage components that are either damaged or show obvious signs of wear and tear. User should select 'None Observed' if no obvious signs of damage are apparent.Required IF(/property/buildings/units/garages/garageType != NONE)
+          enum:
+          - NONE_OBSERVED
+          - SIDING
+          - WINDOWS
+          - DOORS
+          - GARAGE_DOOR
+          - EXTERIOR_WALLS
+          - INTERIOR_WALLS
+          - CEILING
+          - ROOF
+          - FOUNDATION
+          - OTHER
+        garageDeficiencyType:
+          type: string
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName != 'NONE_OBSERVED'
+          enum:
+          - EXCESSIVE_WEAR
+          - EVIDENCE_OF_INFESTATION
+          - MISSING
+          - OTHER
+        garageDeficiencyDetailFoundation:
+          type: array
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'FOUNDATION' )
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - SETTLEMENT
+            - EVIDENCE_OF_MOISTURE
+            - SEEPAGE
+            - INFESTATION
+            - LEANING_OR_BOWED_WALLS
+            - HEAVING
+            - OTHER
+        garageDeficiencyDetailExteriorWalls:
+          type: array
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'EXTERIOR_WALLS' )
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - HOLES
+            - DRY_ROT
+            - MOISTURE_ROT
+            - SETTLEMENT
+            - WIND_DAMAGE
+            - MISSING_MATERIAL
+            - OTHER
+        garageDeficiencyDetailRoofSurface:
+          type: array
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'ROOF' )
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - TARP_ON_ROOF
+            - LEAK_EVIDENT
+            - MISSING_MATERIAL
+            - WOOD_ROT
+            - SOFFIT_DAMAGE
+            - FASCIA_DAMAGE
+            - OTHER
+        garageDeficiencyDetailWindows:
+          type: array
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'WINDOWS' )
+          items:
+            type: string
+            enum:
+            - CRACKING
+            - MISSING_WINDOW_PANE
+            - EXPOSED_WOOD
+            - STORM_SASH_DAMAGE
+            - THERMOPANE_DAMAGE
+            - OTHER
+        garageDeficiencyDetailCeiling:
+          type: array
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'CEILING' )
+          items:
+            type: string
+            enum:
+            - DISCOLORATION
+            - MISSING
+            - CRUMBLING
+            - WATER_DAMAGE
+            - OTHER
+        garageDeficiencyDetailInteriorWalls:
+          type: array
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'INTERIOR_WALLS' )
+          items:
+            type: string
+            enum:
+            - DISCOLORATION
+            - MISSING
+            - CRUMBLING
+            - WATER_DAMAGE
+            - OTHER
+        garageDeficiencySeverity:
+          type: boolean
+          description: User to select whether the deficient item does or does not impact the safety, structural integrity, or habitability of the affected structural component.True = Deficiency impacts the safety, structural integrity or habitability of the structure.False = The deficiency does NOT affect the safety, structural integrity or habitability of the structure. Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName != 'NONE_OBSERVED').
+        garageDeficiencyDescription:
+          type: string
+          description: User to provide a concise text description of any deficiencies observed.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName != 'NONE_OBSERVED' ). <b>Note*</b> Maximum length must be less than 2500  characters.
+      additionalProperties: false
+    heating:
+      required:
+      - heatingType
+      type: object
+      properties:
+        heatingType:
+          type: string
+          description: Indicate all heating systems for each unit.  If there are multiple heat sources, choose all that apply.  If there is no heat source, “No Heat” must be selected.
+          enum:
+          - CENTRAL_HOT_AIR
+          - HOT_WATER_RADIATORS
+          - HOT_WATER_BASEBOARD
+          - ELECTRIC_BASEBOARD
+          - IN_WALL_HEATER
+          - RADIANT_FLOOR
+          - CENTRAL_HEATPUMP
+          - DUCTLESS_HEATPUMP
+          - DUCTLESS_HEAT
+          - GEOTHERMAL
+          - WALL_FURNACE
+          - GAS_FURNACE
+          - OIL_FURNACE
+          - COAL_FURNACE
+          - NO_HEAT
+    cooling:
+      required:
+      - coolingType
+      type: object
+      properties:
+        coolingType:
+          type: string
+          description: Indicate all cooling systems for each  unit. If there are multiple systems, chose all that apply.  If there is no cooling, “None” must be selected.
+          enum:
+          - CENTRAL_AIR_CONDITIONING
+          - CENTRAL_HEATPUMP
+          - DUCTLESS_HEATPUMP
+          - DUCTLESS_AIR_CONDITIONING
+          - WHOLE_HOUSE_FAN
+          - EVAPORATIVE_COOLER
+          - GEOTHERMAL
+          - NONE
+    Identification:
+      required:
+      - gpsCoordinates
+      type: object
+      properties:
+        gpsCoordinates:
+          $ref: '#/components/schemas/GPSCoordinates'
+      additionalProperties: false
+    IngroundPoolConcern:
+      type: object
+      properties:
+        poolConcernType:
+          type: string
+          description: Indicate if any of the concern types apply when inground pool is selected as a property improvement.  If no concerns are identified, provide select “None”.Required IF ( /property/site/propertyFeature/propertyImprovements/propertyImprovementType = 'INGROUND_POOL' AND /property/propertyType = SF)
+          enum:
+          - NONE
+          - EMPTY_AND_UNCOVERED
+          - DAMAGED
+          - MISSING_EQUIPMENT
+          - DAMAGED_POOL_ENCLOSURE
+          - UNSANITARY_WATER
+        poolConcernDescription:
+          type: string
+          description: Provide a brief description of each pool concern noted if any pool concern type other than “None” was selected.e g.Large cracks were noted in the lining of the pool. Required IF ( /property/site/siteFeature/siteImprovements/ingroundPoolConcerns/poolConcernType   !=  'NONE' AND /property/propertyType = SF).<b>Note*</b> Maximum length must be less than 2500  characters.
+      additionalProperties: false
+    interiorDeficiency:
+      required:
+      - interiorDeficiencyName
+      type: object
+      properties:
+        interiorDeficiencyName:
+          type: string
+          description: 'Indicate if any portion or element of a room has deferred maintenance and requires significant repair(s).  Also indicate if any item is missing. '
+          enum:
+          - NONE_OBSERVED
+          - FLOORING
+          - PLUMBING_FIXTURES
+          - ELECTRICAL_FIXTURES
+          - CABINET_COUNTERTOPS
+          - APPLIANCES
+          - WALLS
+          - CEILING
+          - SHOWER_TUB_SURROUND
+          - OTHER
+        interiorDeficiencyType:
+          type: string
+          description: Indicate the type of deferred maintenance and significant repair(s) associated with the components of the interior of the structure.  Provide all that apply.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiorDeficiencyName != ‘NONE_OBSERVED’)
+          enum:
+          - EXCESSIVE_WEAR
+          - DAMAGE
+          - EVIDENCE_OF_MOLD
+          - EVIDENCE_OF_INFESTATION
+          - MISSING
+          - POOR_FUNCTIONAL_UTILITY
+          - OTHER
+        interiorDeficiencyDetailFlooring:
+          type: array
+          description: Indicate the details of Deficiency Type for the component that was selected.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiordeficiencyName = ‘FLOORING’)
+          items:
+            type: string
+            enum:
+            - BUCKLED
+            - HOLES
+            - SAGGING
+            - SPONGY
+            - INFESTATION
+            - DRY_ROT
+            - DISCOLORATION
+            - CRACKS
+            - UNFINISHED_SECTION
+            - DAMPNESS
+            - OTHER
+        interiorDeficiencyDetailCeiling:
+          type: array
+          description: Indicate the details of Deficiency Type for the component that was selected.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiordeficiencyName = ‘CEILING’)
+          items:
+            type: string
+            enum:
+            - DISCOLORATION
+            - MISSING
+            - CRUMBLING
+            - WATER_DAMAGE
+            - OTHER
+        interiorDeficiencyDetailWalls:
+          type: array
+          description: Indicate the details of Deficiency Type for the component that was selected. Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiordeficiencyName = ‘WALLS’)
+          items:
+            type: string
+            enum:
+            - DISCOLORATION
+            - MISSING
+            - CRUMBLING
+            - WATER_DAMAGE
+            - OTHER
+        interiorDeficiencyDetailTubShowerSurround:
+          type: boolean
+          description: Indicate the details of Deficiency Type for the component that was selected.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiordeficiencyName = ‘SHOWER_TUB_SURROUND’)
+        interiorDeficiencySeverity:
+          type: boolean
+          description: Indicate if the noted deficiency to the room component impacts the safety, soundness, or structural integrity of the structure or unit.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiorDeficiencyName != ‘NONE_OBSERVED’)
+        interiorDeficiencyDescription:
+          type: string
+          description: User to provide a text description of any deficiencies observed.IF( /property/buildings/units/levels/rooms/interiorDeficiencies/deficiencyName != ‘NONE_OBSERVED’). <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: New carpet has been installed and the walls have been recently painted.
+      additionalProperties: false
+    interiorUpdate:
+      required:
+      - interiorUpdatedComponent
+      type: object
+      properties:
+        interiorUpdatedComponent:
+          type: string
+          description: "Indicate which component(s) has been updated.\r\nSelect all that apply\r\n"
+          enum:
+          - NONE_OBSERVED
+          - FLOORING
+          - PLUMBING_FIXTURES
+          - ELECTRICAL_FIXTURES
+          - CABINET_COUNTERTOPS
+          - APPLIANCES
+          - WALLS
+          - CEILING
+          - OTHER
+        interiorUpdateType:
+          type: string
+          description: Indicate the degree of updating for the Interior Updated Component.Required IF ( /property/buildings/units/levels/rooms/interiorUpdates/interiorUpdatedComponent != 'NONE_OBSERVED')
+          enum:
+          - FULLY_UPDATED
+          - PARTIALLY_UPDATED
+        interiorUpdateTimeframe:
+          type: string
+          description: Indicate the timeframe for which updates to the room were completed.  If not known, an estimated timeframe may be provided. For instance, if an update was made approximately 3 years ago, then the user would select 'TWO_TO_FIVE_YEARS'. .Required IF ( /property/buildings/units/levels/rooms/interiorUpdates/interiorUpdatedComponent != 'NONE_OBSERVED')
+          enum:
+          - LESS_THAN_1_YEAR
+          - 1_TO_5_YEARS
+          - 5_TO_10_YEARS
+          - 10_OR_MORE_YEARS
+        interiorUpdateDescription:
+          type: string
+          description: Provide a brief description of the nature of the improvements if there have been updates to the room.Required IF ( /property/buildings/units/levels/rooms/interiorUpdates/interiorUpdatedComponent != 'NONE_OBSERVED'). <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: The kitchen has missing cabinets/countertops.
+      additionalProperties: false
+    Level:
+      required:
+      - attic
+      - belowGrade
+      - finishedArea
+      - levelLowCeiling
+      - levelNumber
+      - nonStandardFinishedArea
+      - totalArea
+      - rooms
+      type: object
+      properties:
+        levelNumber:
+          type: integer
+          description: Indicate each level of the building, including condominium units, and label them sequentially from the bottom to the top, starting with level 1, regardless if any level is identified as being below grade. All responses should be in whole numbers.  e.g., 1, 2, 3
+          example: 1
+        belowGrade:
+          type: boolean
+          description: 'User to identify below grade areas by indicating whether any area that is partially or wholly below grade;  A floor level is partially or wholly below grade if any portion of its walls is not entirely at or above ground level. True should be selected for ''Below Grade'' if any portion of any wall for a level is partially or wholly below grade. '
+          example: true  
+        belowGradeExits:
+          type: array
+          description: User to indicate the type(s) of exits to/from below grade areas (indicated by the selection of 'Below Grade'. The user should select the type(s) of exits for either external access and/or internal access.Required IF ( /property/buildings/units/levels/belowGrade  =  TRUE )
+          items:
+            type: string
+            enum:
+            - WALKUP
+            - WALKOUT
+            - GARAGE
+            - CELLAR_DOOR
+            - INTERIOR
+        levelLowCeiling:
+          type: boolean
+          description: User to indicate whether any portion of the level has ceilings less than 7 feet above the floor.
+        attic:
+          type: boolean
+          description: User to indicate whether an attic is accessible from the level.True = Attic can be accessed from this level.False = Attic cannot be accessed from this level.
+        atticAccess:
+          type: array
+          description: 'User to select the option that best describes the type of access to the attic when the attic indicator is set to ''TRUE''.Required IF ( /property/buildings/units/levels/attic = ''TRUE'' '
+          items:
+            type: string
+            enum:
+            - ATTIC_SCUTTLE
+            - DROP_STAIR
+            - PERMANENT_STAIRWELL
+            - DOOR
+            - NONE_OBSERVED
+        atticAccessLocation:
+          type: boolean
+          description: Some levels have attic access through a small door, or hatch on the same level as a finished living area.  If this is they type of attic access indicate True. If the Attic accessed from this level is above this level indicate False.Required IF ( /property/buildings/units/levels/attic = 'TRUE' )
+        totalArea:
+          type: integer
+          description: User to input the total floor area for each level. Total floor area includes all finished and unfinished regardless of ceiling height. This field is not used in calculating GLA.
+        finishedArea:
+          type: integer
+          description: User to input the finished living area for each level. Finished area is defined as any space within the dwelling  that is finished to the standards of the home with a ceiling height no less than 7 feet above the floor. The finished area must be provided in square feet.Finished area that is below grade will be counted separately from those that are not below grade. 
+        nonStandardFinishedArea:
+          type: integer
+          description: User to input any area of a level that is finished to the same degree of the property but does not meet the ANSI standard of  finished area due to the height of the ceiling.
+        rooms:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Room'
+      additionalProperties: false
+    Location:
+      required:
+      - locationDescriptionDetails
+      - locationDescriptionType
+      type: object
+      properties:
+        locationDescriptionType:
+          type: string
+          description: 'Indicate the location (or locations) or characteristic that best describes the aspects of the subject’s location or characteristic. '
+          enum:
+          - BORDERING_AMENITIES
+          - BORDERING_RAIL_STOP
+          - BORDERING_TROLLEY_STOP
+          - BORDERING_CITY_BUS_STOP
+          - BORDERING_BEACH
+          - BORDERING_RECREATION
+          - GATED_COMMUNITY
+          - OCEAN_FRONT_BEACH
+          - OCEAN_FRONT_NO_BEACH
+          - INLAND_SALTWATER_FRONT_BEACH
+          - INLAND_SALTWATER_FRONT_NO_BEACH
+          - LAKE_FRONT_BEACH
+          - LAKE_FRONT_NO_BEACH
+          - SEASONAL_LAKE_FRONT
+          - RIVER_CANAL_FRONT
+          - BORDERING_GOLF_COURSE
+          - GOLF_COURSE_COMMUNITY
+          - RESIDENTIAL
+          - BORDERING_INDUSTRIAL_USE
+          - BORDERING_COMMERCIAL_USE
+          - BORDERING_SCHOOL
+          - BORDERING_VACANT_LAND
+          - BORDERING_HOSPITAL
+          - BORDERING_RESTAURANT
+          - BORDERING_HOTEL_MOTEL_INN
+          - ON_CUL_DE_SAC_STREET
+          - ON_OR_BORDERING_BUSY_ROAD
+          - ON_OR_BORDERING_INTERSTATE_HWY
+          - AIR_TRAFFIC_DIRECTLY_OVERHEAD
+          - BORDERING_PARK
+          - BORDERING_OVERHEAD_ELECTRIC_POWER_TRANSMISSION_LINE
+          - BORDERING_LANDFILL
+          - NOTABLE_NOISE
+          - NOTABLE_ODOR
+          - OTHER_ADVERSE
+          - OTHER_BENEFICIAL
+          - OTHER_NEUTRAL
+        locationDescriptionDetails:
+          minLength: 1
+          type: string
+          description: Provide a short description of all location types selected.e.g., The subject property is located on the 9th hole of the golf course.<b>Note*</b> Maximum length must be less than 2500  characters.
+          example: The subject property is located on the 9th hole of the golf course.
+      additionalProperties: false
+    Lot:
+      description: Required IF (/property/propertyType = SF).
+      type: object
+      properties:
+        lotSize:
+          type: integer
+          description: The total area of all encumbered parcels is prepopulated in the property data and displayed in square feet. Verify the accuracy of provided data with the point of contact, if possible.  Required IF (/property/propertyType = SF)
+          format: int64
+          example: 22000
+        lotSizeUnits:
+          type: string
+          description: The units in which the lot size is expressed. Square feet must always be selected for this field.Required IF (/property/propertyType = SF)
+          enum:
+          - SQUARE_FEET
+      additionalProperties: false
+    mechanicalDeficiency:
+      required:
+      - mechanicalDeficiencyName
+      type: object
+      properties:
+        mechanicalDeficiencyName:
+          type: string
+          description: Indicate the mechanical deficiency that exists or identify the portion or element of the structure’s mechanicals that has deferred maintenance requiring significant repairs. If a mechanical item or component is missing, identify that it is deficient.  Select all that apply.
+          enum:
+          - NONE_OBSERVED
+          - PLUMBING
+          - ELECTRICAL
+          - HEATING
+          - WATER_HEATER
+          - COOLING
+          - SUMP_PUMP
+          - OTHER
+        mechanicalDeficiencyType:
+          type: string
+          description: Indicate the type of deficiencies associated with the mechanicals.Required if /property/buildings/units/mechanicalDeficiencies/mechanicalDeficiencyName != ‘NONE_OBSERVED’
+          enum:
+          - EXCESSIVE_WEAR
+          - DAMAGE
+          - MISSING
+          - NON_FUNCTIONAL
+          - EVIDENCE_OF_LEAKS
+          - EVIDENCE_OF_FIRE
+          - OTHER
+        mechanicalDeficiencySeverity:
+          type: boolean
+          description: Indicate if the noted deficiency to the mechanical component impacts the safety, soundness, or structural integrity of the structure or unit..Required if /property/buildings/units/mechanicalDeficiencies/mechanicalDeficiencyName != ‘NONE_OBSERVED’
+        mechanicalDeficiencyDescription:
+          type: string
+          description: Provide a brief description of the Deficiency Type for the component that was selected. e.g., The toilet in the primary bathroom is leaking. <b>Note*</b> Maximum length must be less than 2500  characters.Required if /property/buildings/units/mechanicalDeficiencies/mechanicalDeficiencyName != ‘NONE_OBSERVED’
+          example: The toilet in the primary bathroom is leaking.
+      additionalProperties: false
+    mechanicalUpdates:
+      required:
+      - mechanicalUpdatedComponent
+      type: object
+      properties:
+        mechanicalUpdatedComponent:
+          type: string
+          description: Indicate all components that have been updated or replaced. If there have been no updates, select “None Observed”.
+          enum:
+          - NONE_OBSERVED
+          - PLUMBING
+          - ELECTRICAL
+          - HEATING
+          - WATER_HEATER
+          - COOLING
+          - SUMP_PUMP
+          - OTHER
+        mechanicalUpdateType:
+          type: string
+          description: Indicate if the mechanical component has been Fully Updated or only Partially Updated.Required IF(/property/buildings/units/mechanicalUpdates/mechanicalUpdatedComponent != 'NONE_OBSERVED'
+          enum:
+          - FULLY_UPDATED
+          - PARTIALLY_UPDATED
+        mechanicalUpdateTimeframe:
+          type: string
+          description: Indicate the timeframe the improvements were made for the mechanical component. For instance, if an update was made approximately 3 years ago, then the user would select '1_TO_5_YEARS'. Required IF(/property/buildings/units/mechanicalUpdates/mechanicalUpdatedComponent != 'NONE_OBSERVED'
+          enum:
+          - LESS_THAN_1_YEAR
+          - 1_TO_5_YEARS
+          - 5_TO_10_YEARS
+          - 10_OR_MORE_YEARS
+        mechanicalUpdateDescription:
+          type: string
+          description: Provide a brief description of each mechanical component update observed.Required IF(/property/buildings/units/mechanicalUpdates/mechanicalUpdatedComponent != 'NONE_OBSERVED. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: The plumbing in the primary bathroom has been updated with new faucets and sinks.
+      additionalProperties: false
+    NonResidentialUse:
+      type: object
+      properties:
+        nonResidentialUseType:
+          type: string
+          description: "Indicate any non-residential uses identified on the subject property. Select all that apply. \r\nIf the observed non-residential use is not listed, select “Other”.  If there are no indications of non-residential use, select “None Observed”.\r\n.Required If (/property/propertyType = SF)"
+          enum:
+          - CHILDCARE
+          - ELDERCARE
+          - BOARDING_HOUSE
+          - AUTO_SHOP
+          - MEDICAL
+          - SALON
+          - OFFICE
+          - RETAIL
+          - HOTEL_BED_BREAKFAST
+          - FOOD_SERVICE
+          - AGRICULTURE
+          - GROW_ROOM
+          - OTHER
+          - NONE_OBSERVED
+        nonResidentialUseDescription:
+          type: string
+          description: Provide a brief description for the non-residential use of the subject property, if a non-residential use is indicated. If “Other” was selected, provide a description of the non-residential use. .Required IF ( /property/site/siteFeature/nonResidentialUses/nonResidentialUseType  !=  'NONE_OBSERVED' AND /property/propertyType = SF).<b>Note*</b> Maximum length must be less than 2500  characters.
+      additionalProperties: false
+    offSiteFeature:
+      required:
+      - road
+      type: object
+      properties:
+        road:
+          $ref: '#/components/schemas/Road'
+      additionalProperties: false
+    PlumbingFixture:
+      type: object
+      properties:
+        fixtureType:
+          type: string
+          description: 'Indicate the fixture for every bathroom, kitchen, laundry room, and butler’s pantry in the structure. Select all that apply. Note: The count and type of fixtures will determine the bathroom type programmatically. A full bathroom is identified by the presence of a shower/tub, sink, and toilet fixtures. A half-bath is identified by the presence of sink and toilet fixtures, with no shower/tub.Required IF ( /property/buildings/units/levels/rooms/roomType  =  ''FULL_BATH'' OR ''HALF_BATH'' OR ''KITCHEN'' OR ''BUTLERS_PANTRY'' OR ''LAUNDRY_ROOM'')'
+          enum:
+          - SINK
+          - LAUNDRY_HOOKUP
+          - POT_FILLER
+          - JETTED_TUB
+          - TOILET
+          - TUB_SHOWER
+          - WALK_IN_SHOWER
+          - TUB_W_NO_SHOWER
+          - FREESTANDING_TUB
+          - APPLIANCE_HOOKUP
+          - ROUGH_IN
+          - NONE_OBSERVED
+    Building:
+      required:
+      - constructionStatus
+      - containsRooms
+      - exteriorDeficiencies
+      - exteriorUpdates
+      type: object
+      properties:
+        structureType:
+          type: string
+          description: Indicate the best option to identify all permanently affixed structures. All structures must be identified.  “Dwelling” should be selected for structures that include finished areas and are not one of the other specifically identified structures, such as a workshop or a barn. Required IF (/property/propertyType = SF)
+          enum:
+          - DWELLING
+          - DETACHED_GARAGE
+          - OTHER_OUTBUILDING
+          - WORKSHOP
+          - BARN
+          - POLE_BUILDING
+          - STABLES
+          - RIDING_ARENA
+          - POOL_HOUSE
+        structureArea:
+          type: integer
+          description: Provide the total square footage for all structures on the property. This includes the finished areas, non-standard finished areas, and unfinished areas. Required IF(property/propertyType = 'SF')
+          format: int32
+        attachmentType:
+          type: string
+          description: Indicate whether the subject property is attached or detached to another property.  If the property is attached on one side, indicate Semi-Detached and whether it is attached on the left side or right side. (e.g., a structure is 'Left Semi-Detached' if the user faces an end unit that does not have a unit to the left). Required IF(/property/propertyType = 'SF' and /property/buildings/structureType = 'DWELLING' or /property/propertyType = 'CONDO')
+          example: LEFT_SEMI_DETACHED
+          enum:
+          - ATTACHED
+          - DETACHED
+          - LEFT_SEMI_DETACHED
+          - RIGHT_SEMI_DETACHED
+        foundationType:
+          type: array
+          description: Indicate the type of foundation for the structure. Select all that apply.Required IF(property/propertyType = 'SF'  or  /property/buildings/buildingDesign = ROWHOUSE_TOWNHOUSE and DETACHED).
+          items: 
+            type: string
+            enum:
+            - SLAB
+            - CRAWLSPACE
+            - BASEMENT
+            - POST_PIER
+            - RUNNER
+        constructionStatus:
+          type: string
+          description: User to select the option that best describes the structure’s construction status.
+          enum:
+          - COMPLETE
+          - INCOMPLETE_CONSTRUCTION
+          - INCOMPLETE_RENOVATION_CONSTRUCTION
+          - PROPOSED
+        constructionType:
+          type: string
+          description: Indicate the construction type that best describes the subject property. Only one type per structure may be provided.Required IF(property/propertyType = 'SF')
+          enum:
+          - FRAME
+          - MASONRY
+          - LOG
+          - MANUFACTURED
+          - MODULAR
+          - GEODESIC
+          - EARTH_BERM
+          - 3D_PRINTED
+        containsRooms:
+          type: boolean
+          description: "Indicate whether the structure contains rooms, including the garage. \r\ne.g., a barn used for housing animals or storing equipment would not contain rooms associated with finished areas.\r\nTrue = Contains rooms False = Does NOT contain rooms."
+          example: false
+        yearBuilt:
+          type: integer
+          description: "Indicate the year the structure on the property was built.  Confirm the provided year built with the property point of contact. If the exact age of the property cannot be determined, an estimate may be provided. \r\nRequired IF(/property/propertyType = 'SF' and /property/buildings/structureType = 'DWELLING' or /property/propertyType = 'CONDO')"
+        yearBuiltEstimate:
+          type: boolean
+          description: Indicate if the year built is an estimate.TRUE  = year built is estimated for the structure.FALSE = year built is actual year built for the structure.Required IF(/property/propertyType = 'SF' and /property/buildings/structureType = 'DWELLING' or /property/propertyType = 'CONDO')
+        buildingDesign:
+          type: string
+          description: Identify the design style for the building in which the unit is located.  If none of the building designs listed apply, select “Other”.      Required IF (/property/propertyType = CONDO)
+          enum:
+          - GARDEN
+          - LOW_RISE
+          - MID_RISE
+          - HIGH_RISE
+          - ROWHOUSE_TOWNHOUSE
+          - DETACHED
+          - OTHER
+        buildingDesignDescription:
+          type: string
+          description: If other is selected for the building design, describe the building type in which the subject unit is located.Required IF (/property/buildings/buildingDesign = 'OTHER').<b>Note*</b> Maximum length must be less than 2500  characters.
+        projectName:
+          type: string
+          description: Identify the name of the condominium project in which the unit is located. e.g., Bay Lake Towers
+        buildingNumber:
+          type: string
+          description: Identify the building number in which the subject unit is located.
+        numberOfStories:
+          type: integer
+          description: Identify the number of stories for the building in which the subject unit is located.Required IF (/property/propertyType = CONDO)
+        numberOfElevators:
+          type: integer
+          description: The number of elevators for the building in which the subject is located.Required IF (/property/propertyType = CONDO)
+        condoOffstreetParkingAvailable:
+          type: boolean
+          description: Indicate whether the subject property or building has parking or car storage available such as a garage, carport, or driveway..Required IF (property/buildings/buildingDeisgn = GARDEN OR LOW_RISE OR MID_RISE OR HIGH_RISE)
+        condoCarStorages:
+          type: array
+          items:
+            $ref: '#/components/schemas/condoCarStorage'
+        exteriorDeficiencies:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/ExteriorDeficiency'
+        exteriorUpdates:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/ExteriorUpdate'
+        units:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/unit'
+      additionalProperties: false
+    Property:
+      required:
+      - address
+      - buildings
+      - identification
+      - propertyOccupied
+      - propertyType
+      - site
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        identification:
+          $ref: '#/components/schemas/Identification'
+        site:
+          $ref: '#/components/schemas/Site'
+        propertyType:
+          type: string
+          description: Indicate whether the property is a Single Family Dwelling or a Condominium.
+          example: SF
+          enum:
+          - SF
+          - CONDO
+        propertyOccupied:
+          type: boolean
+          description: Indicate whether the property is occupied when the data is collected.
+        buildings:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Building'
+        ancillary:
+          $ref: '#/components/schemas/Ancillary'
+      additionalProperties: false
+    propertyDataCollectorContacts:
+      type: array
+      minItems: 1
+      maxItems: 10
+      items:
+        $ref: '#/components/schemas/PropertyDataCollectorContact'
+    PropertyDataCollectorContact:
+      required:
+      - contactDetail
+      - contactMethod
+      type: object
+      properties:
+        contactMethod:
+          type: string
+          description: Contact information for the individual performing the property data collection.
+          enum:
+          - PHONE
+          - EMAIL
+        contactDetail:
+          type: string
+          description: "Contact information for the individual performing the property data collection, i.e. the email address or phone number. e.g., (123)456-7890 or\r\nJane_Smith@email.com\r\n "
+    PropertyDataReport:
+      required:
+      - collectionType
+      - dataCollectionDate
+      - dataCollectorAcknowledgement
+      - pdaCollectionEntity
+      - pdaSubmitterEntity
+      - property
+      - propertyDataCollectorContacts
+      - propertyDataCollectorName
+      - propertyDataCollectorType
+      type: object
+      properties:
+        collectionType:
+          type: string
+          description: Indicate how the property data collection was performed.
+          enum:
+          - ONSITE
+          - VIRTUAL
+          - 3D_SCAN
+        caseFileID:
+          type: string
+          description: Indicate the CaseFile obtained from DU submissions.
+          example: AA123456
+        lpaID:
+          type: string
+          description: Indicate the loan identifier produced by Freddie Mac Loan Product Advisor® (LPASM).
+          example: "123456789"
+        pdaSubmitterEntity:
+          type: string
+          description: Name of entity submitting the final property data collected to the API.
+        propertyDataCollectorName:
+          type: string
+          description: Indicate the name of the individual who conducted the property data collection.
+          example: Jane X Smith
+        pdaHyperlink:
+          type: string
+          description: Location to submit a hyperlink for 3d scans.
+        pdaCollectionEntity:
+          type: string
+          description: Company name of the entity that performed the property data collection.
+          example: Jones Data Collection LLC
+        propertyDataCollectorType:
+          type: string
+          description: Name of the labor force type of the individual who conducted the property data collection.
+          enum:
+          - APPRAISER
+          - APPRAISER_TRAINEE
+          - INSURANCE_INSPECTOR
+          - REAL_ESTATE_AGENT
+          - NOTARY_PUBLIC
+          - SMART_HOME_SERVICES
+          - PHOTOGRAPHER
+          - PROPERTY_PRESERVATION_AGENT
+          - HOME_INSPECTOR
+          - HOMEOWNER
+          - OTHER
+        propertyDataCollectorTypeDescription:
+          type: string
+          description: Provide a short description of the Property Data Collector Type when “Other” has been selected.e.g., Staff Employee Required IF propertyDataCollectorType = OTHER .<b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Staff Employee
+        dataCollectorAcknowledgement:
+          type: boolean
+          description: Indicate acknowledgement and adherence to the Certifications and Limiting Conditions.
+          example: true
+        dataCollectionDate:
+          type: string
+          pattern: ^([2-9][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$  
+          description: Indicate the date the property data collection was performed. format:YYYY-MM-DD
+          example: 2023-11-03
+        propertyDataCollectorContacts:
+          $ref: '#/components/schemas/propertyDataCollectorContacts'
+        property:
+          $ref: '#/components/schemas/Property'
+      additionalProperties: false
+      description: <b>Note*</b> Maximum length of  description fields must be less than 2500  characters.
+    PropertyImprovement:
+      type: object
+      properties:
+        ingroundPoolConcerns:
+          type: array
+          description: 'Required if siteImprovementType is INGROUND_POOL'
+          items:
+            $ref: '#/components/schemas/IngroundPoolConcern'
+        propertyImprovementDescription:
+          type: string
+          description: Provide a brief description of any indicated amenity or property feature. The description should include things such as size and detailed description of the property features.e.g., 10 x 10 gazebo with composite decking.Required IF ( /property/site/siteFeature/propertyImprovements/propertyImprovementType  !=  'NONE'  AND /property/propertyType = SF).<b>Note*</b> Maximum length must be less than 2500  characters.
+        propertyImprovementType:
+          type: string
+          description: Indicate all improvements, amenities, property features, or structures. These features include elements attached and detached from the structures.Required IF (/property/propertyType = SF)
+          enum:
+          - ORNATE_LANDSCAPING
+          - IRRIGATION_SYSTEM
+          - GRAYWATER_SYSTEM
+          - WATER_COLLECTION_SYSTEM
+          - OUTDOOR_KITCHEN
+          - INGROUND_POOL
+          - INGROUND_HOTTUB
+          - SPORTS_COURT
+          - SAUNA
+          - ORCHARD_HOBBY
+          - VINEYARD_HOBBY
+          - FENCE
+          - GAZEBO
+          - GREENHOUSE
+          - TOOL_SHED
+          - PATIO
+          - DECK
+          - BALCONY
+          - UNCOVERED_PORCH
+          - COVERED_PORCH
+          - ENCLOSED_PORCH
+          - WRAP_AROUND_PORCH
+          - STOOP
+          - FIREPIT
+          - OUTDOOR_FIREPLACE
+          - OTHER
+          - NONE
+          - CARPORT
+          - ABOVE_GROUND_POOL
+      additionalProperties: false
+    Road:
+      required:
+      - roadOwnershipType
+      - yearRoundAccessIndicator
+      type: object
+      properties:
+        roadOwnershipType:
+          type: string
+          description: Indicate the road that the subject property is accessed from as being public or private.  Select “Unknown” if the data collector cannot determine whether the road is public or private.
+          enum:
+          - PUBLIC
+          - PRIVATE
+          - UNKNOWN
+        roadMaintainedIndicator:
+          type: boolean
+          description: Indicate whether the subject’s access road requires repairs that impact the accessibility of the property (e.g., washed out road).  If the road does not require these type of repairs, indicate “Yes” that the road is maintained. If the road requires these types of repairs, indicate “No” that it is not maintained.Required  IF ( /property/site/offSiteFeature/road/roadOwnershipType  =  'PRIVATE' OR 'UNKNOWN' )
+        yearRoundAccessIndicator:
+          type: boolean
+          description: Indicate whether the subject property is accessible during all seasons.e.g., The property is located in a rural area with no road maintenance and is not accessible during certain seasons.
+      additionalProperties: false
+    Room:
+      required:
+      - interiorDeficiencies
+      - interiorUpdates
+      - roomType
+      - roomFeatures
+      type: object
+      properties:
+        roomType:
+          type: string
+          description: Indicate each room on every level within every building from the options provided.  If an additional room type is needed, choose "Other Room".
+          enum:
+          - FOYER
+          - LIVING_ROOM
+          - DINING_ROOM
+          - KITCHEN
+          - DEN
+          - FAMILY_ROOM
+          - REC_ROOM
+          - BEDROOM
+          - FULL_BATH
+          - HALF_BATH
+          - LAUNDRY_ROOM
+          - HALL
+          - LIBRARY
+          - MEDIA
+          - OFFICE
+          - UTILITY_ROOM
+          - WORKSHOP
+          - BUTLERS_PANTRY
+          - OTHER_ROOM
+          - UNFINISHED_BASEMENT
+        otherRoomTypeDescription:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: Provide a brief description if “Other Room” is selected for room type.e.g., Solarium The acceptable string length is 100 characters or less.Required IF(/property/buildings/units/levels/rooms/roomType = 'OTHER_ROOM').
+          example: Solarium
+        appliances:
+          $ref: '#/components/schemas/Room_appliances'
+        interiorDeficiencies:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/interiorDeficiency'
+        interiorUpdates:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/interiorUpdate'
+        roomFeatures:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/RoomFeature'
+        plumbingFixtures:
+          type: array
+          maxItems: 1000
+          minItems: 1
+          description: Conditionally required if roomType is FULL_BATH, HALF_BATH, KITCHEN, LAUNDRY_ROOM, or BUTLERS_PANTRY.
+          items:
+            $ref: '#/components/schemas/PlumbingFixture'
+    RoomFeature:
+      required:
+      - roomFeatureType
+      type: object
+      properties:
+        roomFeatureType:
+          type: array
+          maxItems: 1000
+          minItems: 1
+          description: Indicate if there are any features from the list provided for each room identified.  Select all that apply.
+          items:
+            type: string
+            enum:
+            - FIREPLACE
+            - WOOD_STOVE
+            - BUILT_INS
+            - WET_BAR
+            - WALK_IN_CLOSET
+            - PANTRY
+            - NONE
+      description: Indicate if there are any features from the list provided for each room identified.  Select all that apply.
+    SewerService:
+      required:
+      - sewerType
+      type: object
+      properties:
+        sewerType:
+          type: string
+          description: Indicate the type(s) of sewage disposal available for the subject property. If more than one type is available, select all that apply.
+          enum:
+          - PUBLIC
+          - SEPTIC
+          - CESSPOOL
+          - NONE
+      additionalProperties: false
+    Site:
+      required:
+      
+      - offSiteFeature
+      - siteFeature
+      - siteUtility
+      type: object
+      properties:
+        lot:
+          $ref: '#/components/schemas/Lot'
+        siteFeature:
+          $ref: '#/components/schemas/SiteFeature'
+        offSiteFeature:
+          $ref: '#/components/schemas/offSiteFeature'
+        siteUtility:
+          $ref: '#/components/schemas/SiteUtility'
+      additionalProperties: false
+    SiteFeature:
+      required:
+      - adverseSiteConditions
+      - location
+      type: object
+      properties:
+        location:
+          $ref: '#/components/schemas/SiteFeature_location'
+        siteView:
+          $ref: '#/components/schemas/SiteFeature_siteView'
+        adverseSiteConditions:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/AdverseSiteCondition'
+        propertyImprovements:
+          description: Required IF (/property/propertyType = SF).
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyImprovement'
+        nonResidentialUses:
+          description: Required IF (/property/propertyType = SF).
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/NonResidentialUse'
+        waterfrontSiteImprovements:
+          type: array
+          description: Required IF (/property/propertyType = SF AND /property/site/siteFeature/location/locations/locationDescriptionType = 'OCEAN_FRONT_BEACH' OR 'OCEAN_FRONT_NO_BEACH' OR 'INLAND_SALTWATER_FRONT_BEACH' OR 'INLAND_SALTWATER_FRONT_NO_BEACH' OR 'LAKE_FRONT_BEACH' OR 'LAKE_FRONT_NO_BEACH' OR 'SEASONAL_LAKE_FRONT' OR 'RIVER_CANAL_FRONT' )
+          items:
+            $ref: '#/components/schemas/WaterfrontSiteImprovement'
+      additionalProperties: false
+    SiteUtility:
+      required:
+      - electricalServices
+      - gasServices
+      - sewerServices
+      - waterServices
+      type: object
+      properties:
+        electricalServices:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/ElectricalService'
+        sewerServices:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/SewerService'
+        waterServices:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/WaterService'
+        gasServices:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/GasService'
+      additionalProperties: false
+    View:
+      type: object
+      description: Required IF (/property/propertyType = SF).
+      properties:
+        viewDescriptionType:
+          type: string
+          description: Indicate the view or views that best describes the subject’s view. Select all that apply and select the most notable view first, followed by any other identified views. Determine the view after completing the data collection and consider the view from both ground level, and from elevated vantage points within the subject property.Required IF(/property/propertyType = SF)
+          enum:
+          - NONE_NOTABLE
+          - VACANT_LOT
+          - WOODS_TREED_PRIVATE
+          - HILLS_FOOTHILLS
+          - GREENBELT_OPEN_SPACE
+          - MOUNTAIN
+          - MOUNTAIN_RANGE
+          - POND
+          - LAKE
+          - CANAL
+          - OCEAN
+          - RIVER
+          - CREEK
+          - BAY
+          - SOUND
+          - LAGOON
+          - MARINA
+          - INTRACOASTAL_WATERWAY
+          - HARBOR
+          - GULF
+          - WETLANDS
+          - BAYOU
+          - MARSH
+          - COMMERCIAL
+          - PARKING_LOT
+          - INDUSTRIAL
+          - MILITARY_BASE
+          - RAILROAD
+          - INTERSTATE
+          - ELEVATED_OVERPASS
+          - PASTURES_FIELDS_ETC
+          - AGRICULTURAL_FARM_ETC
+          - DESERT
+          - CANYON
+          - VALLEY
+          - COUNTRYSIDE
+          - RAVINE
+          - CITY_SKYLINE
+          - GOLF_COURSE
+          - PARK
+          - APARTMENT_COMPLEX
+          - WINDMILL_WINDFARM
+          - OVERHEAD_ELECTRIC_POWER_TRANSMISSION_LINE
+          - SCHOOL
+        viewQuality:
+          type: string
+          description: 'Indicate the best option to further describe the selected view.  This field is not required if “None Notable” was chosen. Required IF ( /property/site/siteFeature/siteView/views/viewDescriptionType != ''NONE_NOTABLE'') '
+          enum:
+          - FULL
+          - PARTIAL
+        viewDescriptionDetails:
+          type: string
+          description: Provide a brief description of the view for all enumerations except “None Notable”The subject property has a view of the Pacific Ocean from the second floor of the property. Required IF ( /property/site/siteFeature/siteView/views/viewDescriptionType != 'NONE_NOTABLE') <b>Note*</b> Maximum length must be less than 2500  characters.
+      additionalProperties: false
+    GasService:
+      required:
+      - gasType
+      type: object
+      properties:
+        gasType:
+          type: string
+          description: Indicate the type of gas service available for the subject property.
+          enum:
+          - PUBLIC
+          - PRIVATE
+          - NONE
+      additionalProperties: false
+    WaterService:
+      required:
+      - waterType
+      type: object
+      properties:
+        waterType:
+          type: string
+          description: Indicate the type(s) of water source available for subject property. If more than one type is available, select all that apply.
+          enum:
+          - PUBLIC
+          - WELL
+          - CISTERN
+          - HAULED_WATER
+      additionalProperties: false
+    WaterfrontSiteImprovement:
+      type: object
+      properties:
+        waterfrontImprovementType:
+          type: string
+          description: Indicate any amenities or features if the location description has been identified as waterfront.  If there are no waterfront amenities select “None”.Required IF (/property/propertyType = SF AND /property/site/siteFeature/location/locations/locationDescriptionType = 'OCEAN_FRONT_BEACH' OR 'OCEAN_FRONT_NO_BEACH' OR 'INLAND_SALTWATER_FRONT_BEACH' OR 'INLAND_SALTWATER_FRONT_NO_BEACH' OR 'LAKE_FRONT_BEACH' OR 'LAKE_FRONT_NO_BEACH' OR 'SEASONAL_LAKE_FRONT' OR 'RIVER_CANAL_FRONT' ).
+          enum:
+          - SEAWALL
+          - FLOATING_DOCK
+          - BOAT_LIFT
+          - BOAT_HOUSE
+          - BOAT_RAMP
+          - DOCK
+          - PIER
+          - NONE
+      additionalProperties: false
+    PropertyDataReportWithImages:
+      type: object
+      properties:
+        status:
+          type: string
+        version:
+          type: string
+        propertyDataReport:
+          $ref: '#/components/schemas/PropertyDataReport'
+        imageMetaData:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageStorageLocation'
+        requiredImages:
+          type: array
+          description: array of required images. Exists only if status=INCOMPLETE
+          items:
+            $ref: '#/components/schemas/ImageMetaData'
+        missingImageFiles:
+          type: array
+          description: array of missed image files for existing metadata. Exists only if status=INCOMPLETE
+          items:
+            $ref: '#/components/schemas/ImageStorageLocation'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    PropertyDataReportStatus:
+      type: object
+      properties:
+        proxyCorrelationId:
+          type: string
+          description: PDR API assigned control number for the request.
+          example: "12345678"
+        propertyDataId:
+          type: string
+          example: acde070d-8c4c-4f0d-9d8a-162843c10333
+        status:
+          type: string
+          enum:
+          - COMPLETE
+          - INCOMPLETE
+        validationErrors:
+          type: array
+          description: array of validation errors. Exists only if status=INCOMPLETE
+          items:
+            $ref: '#/components/schemas/ValidationError'
+        requiredImages:
+          type: array
+          description: array of required images. Exists only if status=INCOMPLETE
+          items:
+            $ref: '#/components/schemas/ImageMetaData'
+        missingImageFiles:
+          type: array
+          description: array of missed image files for existing metadata. Exists only if status=INCOMPLETE
+          items:
+            $ref: '#/components/schemas/ImageStorageLocation'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    Message:
+      required:
+      - messageCode
+      - messageDescription
+      type: object
+      properties:
+        messageCode:
+          type: string
+        messageDescription:
+          type: string
+    Error:
+      required:
+      - error
+      type: object
+      properties:
+        error:
+          type: string
+      description: Information about the error.
+    ErrorResponse:
+      required:
+      - code
+      - details
+      - message
+      - proxyCorrelationId
+      type: object
+      properties:
+        proxyCorrelationId:
+          type: string
+          description: PDR API assigned control number for the request.
+        code:
+          type: string
+          description: Error Code
+        message:
+          type: string
+          description: Error Description
+        details:
+          type: array
+          description: A collection of error details. Details container will contain error format.
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Error'
+            - $ref: '#/components/schemas/Message'
+      description: Information about the errors.
+    unitViewDetails:
+      type: object
+      properties:
+        unitViewDescriptionType:
+          type: string
+          description: Select from the list of choices the view or views that best describes the unit view. Select the most important view first, followed by any other impactful views. The view identified for condominium unit must be determined from the unit itself. Required (/property/propertyType = CONDO
+          enum:
+          - NONE_NOTABLE
+          - VACANT_LOT
+          - WOODS_TREED_PRIVATE
+          - HILLS_FOOTHILLS
+          - GREENBELT_OPEN_SPACE
+          - MOUNTAIN
+          - MOUNTAIN_RANGE
+          - POND
+          - LAKE
+          - CANAL
+          - OCEAN
+          - RIVER
+          - CREEK
+          - BAY
+          - SOUND
+          - LAGOON
+          - MARINA
+          - INTRACOASTAL_WATERWAY
+          - HARBOR
+          - GULF
+          - WETLANDS
+          - BAYOU
+          - MARSH
+          - COMMERCIAL
+          - PARKING_LOT
+          - INDUSTRIAL
+          - MILITARY_BASE
+          - RAILROAD
+          - INTERSTATE
+          - ELEVATED_OVERPASS
+          - PASTURES_FIELDS_ETC
+          - AGRICULTURAL_FARM_ETC
+          - DESERT
+          - CANYON
+          - VALLEY
+          - COUNTRYSIDE
+          - RAVINE
+          - CITY_SKYLINE
+          - GOLF_COURSE
+          - PARK
+          - APARTMENT_COMPLEX
+          - WINDMILL_WINDFARM
+          - OVERHEAD_ELECTRIC_POWER_TRANSMISSION_LINE
+          - SCHOOL
+        unitViewQuality:
+          type: string
+          description: Select the best option to further describe the selected view. Required (/property/propertyType = CONDO AND /property/buildings/units/unitViewDescriptionType != "NONE_NOTEABLE")
+          enum:
+          - FULL
+          - PARTIAL
+        unitViewDescriptionDetails:
+          type: string
+          description: Provide a description of the view.Required (/property/propertyType = CONDO AND /property/buildings/units/unitViewDescriptionType != "NONE_NOTEABLE"). <b>Note*</b> Maximum length must be less than 2500  characters.
+      additionalProperties: false
+    unit:
+      required:
+        - levels
+        - heatingSystems
+        - coolingSystems
+      type: object
+      properties:
+        aduIndicator:
+          type: boolean
+          description: ' Indicate whether this structure is or contains an Accessory Dwelling Unit (ADU).Required IF (/property/propertyType = SF AND /property/buildings/containsRooms = TRUE)'
+        unitConstructionStatus:
+          type: string
+          description: 'Indicate the construction status that best describes the unit. Required IF (/property/propertyType = CONDO) '
+          enum:
+          - COMPLETE
+          - INCOMPLETE_CONSTRUCTION
+          - INCOMPLETE_RENOVATION_CONSTRUCTION
+        floorNumber:
+          type: integer
+          description: Indicate the specific floor of the building on which the unit is located.Required IF (/property/propertyType = CONDO and /property/buildings/buildingDesign = 'GARDEN' or 'LOW_RISE' or 'MID_RISE' or 'HIGH_RISE')
+        topFloor:
+          type: boolean
+          description: Indicate whether the unit is on the top floor. select 'Y'.  If not select 'N'. Required (/property/propertyType = CONDO)
+        unitMainEntrance:
+          type: integer
+          description: Indicate the floor of the building where the main entrance of the unit is located.Required IF (/property/propertyType = CONDO and /property/buildings/buildingDesign = 'GARDEN' or 'LOW_RISE' or 'MID_RISE' or 'HIGH_RISE')
+        unitView:
+          $ref: '#/components/schemas/unit_unitView'
+        unitFeatures:
+          type: array
+          description: Indicate all features specific to the unit. If there are no additional unit features, “None” must be selected.Required if propertyType is CONDO
+          items:
+            $ref: '#/components/schemas/feature'
+        heatingSystems:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/heating'
+        coolingSystems:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/cooling'
+        mechanicalDeficiencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/mechanicalDeficiency'
+        mechanicalUpdates:
+          type: array
+          items:
+            $ref: '#/components/schemas/mechanicalUpdates'
+        garages:
+          type: array
+          items:
+            $ref: '#/components/schemas/garage'
+        levels:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Level'
+      additionalProperties: false
+    condoCarStorage:
+      type: object
+      properties:
+        condoCarStorageType:
+          type: string
+          description: If off street parking is selected, indicate the type of car storage (e.g., garage, carport,  assigned or unassigned) is available.  If more than one type is available, choose all that apply.Required IF (/property/propertyType = CONDO) . Required If (/property/buildings/condoOffStreetParkingAvailable =TRUE)
+          enum:
+          - ATTACHED_GARAGE
+          - DETACHED_GARAGE
+          - BUILTIN_GARAGE
+          - CARPORT
+          - OPEN_UNASSIGNED
+          - OPEN_ASSIGNED
+        condoCarStorageSpaceCount:
+          type: integer
+          description: Indicate the count of spaces for each car storage type indicated. If multiple types were indicated, assign the correct number of spaces for each type. Tandem car storage can be counted as one or more spaces if the depth of the car storage allows for two or more cars to be parked front to back. e.g., Attached Garage – 3. Required IF (/property/propertyType = CONDO). Required If (/property/buildings/condoOffStreetParkingAvailable =TRUE)
+        carStorageDeficiencies:
+          type: array
+          description: Required if condoCarStorageType is BUILTIN_GARAGE or ATTACHED_GARAGE or DETACHED_GARAGE
+          items:
+            $ref: '#/components/schemas/carStorageDeficiency'
+      additionalProperties: false
+    carStorageDeficiency:
+      type: object
+      properties:
+        condoCarStorageDeficiencyName:
+          type: string
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified. Required IF(/property/buildings/condoCarStorages/condoCarStorageType= 'BUILTIN_GARAGE' or 'ATTACHED_GARAGE' or 'DETACHED_GARAGE')
+          enum:
+          - NONE_OBSERVED
+          - SIDING
+          - WINDOWS
+          - DOORS
+          - GARAGE_DOOR
+          - EXTERIOR_WALLS
+          - INTERIOR_WALLS
+          - CEILING
+          - ROOF
+          - FOUNDATION
+          - OTHER
+        condoCarStorageDeficiencyType:
+          type: string
+          description: Indicate the type of deficiencies associated with the car storage. Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName != 'NONE_OBSERVED' )
+          enum:
+          - EXCESSIVE_WEAR
+          - EVIDENCE_OF_INFESTATION
+          - MISSING
+          - OTHER
+        condoCarStorageDeficiencyDetailFoundation:
+          type: array
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified.Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName = 'FOUNDATION' )
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - SETTLEMENT
+            - EVIDENCE_OF_MOISTURE
+            - SEEPAGE
+            - INFESTATION
+            - LEANING_OR_BOWED_WALLS
+            - HEAVING
+            - OTHER
+        condoCarStorageDeficiencyDetailExteriorWalls:
+          type: array
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified. Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName = 'EXTERIOR_WALLS' )
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - HOLES
+            - DRY_ROT
+            - MOISTURE_ROT
+            - SETTLEMENT
+            - WIND_DAMAGE
+            - MISSING_MATERIAL
+            - OTHER
+        condoCarStorageDeficiencyDetailRoofSurface:
+          type: array
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified.Required IF ( /property/buildings/carStorages/carStorageDeficiencies/carStorageDeficiencyName = 'ROOF' )
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - TARP_ON_ROOF
+            - LEAK_EVIDENT
+            - MISSING_MATERIAL
+            - WOOD_ROT
+            - SOFFIT_DAMAGE
+            - FASCIA_DAMAGE
+            - OTHER
+        condoCarStorageDeficiencyDetailWindows:
+          type: array
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified.Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName = 'WINDOWS' )
+          items:
+            type: string
+            enum:
+            - CRACKING
+            - MISSING_WINDOW_PANE
+            - EXPOSED_WOOD
+            - STORM_SASH_DAMAGE
+            - THERMOPANE_DAMAGE
+            - OTHER
+        condoCarStorageDeficiencyDetailCeiling:
+          type: array
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified. Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName = 'CEILING' )
+          items:
+            type: string
+            enum:
+            - DISCOLORATION
+            - MISSING
+            - CRUMBLING
+            - WATER_DAMAGE
+            - OTHER
+        condoCarStorageDeficiencyDetailInteriorWalls:
+          type: array
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified. Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName != 'INTERIOR_WALLS' )
+          items:
+            type: string
+            enum:
+            - DISCOLORATION
+            - MISSING
+            - CRUMBLING
+            - WATER_DAMAGE
+            - OTHER
+        condoCarStorageDeficiencySeverity:
+          type: boolean
+          description: Indicate if the noted deficiency to the car storage component impacts the safety, soundness or structural integrity of the structure or unit.Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName != 'NONE_OBSERVED' )
+        condoCarStorageDeficiencyDescription:
+          type: string
+          description: Provide a description of each car storage deficiency observed.e.g., The roof of the attached garage has a 6 x 8 hole on one side of the roof.Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName != 'NONE_OBSERVED' ).<b>Note*</b> Maximum length must be less than 2500  characters.
+          example: The roof of the attached garage has a 6 x 8 hole on one side of the roof.
+      additionalProperties: false
+    Room_appliances:
+      type: object
+      properties:
+        rangeOvenExists:
+          type: boolean
+          description: Indicate if there is a range or oven, or a range or oven hook up, for all kitchens identified.Required IF(/property/buildings/units/levels/rooms/roomType = KITCHEN)
+    SiteFeature_location:
+      required:
+        - locations
+      type: object
+      properties:
+        locations:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Location'
+      additionalProperties: false
+    SiteFeature_siteView:
+      type: object
+      description: Required IF (/property/propertyType = SF).
+      properties:
+        views:
+          type: array
+          items:
+            $ref: '#/components/schemas/View'
+      additionalProperties: false
+    unit_unitView:
+      type: object
+      properties:
+        views:
+          type: array
+          description: Identify the floor of the building where the main entrance of the unit is located.Required (/property/propertyType = CONDO)
+          items:
+            $ref: '#/components/schemas/unitViewDetails'
+      additionalProperties: false
+      description: Required IF (/property/propertyType = CONDO)
+  examples:
+    SingleFamilyExample:
+      summary: SingleFamily Example
+      description: Single Family Example
+      value:
+        collectionType: ONSITE
+        caseFileID: '1234567890'
+        lpaID: AB123123
+        pdaSubmitterEntity: Data Submitter Company 1
+        propertyDataCollectorName: Jane Q Public
+        pdaCollectionEntity: REAL_ESTATE_AGENT
+        propertyDataCollectorType: APPRAISER
+        propertyDataCollectorTypeDescription: a
+        dataCollectorAcknowledgement: true
+        dataCollectionDate: '2023-11-03'
+        pdaHyperlink: ''
+        propertyDataCollectorContacts:
+          contactMethod: EMAIL
+          contactDetail: janeqpublic@email.123
+        property:
+          address:
+            streetAddress: 123  main street
+            city: City
+            county: county
+            state: VA
+            postalCode: "98765"
+            unitNumber: "Unit 2B"
+          identification:
+            gpsCoordinates:
+              latitude: 39.123456
+              longitude: -123.456789
+          site:
+            lot:
+              lotSize: 22000
+              lotSizeUnits: SQUARE_FEET
+            siteFeature:
+              location:
+                locations:
+                  - locationDescriptionType: RESIDENTIAL
+                    locationDescriptionDetails: The subject property is located on the 9th hole tee of the golf course
+              siteView:
+                views:
+                  - viewDescriptionType: VACANT_LOT
+                    viewQuality: FULL
+                    viewDescriptionDetails: Panoramic view of fields
+              adverseSiteConditions:
+                - adverseType: NONE_OBSERVED
+                  adverseSiteConditionDescription: None Observed.
+              propertyImprovements:
+                - ingroundPoolConcerns:
+                    - poolConcernType: NONE
+                      poolConcernDescription: None Observed.
+                  propertyImprovementDescription: Covered porch that goes around 3 sides of the home
+                  propertyImprovementType: WRAP_AROUND_PORCH
+                - ingroundPoolConcerns:
+                    - poolConcernType: NONE
+                      poolConcernDescription: None Observed.
+                  propertyImprovementDescription: Small shed for lawn maintanence equipment
+                  propertyImprovementType: TOOL_SHED
+              nonResidentialUses:
+                - nonResidentialUseType: NONE_OBSERVED
+                  nonResidentialUseDescription: None Observed.
+              waterfrontSiteImprovements:
+                - waterfrontImprovementType: SEAWALL
+            offSiteFeature:
+              road:
+                roadOwnershipType: PUBLIC
+                roadMaintainedIndicator: true
+                yearRoundAccessIndicator: true
+            siteUtility:
+              electricalServices:
+                - electricalType: PUBLIC
+                  offGridService: true
+              sewerServices:
+                - sewerType: PUBLIC
+              waterServices:
+                - waterType: PUBLIC
+              gasServices:
+                - gasType: PUBLIC
+          propertyType: SF
+          propertyOccupied: true
+          buildings:
+            - structureType: DWELLING
+              structureArea: 25000
+              attachmentType: DETACHED
+              foundationType:
+                - BASEMENT
+              constructionStatus: COMPLETE
+              constructionType: FRAME
+              containsRooms: true
+              yearBuilt: 1980
+              yearBuiltEstimate: false
+              exteriorDeficiencies:
+                - exteriorDeficiencyName: NONE_OBSERVED
+              exteriorUpdates:
+                - exteriorUpdatedComponent: DOORS
+                  exteriorUpdateType: FULLY_UPDATED
+                  exteriorUpdateTimeframe: 1_TO_10_YEARS
+                  exteriorUpdateDescription: All exterior doors replaced in 2021
+              units:
+                - aduIndicator: false
+                  unitView:
+                    views: []
+                  heatingSystems:
+                    - heatingType: DUCTLESS_HEATPUMP
+                  coolingSystems:
+                    - coolingType: DUCTLESS_HEATPUMP
+                  mechanicalDeficiencies:
+                    - mechanicalDeficiencyName: NONE_OBSERVED
+                  mechanicalUpdates:
+                    - mechanicalUpdatedComponent: COOLING
+                      mechanicalUpdateType: FULLY_UPDATED
+                      mechanicalUpdateTimeframe: 1_TO_5_YEARS
+                      mechanicalUpdateDescription: Ductless heatpumps were added for A/C throughout home
+                  garages:
+                    - garageType: ATTACHED_GARAGE
+                      garageSpaceCount: 3
+                      garageSpaceArea: 600
+                      garageConversionIndicator: false
+                      garageDeficiencies:
+                        - garageDeficiencyName: NONE_OBSERVED
+                  levels:
+                    - levelNumber: 1
+                      belowGrade: true
+                      belowGradeExits:
+                        - INTERIOR
+                      levelLowCeiling: false
+                      attic: false
+                      totalArea: 800
+                      finishedArea: 400
+                      nonStandardFinishedArea: 0
+                      rooms:
+                        - roomType: REC_ROOM
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          plumbingFixtures:
+                            - fixtureType: SINK
+                          roomFeatures:
+                            - roomFeatureType:
+                                - WALK_IN_CLOSET
+                        - roomType: LAUNDRY_ROOM
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          appliances:
+                            rangeOvenExists: true
+                          plumbingFixtures:
+                            - fixtureType: LAUNDRY_HOOKUP
+                          roomFeatures:
+                            - roomFeatureType:
+                                - NONE
+                        - roomType: UNFINISHED_BASEMENT
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          roomFeatures:
+                            - roomFeatureType:
+                                - NONE
+                    - levelNumber: 2
+                      belowGrade: false
+                      levelLowCeiling: false
+                      attic: false
+                      totalArea: 800
+                      finishedArea: 800
+                      nonStandardFinishedArea: 0
+                      rooms:
+                        - roomType: LIVING_ROOM
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          roomFeatures:
+                            - roomFeatureType:
+                                - FIREPLACE
+                        - roomType: KITCHEN
+                          appliances:
+                            rangeOvenExists: true
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          plumbingFixtures:
+                            - fixtureType: APPLIANCE_HOOKUP
+                            - fixtureType: SINK
+                          roomFeatures:
+                            - roomFeatureType:
+                                - PANTRY
+                        - roomType: DINING_ROOM
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          roomFeatures:
+                            - roomFeatureType:
+                                - NONE
+                        - roomType: HALF_BATH
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          plumbingFixtures:
+                            - fixtureType: TOILET
+                            - fixtureType: SINK
+                          roomFeatures:
+                            - roomFeatureType:
+                                - NONE
+                    - levelNumber: 3
+                      belowGrade: false
+                      levelLowCeiling: false
+                      attic: true
+                      atticAccessLocation: true
+                      atticAccess:
+                        - DROP_STAIR
+                      totalArea: 800
+                      finishedArea: 800
+                      nonStandardFinishedArea: 0
+                      rooms:
+                        - roomType: BEDROOM
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          roomFeatures:
+                            - roomFeatureType:
+                                - WALK_IN_CLOSET
+                        - roomType: FULL_BATH
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          plumbingFixtures:
+                            - fixtureType: TOILET
+                            - fixtureType: SINK
+                            - fixtureType: WALK_IN_SHOWER
+                          roomFeatures:
+                            - roomFeatureType:
+                                - NONE
+                        - roomType: BEDROOM
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          roomFeatures:
+                            - roomFeatureType:
+                                - NONE
+                        - roomType: FULL_BATH
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          plumbingFixtures:
+                            - fixtureType: TOILET
+                            - fixtureType: SINK
+                            - fixtureType: TUB_SHOWER
+                          roomFeatures:
+                            - roomFeatureType:
+                                - NONE
+                        - roomType: BEDROOM
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          roomFeatures:
+                            - roomFeatureType:
+                                - BUILT_INS
+                        - roomType: BEDROOM
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          roomFeatures:
+                            - roomFeatureType:
+                                - NONE
+          ancillary:
+            roadDesc: Asphalt
+            atticFloorExists: true
+            atticHeated: true
+            heatingFuelDesc: Free Text
+            drivewaySurfaceDesc: Concrete
+            alley:
+              desc: Gravel
+              public: true
+              private: true
+            appliances:
+              refrigeratorExists: true
+              dishwasherExists: true
+              disposalExists: true
+              microwaveExists: true
+              washerDryerExists: true
+              otherExists: true
+              otherDesc: Wine Cooler
+            exterior:
+              descFoundationWalls: Concrete Block
+              descExtWalls: Brick Veneer
+              descRoofSurface: Standing Seam Metal
+              descGuttersDownspouts: Aluminum
+              descWindowType: Vinyl Double Hung
+              descStormSashInsulated: Metal
+              descScreens: Fabric
+            gas:
+              otherDesc: Propane
+            interior:
+              floorsDesc: Carpet
+              wallsDesc: Plaster
+              trimFinishDesc: Crown
+              bathFloorDesc: Tile
+              bathWainscotDesc: Tile
+    CondoExample:
+      summary: Condo Example
+      description: Condo Family Example
+      value:
+        collectionType: ONSITE
+        caseFileID: '1234567890'
+        lpaID: AB123123
+        pdaSubmitterEntity: Data Submitter Company 1
+        propertyDataCollectorName: Jane Q Public
+        pdaCollectionEntity: REAL_ESTATE_AGENT
+        propertyDataCollectorType: APPRAISER
+        propertyDataCollectorTypeDescription: Staff Employee
+        dataCollectorAcknowledgement: true
+        dataCollectionDate: '2023-11-03'
+        pdaHyperlink: ''
+        propertyDataCollectorContacts:
+          contactMethod: EMAIL
+          contactDetail: janeqpublic@email.123
+        property:
+          address:
+            streetAddress: 123  main street
+            city: s
+            county: s
+            state: VA
+            postalCode: '99999'
+            unitNumber: ''
+          identification:
+            gpsCoordinates:
+              latitude: 0.1
+              longitude: 0.1
+          site:
+            lot:
+              lotSize: 1
+              lotSizeUnits: SQUARE_FEET
+            siteFeature:
+              location:
+                locations:
+                  - locationDescriptionType: BORDERING_AMENITIES
+                    locationDescriptionDetails: a
+              siteView:
+                views:
+                  - viewDescriptionType: VACANT_LOT
+                    viewQuality: FULL
+                    viewDescriptionDetails: a
+              adverseSiteConditions:
+                - adverseType: CONTAMINATION
+                  adverseSiteConditionDescription: a
+              propertyImprovements:
+                - ingroundPoolConcerns:
+                    - poolConcernType: NONE
+                      poolConcernDescription: a
+                  propertyImprovementDescription: a
+                  propertyImprovementType: ORNATE_LANDSCAPING
+              nonResidentialUses:
+                - nonResidentialUseType: CHILDCARE
+                  nonResidentialUseDescription: a
+              waterfrontSiteImprovements:
+                - waterfrontImprovementType: SEAWALL
+            offSiteFeature:
+              road:
+                roadOwnershipType: PUBLIC
+                roadMaintainedIndicator: true
+                yearRoundAccessIndicator: true
+            siteUtility:
+              electricalServices:
+                - electricalType: PUBLIC
+                  offGridService: true
+              sewerServices:
+                - sewerType: PUBLIC
+              waterServices:
+                - waterType: PUBLIC
+              gasServices:
+                - gasType: PUBLIC
+          propertyType: CONDO
+          propertyOccupied: true
+          buildings:
+            - structureType: DWELLING
+              structureArea: 1
+              attachmentType: ATTACHED
+              foundationType:
+                - SLAB
+              constructionStatus: COMPLETE
+              constructionType: FRAME
+              containsRooms: true
+              yearBuilt: 1
+              yearBuiltEstimate: true
+              buildingDesign: GARDEN
+              buildingDesignDescription: a
+              projectName: a
+              buildingNumber: a
+              numberOfStories: 1
+              numberOfElevators: 1
+              condoOffstreetParkingAvailable: true
+              condoCarStorages:
+                - condoCarStorageType: ATTACHED_GARAGE
+                  condoCarStorageSpaceCount: 1
+                  carStorageDeficiencies:
+                    - condoCarStorageDeficiencyName: NONE_OBSERVED
+              exteriorDeficiencies:
+                - exteriorDeficiencyName: NONE_OBSERVED
+              exteriorUpdates:
+                - exteriorUpdatedComponent: NONE_OBSERVED
+              units:
+                - aduIndicator: true
+                  unitConstructionStatus: COMPLETE
+                  floorNumber: 1
+                  topFloor: true
+                  unitMainEntrance: 1
+                  unitView:
+                    views:
+                      - unitViewDescriptionType: NONE_NOTABLE
+                  unitFeatures:
+                    - featureType: ORNATE_LANDSCAPING
+                  heatingSystems:
+                    - heatingType: CENTRAL_HOT_AIR
+                  coolingSystems:
+                    - coolingType: CENTRAL_AIR_CONDITIONING
+                  mechanicalDeficiencies:
+                    - mechanicalDeficiencyName: NONE_OBSERVED
+                  mechanicalUpdates:
+                    - mechanicalUpdatedComponent: NONE_OBSERVED
+                  garages:
+                    - garageType: ATTACHED_GARAGE
+                      garageSpaceCount: 1
+                      garageSpaceArea: 1
+                      garageConversionIndicator: true
+                      garageDeficiencies:
+                        - garageDeficiencyName: NONE_OBSERVED
+                  levels:
+                    - levelNumber: 1
+                      belowGrade: true
+                      belowGradeExits:
+                        - WALKUP
+                      levelLowCeiling: true
+                      attic: true
+                      atticAccess:
+                        - ATTIC_SCUTTLE
+                      atticAccessLocation: true
+                      totalArea: 1
+                      finishedArea: 1
+                      nonStandardFinishedArea: 1
+                      rooms:
+                        - roomType: FOYER
+                          otherRoomTypeDescription: Solarium
+                          appliances:
+                            rangeOvenExists: true
+                          interiorDeficiencies:
+                            - interiorDeficiencyName: NONE_OBSERVED
+                          interiorUpdates:
+                            - interiorUpdatedComponent: NONE_OBSERVED
+                          plumbingFixtures:
+                            - fixtureType: SINK
+                          roomFeatures:
+                            - roomFeatureType:
+                                - FIREPLACE
+          ancillary:
+            roadDesc: Asphalt
+            atticFloorExists: true
+            atticHeated: true
+            heatingFuelDesc: Free Text
+            drivewaySurfaceDesc: Concrete
+            alley:
+              desc: Gravel
+              public: true
+              private: true
+            appliances:
+              refrigeratorExists: true
+              dishwasherExists: true
+              disposalExists: true
+              microwaveExists: true
+              washerDryerExists: true
+              otherExists: true
+              otherDesc: Wine Cooler
+            exterior:
+              descFoundationWalls: Concrete Block
+              descExtWalls: Brick Veneer
+              descRoofSurface: Standing Seam Metal
+              descGuttersDownspouts: Aluminum
+              descWindowType: Vinyl Double Hung
+              descStormSashInsulated: Metal
+              descScreens: Fabric
+            gas:
+              otherDesc: Propane
+            interior:
+              floorsDesc: Carpet
+              wallsDesc: Plaster
+              trimFinishDesc: Crown
+              bathFloorDesc: Tile
+              bathWainscotDesc: Tile
+    BACEAPIBadRequestMissingResponse:
+      summary: Bad Request
+      description: Mandatory header is missing in the response.
+      value:
+        proxyCorrelationId: "12345678"
+        code: 400.006
+        message: Missing header Content-type
+        details:
+        - error: Content-type must be either application/json or application/xml
+    BACEAPIBadRequestCustomResponse:
+      summary: Validation Error-Empty
+      description: Provided the schema is valid, errors are specific to missing or incorrect data in request.
+      value:
+        proxyCorrelationId: "12345678"
+        code: 400
+        message: Request data does not match the application schema, please validate the request data.
+        details:
+        - MessageCode: "400"
+          MessageDescription: Must not be null -> propertyDataReport.propertyDataCollectorName.
+    BACEAPIBadRequestCustomResponseInvalid:
+      summary: Validation Error-Invalid
+      description: Provided the schema is valid, errors are specific to missing or incorrect data in request.
+      value:
+        proxyCorrelationId: "12345678"
+        code: 400
+        message: Request data does not match the application schema, please validate the request data.
+        details:
+        - MessageCode: "400"
+          MessageDescription: 23-04-203 is invalid -> propertyDataReport.dataCollectionDate.
+    BACEAPIUnauthorizedResponse:
+      summary: Unauthorized Response
+      description: The user is not authorized to access the application.
+      value:
+        proxyCorrelationId: "12345678"
+        code: 401
+        message: Unable to authorize the request.
+        details:
+        - error: The user profile is not authorized to access the system.
+    BACEAPIInternalErrorResponse:
+      summary: Internal Server error
+      description: An 0005 error that indicates that the request could not be processed. Please reach out to Customer Support.
+      value:
+        proxyCorrelationId: "12345678"
+        code: 500
+        message: Internal Server Error
+        details:
+        - MessageCode: "0005"
+          MessageDescription: API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
+    BACEAPINotFoundResponse:
+      summary: Resource not found
+      description: This typically can happen if the resource URL is not correct.
+      value:
+        proxyCorrelationId: "12345678"
+        code: 404.001
+        message: No resource for GET/POST
+        details:
+        - error: No resource for GET/POST
+    ImageNotFoundResponse:
+      summary: Image not found response
+      description: This typically can happen when the image is not submitted.
+      value:
+        proxyCorrelationId: "12345678"
+        code: 404.001
+        message: No resource for GET/POST
+        details:
+        - error: imageId {imageId} provided not found.
+    GETImageMetaNotFoundResponse:
+      summary: Imagemetadata not found response
+      description: This typically can happen when the image is not submitted.
+      value:
+        proxyCorrelationId: "12345678"
+        code: 404.001
+        message: No resource for GET/POST
+        details:
+        - error: propertyDataId {propertyDataId} provided for getting Image metaData not found.
+    PropertyNotFoundResponse:
+      summary: Property not found response
+      description: This typically can happen when the propertyData is not submitted.
+      value:
+        proxyCorrelationId: "12345678"
+        code: 404
+        message: No resource for GET/POST
+        details:
+        - error: propertyDataId {propertyDataId} provided for getting property Status not found.
+    PDFNotFoundResponse:
+      summary: PDF not found response
+      description: This typically can happen when the PDF is not submitted.
+      value:
+        proxyCorrelationId: "12345678"
+        code: 404
+        message: No resource for GET/POST
+        details:
+        - error: propertyDataId {propertyDataId} provided for PDF not found.
+    BACEAPILimitExceededResponse:
+      summary: Quota or Resource Limit Exceeded
+      description: The number of requests made exceed the threshold. Reduce the number of requests.
+      value:
+        proxyCorrelationId: "12345678"
+        code: 429.002
+        message: Quota limit exceeded
+        details:
+        - error: Quota limit exceeded, decrease the number of requests per minute been sent.
+  requestBodies:
+    insertDaImage:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+            description: Image size must be within 1 MB to 50 MB.Image must be submitted in a valid format of JPG/PNG/JPEG.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Token acquired from OAuth API for the user credentials
+security:
+  - bearerAuth: []

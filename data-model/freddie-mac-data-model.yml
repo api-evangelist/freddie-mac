@@ -1,0 +1,200 @@
+generated: '2026-09-10'
+method: derived
+source: components.schemas and the identifier fields of the 20 first-party OpenAPI contracts in openapi/
+  (404 schema definitions, 295 distinct names), cross-read against the MISMO / GSE Uniform Mortgage Data
+  Program vocabulary the contracts declare
+note: There is no shared component library across the catalog. Each API ships its own copy of the domain
+  objects, so the same real-world entity appears under several spellings - sellerIdentifier / SellerIdentifier
+  / sellerId, loanIdentifier / sellerLoanIdentifier / servicerLoanIdentifier / freddieMacLoanNumber. This
+  graph is the entity model the catalog implies, not a model the provider publishes. The canonical names
+  are MISMO's; the divergence is per-API implementation drift.
+core_identifiers:
+- id: loanIdentifier
+  aka:
+  - sellerLoanIdentifier
+  - servicerLoanIdentifier
+  - lenderLoanIdentifier
+  - freddieMacLoanNumber
+  occurrences: 19
+  vocabulary: MISMO
+  note: loanIdentifierType is documented as 'a value from a MISMO prescribed list' and enumerates LenderLoan
+    among its values, so the same field carries different namespaces depending on who assigned the number.
+- id: sellerIdentifier
+  aka:
+  - SellerIdentifier
+  - sellerId
+  - sellerOrganizationBranchIdentifier
+  - servicerAccountIdentifier
+  occurrences: 16
+  note: The counterparty key. 400.001 'SellerIdentifier Required' is a first-class error on the Loan Import
+    surface.
+- id: requestTransactionIdentifier
+  aka:
+  - RequestTransactionIdentifier
+  - requestBatchIdentifier
+  - RequestBatchIdentifier
+  occurrences: 28
+  note: Batch/transaction envelope keys on the Resolve servicing surface - a batch carries many transactions.
+- id: contractIdentifier
+  aka:
+  - contractNumber
+  occurrences: 8
+  note: Cash and Guarantor commitment contract key.
+- id: partyRoleIdentifier
+  occurrences: 7
+  vocabulary: MISMO
+  note: partyRoleType is 'a value from a MISMO defined list that identifies the role that the party plays
+    in the transaction'.
+- id: propertyDataId
+  occurrences: 2
+  note: Beyond ACE property-data-collection key; images and PDFs hang off it.
+- id: CorrelationIdentifier
+  occurrences: required on the whole Loan Selling Advisor surface
+  note: Tracing, not identity - see conventions/.
+entities:
+- name: Loan
+  key: loanIdentifier
+  apis:
+  - Loan Look Up
+  - Current Mortgage Snapshot
+  - Data Share
+  - Loan Import
+  - Property Insights
+  - Resolve Retention
+  - Resolve Liquidation
+- name: Seller / Servicer (counterparty)
+  key: sellerIdentifier
+  apis:
+  - Loan Import
+  - Cash Committing
+  - Guarantor Committing
+  - Cash Settlement Purchase Statement
+  - Guarantor Settlement Purchase Statement
+- name: Party (borrower, employer, appraiser)
+  key: partyRoleIdentifier
+  vocabulary: MISMO PARTY / ROLE
+  apis:
+  - Data Share
+  - Loan Look Up
+  - Property Insights
+- name: Property
+  key: address + propertyDataId
+  apis:
+  - Property Insights
+  - Beyond ACE
+  - Loan Look Up
+  - Data Share Bid Tape
+- name: Appraisal / collateral document
+  key: AppraisalIdentifier
+  vocabulary: UAD / UCDP
+  apis:
+  - Property Insights
+  - Data Share
+  - Data Share Bid Tape
+- name: Commitment contract
+  key: contractIdentifier
+  apis:
+  - Cash Committing
+  - Cash Pricing
+  - Guarantor Committing
+  - Guarantor Pricing
+- name: Pool
+  key: poolNumber
+  apis:
+  - Guarantor Committing
+  - Guarantor Settlement Purchase Statement
+- name: Settlement / purchase statement
+  key: contractIdentifier + settlement date
+  apis:
+  - Cash Settlement Purchase Statement
+  - Guarantor Settlement Purchase Statement
+- name: Workout case
+  key: requestTransactionIdentifier
+  apis:
+  - Resolve Workout Options
+  - Resolve Retention
+  - Resolve Liquidation
+  - Resolve Valuation & Pricing
+- name: Document (XML/PDF)
+  key: loanIdentifier + documentType
+  vocabulary: UCD / ULDD / UAD / ULAD
+  apis:
+  - Data Share
+  - Loan Closing Advisor Loan Submission
+- name: MI certificate
+  key: miCertificateIdentifier
+  apis:
+  - Data Share Bid Tape
+  - Resolve Liquidation
+- name: Area median income / income limit
+  key: censusTractIdentifier + state + zip
+  apis:
+  - Income Limits
+  - Affordable Check
+relationships:
+- from: Loan
+  to: Seller / Servicer
+  type: belongs_to
+  via: sellerIdentifier
+- from: Loan
+  to: Party
+  type: has_many
+  via: partyRoleIdentifier
+- from: Loan
+  to: Property
+  type: has_one
+  via: property address / propertyDataId
+- from: Loan
+  to: Document
+  type: has_many
+  via: loanIdentifier + documentType (Data Share returns UCD/ULDD/UAD sets per loan)
+- from: Loan
+  to: MI certificate
+  type: has_one
+  via: miCertificateIdentifier
+- from: Property
+  to: Appraisal / collateral document
+  type: has_many
+  via: AppraisalIdentifier (UCDP submits up to three per property)
+- from: Property
+  to: Image
+  type: has_many
+  via: propertyDataId -> imageId (Beyond ACE /property/{propertyDataId}/imagemetalist)
+- from: Commitment contract
+  to: Seller / Servicer
+  type: belongs_to
+  via: sellerIdentifier
+- from: Commitment contract
+  to: Loan
+  type: has_many
+  via: loan delivery against the contract
+- from: Commitment contract
+  to: Pool
+  type: belongs_to
+  via: poolNumber (guarantor execution only)
+- from: Settlement / purchase statement
+  to: Commitment contract
+  type: belongs_to
+  via: contractIdentifier
+- from: Workout case
+  to: Loan
+  type: belongs_to
+  via: servicerLoanIdentifier
+- from: Workout case
+  to: Servicer
+  type: belongs_to
+  via: servicerAccountIdentifier
+- from: Income limit
+  to: Property
+  type: resolved_by
+  via: censusTractIdentifier + state + zip
+lifecycle_flow: Income Limits / Affordable Check (pre-qualification) -> Property Insights and Beyond ACE
+  (collateral) -> Loan Closing Advisor Loan Submission (UCD assessment at closing) -> Loan Import + Cash
+  or Guarantor Pricing/Committing (delivery and sale) -> Cash/Guarantor Settlement Purchase Statement
+  (settlement) -> Data Share and Data Share Bid Tape (post-close document retrieval) -> Resolve (default
+  servicing). The catalog's five display categories - ORIGINATION, CLOSING, SELLING, POST CLOSE, SERVICING
+  - are that flow.
+id_prefixes:
+  published: false
+  note: No typed/prefixed identifier scheme (Stripe-style cus_/ch_). Identifiers are bare numeric or alphanumeric
+    strings whose namespace is carried in a sibling *IdentifierType field.

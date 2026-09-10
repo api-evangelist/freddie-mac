@@ -1,0 +1,5 @@
+Canonical: https://api-test.freddiemac.com/.well-known/security.txt
+Contact: mailto:freddie-mac@submit.bugcrowd.com
+Contact: https://privacyportal.onetrust.com/incident-portal/webforms/94b5e41a-aba0-4e51-ba48-efa19ce560a1/1b25c37a-a280-44f2-b61e-a693a33c7267
+Expires: 2027-06-30T23:59:00Z
+Preferred-Languages: en

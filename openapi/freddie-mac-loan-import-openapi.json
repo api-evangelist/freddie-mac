@@ -1,0 +1,1714 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Loan Import API",
+    "version" : "4.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://api-test.freddiemac.com/single-family/lsa"
+  } ],
+  "security" : [ {
+    "bearerAuth" : [ ]
+  } ],
+  "paths" : {
+    "/v1/loans/import" : {
+      "post" : {
+        "tags" : [ "Loan Import API" ],
+        "summary" : "Loan Import API",
+        "description" : "The request metadata must be included in the 'requestMetadataJson' field as a JSON object. Update the example JSON below to fit your scenario. \n\n **Example 1: Request Metadata for Seller for import and allocate an existing Loan to a Guarantor contract.**\n\n Please change the following fields to submit a valid request and “Try it out” \n\n 'sellerIdentifier', 'sellerOrganizationBranchIdentifier', 'investorContractIdentifier' \n ```json\n{\n  \"correlationIdentifier\": \"5234-1156-83456\",\n  \"sellerIdentifier\": \"999999\",\n  \"sellerOrganizationBranchIdentifier\": 999999,\n  \"counterPartyType\": \"Seller\",\n  \"overwriteExistingLoan\": true,\n  \"contractUPBLimitIndicator\": false,\n  \"useSellerLoanIdOnly\": false,\n  \"requestToEvaluateLoans\": false,\n  \"investorContractIdentifier\": 99999999\n}\n```\n\n **Example 2: Request Metadata for Seller for import, allocate and evaluate New Cash loan providing Contract number_in the file.**\n\n Please change the following fields to submit a valid request and “Try it out” \n\n 'sellerIdentifier', 'sellerOrganizationBranchIdentifier', 'pricingIdentifier' \n ```json\n{\n  \"correlationIdentifier\": \"1234-1126-83456\",\n  \"sellerIdentifier\": \"999999\",\n  \"sellerOrganizationBranchIdentifier\": 999999,\n  \"counterPartyType\": \"Seller\",\n  \"overwriteExistingLoan\": false,\n  \"contractUPBLimitIndicator\": true,\n  \"useSellerLoanIdOnly\": false,\n  \"pricingIdentifier\": \"M99999999\"\n}\n``` \n\n **Example 3: Request Metadata for Seller for import, allocate and evaluate new Cash Loan.**\n\n Please change the following fields to submit a valid request and “Try it out” \n\n 'sellerIdentifier', 'sellerOrganizationBranchIdentifier', 'investorContractIdentifier' \n ```json\n{\n  \"correlationIdentifier\": \"3234-1126-81456\",\n  \"sellerIdentifier\": \"999999\",\n  \"sellerOrganizationBranchIdentifier\": 999999,\n  \"counterPartyType\": \"Seller\",\n  \"overwriteExistingLoan\": false,\n  \"contractUPBLimitIndicator\": true,\n  \"useSellerLoanIdOnly\": false,\n  \"investorContractIdentifier\": 99999999\n}\n``` \n\n **Example 4: Request Metadata For Seller for Import and evaluate New_Unallocated Loan.**\n\n Please change the following fields to submit a valid request and “Try it out” \n\n 'sellerIdentifier', 'sellerOrganizationBranchIdentifier' \n ```json\n{\n  \"correlationIdentifier\": \"7234-1156-53456\",\n  \"sellerIdentifier\": \"999999\",\n  \"sellerOrganizationBranchIdentifier\": 999999,\n  \"counterPartyType\": \"Seller\",\n  \"overwriteExistingLoan\": false,\n  \"contractUPBLimitIndicator\": false,\n  \"useSellerLoanIdOnly\": false\n  }\n``` \n\n **Example 5: Request Metadata for Secondary Market Advisor [SMA] for Import, allocate and evaluate New loan to a Guarantor contract providing a Pool number in the request metadata.**\n\n Please change the following fields to submit a valid request and “Try it out” \n\n 'sellerIdentifier', 'sellerOrganizationBranchIdentifier','requestingPartyAccountIdentifier', 'pricingIdentifier', 'poolNumber' \n ```json\n{\n  \"correlationIdentifier\": \"9234-1196-53486\",\n  \"sellerIdentifier\": \"999999\",\n  \"sellerOrganizationBranchIdentifier\": 999999, \n  \"requestingPartyAccountIdentifier\": \"SMA999\",\n  \"counterPartyType\": \"SecondaryMarketAdvisor\",\n  \"overwriteExistingLoan\": false,\n  \"contractUPBLimitIndicator\": false,\n  \"useSellerLoanIdOnly\": false,\n  \"pricingIdentifier\": \"M99999999\", \n  \"poolNumber\": \"SA9999\"\n }\n```",
+        "operationId" : "importLoanS2S",
+        "parameters" : [ {
+          "name" : "env",
+          "in" : "header",
+          "description" : "<p>Environment \n\n </p>",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "default" : "ProductionBaseline",
+            "enum" : [ "ProductionBaseline", "Pre-Production" ]
+          }
+        }, {
+          "name" : "X-LIS-VENDOR-IDENTIFIER",
+          "in" : "header",
+          "description" : "A unique identifier that identifies the vendor.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "X-LIS-VENDOR-NAME",
+          "in" : "header",
+          "description" : "The vendor company name that identifies the vendor identifier.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "X-LIS-VENDOR-SOFTWARE",
+          "in" : "header",
+          "description" : "The vendor software name utilized to submit the loan through the system.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "X-LIS-VENDOR-SOFTWARE-VERSION",
+          "in" : "header",
+          "description" : "The vendor software version name utilized to submit the loan through the system.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "required" : [ "file", "requestMetadataJson" ],
+                "type" : "object",
+                "properties" : {
+                  "file" : {
+                    "type" : "string",
+                    "format" : "binary"
+                  },
+                  "requestMetadataJson" : {
+                    "$ref" : "#/components/schemas/LoanImportRequest"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LoanImportResponse"
+                },
+                "examples" : {
+                  "ImportLoanResponse" : {
+                    "$ref" : "#/components/examples/ImportLoanResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "<b>Bad Request</b> \r\n\n <font size='1' color='black'><b>Error codes & details</b></font> \r\n\n <B>400.001</B> SellerIdentifier Required \r\n\n <B>400.002</B> SellerIdentifier Invalid Request Type. \r\n\n <B>400.003</B> FileIdentifier Required \r\n\n <B>400.004</B> FileIdentifier Invalid Request Type.   \r\n\n <B>400.005</B> SellerOrganizationBranchIdentifier Required \r\n\n <B>400.006</B> CorrelationIdentifier Required \r\n\n <B>400.007</B> CorrelationIdentifier Invalid Data Type. \r\n\n <B>400.008</B> PoolNumber Invalid Request Type. \r\n\n <B>400.009</B> Invalid PoolNumber Response\r\n\n <B>400.010</B> ContractUPBLimitIndicator Required \r\n\n ",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LoanImportFileStatusRequest"
+                },
+                "examples" : {
+                  "SellerIdentifierRequiredResponse" : {
+                    "$ref" : "#/components/examples/SellerIdentifierRequiredResponse"
+                  },
+                  "SellerIdentifierInvalidRequestTypeResponse" : {
+                    "$ref" : "#/components/examples/SellerIdentifierInvalidRequestTypeResponse"
+                  },
+                  "FileIdentifierRequiredResponse" : {
+                    "$ref" : "#/components/examples/FileIdentifierRequiredResponse"
+                  },
+                  "FileIdentifierInvalidRequestTypeResponse" : {
+                    "$ref" : "#/components/examples/FileIdentifierInvalidRequestTypeResponse"
+                  },
+                  "SellerOrganizationBranchIdentifierRequiredResponse" : {
+                    "$ref" : "#/components/examples/SellerOrganizationBranchIdentifierRequiredResponse"
+                  },
+                  "CorrelationIdentifierRequiredResponse" : {
+                    "$ref" : "#/components/examples/CorrelationIdentifierRequiredResponse"
+                  },
+                  "CorrelationIdentifierInvalidDataTypeResponse" : {
+                    "$ref" : "#/components/examples/CorrelationIdentifierInvalidDataTypeResponse"
+                  },
+                  "PoolNumberInvalidRequestTypeResponse" : {
+                    "$ref" : "#/components/examples/PoolNumberInvalidRequestTypeResponse"
+                  },
+                  "InvalidPoolNumberResponse" : {
+                    "$ref" : "#/components/examples/InvalidPoolNumberResponse"
+                  },
+                  "ContractUPBLimitIndicatorRequiredResponse" : {
+                    "$ref" : "#/components/examples/ContractUPBLimitIndicatorRequiredResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "<b>Unauthorized</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>401</B> Rejected by policy",
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "ImportErrorResponse401" : {
+                    "$ref" : "#/components/examples/ImportErrorResponse401"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "<b>The user does not have the permission to access the function</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>403</B> Rejected by policy",
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "ImportErrorResponse403" : {
+                    "$ref" : "#/components/examples/ImportErrorResponse403"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "<p><strong>Internal Server Error</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p> <ul><strong>500:</strong> An application error has occurred. Please call 1-800-FREDDIE to report this problem. </ul>",
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "FileImportStatusInternalErrorResponse" : {
+                    "$ref" : "#/components/examples/FileImportStatusInternalErrorResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/loans/import-status" : {
+      "post" : {
+        "tags" : [ "Loan Import API" ],
+        "summary" : "Loan Import File Status API",
+        "operationId" : "importLoanS2SStatus",
+        "parameters" : [ {
+          "name" : "env",
+          "in" : "header",
+          "description" : "<p>Environment \n\n </p>",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "default" : "ProductionBaseline",
+            "enum" : [ "ProductionBaseline", "Pre-Production" ]
+          }
+        }, {
+          "name" : "X-LIS-VENDOR-IDENTIFIER",
+          "in" : "header",
+          "description" : "A unique identifier that identifies the vendor.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "X-LIS-VENDOR-NAME",
+          "in" : "header",
+          "description" : "The vendor company name that identifies the vendor identifier.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "X-LIS-VENDOR-SOFTWARE",
+          "in" : "header",
+          "description" : "The vendor software name utilized to submit the loan through the system.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "X-LIS-VENDOR-SOFTWARE-VERSION",
+          "in" : "header",
+          "description" : "The vendor software version name utilized to submit the loan through the system.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LoanImportFileStatusRequest"
+              },
+              "examples" : {
+                "LoanImportFileStatusRequestForSeller" : {
+                  "$ref" : "#/components/examples/LoanImportFileStatusRequestForSeller"
+                },
+                "LoanImportFileStatusRequestForSMA" : {
+                  "$ref" : "#/components/examples/LoanImportFileStatusRequestForSMA"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LoanImportFileStatusResponse"
+                },
+                "examples" : {
+                  "LoanImportFileStatusReponseWithoutErrors" : {
+                    "$ref" : "#/components/examples/LoanImportFileStatusReponseWithoutErrors"
+                  },
+                  "LoanImportFileStatusIntermediateResponse" : {
+                    "$ref" : "#/components/examples/LoanImportFileStatusIntermediateResponse"
+                  },
+                  "LoanImportFileStatusReponseWithErrors" : {
+                    "$ref" : "#/components/examples/LoanImportFileStatusReponseWithErrors"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "<b>Bad Request</b> \r\n\n <font size='1' color='black'><b>Error codes & details</b></font> \r\n\n <B>400.001</B> SellerIdentifier Required \r\n\n <B>400.002</B> SellerIdentifier Invalid Request Type. \r\n\n<B>400.003</B> FileIdentifier Required \r\n\n <B>400.004</B> FileIdentifier Invalid Request Type.  \r\n\n <B>400.005</B>  SellerOrganizationBranchIdentifier Required \r\n\n <B>400.006</B>  CorrelationIdentifier Required \r\n\n <B>400.007</B>  CorrelationIdentifier Invalid Data Type. \r\n\n",
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "SellerIdentifierRequiredResponse" : {
+                    "$ref" : "#/components/examples/SellerIdentifierRequiredResponse"
+                  },
+                  "SellerIdentifierInvalidRequestTypeResponse" : {
+                    "$ref" : "#/components/examples/SellerIdentifierInvalidRequestTypeResponse"
+                  },
+                  "FileIdentifierRequiredResponse" : {
+                    "$ref" : "#/components/examples/FileIdentifierRequiredResponse"
+                  },
+                  "FileIdentifierInvalidRequestTypeResponse" : {
+                    "$ref" : "#/components/examples/FileIdentifierInvalidRequestTypeResponse"
+                  },
+                  "SellerOrganizationBranchIdentifierRequiredResponse" : {
+                    "$ref" : "#/components/examples/SellerOrganizationBranchIdentifierRequiredResponse"
+                  },
+                  "CorrelationIdentifierRequiredResponse" : {
+                    "$ref" : "#/components/examples/CorrelationIdentifierRequiredResponse"
+                  },
+                  "CorrelationIdentifierInvalidDataTypeResponse" : {
+                    "$ref" : "#/components/examples/CorrelationIdentifierInvalidDataTypeResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "<b>Unauthorized</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>401</B> Rejected by policy",
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "ImportErrorResponse401" : {
+                    "$ref" : "#/components/examples/ImportErrorResponse401"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "<b>The user does not have the permission to access the function</b> \r\n\n <font size='1' color='black'><b>Error codes & details </b></font> \r\n\n <B>403</B> Rejected by policy",
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "ImportErrorResponse403" : {
+                    "$ref" : "#/components/examples/ImportErrorResponse403"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "<p><strong>Internal Server Error</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p> <ul><strong>500:</strong> An application error has occurred. Please call 1-800-FREDDIE to report this problem. </ul>",
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "FileImportStatusInternalErrorResponse" : {
+                    "$ref" : "#/components/examples/FileImportStatusInternalErrorResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "LoanImportRequest" : {
+        "description" : "This is the metadata for Loan Import processing.",
+        "required" : [ "correlationIdentifier", "sellerIdentifier", "sellerOrganizationBranchIdentifier", "counterPartyType", "overwriteExistingLoan", "contractUPBLimitIndicator", "useSellerLoanIdOnly" ],
+        "type" : "object",
+        "properties" : {
+          "correlationIdentifier" : {
+            "type" : "string",
+            "description" : "The unique identifier that is provided by the Seller or Secondary Market Advisor for each request.",
+            "example" : "9999"
+          },
+          "sellerIdentifier" : {
+            "maxLength" : 6,
+            "type" : "string",
+            "description" : "The unique identifier assigned to a party, which may be an individual, a counterparty, or a related organization.",
+            "example" : "999999"
+          },
+          "sellerOrganizationBranchIdentifier" : {
+            "type" : "integer",
+            "description" : "The unique identifier assigned for an organization unit.",
+            "example" : 999999
+          },
+          "requestingPartyAccountIdentifier" : {
+            "type" : "string",
+            "description" : "The unique identifier assigned to a party, which may be an individual or a counterparty.",
+            "example" : "SMA999"
+          },
+          "counterPartyType" : {
+            "type" : "string",
+            "description" : "A discrete set of values that specifies the different roles that a counterparty will perform in relationship with Freddie Mac.",
+            "example" : "SecondaryMarketAdvisor"
+          },
+          "overwriteExistingLoan" : {
+            "type" : "boolean",
+            "description" : "Indicator to allow loans to be overwritten during modification.",
+            "example" : true
+          },
+          "contractUPBLimitIndicator" : {
+            "type" : "boolean",
+            "description" : "Indicator to provide an error message when the total Unpaid Principal Balance Amount of the loans being allocated to a Cash Contract exceeds the Contract Amount.",
+            "example" : false
+          },
+          "useSellerLoanIdOnly" : {
+            "type" : "boolean",
+            "description" : "Indicator to use seller loan identifier as the loan identifier to determine loan's uniqueness during creation or modification of a loan.",
+            "example" : false
+          },
+          "requestToEvaluateLoans" : {
+            "description" : "Indicator to request to evaluate loans during creation or modification of a loan.",
+            "type" : "boolean",
+            "example" : false
+          },
+          "pricingIdentifier" : {
+            "type" : "string",
+            "description" : "A unique identification assigned to an entity (e.g., Seller, Seller Family) or contracting vehicle (e.g., MA, MC).",
+            "example" : "M99999999"
+          },
+          "investorContractIdentifier" : {
+            "type" : "integer",
+            "description" : "A unique identifier for a group of loans identified as part of a cash pool or a security pool.",
+            "example" : 99999999
+          },
+          "poolNumber" : {
+            "type" : "string",
+            "description" : "The unique designation assigned to the security by the issuer.",
+            "example" : "SA9999"
+          }
+        }
+      },
+      "LoanImportResponse" : {
+        "description" : "The Import loan file status results details.",
+        "required" : [ "estimatedTimeToRetrieveImportResultsInSecs", "fileIdentifier", "fileName", "fileStatus", "sellerIdentifier" ],
+        "type" : "object",
+        "properties" : {
+          "responseDetails" : {
+            "type" : "object",
+            "properties" : {
+              "fileStatus" : {
+                "maxLength" : 30,
+                "type" : "string",
+                "description" : "The status of the import loan file.",
+                "example" : "InProgress"
+              },
+              "fileIdentifier" : {
+                "type" : "integer",
+                "description" : "The file identifier for the import loan file.",
+                "example" : 38587
+              },
+              "sellerIdentifier" : {
+                "maxLength" : 6,
+                "type" : "string",
+                "description" : "The unique identifier assigned to a party, which may be an individual, a counterparty, or a related organization.",
+                "example" : "999999"
+              },
+              "fileName" : {
+                "maxLength" : 130,
+                "type" : "string",
+                "description" : "The name of the import loan file.",
+                "example" : "3H49Loans_ImpErr_ProdErr_ImpWrng 3Loans.xml"
+              },
+              "estimatedTimeToRetrieveImportResultsInSecs" : {
+                "type" : "integer",
+                "description" : "The estimated time, in seconds, to retrieve the import results.",
+                "example" : 15
+              },
+              "errors" : {
+                "type" : "array",
+                "items" : {
+                  "properties" : {
+                    "errorCode" : {
+                      "type" : "string",
+                      "description" : "A unique code value associated with the error message.",
+                      "example" : "LI0019"
+                    },
+                    "errorMessage" : {
+                      "type" : "string",
+                      "description" : "The error message corresponding to the error code sent.",
+                      "example" : "The value entered for the Financed Unit Count is not a valid value. Please correct the value to a number between 1 and 4 and resubmit the loan."
+                    },
+                    "errorType" : {
+                      "type" : "string",
+                      "description" : "The type of error triggered such as Import, Product, Allocation, Evaluation and Representation and Warranty Relief.",
+                      "example" : "ImportError"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "LoanImportFileStatusRequest" : {
+        "description" : "This is the request metadata for Loan Import Status processing.",
+        "required" : [ "correlationIdentifier", "sellerIdentifier", "sellerOrganizationBranchIdentifier", "counterPartyType", "fileIdentifier" ],
+        "type" : "object",
+        "properties" : {
+          "correlationIdentifier" : {
+            "type" : "string",
+            "description" : "The unique identifier that is provided by the Seller or Secondary Market Advisor for each request.",
+            "example" : "9999"
+          },
+          "sellerIdentifier" : {
+            "maxLength" : 6,
+            "type" : "string",
+            "description" : "The unique identifier assigned to a party,  which may be an individual, a counterparty, or a related organization.",
+            "example" : "999999"
+          },
+          "sellerOrganizationBranchIdentifier" : {
+            "type" : "integer",
+            "description" : "The unique identifier assigned for an organization unit.",
+            "example" : 999999
+          },
+          "requestingPartyAccountIdentifier" : {
+            "type" : "string",
+            "description" : "The unique identifier assigned to a party, which may be an individual or a counterparty.",
+            "example" : "SMA999"
+          },
+          "counterPartyType" : {
+            "type" : "string",
+            "description" : "A discrete set of values that specifies the different roles that a counterparty will perform in relationship with Freddie Mac.",
+            "example" : "Seller"
+          },
+          "fileIdentifier" : {
+            "type" : "integer",
+            "description" : "The file identifier for the import loan file.",
+            "example" : 9999
+          }
+        }
+      },
+      "LoanImportFileStatusResponse" : {
+        "description" : "The Import loan file status results details.",
+        "required" : [ "fileCreationTime", "fileIdentifier", "fileName", "fileStatus", "organizationBranchIdentifier", "requestToEvaluateLoans", "sellerIdentifier", "totalCurrentUPB", "totalLoans", "totalLoansProcessed", "userIdentifier" ],
+        "type" : "object",
+        "properties" : {
+          "fileStatusResultsResponse" : {
+            "type" : "array",
+            "items" : {
+              "properties" : {
+                "fileIdentifier" : {
+                  "description" : "The file identifier for the import loan file.",
+                  "type" : "integer",
+                  "format" : "int64",
+                  "example" : 99999
+                },
+                "userIdentifier" : {
+                  "description" : "The unique identifier assigned for a user.",
+                  "type" : "string",
+                  "example" : "FREDDIE_ALLROLE10"
+                },
+                "fileName" : {
+                  "description" : "The name of the import loan file.",
+                  "maxLength" : 130,
+                  "type" : "string",
+                  "example" : "Loan_Cash_Retained_SIT44_New_2025-06-24 112158_000250_147357.xml"
+                },
+                "fileStatus" : {
+                  "description" : "The status of the import loan file.",
+                  "type" : "string",
+                  "maxLength" : 30,
+                  "example" : "InProgress, Error, Completed"
+                },
+                "fileCreationTime" : {
+                  "description" : "The date and time the import loan file was imported.",
+                  "type" : "string",
+                  "example" : "2025-09-19 10:40 AM"
+                },
+                "sellerIdentifier" : {
+                  "description" : "The unique identifier assigned to a party, which may be an individual, a counterparty, or a related organization.",
+                  "maxLength" : 6,
+                  "type" : "string",
+                  "example" : "999999"
+                },
+                "organizationBranchIdentifier" : {
+                  "description" : "The unique identifier assigned for an organization unit.",
+                  "type" : "integer",
+                  "format" : "int64",
+                  "example" : 999999
+                },
+                "totalLoans" : {
+                  "description" : "The total count of loans identified in the import loan file.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 2
+                },
+                "totalLoansProcessed" : {
+                  "description" : "The total count of loans that were successfully processed.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 2
+                },
+                "totalCurrentUPB" : {
+                  "description" : "The total Current UPB of loans that were successfully created and/or modified.",
+                  "type" : "number",
+                  "format" : "double",
+                  "example" : 489000
+                },
+                "totalLoansWithErrors" : {
+                  "description" : "The total count of loans that have import errors.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 1
+                },
+                "totalCurrentUPBOfLoansWithImportErrors" : {
+                  "description" : "The total Current UPB of loans that have import errors.",
+                  "type" : "number",
+                  "format" : "double",
+                  "example" : 244500
+                },
+                "totalCurrentUPBOfLoansWithProductErrors" : {
+                  "description" : "The total Current UPB of loans that have product errors.",
+                  "type" : "number",
+                  "format" : "double",
+                  "example" : 244500
+                },
+                "totalCurrentUPBOfLoansWithImportWarnings" : {
+                  "description" : "The total Current UPB of loans that have import warnings.",
+                  "type" : "number",
+                  "format" : "double",
+                  "example" : 244500
+                },
+                "totalLoansWithProductErrors" : {
+                  "description" : "The total count of loans that have product errors.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 1
+                },
+                "totalLoansWithProductLabelled" : {
+                  "description" : "The total count of loans that were successfully labeled to a Loan Reference Product Label.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 1
+                },
+                "totalLoansWithImportWarnings" : {
+                  "description" : "The total count of loans that have import warnings.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 1
+                },
+                "totalLoansWithProductAndImportWarnings" : {
+                  "description" : "The total count of loans that have both product errors and import warnings.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 1
+                },
+                "totalLoansWithEvaluationErrors" : {
+                  "description" : "The total count of loans that have critical evaluation errors.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 1
+                },
+                "totalLoansWithEvaluationWarnings" : {
+                  "description" : "The total count of loans imported that have evaluation warnings.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 1
+                },
+                "totalLoansNotEligibleForRNWAssetRelief" : {
+                  "description" : "The total count of loans imported that are not eligible for Representation and Warranty Asset Relief.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 1
+                },
+                "totalLoansNotEligibleForRNWCollateralRelief" : {
+                  "description" : "The total count of loans imported that are not eligible for Representation and Warranty Collateral Relief.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 1
+                },
+                "totalLoansNotEligibleForRNWIncomeRelief" : {
+                  "description" : "The total count of loans imported that are not eligible for Representation and Warranty Income Relief.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 1
+                },
+                "requestToEvaluateLoans" : {
+                  "description" : "Indicator to request to evaluate loans during creation or modification of a loan.",
+                  "type" : "boolean",
+                  "example" : true
+                },
+                "totalLoansWithAllocationErrors" : {
+                  "description" : "The total count of loans imported that have allocation errors.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 1
+                },
+                "totalLoansAllocated" : {
+                  "description" : "The total count of loans imported that were successfully allocated to a contract or pool number.",
+                  "type" : "integer",
+                  "format" : "int32",
+                  "example" : 1
+                },
+                "totalCurrentUPBOfLoansWithAllocationErrors" : {
+                  "description" : "The total Current UPB of loans imported that have allocation errors.",
+                  "type" : "number",
+                  "format" : "double",
+                  "example" : 244500
+                },
+                "errorDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "properties" : {
+                      "sellerLoanIdentifier" : {
+                        "description" : "A unique identifier assigned by the seller to the loan.",
+                        "type" : "string",
+                        "example" : "TEST_ARM_PROD_ERROR"
+                      },
+                      "investorContractIdentifier" : {
+                        "description" : "A unique identifier for a group of loans identified as part of a cash pool or a security pool.",
+                        "type" : "integer",
+                        "format" : "int32",
+                        "example" : 999999999
+                      },
+                      "freddieMacLoanIdentifier" : {
+                        "description" : "A Freddie Mac supplied number assigned to the Mortgage by the Seller/Servicer.",
+                        "type" : "string",
+                        "example" : "999999999"
+                      },
+                      "primaryBorrowerIndividualFullName" : {
+                        "description" : "The unparsed name of either an individual or a legal entity.",
+                        "type" : "string",
+                        "example" : "AMERICA, ANDY"
+                      },
+                      "loanIdentifier" : {
+                        "description" : "The unique identifier assigned to a mortgage loan.",
+                        "type" : "integer",
+                        "format" : "int64",
+                        "example" : 999999999
+                      },
+                      "errors" : {
+                        "type" : "array",
+                        "items" : {
+                          "properties" : {
+                            "errorCode" : {
+                              "description" : "A unique code value associated with the error message.",
+                              "type" : "string",
+                              "example" : "LI0019"
+                            },
+                            "errorMessage" : {
+                              "description" : "The error message corresponding to the error code sent.",
+                              "type" : "string",
+                              "example" : "The value entered for the Financed Unit Count is not a valid value. Please correct the value to a number between 1 and 4 and resubmit the loan."
+                            },
+                            "errorType" : {
+                              "description" : "The type of error triggered such as Import, Product, Allocation, Evaluation and Representation and Warranty Relief.",
+                              "type" : "string",
+                              "example" : "ImportError, AllocationError, ProductError, EvaluationError, InternalError, ImportWarning, RepresentationAndWarrantyReliefError"
+                            },
+                            "criticalityType" : {
+                              "description" : "The level of criticality for the error returned when the loan is evaluated.",
+                              "type" : "string",
+                              "example" : "Warning, Error"
+                            },
+                            "complianceType" : {
+                              "description" : "The compliance type for the evaluation error or warning returned when the loan is evaluated.",
+                              "type" : "string",
+                              "example" : "Collateral, DataReasonableness, AppraisalEligibility, Collateral, Income, Asset"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses" : {
+      "Generic400Response" : {
+        "description" : "<b>Bad Request</b> \r\n\n <font size='1' color='black'><b>Error codes & details</b></font> \r\n\n <B>400.001</B> SellerIdentifier Required \r\n\n <B>400.002</B> SellerIdentifier Invalid Request Type. \r\n\n<B>400.003</B> FileIdentifier Required \r\n\n <B>400.004</B> FileIdentifier Invalid Request Type.  \r\n\n <B>400.005</B>  SellerOrganizationBranchIdentifier Required \r\n\n <B>400.006</B>  CorrelationIdentifier Required \r\n\n <B>400.007</B>  CorrelationIdentifier Invalid Data Type. \r\n\n",
+        "content" : {
+          "application/json" : {
+            "examples" : {
+              "SellerIdentifierRequiredResponse" : {
+                "$ref" : "#/components/examples/SellerIdentifierRequiredResponse"
+              },
+              "SellerIdentifierInvalidRequestTypeResponse" : {
+                "$ref" : "#/components/examples/SellerIdentifierInvalidRequestTypeResponse"
+              },
+              "FileIdentifierRequiredResponse" : {
+                "$ref" : "#/components/examples/FileIdentifierRequiredResponse"
+              },
+              "FileIdentifierInvalidRequestTypeResponse" : {
+                "$ref" : "#/components/examples/FileIdentifierInvalidRequestTypeResponse"
+              },
+              "SellerOrganizationBranchIdentifierRequiredResponse" : {
+                "$ref" : "#/components/examples/SellerOrganizationBranchIdentifierRequiredResponse"
+              },
+              "CorrelationIdentifierRequiredResponse" : {
+                "$ref" : "#/components/examples/CorrelationIdentifierRequiredResponse"
+              },
+              "CorrelationIdentifierInvalidRequestTypeResponse" : {
+                "$ref" : "#/components/examples/CorrelationIdentifierInvalidDataTypeResponse"
+              }
+            }
+          }
+        }
+      }
+    },
+    "examples" : {
+      "ImportFileStatusIntermediateResponse" : {
+        "summary" : "ImportFileStatusS2SIntermediateResponse",
+        "description" : "The Import loan file status results details.",
+        "value" : {
+          "fileIdentifier" : {
+            "description" : "The file identifier for the import loan file.",
+            "type" : "integer"
+          },
+          "userIdentifier" : {
+            "description" : "The unique identifier assigned for a user.",
+            "type" : "string",
+            "maxLength" : 40
+          },
+          "fileName" : {
+            "minLength" : 130,
+            "description" : "The name of the import loan file.",
+            "type" : "string"
+          },
+          "fileStatus" : {
+            "type" : "string",
+            "maxLength" : 30,
+            "description" : "The status of the import loan file.",
+            "enum" : [ "InProgress", "ERROR", "Complete" ],
+            "enumDescriptions" : {
+              "Complete" : "Complete",
+              "InProgress" : "InProgress",
+              "ERROR" : "ERROR"
+            },
+            "enumCodeValues" : {
+              "Complete" : "3",
+              "InProgress" : "1",
+              "ERROR" : "    2"
+            }
+          },
+          "fileCreationTime" : {
+            "format" : "date-time",
+            "description" : "The date and time the import loan file was imported.",
+            "type" : "string"
+          },
+          "sellerIdentifier" : {
+            "description" : "The unique identifier assigned to a party, which may be an individual, a counterparty, or a related organization.",
+            "type" : "string",
+            "maxLength" : 6
+          },
+          "organizationBranchIdentifier" : {
+            "domain" : "FM Identifier Char",
+            "description" : "The unique identifier assigned for an organization unit.",
+            "type" : "integer"
+          },
+          "totalLoans" : {
+            "description" : "The total count of loans identified in the import loan file.",
+            "type" : "integer"
+          },
+          "totalCurrentUPB" : {
+            "xsd" : {
+              "totalDigits" : "13",
+              "fractionDigits" : "2"
+            },
+            "description" : "The total Current UPB of loans imported that were successfully created.",
+            "type" : "number"
+          },
+          "requestToEvaluateLoans" : {
+            "description" : "Indicator to request to evaluate loans during creation or modification of a loan.",
+            "type" : "boolean"
+          },
+          "estimatedProcessingTimeInSeconds" : {
+            "description" : "The estimated time, in seconds, to complete processing the import request.",
+            "type" : "integer"
+          }
+        }
+      },
+      "ImportFileStatusResponseWithErrors" : {
+        "summary" : "ImportFileStatusS2SResponseWithErrors",
+        "description" : "The Import loan file status results details.",
+        "value" : {
+          "fileIdentifier" : {
+            "description" : "The file identifier for the import loan file.",
+            "type" : "integer"
+          },
+          "userIdentifier" : {
+            "description" : "The unique identifier assigned for a user.",
+            "type" : "string",
+            "maxLength" : 40
+          },
+          "fileName" : {
+            "description" : "The name of the import loan file.",
+            "type" : "string",
+            "maxLength" : 130
+          },
+          "fileStatus" : {
+            "type" : "string",
+            "maxLength" : 30,
+            "description" : "The status of the import loan file.",
+            "enum" : [ "InProgress", "ERROR", "Complete" ],
+            "enumDescriptions" : {
+              "Complete" : "Complete",
+              "InProgress" : "InProgress",
+              "ERROR" : "ERROR"
+            },
+            "enumCodeValues" : {
+              "Complete" : "3",
+              "InProgress" : "1",
+              "ERROR" : "    2"
+            }
+          },
+          "fileCreationTime" : {
+            "format" : "date-time",
+            "description" : "The date and time the import loan file was imported.",
+            "type" : "string"
+          },
+          "sellerIdentifier" : {
+            "description" : "The unique identifier assigned to a party, which may be an individual, a counterparty, or a related organization.",
+            "type" : "string",
+            "maxLength" : 6
+          },
+          "organizationBranchIdentifier" : {
+            "domain" : "FM Identifier Char",
+            "description" : "The unique identifier assigned for an organization unit.",
+            "type" : "integer"
+          },
+          "totalLoans" : {
+            "description" : "The total count of loans identified in the import loan file.",
+            "type" : "integer"
+          },
+          "totalLoansProcessed" : {
+            "description" : "The total count of loans imported that were successfully created and/or modified.",
+            "type" : "integer"
+          },
+          "totalCurrentUPB" : {
+            "xsd" : {
+              "totalDigits" : "13",
+              "fractionDigits" : "2"
+            },
+            "description" : "The total Current UPB of loans imported that were successfully created.",
+            "type" : "number"
+          },
+          "totalLoansWithErrors" : {
+            "description" : "The total count of loans imported that have import errors.",
+            "type" : "integer"
+          },
+          "totalCurrentUPBOfLoansWithImportErrors" : {
+            "xsd" : {
+              "totalDigits" : "13",
+              "fractionDigits" : "2"
+            },
+            "description" : "The total Current UPB of loans imported that have import errors.",
+            "type" : "number"
+          },
+          "totalLoansWithProductErrors" : {
+            "description" : "The total count of loans imported that have product errors.",
+            "type" : "integer"
+          },
+          "totalCurrentUPBOfLoansWithProductErrors" : {
+            "xsd" : {
+              "totalDigits" : "13",
+              "fractionDigits" : "2"
+            },
+            "description" : "The total Current UPB of loans imported that have product errors.",
+            "type" : "number"
+          },
+          "totalLoansWithProductLabelled" : {
+            "description" : "The total count of loans imported that were successfully labelled to a Loan Reference Product Label.",
+            "type" : "integer"
+          },
+          "totalLoansWithImportWarnings" : {
+            "description" : "The total count of loans imported that have import warnings.",
+            "type" : "integer"
+          },
+          "totalCurrentUPBOfLoansWithImportWarnings" : {
+            "xsd" : {
+              "totalDigits" : "13",
+              "fractionDigits" : "2"
+            },
+            "description" : "The total Current UPB of loans imported that have import warnings.",
+            "type" : "number"
+          },
+          "totalLoansWithProductAndImportWarnings" : {
+            "description" : "The total count of loans imported that have both product errors and import warnings.",
+            "type" : "integer"
+          },
+          "totalLoansWithEvaluationErrors" : {
+            "description" : "The total count of loans imported that have critical evaluation errors.",
+            "type" : "integer"
+          },
+          "totalCurrentUPBOfLoansWithCriticalErrors" : {
+            "xsd" : {
+              "totalDigits" : "13",
+              "fractionDigits" : "2"
+            },
+            "description" : "The total Current UPB of loans that have critical evaluation errors.",
+            "type" : "number"
+          },
+          "totalLoansWithEvaluationWarnings" : {
+            "description" : "The total count of loans that have evaluation warnings.",
+            "type" : "integer"
+          },
+          "totalLoansWithoutEvaluationWarnings" : {
+            "description" : "The total count of loans that do not have critical evaluation errors or warnings..",
+            "type" : "integer"
+          },
+          "totalLoansNotEligibleForRNWAssetRelief" : {
+            "description" : "The total count of loans that are not eligible for Representation and Warranty Asset Relief.",
+            "type" : "integer"
+          },
+          "totalLoansNotEligibleForRNWCollateralRelief" : {
+            "description" : "The total count of loans that are not eligible for Representation and Warranty Collateral Relief.",
+            "type" : "integer"
+          },
+          "totalLoansNotEligibleForRNWIncomeRelief" : {
+            "description" : "The total count of loans that are not eligible for Representation and Warranty Income Relief.",
+            "type" : "integer"
+          },
+          "requestToEvaluateLoans" : {
+            "description" : "Indicator to request to evaluate loans during creation or modification of a loan.",
+            "type" : "boolean"
+          },
+          "totalLoansWithAllocationErrors" : {
+            "description" : "The total count of loans that have allocation errors.",
+            "type" : "integer"
+          },
+          "totalCurrentUPBOfLoansWithAllocationErrors" : {
+            "xsd" : {
+              "totalDigits" : "13",
+              "fractionDigits" : "2"
+            },
+            "description" : "The total Current UPB of loans that have allocation errors.",
+            "type" : "number"
+          },
+          "totalLoansAllocated" : {
+            "description" : "The total count of loans that were successfully allocated to a contract or pool number.",
+            "type" : "integer"
+          },
+          "errorDetails" : {
+            "description" : "errorDetails",
+            "type" : "array",
+            "items" : [ {
+              "description" : "default item container",
+              "type" : "object",
+              "itemName" : "errorDetails"
+            }, {
+              "domain" : "FM Identifier Char",
+              "description" : "A unique identifier assigned by the seller to the loan.",
+              "type" : "string",
+              "maxLength" : 30,
+              "itemName" : "sellerLoanIdentifier"
+            }, {
+              "domain" : "FM Identifier",
+              "description" : "A unique identifier for a group of loans identified as part of a cash pool or a security pool.",
+              "type" : "integer",
+              "itemName" : "investorContractIdentifier"
+            }, {
+              "description" : "A Freddie Mac supplied number assigned to the Mortgage by the Seller/Servicer.",
+              "type" : "string",
+              "itemName" : "freddieMacLoanIdentifier"
+            }, {
+              "description" : "The unparsed name of either an individual or a legal entity.",
+              "type" : "string",
+              "maxLength" : 100,
+              "itemName" : "primaryBorrowerIndividualFullName"
+            }, {
+              "domain" : "FM Identifier",
+              "description" : "The unique identifier assigned to a mortgage loan.",
+              "type" : "integer",
+              "itemName" : "loanIdentifier"
+            }, {
+              "description" : "errors",
+              "type" : "array",
+              "items" : [ {
+                "description" : "default item container",
+                "type" : "object",
+                "itemName" : "errors"
+              }, {
+                "description" : "A unique code value associated with the error message.",
+                "type" : "string",
+                "maxLength" : 10,
+                "itemName" : "errorCode"
+              }, {
+                "description" : "The type of error returned for each error message.",
+                "type" : "string",
+                "maxLength" : 20,
+                "itemName" : "errorType"
+              }, {
+                "description" : "The error message corresponding to the error type returned.",
+                "type" : "string",
+                "maxLength" : 100,
+                "itemName" : "errorMessage"
+              }, {
+                "description" : "The level of criticality for the error returned when the loan is evaluated.",
+                "type" : "string",
+                "itemName" : "criticalityType"
+              }, {
+                "description" : "The compliance type for the error or warning returned when the loan is evaluated.",
+                "type" : "string",
+                "itemName" : "complianceType"
+              } ],
+              "itemName" : "errors"
+            } ]
+          }
+        }
+      },
+      "ImportFileStatusResponseWithoutErrors" : {
+        "summary" : "ImportFileStatusS2SResponseWithoutErrors",
+        "description" : "The Import loan file status results details.",
+        "value" : {
+          "fileIdentifier" : {
+            "description" : "The file identifier for the import loan file.",
+            "type" : "integer"
+          },
+          "userIdentifier" : {
+            "description" : "The unique identifier assigned for a user.",
+            "type" : "string",
+            "maxLength" : 40
+          },
+          "fileName" : {
+            "description" : "The name of the import loan file.",
+            "type" : "string",
+            "maxLength" : 130
+          },
+          "fileStatus" : {
+            "type" : "string",
+            "maxLength" : 30,
+            "description" : "The status of the import loan file.",
+            "enum" : [ "InProgress", "ERROR", "Complete" ],
+            "enumDescriptions" : {
+              "Complete" : "Complete",
+              "InProgress" : "InProgress",
+              "ERROR" : "ERROR"
+            },
+            "enumCodeValues" : {
+              "Complete" : "3",
+              "InProgress" : "1",
+              "ERROR" : "    2"
+            }
+          },
+          "fileCreationTime" : {
+            "format" : "date-time",
+            "description" : "The date and time the import loan file was imported.",
+            "type" : "string"
+          },
+          "sellerIdentifier" : {
+            "description" : "The unique identifier assigned to a party, which may be an individual, a counterparty, or a related organization.",
+            "type" : "string",
+            "maxLength" : 6
+          },
+          "organizationBranchIdentifier" : {
+            "domain" : "FM Identifier Char",
+            "description" : "The unique identifier assigned for an organization unit.",
+            "type" : "integer"
+          },
+          "totalLoans" : {
+            "description" : "The total count of loans identified in the import loan file.",
+            "type" : "integer"
+          },
+          "totalLoansProcessed" : {
+            "description" : "The total count of loans imported that were successfully created and/or modified.",
+            "type" : "integer"
+          },
+          "totalCurrentUPB" : {
+            "xsd" : {
+              "totalDigits" : "13",
+              "fractionDigits" : "2"
+            },
+            "description" : "The total Current UPB of loans imported that were successfully created.",
+            "type" : "number"
+          },
+          "totalLoansWithErrors" : {
+            "description" : "The total count of loans imported that have import errors.",
+            "type" : "integer"
+          },
+          "totalLoansWithProductErrors" : {
+            "description" : "The total count of loans imported that have product errors.",
+            "type" : "integer"
+          },
+          "totalLoansWithProductLabelled" : {
+            "description" : "The total count of loans imported that were successfully labelled to a Loan Reference Product Label.",
+            "type" : "integer"
+          },
+          "totalLoansWithImportWarnings" : {
+            "description" : "The total count of loans imported that have import warnings.",
+            "type" : "integer"
+          },
+          "totalLoansWithProductAndImportWarnings" : {
+            "description" : "The total count of loans imported that have both product errors and import warnings.",
+            "type" : "integer"
+          },
+          "totalLoansWithEvaluationErrors" : {
+            "description" : "The total count of loans imported that have critical evaluation errors.",
+            "type" : "integer"
+          },
+          "totalLoansWithEvaluationWarnings" : {
+            "description" : "The total count of loans imported that have evaluation warnings.",
+            "type" : "integer"
+          },
+          "totalLoansWithoutEvaluationWarnings" : {
+            "description" : "The total count of loans imported that do not have critical evaluation errors or warnings.",
+            "type" : "integer"
+          },
+          "totalLoansNotEligibleForRNWAssetRelief" : {
+            "description" : "The total count of loans imported that are not eligible for Representation and Warranty Asset Relief.",
+            "type" : "integer"
+          },
+          "totalLoansNotEligibleForRNWCollateralRelief" : {
+            "description" : "The total count of loans imported that are not eligible for Representation and Warranty Collateral Relief.",
+            "type" : "integer"
+          },
+          "totalLoansNotEligibleForRNWIncomeRelief" : {
+            "description" : "The total count of loans imported that are not eligible for Representation and Warranty Income Relief.",
+            "type" : "integer"
+          },
+          "requestToEvaluateLoans" : {
+            "description" : "Indicator to request to evaluate loans during creation or modification of a loan.",
+            "type" : "boolean"
+          },
+          "totalLoansWithAllocationErrors" : {
+            "description" : "The total count of loans imported that have allocation errors.",
+            "type" : "integer"
+          },
+          "totalLoansAllocated" : {
+            "description" : "The total count of loans imported that were successfully allocated to a contract or pool number.",
+            "type" : "integer"
+          }
+        }
+      },
+      "ImportLoanResponse" : {
+        "summary" : "ImportResponse",
+        "description" : "The Import loan file status results details",
+        "value" : {
+          "responseDetails" : {
+            "fileStatus" : "InProgress",
+            "fileIdentifier" : 99999,
+            "sellerIdentifier" : "999999",
+            "fileName" : "SampleH49Loan_1Loan_2025-09-22 134708_000278_147357.xml",
+            "estimatedTimeToRetrieveImportResultsInSecs" : 15
+          }
+        }
+      },
+      "LoanImportFileStatusReponseWithoutErrors" : {
+        "value" : {
+          "fileStatusResultsResponse" : [ {
+            "fileIdentifier" : 99999,
+            "userIdentifier" : "FREDDIE_ALLROLE10",
+            "fileName" : "SampleH49Loan_1Loan_2025-09-19 104007_000152_147357.xml",
+            "fileStatus" : "Completed",
+            "fileCreationTime" : "2025-09-19 10:40 AM",
+            "sellerIdentifier" : "999999",
+            "organizationBranchIdentifier" : 999999,
+            "totalLoans" : 1,
+            "totalLoansProcessed" : 1,
+            "totalCurrentUPB" : 268000,
+            "totalLoansWithErrors" : 0,
+            "totalLoansWithProductErrors" : 0,
+            "totalLoansWithProductLabelled" : 1,
+            "totalLoansWithImportWarnings" : 0,
+            "totalLoansWithProductAndImportWarnings" : 0,
+            "totalLoansWithEvaluationErrors" : 0,
+            "totalLoansWithEvaluationWarnings" : 0,
+            "totalLoansNotEligibleForRNWAssetRelief" : 1,
+            "totalLoansNotEligibleForRNWCollateralRelief" : 1,
+            "totalLoansNotEligibleForRNWIncomeRelief" : 1,
+            "totalLoansWithAllocationErrors" : 0,
+            "totalLoansAllocated" : 0,
+            "requestToEvaluateLoans" : true
+          } ]
+        }
+      },
+      "LoanImportFileStatusIntermediateResponse" : {
+        "value" : {
+          "fileStatusResultsResponse" : [ {
+            "fileIdentifier" : 99999,
+            "userIdentifier" : "test_pmasys2sys76",
+            "fileName" : "Loan_Cash_Retained_SIT44_New_2025-06-24 112158_000250_147357.xml",
+            "fileStatus" : "Error",
+            "fileCreationTime" : "2025-06-24 11:21 AM",
+            "sellerIdentifier" : "999999",
+            "organizationBranchIdentifier" : 999999,
+            "totalLoans" : 2,
+            "totalCurrentUPB" : 489000,
+            "totalLoansWithErrors" : 1,
+            "totalCurrentUPBOfLoansWithImportErrors" : 244500,
+            "totalLoansWithProductErrors" : 1,
+            "totalCurrentUPBOfLoansWithProductErrors" : 244500,
+            "totalLoansWithProductLabelled" : 1,
+            "totalLoansWithImportWarnings" : 1,
+            "totalCurrentUPBOfLoansWithImportWarnings" : 244500,
+            "totalLoansWithProductAndImportWarnings" : 1,
+            "totalLoansWithEvaluationErrors" : 1,
+            "totalCurrentUPBOfLoansWithCriticalErrors" : 244500,
+            "totalLoansWithEvaluationWarnings" : 1,
+            "totalLoansWithoutEvaluationWarnings" : 0,
+            "totalLoansNotEligibleForRNWAssetRelief" : 1,
+            "totalLoansNotEligibleForRNWCollateralRelief" : 1,
+            "totalLoansNotEligibleForRNWIncomeRelief" : 0,
+            "totalLoansWithAllocationErrors" : 1,
+            "totalCurrentUPBOfLoansWithAllocationErrors" : 244500,
+            "totalLoansAllocated" : 0,
+            "requestToEvaluateLoans" : true
+          } ]
+        }
+      },
+      "LoanImportFileStatusReponseWithErrors" : {
+        "value" : {
+          "fileStatusResultsResponse" : [ {
+            "fileIdentifier" : 99999,
+            "userIdentifier" : "test_pmasys2sys76",
+            "fileName" : "Loan_Cash_Retained_SIT44_New_2025-06-24 112158_000250_147357.xml",
+            "fileStatus" : "Error",
+            "fileCreationTime" : "2025-06-24 11:21 AM",
+            "sellerIdentifier" : "999999",
+            "organizationBranchIdentifier" : 999999,
+            "totalLoans" : 2,
+            "totalLoansProcessed" : 2,
+            "totalCurrentUPB" : 489000,
+            "totalLoansWithErrors" : 1,
+            "totalCurrentUPBOfLoansWithImportErrors" : 244500,
+            "totalLoansWithProductErrors" : 1,
+            "totalCurrentUPBOfLoansWithProductErrors" : 244500,
+            "totalLoansWithProductLabelled" : 1,
+            "totalLoansWithImportWarnings" : 1,
+            "totalCurrentUPBOfLoansWithImportWarnings" : 244500,
+            "totalLoansWithProductAndImportWarnings" : 1,
+            "totalLoansWithEvaluationErrors" : 1,
+            "totalCurrentUPBOfLoansWithCriticalErrors" : 244500,
+            "totalLoansWithEvaluationWarnings" : 1,
+            "totalLoansWithoutEvaluationWarnings" : 0,
+            "totalLoansNotEligibleForRNWAssetRelief" : 1,
+            "totalLoansNotEligibleForRNWCollateralRelief" : 1,
+            "totalLoansNotEligibleForRNWIncomeRelief" : 0,
+            "totalLoansWithAllocationErrors" : 1,
+            "totalCurrentUPBOfLoansWithAllocationErrors" : 244500,
+            "totalLoansAllocated" : 0,
+            "requestToEvaluateLoans" : true,
+            "errorDetails" : [ {
+              "sellerLoanIdentifier" : "TEST_SM37_0204",
+              "investorContractIdentifier" : 99999999,
+              "freddieMacLoanIdentifier" : "999999999",
+              "primaryBorrowerIndividualFullName" : "HAN2, PHIL2",
+              "loanIdentifier" : 999999999,
+              "errors" : [ {
+                "errorCode" : "LAE9002",
+                "errorMessage" : "Loan could not be allocated at this time.",
+                "errorType" : "AllocationError"
+              }, {
+                "errorCode" : "LIW0005",
+                "errorMessage" : "Based upon the attributes provided, Loan Reference Product Label cannot be determined.",
+                "errorType" : "ProductError"
+              }, {
+                "errorCode" : "LIW0002",
+                "errorMessage" : "Loan has already been added to a Form 1034E, and the Document Custodian and the Servicer Identifiers from the Form 1034E remain on the loan.",
+                "errorType" : "ImportWarning"
+              }, {
+                "errorCode" : "PD4004",
+                "errorMessage" : "Combined LTV Ratio Percent must match the Freddie Mac calculated Combined LTV Ratio Percent.",
+                "errorType" : "EvaluationError",
+                "criticalityType" : "Error",
+                "complianceType" : "DataReasonableness"
+              }, {
+                "errorCode" : "PF9900",
+                "errorMessage" : "Standardized Property Address - Seller Delivered should match Standardized Property Address - UCDP.",
+                "errorType" : "EvaluationError",
+                "criticalityType" : "Warning",
+                "complianceType" : "AppraisalEligibility"
+              }, {
+                "errorCode" : "CY1010",
+                "errorMessage" : "Loan is eligible for collateral representation and warranty relief with an appraisal waiver. Seller is relieved of representations and warranties related to value, condition and marketability.",
+                "errorType" : "RepresentationAndWarrantyReliefError",
+                "complianceType" : "Collateral"
+              }, {
+                "errorCode" : "IY1000",
+                "errorMessage" : "This loan has been granted income representation and warranty relief.",
+                "errorType" : "RepresentationAndWarrantyReliefError",
+                "complianceType" : "Income"
+              }, {
+                "errorCode" : "AZ2105",
+                "errorMessage" : "Mortgages with Closing Cost Funds Type of Gift Funds are not eligible for asset representation and warranty relief.",
+                "errorType" : "RepresentationAndWarrantyReliefError",
+                "complianceType" : "Asset"
+              } ]
+            }, {
+              "sellerLoanIdentifier" : "TEST_ARM_LOAN_ERROR",
+              "primaryBorrowerIndividualFullName" : "AMERICA, ANDY",
+              "errors" : [ {
+                "errorCode" : "LI0093",
+                "errorMessage" : "Note Amount must be provided for the Latest Loan State Type.",
+                "errorType" : "ImportError"
+              }, {
+                "errorCode" : "LI0074",
+                "errorMessage" : "Automated Underwriting Case Identifier AUWCI_Test_unique_1 with the Automated Underwriting System Type of Loan Product Advisor already exists and cannot be added to this loan.",
+                "errorType" : "ImportError"
+              } ]
+            } ]
+          } ]
+        }
+      },
+      "ContractUPBLimitIndicatorRequiredResponse" : {
+        "value" : {
+          "responseDetails" : {
+            "fileStatus" : "Error",
+            "errors" : [ {
+              "errorCode" : "LIS0001",
+              "errorMessage" : "Required key [contractUPBLimitIndicator] not found."
+            } ]
+          }
+        }
+      },
+      "PoolNumberInvalidRequestTypeResponse" : {
+        "value" : {
+          "responseDetails" : {
+            "fileStatus" : "Error",
+            "errors" : [ {
+              "errorCode" : "LIS0002",
+              "errorMessage" : "PoolNumber: expected type: String, found: Integer."
+            } ]
+          }
+        }
+      },
+      "InvalidPoolNumberResponse" : {
+        "value" : {
+          "responseDetails" : {
+            "fileStatus" : "Error",
+            "errors" : [ {
+              "errorCode" : "LI0012",
+              "errorMessage" : "The Pool Number provided is not valid.",
+              "errorType" : "ImportError"
+            } ]
+          }
+        }
+      },
+      "LoanImportFileStatusRequestForSeller" : {
+        "value" : {
+          "correlationIdentifier" : "9999",
+          "sellerIdentifier" : "999999",
+          "sellerOrganizationBranchIdentifier" : 999999,
+          "counterPartyType" : "Seller",
+          "fileIdentifier" : 99999
+        }
+      },
+      "LoanImportFileStatusRequestForSMA" : {
+        "value" : {
+          "correlationIdentifier" : "9999",
+          "sellerIdentifier" : "999999",
+          "sellerOrganizationBranchIdentifier" : 999999,
+          "requestingPartyAccountIdentifier" : "SMA999",
+          "counterPartyType" : "SecondaryMarketAdvisor",
+          "fileIdentifier" : 99999
+        }
+      },
+      "FileStatusResultsResponse" : {
+        "value" : [ {
+          "fileIdentifier" : 99999,
+          "userIdentifier" : "FREDDIE_ALLROLE10",
+          "fileName" : "Loan_Cash_Retained_SIT44_40197716_WithNoErrors_2025-08-20 104123_000201_147357.xml",
+          "fileStatus" : "Completed",
+          "fileCreationTime" : "2025-08-20 10:41 AM",
+          "sellerIdentifier" : "999999",
+          "organizationBranchIdentifier" : 999999,
+          "totalLoans" : 1,
+          "totalLoansProcessed" : 1,
+          "totalCurrentUPB" : 189000,
+          "totalLoansWithErrors" : 0,
+          "totalLoansWithProductErrors" : 0,
+          "totalLoansWithProductLabelled" : 1,
+          "totalLoansWithImportWarnings" : 0,
+          "totalLoansWithProductAndImportWarnings" : 0,
+          "totalLoansWithEvaluationErrors" : 0,
+          "totalLoansWithEvaluationWarnings" : 0,
+          "totalLoansNotEligibleForRNWAssetRelief" : 0,
+          "totalLoansNotEligibleForRNWCollateralRelief" : 0,
+          "totalLoansNotEligibleForRNWIncomeRelief" : 0,
+          "requestToEvaluateLoans" : false,
+          "totalLoansWithAllocationErrors" : 0,
+          "totalLoansAllocated" : 1
+        } ]
+      },
+      "FileStatusResultsResponseSchema" : {
+        "value" : [ {
+          "fileIdentifier" : 0,
+          "userIdentifier" : "string",
+          "fileName" : "string",
+          "fileStatus" : "string",
+          "fileCreationTime" : "string",
+          "sellerIdentifier" : "string",
+          "organizationBranchIdentifier" : 0,
+          "totalLoans" : 0,
+          "otalLoansProcessed" : 0,
+          "totalCurrentUPB" : 0,
+          "totalLoansWithErrors" : 0,
+          "totalCurrentUPBOfLoansWithImportErrors" : 0,
+          "totalCurrentUPBOfLoansWithProductErrors" : 0,
+          "totalCurrentUPBOfLoansWithImportWarnings" : 0,
+          "totalLoansWithProductErrors" : 0,
+          "totalLoansWithProductLabelled" : 0,
+          "totalLoansWithImportWarnings" : 0,
+          "totalLoansWithProductAndImportWarnings" : 0,
+          "totalLoansWithEvaluationErrors" : 0,
+          "totalLoansWithEvaluationWarnings" : 0,
+          "totalLoansNotEligibleForRNWAssetRelief" : 0,
+          "totalLoansNotEligibleForRNWCollateralRelief" : 0,
+          "totalLoansNotEligibleForRNWIncomeRelief" : 0,
+          "requestToEvaluateLoans" : true,
+          "totalLoansWithAllocationErrors" : 0,
+          "totalLoansAllocated" : 0,
+          "totalCurrentUPBOfLoansWithAllocationErrors" : 0,
+          "estimatedProcessingTimeInSeconds" : 0,
+          "errorDetails" : [ {
+            "sellerLoanIdentifier" : "string",
+            "investorContractIdentifier" : 0,
+            "freddieMacLoanIdentifier" : "string",
+            "primaryBorrowerIndividualFullName" : "string",
+            "loanIdentifier" : 0,
+            "errors" : [ {
+              "errorCode" : "string",
+              "errorMessage" : "string",
+              "errorType" : "InternalError",
+              "complianceType" : "string",
+              "criticality" : "string",
+              "rwReliefType" : "string"
+            } ]
+          } ],
+          "loanDetails" : [ {
+            "sellerLoanIdentifier" : "string",
+            "loanSequenceIdentifier" : 0,
+            "loanIdentifier" : 0,
+            "loanAcquisitionScheduledUPB" : 0
+          } ]
+        } ]
+      },
+      "FileImportStatusInternalErrorResponse" : {
+        "summary" : "Internal Server error",
+        "value" : {
+          "responseDetails" : {
+            "fileStatus" : "Error",
+            "errors" : [ {
+              "errorCode" : "SYST0001",
+              "errorMessage" : "An application error has occurred. Please call 1-800-FREDDIE to report this problem.",
+              "errorType" : "ImportError"
+            } ]
+          }
+        }
+      },
+      "SellerIdentifierRequiredResponse" : {
+        "summary" : "SellerIdentifier Required",
+        "value" : {
+          "fileStatus" : "Error",
+          "errors" : [ {
+            "errorCode" : "LIS0001",
+            "errorMessage" : "Required key [sellerIdentifier] not found."
+          } ]
+        }
+      },
+      "SellerIdentifierInvalidRequestTypeResponse" : {
+        "summary" : "SellerIdentifier Invalid Request Type",
+        "description" : "The Server can not process the request",
+        "value" : {
+          "fileStatus" : "Error",
+          "errors" : [ {
+            "errorCode" : "LIS0002",
+            "errorMessage" : "SellerIdentifier: expected type: String, found: Integer."
+          } ]
+        }
+      },
+      "FileIdentifierRequiredResponse" : {
+        "summary" : "FileIdentifier Required",
+        "description" : "The Server can not process the request",
+        "value" : {
+          "fileStatus" : "Error",
+          "errors" : [ {
+            "errorCode" : "LIS0001",
+            "errorMessage" : "Required key [fileIdentifier] not found."
+          } ]
+        }
+      },
+      "FileIdentifierInvalidRequestTypeResponse" : {
+        "summary" : "FileIdentifier Invalid Request Type",
+        "description" : "The Server can not process the request",
+        "value" : {
+          "fileStatus" : "Error",
+          "errors" : [ {
+            "errorCode" : "LIS0002",
+            "errorMessage" : "FileIdentifier: expected type: Number, found: String."
+          } ]
+        }
+      },
+      "SellerOrganizationBranchIdentifierRequiredResponse" : {
+        "summary" : "SellerOrganizationBranchIdentifier Required",
+        "description" : "The Server can not process the request",
+        "value" : {
+          "fileStatus" : "Error",
+          "errors" : [ {
+            "errorCode" : "LIS0001",
+            "errorMessage" : "Required key [sellerOrganizationBranchIdentifier] not found."
+          } ]
+        }
+      },
+      "CorrelationIdentifierRequiredResponse" : {
+        "summary" : "CorrelationIdentifier Required",
+        "description" : "The Server can not process the request",
+        "value" : {
+          "fileStatus" : "Error",
+          "errors" : [ {
+            "errorCode" : "LIS0001",
+            "errorMessage" : "Required key [correlationIdentifier] not found."
+          } ]
+        }
+      },
+      "CorrelationIdentifierInvalidDataTypeResponse" : {
+        "summary" : "CorrelationIdentifier Invalid Data Type",
+        "description" : "The Server can not process the request",
+        "value" : {
+          "fileStatus" : "Error",
+          "errors" : [ {
+            "errorCode" : "LIS0002",
+            "errorMessage" : "CorrelationIdentifier: expected type: String, found: Integer."
+          } ]
+        }
+      },
+      "ImportErrorResponse403" : {
+        "value" : {
+          "code" : {
+            "type" : "string",
+            "reqruire" : true,
+            "example" : "403"
+          },
+          "message" : {
+            "type" : "string",
+            "reqruire" : true,
+            "example" : "Access Forbidden"
+          },
+          "details" : {
+            "type" : "string",
+            "reqruire" : true,
+            "example" : "Accessing the resource you were trying to reach is forbidden"
+          }
+        }
+      },
+      "ImportErrorResponse401" : {
+        "value" : {
+          "error" : {
+            "type" : "string",
+            "reqruire" : true,
+            "example" : "Rejected by policy"
+          },
+          "code" : {
+            "type" : "number",
+            "reqruire" : true,
+            "example" : 401.007
+          },
+          "errors" : {
+            "type" : "array",
+            "reqruire" : true,
+            "example" : [ {
+              "status" : "Unauthorized",
+              "detail" : [ {
+                "error" : "Invalid User Credentials."
+              } ],
+              "timestamp" : "2021-12-01T19:19:39.906Z"
+            } ],
+            "items" : {
+              "anyOf" : [ {
+                "type" : "object",
+                "example" : {
+                  "status" : "Unauthorized",
+                  "detail" : [ {
+                    "error" : "Invalid User Credentials."
+                  } ],
+                  "timestamp" : "2025-07-11T19:19:39.906Z"
+                },
+                "required" : [ "status", "detail", "timestamp" ],
+                "properties" : {
+                  "status" : {
+                    "type" : "string",
+                    "example" : "Unauthorized"
+                  },
+                  "detail" : {
+                    "type" : "array",
+                    "example" : [ {
+                      "error" : "Invalid User Credentials."
+                    } ],
+                    "items" : {
+                      "anyOf" : [ {
+                        "type" : "object",
+                        "example" : {
+                          "error" : "Invalid User Credentials."
+                        },
+                        "required" : [ "error" ],
+                        "properties" : {
+                          "error" : {
+                            "type" : "string",
+                            "example" : "Invalid User Credentials."
+                          }
+                        },
+                        "additionalProperties" : true
+                      } ]
+                    }
+                  },
+                  "timestamp" : {
+                    "type" : "string",
+                    "example" : "2025-07-11T19:19:39.906Z"
+                  }
+                },
+                "additionalProperties" : true
+              } ]
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "token"
+      }
+    }
+  }
+}

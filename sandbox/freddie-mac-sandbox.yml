@@ -1,0 +1,65 @@
+generated: '2026-09-10'
+method: searched
+source: servers[] blocks of the 20 harvested contracts, the Developer Portal Getting Started page (https://sf.freddiemac.com/tools-learning/apis/getting-started-with-apis),
+  the portal's app-promotion workflow, and live probes of api.freddiemac.com / api-test.freddiemac.com
+  on 2026-09-10
+sandbox_published: true
+environments:
+- name: test / UAT
+  host: api-test.freddiemac.com
+  published_in: servers[] of 14 of the 20 contracts
+  note: This is the base URL Freddie Mac publishes in the public catalog. Every gateway-fronted spec points
+    at it, not at production.
+- name: test / UAT (Loan Selling Advisor)
+  host: lassvcs-uat.fmrei.com
+  published_in: servers[] of the four Cash/Guarantor Pricing and Committing contracts
+  note: fmrei.com resolves to 161.107.22.97, inside 161.107.0.0/16 (ARIN NetName FHLMC, Federal Home Loan
+    Mortgage Corporation), and returns Apigee fault bodies - it is Freddie Mac's own Loan Selling Advisor
+    gateway on a second domain, not a third party.
+- name: CTE
+  host: null
+  published_in: Selling API Releases prose
+  note: A 'CTE' (customer test environment) tier is referenced in the Loan Import release notes - the
+    API was 'CTE-only' before its 2025-12-04 production go-live - but no CTE host is published.
+- name: production
+  host: api.freddiemac.com
+  published_in: nowhere
+  probe:
+    url: https://api.freddiemac.com/
+    http_status: 404
+    body: '{"fault":{"faultstring":"Unable to identify proxy for host: secure and url: /","detail":{"errorcode":"messaging.adaptors.http.flow.ApplicationNotFound"}}}'
+  note: 'The production host demonstrably exists and is the same Apigee estate - it serves its own /.well-known/security.txt
+    with Canonical: https://api.freddiemac.com/.well-known/security.txt - but NO published contract, page
+    or PDF states a production base path. The production URL is handed over inside the authenticated portal
+    at app-promotion time. No production base URL is recorded in apis.yml, because guessing one from the
+    test path would be a fabrication.'
+test_credentials:
+  published: false
+  detail: 'No test API key, test client ID/secret, hosted test token or shared sandbox credential is published.
+    Getting Started is explicit that the path is: contact your Freddie Mac representative or the Contact
+    Us form, request a Developer Portal username plus your organisation''s system-to-system API credentials,
+    then log in. There is no anonymous try-it-out.'
+test_data:
+  published: true
+  kind: request/response examples inside the contracts, not a fixture service
+  detail: 257 named request and response examples ship inside the OpenAPI documents - Data Share alone
+    publishes scenario examples such as '5.0AllDocumentsfoundRequest' / 'Scenario 2 All Documents Found
+    Request for ULAD 5.0' with full ULAD 5.0 payloads, and the Committing specs publish 'Request Decision',
+    'Request Extension Decision' and 'Request Pairoff Decision' bodies. These are the closest thing to
+    published test data; they are illustrative payloads, not seeded accounts.
+  see: examples/freddie-mac-examples.yml
+try_it_out:
+  available: false
+  detail: 'The portal renders SwaggerUI for every spec but constructs it with supportedSubmitMethods:
+    [] (observed in the portal bundle at developer.freddiemac.com/public/main.js), which disables the
+    Execute button. The documentation is browsable anonymously; no request can be sent from it.'
+test_clocks:
+  supported: false
+fixtures_or_triggers:
+  supported: false
+promotion_workflow:
+  detail: 'Apps are created by a Developer, then a Developer Administrator requests promotion from the
+    test environment to production. Three roles are documented: Business User (browse the catalog), Developer
+    (create/edit/view the organisation''s apps) and Developer Administrator (promote apps, reset passwords,
+    add/edit/delete users).'
+  source: https://sf.freddiemac.com/tools-learning/apis/getting-started-with-apis

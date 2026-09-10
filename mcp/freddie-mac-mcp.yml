@@ -1,0 +1,171 @@
+generated: '2026-09-10'
+method: derived
+source: derived from the 45 operations in the 20 first-party OpenAPI contracts in openapi/, after a live
+  search for a published MCP server found none
+status: candidate
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+search_note: 'No hosted or local MCP server is published. Probed 2026-09-10: https://api.freddiemac.com/mcp
+  -> 404 (Apigee ApplicationNotFound), https://developer.freddiemac.com/mcp -> 401, no /.well-known/mcp
+  on any host, no npm package under any freddiemac name, no mention of MCP anywhere in the Developer Portal
+  bundle or the API Releases pages. mode: none - nobody ships a server, and no endpoint is invented here.'
+candidate_tools:
+- tool: check_affordable_product_eligibility
+  rest:
+  - requestEligibility
+  api: Affordable Check
+  description: Preliminary Freddie Mac affordable-product eligibility (Home Possible, HFA Advantage, Refi
+    Possible, HomeOne) from a minimal borrower data set.
+- tool: get_income_limits
+  rest:
+  - incomeLimitsData
+  api: Income Limits
+  description: Area median income values and income-to-AMI percentages for a property location.
+- tool: look_up_loan
+  rest:
+  - LoanLookup
+  api: Loan Look Up
+  description: Whether Freddie Mac currently owns a mortgage, or paid one off in the last 90 days.
+- tool: get_current_mortgage_snapshot
+  rest:
+  - requestMortgageData
+  api: Current Mortgage Snapshot
+- tool: get_property_insights
+  rest:
+  - requestPropertyData
+  api: Property Insights
+  description: Freddie Mac property and appraisal data, UAD-aligned to MISMO 3.6.
+- tool: submit_property_data
+  rest:
+  - postPropertyData
+  - postPropertyDataImage
+  - insertDaImage
+  - savePDF
+  api: Beyond ACE
+  write: true
+- tool: get_property_data
+  rest:
+  - getPropertyData
+  - getPropertyDataStatus
+  - getMetaDataList
+  - getPropertyImage
+  - getPDF
+  api: Beyond ACE
+- tool: submit_closing_dataset
+  rest:
+  - submitLoan
+  api: Loan Closing Advisor Loan Submission
+  write: true
+  description: Submit a single-loan UCD file for assessment. No reversal operation exists.
+- tool: import_loan
+  rest:
+  - importLoanS2S
+  api: Loan Import
+  write: true
+  description: Deliver loan data into Loan Selling Advisor. No reversal operation exists.
+- tool: get_loan_import_status
+  rest:
+  - importLoanS2SStatus
+  api: Loan Import
+- tool: price_cash_commitment
+  rest:
+  - price
+  api: Cash Committing
+  description: Quote step; returns a ResponseToken. Rehearsal only, commits nothing.
+- tool: decide_cash_commitment
+  rest:
+  - price-decision
+  api: Cash Committing
+  write: true
+  description: Commits the quote identified by ResponseToken.
+- tool: extend_cash_commitment
+  rest:
+  - extension
+  - extension-decision
+  api: Cash Committing
+  write: true
+- tool: pairoff_cash_commitment
+  rest:
+  - pairoff
+  - pairoff-decision
+  api: Cash Committing
+  write: true
+  description: The reversal path for an accepted cash commitment.
+- tool: price_guarantor_commitment
+  rest:
+  - guarantor-price
+  api: Guarantor Committing
+- tool: decide_guarantor_commitment
+  rest:
+  - guarantor-price-decision
+  api: Guarantor Committing
+  write: true
+- tool: modify_guarantor_commitment
+  rest:
+  - guarantor-modify
+  - guarantor-modify-decision
+  api: Guarantor Committing
+  write: true
+- tool: pairoff_guarantor_commitment
+  rest:
+  - guarantor-pairoff
+  - guarantor-pairoff-decision
+  api: Guarantor Committing
+  write: true
+- tool: get_cash_sheet_price
+  rest:
+  - price
+  api: Cash Pricing
+- tool: get_guarantor_price
+  rest:
+  - price
+  api: Guarantor Pricing
+- tool: get_settlement_purchase_statement
+  rest:
+  - getPurchaseStatement
+  api: Cash / Guarantor Settlement Purchase Statement
+- tool: get_loan_documents
+  rest:
+  - getDocumentsUsingPOST
+  - getLQAdocumentsPOST
+  - getLCLAdocumentsPOST
+  - getLCAdocumentsPOST
+  api: Data Share
+  description: Retrieve LPA/LQA/LCLA/LCA source and feedback documents (ULDD, UCD, UAD XML plus PDFs)
+    for a loan.
+- tool: get_loan_summary_results
+  rest:
+  - getSummaryReultsUsingPOST
+  api: Data Share
+- tool: get_bid_summary
+  rest:
+  - getbidsummaryPOST
+  api: Data Share Bid Tape
+- tool: get_workout_options
+  rest:
+  - evaluateWorkoutUsingPOST
+  api: Resolve Workout Options
+- tool: get_retention_workout
+  rest:
+  - requestWorkoutV3UsingPOST
+  api: Resolve Retention
+- tool: get_liquidation_workout
+  rest:
+  - requestWorkoutUsingPOST
+  api: Resolve Liquidation
+- tool: get_workout_valuation_and_pricing
+  rest:
+  - ShortSaleMNPUsingPOST
+  api: Resolve Valuation & Pricing
+agent_safety_note: 'If this catalog is ever exposed as MCP tools, the write tools need guardrails that
+  do not exist in the contracts: there is no Idempotency-Key on any operation, no DELETE anywhere, and
+  no reversal for import_loan or submit_closing_dataset. The two Committing APIs are the only surface
+  with a rehearse-then-commit split and the only one with a reversal (pair-off). See conventions/.'
+operationid_note: Every rest[] entry is a verbatim operationId grepped out of the contract it names. Note
+  that `price` and `getPurchaseStatement` are each reused across two different APIs - operationIds are
+  unique within a document but not across the catalog, so a crosswalk must key on (spec, operationId).

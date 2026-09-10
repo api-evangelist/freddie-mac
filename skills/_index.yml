@@ -1,0 +1,92 @@
+generated: '2026-09-10'
+method: generated
+source: authored from the 20 first-party OpenAPI contracts in openapi/. Every operationId named in every
+  skill was grepped out of the contract it belongs to; none is invented. Freddie Mac publishes no skills,
+  AGENTS.md or agent documentation of its own.
+skill_count: 5
+skills:
+- name: freddie-mac-prequalify-affordable
+  file: skills/freddie-mac-prequalify-affordable.md
+  title: Pre-qualify a borrower for Freddie Mac affordable products
+  apis:
+  - Income Limits
+  - Affordable Check
+  - Loan Look Up
+  - Current Mortgage Snapshot
+  operations:
+  - incomeLimitsData
+  - requestEligibility
+  - LoanLookup
+  - requestMortgageData
+  writes: false
+- name: freddie-mac-deliver-and-commit-a-loan
+  file: skills/freddie-mac-deliver-and-commit-a-loan.md
+  title: Price, commit, deliver and settle a loan sale
+  apis:
+  - Cash Pricing
+  - Guarantor Pricing
+  - Cash Committing
+  - Guarantor Committing
+  - Loan Import
+  - Cash Settlement Purchase Statement
+  - Guarantor Settlement Purchase Statement
+  operations:
+  - price
+  - price-decision
+  - extension
+  - extension-decision
+  - pairoff
+  - pairoff-decision
+  - guarantor-price
+  - guarantor-price-decision
+  - guarantor-modify
+  - guarantor-modify-decision
+  - guarantor-pairoff
+  - guarantor-pairoff-decision
+  - importLoanS2S
+  - importLoanS2SStatus
+  - getPurchaseStatement
+  writes: true
+  reversible: partial - pair-off reverses a commitment; importLoanS2S cannot be undone
+- name: freddie-mac-retrieve-loan-documents
+  file: skills/freddie-mac-retrieve-loan-documents.md
+  title: Retrieve post-close loan documents (ULDD, UCD, UAD)
+  apis:
+  - Data Share
+  - Data Share Bid Tape
+  operations:
+  - getDocumentsUsingPOST
+  - getSummaryReultsUsingPOST
+  - getLQAdocumentsPOST
+  - getLCLAdocumentsPOST
+  - getLCAdocumentsPOST
+  - getbidsummaryPOST
+  writes: false
+- name: freddie-mac-evaluate-default-workout
+  file: skills/freddie-mac-evaluate-default-workout.md
+  title: Evaluate a default workout with Resolve
+  apis:
+  - Resolve Workout Options
+  - Resolve Retention
+  - Resolve Liquidation
+  - Resolve Valuation & Pricing
+  operations:
+  - evaluateWorkoutUsingPOST
+  - requestWorkoutV3UsingPOST
+  - requestWorkoutUsingPOST
+  - ShortSaleMNPUsingPOST
+  writes: false
+- name: freddie-mac-submit-closing-dataset
+  file: skills/freddie-mac-submit-closing-dataset.md
+  title: Submit a UCD closing dataset to Loan Closing Advisor
+  apis:
+  - Loan Closing Advisor Loan Submission
+  - Data Share
+  operations:
+  - submitLoan
+  - getLCLAdocumentsPOST
+  writes: true
+  reversible: no - submitLoan has no withdrawal operation
+safety_note: Two of the five skills touch write surfaces. The catalog has no Idempotency-Key header, no
+  DELETE operation anywhere, and a reversal path only on the two Committing APIs, so every write skill
+  carries an explicit retry-and-reversal section. See conventions/freddie-mac-conventions.yml.
