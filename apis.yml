@@ -51,7 +51,7 @@ tags:
 - Lending
 - Servicing
 - Origination
-- Secondary-Market
+- Secondary Market
 - MISMO
 - Fortune 100
 tags_raw:
@@ -67,360 +67,1231 @@ tags_raw:
 url: https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/apis.yml
 specificationVersion: '0.23'
 apis:
-- aid: freddie-mac:affordable-check
-  name: Freddie Mac Affordable Check
-  description: Help low-income borrowers choose the optimal mortgage path with an early look at Freddie Mac
-    affordable product eligibility prior to submitting a full application to Loan Product Advisor®.
+- aid: freddie-mac:freddie-mac-affordable-check-api
+  name: Freddie Mac Affordable Check API
+  description: >-
+    Affordable Check is an easy way to compare borrower income against applicable AMI values to identify
+    candidates for recommended affordable products.
   humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
-  version: 2.0.0
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
   tags:
-  - Mortgage
-  - Origination
+  - Affordable Check
   properties:
   - type: OpenAPI
-    url: openapi/freddie-mac-affordable-check-openapi.json
+    url: openapi/freddie-mac-affordable-check-api-openapi.yml
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
-  - type: Overlay
-    url: overlays/freddie-mac-affordable-check-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
-- aid: freddie-mac:beyond-ace
-  name: Freddie Mac Beyond ACE
-  description: Submit property data report (PDR) data and photos to receive feedback messages and speed up
-    your underwriting process.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/6197ea655032a264da85a08c
-  version: 3.0.0
-  tags:
-  - Mortgage
-  - Origination
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-beyond-ace-openapi.yaml
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
-  - type: Overlay
-    url: overlays/freddie-mac-beyond-ace-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/single-family/loan-advisor-suite/las-beyondace-api/v2
-  x-spec-defect: 'The provider''s beyondAceSwagger_06062024.yaml carries a literal TAB at the end of two `description:`
-    scalars (lines 2676 and 2683: ''Required IF (/property/propertyType = SF).\t''), which makes it invalid
-    YAML under a strict parser. openapi/_original/beyondAceSwagger_06062024.yaml is stored byte-for-byte as
-    served, defect included. The working copy at openapi/freddie-mac-beyond-ace-openapi.yaml has those two
-    trailing tabs stripped and NOTHING else changed, so it parses. Reported here rather than silently repaired:
-    the contract Freddie Mac serves does not parse.'
-- aid: freddie-mac:cash-committing
-  name: Freddie Mac Cash Committing
-  description: Quickly streamline secondary market processes with an easy-to-use, integrated technology solution
-    that allows you to execute and modify mandatory cash contracts without the need to manually do so in Loan
-    Selling Advisor®.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/623d0765fddb9917ea999f3b
-  version: 1.0.0
-  tags:
-  - Mortgage
-  - Selling
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-cash-committing-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
-  - type: Overlay
-    url: overlays/freddie-mac-cash-committing-overlay.yaml
-  baseURL: https://lassvcs-uat.fmrei.com/ESO/rest/lsa
-- aid: freddie-mac:cash-pricing
-  name: Freddie Mac Cash Pricing
-  description: Quickly streamline secondary market processes with easier, integrated access to cash pricing
-    information without the need to manually retrieve it from Loan Selling Advisor®.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/623d0826c48acc2401ba22da
-  version: 1.0.0
-  tags:
-  - Mortgage
-  - Selling
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-cash-pricing-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
-  - type: Overlay
-    url: overlays/freddie-mac-cash-pricing-overlay.yaml
-  baseURL: https://lassvcs-uat.fmrei.com/ESO/rest
-- aid: freddie-mac:cash-settlement-purchase-statement
-  name: Freddie Mac Cash Settlement Purchase Statement
-  description: Streamline your post funding reconciliation process by eliminating manual processes with fast,
-    easy access to cash purchase statement data for the loans you sold to Freddie Mac.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/624f7c78b1e1c3419ba58885
-  version: 1.0.1
-  tags:
-  - Mortgage
-  - Selling
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-cash-settlement-purchase-statement-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
-  - type: Overlay
-    url: overlays/freddie-mac-cash-settlement-purchase-statement-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/single-family/css/v1/cashsettlement
-- aid: freddie-mac:current-mortgage-snapshot
-  name: Freddie Mac Current Mortgage Snapshot
-  description: Easy access to original loan terms as well as current servicing data, on Freddie Mac owned loans
-    to help validate information provided by the borrower or obtained from other sources (e.g., credit report).
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/6197b94aa8adda2fb7323736
-  version: 1.0.0
-  tags:
-  - Mortgage
-  - Origination
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-current-mortgage-snapshot-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
-  - type: Overlay
-    url: overlays/freddie-mac-current-mortgage-snapshot-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/single-family/current-mortgage-snapshot-api/v1
-- aid: freddie-mac:data-share
-  name: Freddie Mac Data Share
-  description: Get fast easy access to key data, documents, and loan-level assessment results from Freddie
-    Mac tools.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/6197eb69a8adda2fb732376d
-  version: 1.0.0
-  tags:
-  - Mortgage
-  - Post-Close
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-data-share-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
-  - type: Overlay
-    url: overlays/freddie-mac-data-share-overlay.yaml
-  x-baseURL-note: The provider's published OpenAPI carries an empty servers[] block; no base URL is stated
-    anywhere public, so none is recorded rather than guessed.
-- aid: freddie-mac:data-share-bid-tape
-  name: Freddie Mac Data Share Bid Tape
-  description: Aggregators can have greater confidence when pricing and valuing correspondent loans by getting
-    easy access to key loan data and loan-level summary assessment results at the point of bid.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/6233cd01689af970cd9a0b43
-  version: 1.0.0
-  tags:
-  - Mortgage
-  - Post-Close
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-data-share-bid-tape-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
-  - type: Overlay
-    url: overlays/freddie-mac-data-share-bid-tape-overlay.yaml
-  x-baseURL-note: The provider's published OpenAPI carries an empty servers[] block; no base URL is stated
-    anywhere public, so none is recorded rather than guessed.
-- aid: freddie-mac:guarantor-committing
-  name: Freddie Mac Guarantor Committing
-  description: Quickly streamline secondary market processes with an easy-to-use, integrated technology solution
-    that allows you to execute and modify Guarantor contracts without the manual processes in Loan Selling
-    Advisor®.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/623d087efddb9917ea999f5a
-  version: 1.0.0
-  tags:
-  - Mortgage
-  - Selling
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-guarantor-committing-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
-  - type: Overlay
-    url: overlays/freddie-mac-guarantor-committing-overlay.yaml
-  baseURL: https://lassvcs-uat.fmrei.com/ESO/rest/lsa
-- aid: freddie-mac:guarantor-pricing
-  name: Freddie Mac Guarantor Pricing
-  description: Quickly streamline secondary market processes with easier, integrated access to guarantor pricing
-    information without the need to manually retrieve it from Loan Selling Advisor®.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/623d08d5fddb9917ea999f68
-  version: 1.0.0
-  tags:
-  - Mortgage
-  - Selling
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-guarantor-pricing-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
-  - type: Overlay
-    url: overlays/freddie-mac-guarantor-pricing-overlay.yaml
-  baseURL: https://lassvcs-uat.fmrei.com/ESO/rest
-- aid: freddie-mac:guarantor-settlement-purchase-statement
-  name: Freddie Mac Guarantor Settlement Purchase Statement
-  description: Obtain Guarantor Settlement Purchase Statement data for loans settled in a security by Freddie
-    Mac.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/6531c4a3276bea497cf1cad4
-  version: 1.0.0
-  tags:
-  - Mortgage
-  - Selling
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-guarantor-settlement-purchase-statement-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
-  - type: Overlay
-    url: overlays/freddie-mac-guarantor-settlement-purchase-statement-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/single-family/guarantor-settlement-service/v1
-- aid: freddie-mac:income-limits
-  name: Freddie Mac Income Limits
-  description: Receive fast, reliable data you can use to evaluate potential eligibility for affordable lending
-    solutions.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/6197b8395032a264da85a01b
-  version: 2.1.0
-  tags:
-  - Mortgage
-  - Origination
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-income-limits-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
-  - type: Overlay
-    url: overlays/freddie-mac-income-limits-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/single-family/income-limits-api/v2
-- aid: freddie-mac:loan-closing-advisor-loan-submission
-  name: Freddie Mac Loan Closing Advisor Loan Submission
-  description: Provides access to Loan Closing Advisor, through your own system or a software provider LOS.
-    This enables loan access and receiving actionable feedback directly through your system on the accuracy
-    of your UCD XML file to assist you in identifying and correcting errors before you close a loan.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/660f427090f1397952c8a9a0
-  version: 3.2.0
-  tags:
-  - Closing
-  - Mortgage
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-loan-closing-advisor-loan-submission-openapi.yaml
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
-  - type: Overlay
-    url: overlays/freddie-mac-loan-closing-advisor-loan-submission-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/eso/v2
-- aid: freddie-mac:loan-import
-  name: Freddie Mac Loan Import
-  description: Loan Import provides sellers and integrated technology providers the capability to create or
-    modify loans, evaluate purchase eligibility, and provide decisions on representation and warranty relief
-    through Loan Selling Advisor®.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/68df12b88875c078cd3faf22
-  version: 4.0.0
-  tags:
-  - Mortgage
-  - Selling
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-loan-import-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
-  - type: Overlay
-    url: overlays/freddie-mac-loan-import-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/single-family/lsa
-- aid: freddie-mac:loan-look-up
-  name: Freddie Mac Loan Look Up
-  description: Look up if Freddie Mac owns the mortgage for a specific subject property.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/6197bab05032a264da85a02b
-  version: 2.0.0
-  tags:
-  - Mortgage
-  - Origination
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-loan-look-up-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
-  - type: Overlay
-    url: overlays/freddie-mac-loan-look-up-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/single-family/loan-advisor-suite/v2
-- aid: freddie-mac:property-insights
-  name: Freddie Mac Property Insights
-  description: Get fast, early access to Freddie Mac property data to help identify and overcome property-related
-    pain points.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/619720835032a264da859ff4
-  version: 2.0.0
-  tags:
-  - Mortgage
-  - Origination
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-property-insights-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
-  - type: Overlay
-    url: overlays/freddie-mac-property-insights-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/single-family/property-insights-api/v2
-- aid: freddie-mac:resolve-liquidation
-  name: Freddie Mac Resolve Liquidation
-  description: Request short sale approvals to Resolve, the integrated default management platform. Directly
-    integrate while maintaining your user experience and receive rapid, rules-based eligibility decisions and
-    approvals.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/6198033aa8adda2fb732385d
-  version: 1.0.0
-  tags:
-  - Mortgage
-  - Servicing
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-resolve-liquidation-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
-  - type: Overlay
-    url: overlays/freddie-mac-resolve-liquidation-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/singlefamily/servicing/v1/resolve/liquidation-service/api
-- aid: freddie-mac:resolve-retention
-  name: Freddie Mac Resolve Retention
-  description: Request relief options and retention workouts via the API to Resolve, the integrated default
-    management platform. Directly integrate to maintain your user experience and receive rapid, rules-based
-    eligibility decisions without leaving your existing default management tool, enabling faster resolution
-    for homeowners.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/619801965032a264da85a168
-  version: 3.0.0
-  tags:
-  - Mortgage
-  - Servicing
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-resolve-retention-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
-  - type: Overlay
-    url: overlays/freddie-mac-resolve-retention-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/singlefamily/v3/servicing/workoutservice/workout-service
-- aid: freddie-mac:resolve-valuation-pricing
-  name: Freddie Mac Resolve Valuation & Pricing
-  description: Request Minimum Net Proceeds (MNP) value via the API to Resolve, the integrated default management
-    platform. Directly connect while maintaining your user experience and receive MNP values for short sales.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/619803ca5032a264da85a185
-  version: 2.0.0
-  tags:
-  - Mortgage
-  - Servicing
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-resolve-valuation-pricing-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
-  - type: Overlay
-    url: overlays/freddie-mac-resolve-valuation-pricing-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/singlefamily/servicing/v2/rvp-service/rvpInfo
-- aid: freddie-mac:resolve-workout-options
-  name: Freddie Mac Resolve Workout Options
-  description: Request real-time eligibility decisions for multiple workout options in a single response.
-  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/6198025c5032a264da85a176
-  version: 1.3.0
-  tags:
-  - Mortgage
-  - Servicing
-  properties:
-  - type: OpenAPI
-    url: openapi/freddie-mac-resolve-workout-options-openapi.json
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
-  - type: Overlay
-    url: overlays/freddie-mac-resolve-workout-options-overlay.yaml
-  baseURL: https://api-test.freddiemac.com/singlefamily/v1/servicing/workoutservice/workout-service
+- aid: freddie-mac:freddie-mac-cash-committing-api
+  name: Freddie Mac Cash Committing API
+  description: Execute fixed rate or adjustable rate (ARM) cash contracts.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Cash Committing
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-cash-committing-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-cash-pricing-api
+  name: Freddie Mac Cash Pricing API
+  description: >-
+    Obtain contract-level (asset price), loan-level (all-in price), or cash fees (Single-Family Seller/Servicer
+    Guide Exhibit 19 and negotiated) pricing.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Cash Pricing
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-cash-pricing-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-current-mortgage-snapshot-api
+  name: Freddie Mac Current Mortgage Snapshot API
+  description: >-
+    Get fast, easy access to key loan data to help validate loan information obtained from the borrower
+    or other sources (e.g., credit report) when processing refinances or loans with REO properties
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Current Mortgage Snapshot
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-current-mortgage-snapshot-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-data-share-api-api
+  name: Freddie Mac Data Share API
+  description: >-
+    Get fast easy access to key data, documents and loan-level assessment results for loans submitted
+    to several Freddie Mac tools, including Loan Product Advisor®, Loan Quality Advisor®, Loan Collateral
+    Advisor® and Loan Closing Advisor®.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Data Share API
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-data-share-api-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-data-share-bid-tape-api
+  name: Freddie Mac Data Share Bid Tape API
+  description: >-
+    Aggregators can have greater confidence when pricing and valuing correspondent loans with fast easy
+    access to key loan data and loan-level summary assessment results from Loan Product Advisor®, Loan
+    Quality Advisor®, Loan Collateral Advisor® and Loan Closing Advisor® at the point of loan bid.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Data Share Bid Tape
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-data-share-bid-tape-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-guarantor-committing-api
+  name: Freddie Mac Guarantor Committing API
+  description: Execute or modify Single Issue or MultiLender guarantor contracts.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Guarantor Committing
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-guarantor-committing-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-guarantor-pricing-api
+  name: Freddie Mac Guarantor Pricing API
+  description: Obtain Single Issue or MultiLender buyup/buydown ratios and all applicable credit fees.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Guarantor Pricing
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-guarantor-pricing-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-income-limits-api
+  name: Freddie Mac Income Limits API
+  description: >-
+    Simplify your process of determining whether a borrower can qualify for a Freddie Mac Home Possible®
+    mortgage with easy access to qualifying income limits based on property location.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Income Limits
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-income-limits-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-lcla-submission-request-api
+  name: Freddie Mac LCLA Submission Request API
+  description: >-
+    The intent of this Web service is for the Seller/Vendor system to submit a single loan Uniform Closing
+    Dataset (UCD) file to Loan Closing Advisor for assessment.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - LCLA Submission Request
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-lcla-submission-request-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-loan-import-api-api
+  name: Freddie Mac Loan Import API
+  description: The Loan Import API API from Freddie Mac — 2 operation(s) for loan import api.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Loan Import API
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-loan-import-api-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-loan-look-up-api
+  name: Freddie Mac Loan Look Up API
+  description: >-
+    This service allows you to look up whether there is an existing Freddie Mac mortgage for a specific
+    subject property. Submit request data to initiate a search of Freddie Mac’s datastore for matching
+    records and receive a response.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Loan Look Up
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-loan-look-up-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-metadata-api
+  name: Freddie Mac Metadata API
+  description: The Metadata API from Freddie Mac — 3 operation(s) for metadata.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-metadata-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-property-data-api
+  name: Freddie Mac Property Data API
+  description: The Property Data API from Freddie Mac — 2 operation(s) for property data.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Property Data
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-property-data-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-property-data-images-api
+  name: Freddie Mac Property Data Images API
+  description: The Property Data Images API from Freddie Mac — 1 operation(s) for property data images.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Property Data Images
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-property-data-images-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-property-data-pdf-api
+  name: Freddie Mac Property Data PDF API
+  description: The Property Data PDF API from Freddie Mac — 1 operation(s) for property data pdf.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Property Data PDF
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-property-data-pdf-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-property-insights-api
+  name: Freddie Mac Property Insights API
+  description: Get access to Freddie Mac property data to help identify and overcome pain points.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Property Insights
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-property-insights-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-purchase-advice-guarantor-controller-api
+  name: Freddie Mac Purchase Advice Guarantor Controller API
+  description: >-
+    The purchase-advice-guarantor-controller API from Freddie Mac — 1 operation(s) for purchase-advice-guarantor-controller.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - purchase-advice-guarantor-controller
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-purchase-advice-guarantor-controller-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-resolve-liquidation-api-api
+  name: Freddie Mac Resolve Liquidation API
+  description: >-
+    Resolve Liquidation API is a quicker, more efficient solution to submit short sale requests to Freddie
+    Mac for decisioning and settlement. The API returns a real-time response that include eligibility
+    decision, rationale for each loan submitted or actionable messages. For eligible responses you’ll
+    also receive property and minimum net proceed values (if available), approvals and calculated net
+    proceeds (if applicable). Connect directly to Resolve and eliminate the need for data entry through
+    Workout Prospector®.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Resolve Liquidation API
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-resolve-liquidation-api-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-resolve-retention-api
+  name: Freddie Mac Resolve Retention API
+  description: >-
+    Get clear and actionable responses for retention workouts such as eligibility, trial approval, settlement
+    and supporting data.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Resolve Retention
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-resolve-retention-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-resolve-valuation-pricing-api-api
+  name: Freddie Mac Resolve Valuation & Pricing API
+  description: >-
+    When you connect through the Resolve Valuation & Pricing API, you’ll receive minimum net proceed values
+    for short sales. The API is a new and faster way of receiving an MNP as well as ordering a value if
+    one is not already available in the Real Estate Valuation and Pricing tool. Through seamless B2B integration,
+    you’ll increase productivity and speed up mortgage resolution.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Resolve Valuation & Pricing API
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-resolve-valuation-pricing-api-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-resolve-workout-options-api
+  name: Freddie Mac Resolve Workout Options API
+  description: >-
+    Get a quick view of borrower eligibility for multiple workout options, rationale and workout terms
+    before moving to approval and settlement.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Resolve Workout Options
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-resolve-workout-options-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
+- aid: freddie-mac:freddie-mac-submission-status-api
+  name: Freddie Mac Submission Status API
+  description: The Submission Status API from Freddie Mac — 1 operation(s) for submission status.
+  humanURL: https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
+  baseURL: https://api-test.freddiemac.com/single-family/affordable-check-api/v2
+  tags:
+  - Submission Status
+  properties:
+  - type: OpenAPI
+    url: openapi/freddie-mac-submission-status-api-openapi.yml
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185
+  - type: Documentation
+    url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
 common:
+- type: Overlay
+  url: overlays/freddie-mac-affordable-check-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-beyond-ace-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-cash-committing-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-cash-pricing-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-cash-settlement-purchase-statement-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-current-mortgage-snapshot-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-data-share-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-data-share-bid-tape-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-guarantor-committing-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-guarantor-pricing-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-guarantor-settlement-purchase-statement-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-income-limits-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-loan-closing-advisor-loan-submission-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-loan-import-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-loan-look-up-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-property-insights-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-resolve-liquidation-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-resolve-retention-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-resolve-valuation-pricing-overlay.yaml
+- type: Overlay
+  url: overlays/freddie-mac-resolve-workout-options-overlay.yaml
 - type: Website
   url: https://www.freddiemac.com/
 - type: DeveloperPortal
