@@ -1,0 +1,479 @@
+openapi: 3.2.0
+info:
+  title: Guarantor Settlement Purchase Statement Purchase Advice…
+  version: 1.0.0
+servers:
+- url: https://api-test.freddiemac.com/single-family/guarantor-settlement-service/v1
+security:
+- bearerAuth: []
+tags:
+- name: purchase-advice-guarantor-controller
+paths:
+  /purchase_statement:
+    post:
+      tags:
+      - purchase-advice-guarantor-controller
+      summary: Get Details of Guarantor Contract
+      operationId: getPurchaseStatement
+      parameters:
+      - name: X-CSS-VENDOR-IDENTIFIER
+        in: header
+        description: A unique identifier that identifies the vendor.
+        schema:
+          type: string
+      - name: X-CSS-VENDOR-NAME
+        in: header
+        description: The vendor company name that identifies the vendor identifier
+        schema:
+          type: string
+      - name: X-CSS-VENDOR-SOFTWARE
+        in: header
+        description: The vendor software name utilized to submit the loan through the system
+        schema:
+          type: string
+      - name: X-CSS-VENDOR-SOFTWARE-VERSION
+        in: header
+        description: The vendor software version name utilized to submit the loan through the system
+        schema:
+          type: string
+      requestBody:
+        description: Sample Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+            examples:
+              ValidRequest - 1:
+                description: ValidRequest - 1
+                value:
+                  date: '2022-07-05'
+                  sellerId: '196598'
+                  correlationID: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+              'ValidRequest - 2 ':
+                description: 'ValidRequest - 2 '
+                value:
+                  date: '2022-08-02'
+                  sellerId: '196598'
+                  correlationID: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+              InvalidRequest - 1:
+                description: InvalidRequest - 1
+                value:
+                  date: '2999-12-31'
+                  sellerId: '999999'
+                  correlationID: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+              InvalidRequest - 2:
+                description: InvalidRequest - 2
+                value:
+                  date: '2022-06-27'
+                  sellerId: '99999'
+                  correlationID: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseStatement'
+              example:
+                sellerName: sellerName
+                sellerId: '123456'
+                orgId: '999999'
+                sellerAddressStreet: sellerAddress
+                designatedServicerName: servicerName
+                servicerIdentifer: '99999'
+                servicerAddressStreet: servicerAddress
+                contractList:
+                - contractName: Contract Name
+                  contractNumber: 36383642
+                  prefix: CP
+                  poolNumber: CA12345
+                  cusipNumber: POOLNUM
+                  contractAmount: 108000
+                  remittanceType: STANDARD
+                  prePaymentRemittanceDueDays: 5
+                  totalOPB: 1048848
+                  totalPCCoupon: 0.035
+                  contractSettlementDate: '2023-09-11'
+                  securityProduct: 30-Year High LTV >105 to<=125 Freddie Mac MBS
+                  participationPercentageRate: '100.00'
+                  loan:
+                  - sellerLoanIdentifier: '8200642379'
+                    freddieMacLoanNumber: '010000000'
+                    piPaymentFREAmount: 1137.28
+                    lastPaidInstallmentDueDate: '2023-07-01'
+                    principalPurchased: 220915.27
+                    interestRate: 0.04625
+                    accruedInterest: 435.09
+                    remainingMtyperiod: 360
+                    basisPoints: 0.0025
+                    bubdRatio: 5.26
+                    bubdProceeds: 2905.04
+                    deliveryFeesList:
+                    - feeName: Delivery Fee Name
+                      feeRate: '-0.06'
+                      feeAmount: '-309.59'
+                    gfeeList:
+                    - feeName: Gfee Name
+                      feeRate: '-0.06'
+                      feeAmount: '-309.59'
+                  securityTransferInstruction:
+                    fedwireShortName: 'BANK '
+                    furtherInstructions: ''
+                    subAccountIdentifier: TEST
+                    ABA: '99999999999'
+                  totalAccruedInterest: 1283.87
+                  wgtd_AvgNoteRate: 0.04625
+                  totalPurchasePriceAmount: 1048848.17
+                  wgtd_AvgAccountingNetYield: 0.04225
+                  pcoupon_TotalAccruedInterest: 101.97
+                  grandTotMortgagePurchase: 1048971.23
+                  grandTotWacArmPCsettlmt: 1048949.97
+                  amtDueToSeller: 21.26
+                  grandTotBuBdProceeds: 2905.04
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+              example:
+                code: '400'
+                message: Missing header Content-type
+                details: Content-type must be application/json
+        '401':
+          description: <li>You are not authorized to view the resource</li><li>401.001 - Invalid Access Token, please validate the token, if error persists, please renew your token.</li><li>401.002 - Access Token Expired, please renew your access token.</li><li>401.003 - API Product mismatch for token,your token does not have access to the requested API.</li><li>401.004 - Invalid API Key, please validate the client ID.</li><li>401.005 - Invalid API Key for given resource.</li><li>401.006 - Insufficient scope for Application.</li><li>401.007 - Invalid Username/password combination, please verify the credentials.</li><li>401.008 - Invalid Refresh Token.</li><li>401.009 - Invalid client secret.</li><li>401.010 - Refresh Token expired.</li>
+          content:
+            application/json:
+              schema:
+                type: string
+              example:
+                code: '401.001'
+                message: Not Authorized
+                details: Invalid Access Token, please validate the token, if error persists, please renew your token.
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+              example:
+                code: '403'
+                message: Access Forbidden
+                details: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: The resource you were trying to reach is not found
+          content:
+            application/json:
+              schema:
+                type: string
+              example:
+                code: '404'
+                message: Resource Not Found
+                details: The resource you were trying to reach is not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+              example:
+                code: '500'
+                message: Internal Server Error
+                details: Unable to retrieve data for the submitted request at this time due to Internal Server error. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance
+        '502':
+          description: Bad Gateway
+          content:
+            application/json:
+              schema:
+                type: string
+              example:
+                code: '502'
+                message: Server experienced some Internal Error
+                details: Unable to retrieve data for the submitted request at this time due to invalid response from the gateway. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance
+components:
+  schemas:
+    DeliveryFees:
+      type: object
+      properties:
+        feeName:
+          type: string
+          description: Name of the Fee
+        feeRate:
+          type: number
+          description: A fee charged to deliver a loan as percent Values
+        feeAmount:
+          type: number
+          description: The value of the delivery fee in dollars
+      description: A fee charged to deliver a loan
+    PurchaseStatement:
+      type: object
+      properties:
+        requestReceivedOn:
+          title: Request received Time
+          type: string
+          description: 'Request received time to api,
+
+            A date-time with an offset from UTC/Greenwich in the ISO-8601 calendar system,
+
+            such as 2020-12-21T10:00:25+01:00'
+          format: date-time
+        processingTimeInSeconds:
+          title: Processing Time In Seconds
+          type: integer
+          description: Time taken by API to process the request (in seconds)
+          format: int64
+        correlationId:
+          type: string
+          description: Randomly generated identifier value that is added to every request and response.In a microservice architecture, the initial Correlation ID is passed to your sub-processes.If a sub-system also makes sub-requests, it will also pass the Correlation ID to those systems
+          format: uuid
+          example: 11cfc0f4-4544-43de-b9f6-f3b419b82e19
+        message:
+          type: string
+          description: Status of the request
+          example: Success
+        sellerName:
+          type: string
+          description: The unparsed name of either an individual or a legal entity. (The name of the seller.)
+        sellerId:
+          type: string
+          description: The unique identifier assigned to a party, which may be an individual, a counterparty, or a related organizatio
+        orgId:
+          type: string
+          description: A system-generated identifier to uniquely identify the organization to which the loan or contract belongs.
+        sellerAddressStreet:
+          type: string
+          description: The organization address of the Seller.
+        designatedServicerName:
+          type: string
+          description: Company name of the Servicer.
+        servicerIdentifer:
+          type: string
+          description: Unique 6 digit numeric identifier assigned by Freddie Mac.
+        servicerAddressStreet:
+          type: string
+          description: The organization address of the servicer.
+        contractList:
+          type: array
+          description: Contract Data.
+          items:
+            $ref: '#/components/schemas/Contract'
+    SecurityTransferInstruction:
+      type: object
+      properties:
+        fedwireShortName:
+          type: string
+          description: Full legal name and location (city, state, and zip code) of the bank receiving the funds for the beneficiary.
+        furtherInstructions:
+          type: string
+          description: Descriptive text of further credit information about the Third Party/FRB Subaccount.
+        subAccountIdentifier:
+          type: string
+          description: The sub account number of the 3rd party.
+        ABA:
+          type: string
+          description: The ABA routing number of the bank that Freddie Mac will send wire funds to or ACH draft funds from.
+      description: Wire Instructions for Each Contract
+    Gfee:
+      type: object
+      properties:
+        feeName:
+          type: string
+          description: Name of the Fee
+        feeRate:
+          type: number
+          description: A fee charged to deliver a loan as percent Values
+        feeAmount:
+          type: number
+          description: The value of the delivery fee in dollars
+    Request:
+      title: Purchase Statement Request Parameters
+      required:
+      - date
+      - sellerId
+      type: object
+      properties:
+        date:
+          title: Purchase Statement, Loan Settlement Date
+          type: string
+          description: Requested Date for the Purchase Statement API must be Current Date Or in the Past upto 61 Days
+          format: date
+          example: '2022-07-22'
+        sellerId:
+          pattern: '[\d]{6}'
+          type: string
+          description: ID of the Seller for who purchase statement is requested
+          example: '999999'
+        correlationID:
+          type:
+          - string
+          - 'null'
+          description: Randomly generated identifier value that is added to every request and response.In a microservice architecture, the initial Correlation ID is passed to your sub-processes.If a sub-system also makes sub-requests, it will also pass the Correlation ID to those systems
+          format: uuid
+          example: 11cfc0f4-4544-43de-b9f6-f3b419b82e19
+      description: This provides details on request parameter for the Purchase Statement API
+    Contract:
+      type: object
+      properties:
+        contractName:
+          type: string
+          description: A free text name assigned by the seller of the Loan Purchase Contract to help them track, identify, and retrieve the contract data in our system. The contract name specified by a user
+        contractNumber:
+          type: integer
+          description: A unique identifier for a group of loans identified as part of a cash pool or a security pool.
+          format: int32
+        prefix:
+          type: string
+          description: An issuer assigned prefix code (suffix for GNMA) for a mortgage backed security that describes the type of collateral that backs the security
+        poolNumber:
+          type: string
+          description: The unique identifier for a collection of financial instruments. The pool may serve as collateral, be associated with a credit enhancement, or be used as a cohort for a common valuation
+        cusipNumber:
+          type: string
+          description: The unique industry wide identifier for a security, assigned by the committee on uniform security identification procedures (CUSIP).
+        contractAmount:
+          type: number
+          description: The dollar amount of the Contract not including tolerance.
+        remittanceType:
+          type: string
+          description: Indicates the specific remittance options for the mortgage under a specific commitment.
+          enum:
+          - FIRST_TUESDAY
+          - GOLD
+          - ARC
+          - SUPER_ARC
+          - DARC
+          - DDARC
+          - CD
+          - DAYS_POST_CUTOFF
+          - DAYS_POST_FIRST
+          - ARC_4
+          - ARC_5
+          - STANDARD
+        prePaymentRemittanceDueDays:
+          type: integer
+          description: Indicates the number of days you will have to remit the unpaid principal balance to Freddie Mac if a loan is paid off early
+          format: int32
+        totalOPB:
+          type: number
+          description: The total amount of Original Principal Balance for all loans allocated to the guarantor loan purchase contract.
+        totalPCCoupon:
+          type: number
+          description: The average of the gross interest rates of the mortgages in a mortgage pool, as of the issue date.
+        contractSettlementDate:
+          type: string
+          description: The date in which you must fulfill the terms of your Guarantor purchase contract to Freddie Mac.
+          format: date
+        securityProduct:
+          type: string
+          description: The highest indicator of the types of mortgages that can be delivered under a contract.
+        participationPercentageRate:
+          type: number
+          description: Defaulted as 100% since Freddie Mac currently does not purchase less than that amount.
+        loan:
+          type: array
+          description: Loan Data for Each Loan
+          items:
+            $ref: '#/components/schemas/Loan'
+        securityTransferInstruction:
+          $ref: '#/components/schemas/SecurityTransferInstruction'
+        origWgtd_AvgCompMargin:
+          type: string
+          description: "Loop thru each loan:   Total Gross Margin of allocated loans = sum of (Margin Rate Percent * Arrived UPB Amount Loan Acquisition Scheduled UPB )\n  WAC Contract Gross Margin =  Total Gross Margin of allocated loans / Sum of Arrived UPB Amount Loan Acquisition Scheduled UPB \n  Weighted Average Original Avg Component Margin = WAC Contract Gross Margin - GFee - Minimum Margin Servicing Spread"
+        origWgtd_AvgCompLife:
+          type: string
+          description: "Total Life Of Loan Rate for allocated loans = Sum of (Ceiling Rate Percent * Arrived UPB Amount Loan Acquisition Scheduled UPB Amount )\n\nCalculated Life Of Loan Rate = Total Life Of Loan Rate for allocated loans / Sum Of Arrived UPB Amount Loan Acquisition Scheduled UPB Amount \nIF Adjustor ExecutionLevel == Contract level or Loan level Then\n         Total Gfee = Sum of ((Loan Level Gfee + BUBD Basis Points) * Arrived UPB Amount Loan Acquisition Scheduled UPB Amount )\nELSE\n         Total Gfee = Sum of (Loan Level Gfee * allocatedLoan Arrived UPB Amount Loan Acquisition Scheduled UPB Amount )\nSwap Contract Weighted Average Gfee = Total Gfee / Sum Of Arrived UPB Amount Loan Acquisition Scheduled UPB Amount\nWeighted Average Life Of Loan Rate = Calculated Life Of Loan Rate - Swap Contract Weighted Average Gfee - Minimum Lifetime Servicing Spread"
+        origWgtd_AvgCoupon:
+          type: string
+          description: The weighted average of the gross interest rates of the ARM mortgages in a mortgage pool, as of the issue date,  with the balance of each mortgage used as a weighting factor.
+        totalAccruedInterest:
+          type: number
+          description: The dollar amount of the accrued interest in the current accounting period to be paid in the next period for all loans allocated to the guarantor loan purchase contract.
+        wgtd_AvgNoteRate:
+          type: number
+          description: The weighted average of the gross interest rates of the mortgages in a collateral group,   as of the issue date, with the balance of each mortgage used as a weighting factor.
+        totalPurchasePriceAmount:
+          type: number
+          description: The total amount of Unpaid Principal Balance for all loans allocated to the guarantor loan purchase contract.
+        wgtd_AvgAccountingNetYield:
+          type: number
+          description: The average of the rate at which the Servicer remits interest to Freddie Mac for all loans allocated  to the guarantor loan purchase contract. It is calculated by taking the loan note rate minus the servicing fee  per loan and then determining the average for all loans allocated to the guarantor loan purchase contract.
+        pcoupon_TotalAccruedInterest:
+          type: number
+        grandTotMortgagePurchase:
+          type: number
+          description: The sum of Total of Unpaid Principal Balance (total of all loans) + Total of Accrued Interest (total of all loans)
+        grandTotWacArmPCsettlmt:
+          type: number
+          description: Sum of Total of Unpaid Principal Balance (total of all loans) + Total of Accrued Interest (total of all loans)
+        amtDueToSeller:
+          type: number
+          description: 'The total amount of Amount Due to Seller for all loans allocated to the guarantor  loan purchase contract. '
+        grandTotBuBdProceeds:
+          type: number
+          description: 'The amount of credit or discount based per loan based on bu/bd options selected for all loans  allocated to the guarantor loan purchase contract. '
+      description: Contract Data.
+    Loan:
+      type: object
+      properties:
+        sellerLoanIdentifier:
+          type: string
+          description: A unique identifier assigned by the seller to the loan.
+        freddieMacLoanNumber:
+          type: string
+          description: A Freddie Mac supplied number assigned to the Mortgage by the Seller/Servicer
+        piPaymentFREAmount:
+          type: number
+          description: The dollar amount of the principal and interest payment as stated on the Note. The principal and interest payment is usually obtained using  the loan amount and interest rate to arrive at full amortization during the loan term.
+        lastPaidInstallmentDueDate:
+          type: string
+          description: The due date of last paid installment that had been collected for the mortgage.
+        principalPurchased:
+          type: number
+          description: The dollar amount of this proceed portion.
+        interestRate:
+          type: number
+          description: The minimum interest rate for all the loans eligible for allocation to the contract.
+        firstRateAdj:
+          type: string
+          description: The date, as established in the Note, on which the first adjustment in the Note Rate is effective. The related ULDD Data Point name is First Rate Change Payment Effective Date, and it is also known as the Payment Change Date.
+        accountNetYield:
+          type: number
+          description: The rate that the Servicer uses to report and remit interest to Freddie Mac each month, defined as the Note Rate minus the Servicing Fee.
+        accruedInterest:
+          type: number
+          description: The dollar amount of this proceed portion.
+        loanNetMarginRate:
+          type: number
+          description: The net margin is the gross margin minus the minimum contract servicing spread. It is used to calculate the new ANY for ARMs sold under the Cash program.
+        accountingNetLifeCapRate:
+          type: number
+          description: Lifetime Ceiling minus the Required Spread and the Minimum Contract Servicing Spread. The related ULDD Data Point name is Ceiling Rate Percent.
+        remainingMtyperiod:
+          type: integer
+          description: The number of moths remaining until the maturity date of the loan.
+          format: int32
+        basisPoints:
+          type: number
+          description: 1/32nd of a percent that has been credited or discounted to the Seller of a loan.
+        bubdRatio:
+          type: number
+          description: A Freddie Mac defined ratio by note rate.
+        bubdProceeds:
+          type: number
+          description: The amount of credit or discount based per loan based on bu/bd options selected.
+        deliveryFeesList:
+          type: array
+          description: A fee charged to deliver a loan
+          items:
+            $ref: '#/components/schemas/DeliveryFees'
+        gfeeList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Gfee'
+      description: Loan Data for Each Loan
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token

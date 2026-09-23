@@ -1,0 +1,2832 @@
+openapi: 3.2.0
+info:
+  title: Cash Committing API
+  description: Execute fixed rate or adjustable rate (ARM) cash contracts.
+  version: 1.0.0
+servers:
+- url: https://lassvcs-uat.fmrei.com/ESO/rest/lsa
+security:
+- basicAuth: []
+tags:
+- name: Cash Committing
+  description: Execute fixed rate or adjustable rate (ARM) cash contracts.
+paths:
+  /cash-contracts/price-v1:
+    post:
+      operationId: price
+      tags:
+      - Cash Committing
+      summary: Cash Committing
+      parameters:
+      - name: Content-Type
+        in: header
+        description: Content type to be passed as a header
+        required: true
+        schema:
+          type: string
+          default: application/json
+      - name: env
+        in: header
+        description: 'Environment:'
+        schema:
+          type: string
+          enum:
+          - ProductionBaseline
+          - Pre-Production
+          default: ProductionBaseline
+      - name: version
+        in: header
+        description: API Version
+        schema:
+          type: string
+          default: '1.0'
+      requestBody:
+        description: 'Please change following fields to submit a valid request and ''Try it out'' (where applicable): <div><ul><li>RequestingPartyAccountIdentifier</li><li>CounterPartyType</li><li>SellerIdentifier</li><li>PricingIdentifier</li><li>CounterpartyAccountIdentifier</li></ul></div><br><B> Please refer to RELATED DOCUMENTATION for more examples.</B>'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashCommitmentRequest'
+            examples:
+              Request Mandatory ARM Retained:
+                $ref: '#/components/examples/MandatoryARMSellerRetainedContractRequest'
+              Request Mandatory Fixed Retained:
+                $ref: '#/components/examples/MandatoryFixedSellerRetainedContractRequest'
+              Request Mandatory Fixed Released:
+                $ref: '#/components/examples/MandatoryFixedSellerReleasedContractRequest'
+              Request Mandatory Fixed CTOS:
+                $ref: '#/components/examples/MandatoryFixedSellerCTOSContractRequest'
+              Request Mandatory Fixed CTOS v2.0:
+                $ref: '#/components/examples/MandatoryFixedSellerCTOSNoAIFContRequest'
+              Request Mandatory Fixed CTOS With AIF v2.0:
+                $ref: '#/components/examples/ManFixedSellerCTOSContWithAIFContRequest'
+              Request Best Efforts Fixed Retained:
+                $ref: '#/components/examples/BestEffortsFixedSellerRetainedContractRequest'
+        required: true
+      responses:
+        '200':
+          description: "<b>OK</b> \n\n <font size='2' color='black'><b>Business error codes and details can be found in related documentation.</b></font>\n\n <B>Scenarios</B> \n\n <B>AUTH0002</B> Invalid Seller Identifier. \n\n <B>AUTH0003</B> Seller is not currently active. \n\n <B>AUTH0004</B> Invalid Requesting Party Account Identifier provided. \n\n <B>AUTH0007</B> Invalid Organization Identifier provided. \n\n <B>AUTH00010</B> Invalid Requesting Party Account Identifier and/or Organization Identifier provided. \n\n <B>AUTH00011</B> Requesting Party Account Identifier and/or Organization Identifier is not provided. \n\n <B>AUTH00014</B> Requesting Party Account Identifier is not provided. \n\n <B>AUTH00015</B> The user is not eligible for Counter Party Type of Secondary Market Advisor. \n\n <B>AUTH0016</B> Invalid request. please update servicingOption container. \n\n"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashCommitmentPriceResponse'
+              examples:
+                Response Mandatory ARM Retained:
+                  $ref: '#/components/examples/MandatoryARMSellerRetainedContractResponse'
+                Response Mandatory Fixed Retained:
+                  $ref: '#/components/examples/MandatoryFixedSellerRetainedContractResponse'
+                Response Mandatory Fixed Released:
+                  $ref: '#/components/examples/MandatoryFixedSellerReleasedContractResponse'
+                Response Mandatory Fixed CTOS:
+                  $ref: '#/components/examples/MandatoryFixedSellerCTOSContractResponse'
+                Response Mandatory Fixed CTOS No AIF:
+                  $ref: '#/components/examples/MandatoryFixedSellerCTOSNOAFIResponse'
+                Response Mandatory Fixed CTOS With AIF:
+                  $ref: '#/components/examples/ManFixedSellerCTOSContWithAllInFundRes'
+                Response Best Efforts Fixed Retained:
+                  $ref: '#/components/examples/BestEffortsFixedSellerRetainedContractResponse'
+        '401':
+          description: "<b>Unauthorized</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>401</B> Rejected by policy"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceErrorResponse401'
+              example:
+                error: Rejected by policy
+                code: 401.007
+                errors:
+                - status: Unauthorized
+                  detail:
+                  - error: Invalid User Credentials.
+                  timestamp: '2025-08-07T19:19:39.906Z'
+        '403':
+          description: "<b>The user does not have the permission to access the function</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>403</B> Rejected by policy"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceErrorResponse403'
+              example:
+              - ErrorCode: '403'
+                ErrorMessage: Rejected by Policy.
+        '500':
+          description: "<b>Internal server error.</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>500</b> The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance \n\n <b>500</b> Message too large \n\n <b>500</b> Invalid JSON format \n\n <b>500</b> Internal error \n\n <b>500</b> Request limit exceeded \n\n <b>500</b> Connection timeout from backend \n\n <b>500</b> Failed to establish backside connection"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceErrorResponse500'
+              example:
+                CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
+                ResponseTime: 07/11/2025 16:37:23
+                CommitmentPriceResponses:
+                - ContractBase:
+                    CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
+                  CommitmentErrors:
+                  - ErrorCode: '500'
+                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+  /cash-contracts/price-decision-v1:
+    post:
+      operationId: price-decision
+      tags:
+      - Cash Committing
+      summary: Cash Committing Price Decision
+      parameters:
+      - name: Content-Type
+        in: header
+        description: Content type to be passed as a header
+        required: true
+        schema:
+          type: string
+          default: application/json
+      - name: env
+        in: header
+        description: 'Environment:'
+        schema:
+          type: string
+          enum:
+          - ProductionBaseline
+          - Pre-Production
+          default: ProductionBaseline
+      - name: version
+        in: header
+        description: API Version
+        schema:
+          type: string
+          default: '1.0'
+      requestBody:
+        description: 'Please change following fields to submit a valid request and ''Try it out'' (where applicable): <div><ul><li> RequestingPartyAccountIdentifier</li><li>CounterPartyType</li><li> ResponseToken </li><li>SellerIdentifier</li><li> ContractIdentifier </li></ul></div><br><B> Please refer to RELATED DOCUMENTATION for more examples.</B>'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashCommitmentRequest'
+            examples:
+              Request Decision:
+                $ref: '#/components/examples/CashContractDecisionRequest'
+        required: true
+      responses:
+        '200':
+          description: "<b>OK</b> \n\n <font size='2' color='black'><b>Business error codes and details can be found in related documentation.</b></font>\n\n <B>Scenarios</B> \n\n <B>AUTH0002</B> Invalid Seller Identifier. \n\n <B>DATA0002</B> Invalid combination of Seller Identifier and Contract Identifier. \n\n"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashContractDecisionResponse'
+              examples:
+                Response Decision:
+                  $ref: '#/components/examples/CashContractDecisionResponse'
+        '401':
+          description: "<b>Unauthorized</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>401</B> Rejected by policy"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceErrorResponse401'
+              example:
+                error: Rejected by policy
+                code: 401.007
+                errors:
+                - status: Unauthorized
+                  detail:
+                  - error: Invalid User Credentials.
+                  timestamp: '2025-07-11T19:19:39.906Z'
+        '403':
+          description: "<b>The user does not have the permission to access the function</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>403</B> Rejected by policy"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceErrorResponse403'
+              example:
+              - ErrorCode: '403'
+                ErrorMessage: Rejected by Policy.
+        '500':
+          description: "<b>Internal server error.</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>500</b> The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance \n\n <b>500</b> Message too large \n\n <b>500</b> Invalid JSON format \n\n <b>500</b> Internal error \n\n <b>500</b> Request limit exceeded \n\n <b>500</b> Connection timeout from backend \n\n <b>500</b> Failed to establish backside connection"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceDecisionErrorResponse500'
+              example:
+                CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
+                ResponseTime: 07/11/2025 16:37:23
+                CommitmentPriceDecisionResponses:
+                - SellerIdentifier: '999999'
+                  CommitmentErrors:
+                  - ErrorCode: '500'
+                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+  /cash-contracts/extension-v1:
+    post:
+      operationId: extension
+      tags:
+      - Cash Committing
+      summary: Cash Committing Extension
+      parameters:
+      - name: Content-Type
+        in: header
+        description: Content type to be passed as a header
+        required: true
+        schema:
+          type: string
+          default: application/json
+      - name: env
+        in: header
+        description: 'Environment:'
+        schema:
+          type: string
+          enum:
+          - ProductionBaseline
+          - Pre-Production
+          default: ProductionBaseline
+      - name: version
+        in: header
+        description: API Version
+        schema:
+          type: string
+          default: '1.0'
+      requestBody:
+        description: 'Please change following fields to submit a valid request and ''Try it out'' (where applicable): <div><ul><li>RequestingPartyAccountIdentifier</li><li>CounterPartyType</li><li>SellerIdentifier</li><li>ContractIdentifier</li></ul></div><br><B> Please refer to RELATED DOCUMENTATION for more examples.</B>'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashCommitmentRequest'
+            examples:
+              Request Extension:
+                $ref: '#/components/examples/CashContractExtensionRequest'
+        required: true
+      responses:
+        '200':
+          description: "<b>OK</b> \n\n <font size='2' color='black'><b>Business error codes and details can be found in related documentation.</b></font>\n\n <B>Scenarios</B> \n\n <B>AUTH0002</B> Invalid Seller Identifier \n\n <B>DATA0002</B> Invalid combination of Seller Identifier and Contract Identifier. \n\n <B>DATA0042</B> Mandatory Contracts can be extended for any number of days from 1 day up to and including 30 days beyond the original expiration date. \n\n <B>DATA0044</B> Best Efforts Contracts can be extended for any number of days from 1 day up to and including 30 days beyond the original expiration date. \n\n <B>SYST0014</B> Unable to perform extension for requested contract as it is expired. \n\n <B>SYST0017</B> Mandatory Contracts can be extended for any number of days from 1 day up to and including 30 days beyond the original expiration date. \n\n"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashContractExtensionResponse'
+              examples:
+                Response Extension:
+                  $ref: '#/components/examples/CashContractExtensionResponse'
+        '401':
+          description: "<b>Unauthorized</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>401</B> Rejected by policy"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceErrorResponse401'
+              example:
+                error: Rejected by policy
+                code: 401.007
+                errors:
+                - status: Unauthorized
+                  detail:
+                  - error: Invalid User Credentials.
+                  timestamp: '2025-07-12T19:19:39.906Z'
+        '403':
+          description: "<b>The user does not have the permission to access the function</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>403</B> Rejected by policy"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceErrorResponse403'
+              example:
+              - ErrorCode: '403'
+                ErrorMessage: Rejected by Policy.
+        '500':
+          description: "<b>Internal server error.</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>500</b> The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance \n\n <b>500</b> Message too large \n\n <b>500</b> Invalid JSON format \n\n <b>500</b> Internal error \n\n <b>500</b> Request limit exceeded \n\n <b>500</b> Connection timeout from backend \n\n <b>500</b> Failed to establish backside connection"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtensionErrorResponse500'
+              example:
+                CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
+                ResponseTime: 07/11/2025 16:37:23
+                CommitmentExtensionResponses:
+                - CommitmentErrors:
+                  - ErrorCode: '500'
+                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+  /cash-contracts/extension-decision-v1:
+    post:
+      operationId: extension-decision
+      tags:
+      - Cash Committing
+      summary: Cash Committing Extension Decision
+      parameters:
+      - name: Content-Type
+        in: header
+        description: Content type to be passed as a header
+        required: true
+        schema:
+          type: string
+          default: application/json
+      - name: env
+        in: header
+        description: 'Environment:'
+        schema:
+          type: string
+          enum:
+          - ProductionBaseline
+          - Pre-Production
+          default: ProductionBaseline
+      - name: version
+        in: header
+        description: API Version
+        schema:
+          type: string
+          default: '1.0'
+      requestBody:
+        description: 'Please change following fields to submit a valid request and ''Try it out'' (where applicable): <div><ul><li>RequestingPartyAccountIdentifier</li><li>CounterPartyType</li><li>ResponseToken</li><li>SellerIdentifier</li><li>ContractIdentifier</li></ul></div><br><B> Please refer to RELATED DOCUMENTATION for more examples.</B>'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashCommitmentRequest'
+            examples:
+              Request Extension Decision:
+                $ref: '#/components/examples/CashContractExtensionDecisionRequest'
+        required: true
+      responses:
+        '200':
+          description: "<b>OK</b> \n\n <font size='2' color='black'><b>Business error codes and details can be found in related documentation.</b></font>\n\n <B>Scenarios</B> \n\n <B>AUTH0002</B> Invalid Seller Identifier \n\n <B>DATA0002</B> Invalid combination of Seller Identifier and Contract Identifier. \n\n "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashContractExtensionDecisionResponse'
+              examples:
+                Response Extension Decision:
+                  $ref: '#/components/examples/CashContractExtensionDecisionResponse'
+        '401':
+          description: "<b>Unauthorized</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>401</B> Rejected by policy"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceErrorResponse401'
+              example:
+                error: Rejected by policy
+                code: 401.007
+                errors:
+                - status: Unauthorized
+                  detail:
+                  - error: Invalid User Credentials.
+                  timestamp: '2025-07-11T19:19:39.906Z'
+        '403':
+          description: "<b>The user does not have the permission to access the function</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>403</B> Rejected by policy"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceErrorResponse403'
+              example:
+              - ErrorCode: '403'
+                ErrorMessage: Rejected by Policy.
+        '500':
+          description: "<b>Internal server error.</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>500</b> The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance \n\n <b>500</b> Message too large \n\n <b>500</b> Invalid JSON format \n\n <b>500</b> Internal error \n\n <b>500</b> Request limit exceeded \n\n <b>500</b> Connection timeout from backend \n\n <b>500</b> Failed to establish backside connection"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtensionDecisionErrorResponse500'
+              example:
+                CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
+                ResponseTime: 07/11/2025 16:37:23
+                CommitmentExtensionDecisionResponses:
+                - ContractIdentifier: '999999999'
+                  CommitmentErrors:
+                  - ErrorCode: '500'
+                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+  /cash-contracts/pairoff-v1:
+    post:
+      operationId: pairoff
+      tags:
+      - Cash Committing
+      summary: Cash Committing Pairoff
+      parameters:
+      - name: Content-Type
+        in: header
+        description: Content type to be passed as a header
+        required: true
+        schema:
+          type: string
+          default: application/json
+      - name: env
+        in: header
+        description: 'Environment:'
+        schema:
+          type: string
+          enum:
+          - ProductionBaseline
+          - Pre-Production
+          default: ProductionBaseline
+      - name: version
+        in: header
+        description: API Version
+        schema:
+          type: string
+          default: '1.0'
+      requestBody:
+        description: 'Please change following fields to submit a valid request and ''Try it out'' (where applicable): <div><ul><li>RequestingPartyAccountIdentifier</li><li>CounterPartyType</li><li>SellerIdentifier</li><li>ContractIdentifier</li></ul></div><br><B> Please refer to RELATED DOCUMENTATION for more examples.</B>'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashCommitmentRequest'
+            examples:
+              Request Pairoff:
+                $ref: '#/components/examples/CashContractPairoffRequest'
+        required: true
+      responses:
+        '200':
+          description: "<b>OK</b> \n\n <font size='2' color='black'><b>Business error codes and details can be found in related documentation.</b></font>\n\n <B>Scenarios</B> \n\n <B>AUTH0002</B> Invalid Seller Identifier \n\n <B>DATA0002</B> Invalid combination of Seller Identifier and Contract Identifier. \n\n <B>DATA0042</B> Mandatory Contracts can be extended for any number of days from 1 day up to and including 30 days beyond the original expiration date. \n\n <B>DATA0044</B> Best Efforts Contracts can be extended for any number of days from 1 day up to and including 30 days beyond the original expiration date. \n\n <B>SYST0014</B> Unable to perform extension for requested contract as it is expired. \n\n <B>SYST0017</B> Mandatory Contracts can be extended for any number of days from 1 day up to and including 30 days beyond the original expiration date. \n\n"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashContractPairoffResponse'
+              examples:
+                Response Extension:
+                  $ref: '#/components/examples/CashContractPairoffResponse'
+        '401':
+          description: "<b>Unauthorized</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>401</B> Rejected by policy"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceErrorResponse401'
+              example:
+                error: Rejected by policy
+                code: 401.007
+                errors:
+                - status: Unauthorized
+                  detail:
+                  - error: Invalid User Credentials.
+                  timestamp: '2025-07-12T19:19:39.906Z'
+        '403':
+          description: "<b>The user does not have the permission to access the function</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>403</B> Rejected by policy"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceErrorResponse403'
+              example:
+              - ErrorCode: '403'
+                ErrorMessage: Rejected by Policy.
+        '500':
+          description: "<b>Internal server error.</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>500</b> The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance \n\n <b>500</b> Message too large \n\n <b>500</b> Invalid JSON format \n\n <b>500</b> Internal error \n\n <b>500</b> Request limit exceeded \n\n <b>500</b> Connection timeout from backend \n\n <b>500</b> Failed to establish backside connection"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PairoffErrorResponse500'
+              example:
+                CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
+                ResponseTime: 07/11/2025 16:37:23
+                CommitmentPairoffResponses:
+                - CommitmentErrors:
+                  - ErrorCode: '500'
+                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+  /cash-contracts/pairoff-decision-v1:
+    post:
+      operationId: pairoff-decision
+      tags:
+      - Cash Committing
+      summary: Cash Committing Pairoff Decision
+      parameters:
+      - name: Content-Type
+        in: header
+        description: Content type to be passed as a header
+        required: true
+        schema:
+          type: string
+          default: application/json
+      - name: env
+        in: header
+        description: 'Environment:'
+        schema:
+          type: string
+          enum:
+          - ProductionBaseline
+          - Pre-Production
+          default: ProductionBaseline
+      - name: version
+        in: header
+        description: API Version
+        schema:
+          type: string
+          default: '1.0'
+      requestBody:
+        description: 'Please change following fields to submit a valid request and ''Try it out'' (where applicable): <div><ul><li>RequestingPartyAccountIdentifier</li><li>CounterPartyType</li><li>ResponseToken</li><li>SellerIdentifier</li><li>ContractIdentifier</li></ul></div><br><B> Please refer to RELATED DOCUMENTATION for more examples.</B>'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashCommitmentRequest'
+            examples:
+              Request Pairoff Decision:
+                $ref: '#/components/examples/CashContractPairoffDecisionRequest'
+        required: true
+      responses:
+        '200':
+          description: "<b>OK</b> \n\n <font size='2' color='black'><b>Business error codes and details can be found in related documentation.</b></font>\n\n <B>Scenarios</B> \n\n <B>AUTH0002</B> Invalid Seller Identifier \n\n <B>DATA0002</B> Invalid combination of Seller Identifier and Contract Identifier. \n\n "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashContractPairoffDecisionResponse'
+              examples:
+                Response Pairoff Decision:
+                  $ref: '#/components/examples/CashContractPairoffDecisionResponse'
+        '401':
+          description: "<b>Unauthorized</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>401</B> Rejected by policy"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceErrorResponse401'
+              example:
+                error: Rejected by policy
+                code: 401.007
+                errors:
+                - status: Unauthorized
+                  detail:
+                  - error: Invalid User Credentials.
+                  timestamp: '2025-07-11T19:19:39.906Z'
+        '403':
+          description: "<b>The user does not have the permission to access the function</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>403</B> Rejected by policy"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceErrorResponse403'
+              example:
+              - ErrorCode: '403'
+                ErrorMessage: Rejected by Policy.
+        '500':
+          description: "<b>Internal server error.</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>500</b> The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance \n\n <b>500</b> Message too large \n\n <b>500</b> Invalid JSON format \n\n <b>500</b> Internal error \n\n <b>500</b> Request limit exceeded \n\n <b>500</b> Connection timeout from backend \n\n <b>500</b> Failed to establish backside connection"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PairoffDecisionErrorResponse500'
+              example:
+                CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
+                ResponseTime: 07/11/2025 16:37:23
+                CommitmentPairoffDecisionResponses:
+                - ContractIdentifier: '999999999'
+                  CommitmentErrors:
+                  - ErrorCode: '500'
+                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+components:
+  schemas:
+    CashContractPairoffResponse:
+      required:
+      - CorrelationIdentifier
+      - CommitmentPairoffResponses
+      properties:
+        CorrelationIdentifier:
+          type: string
+          example: 533a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime:
+          type: string
+          example: 07/11/2025 14:28:19
+        StatusType:
+          type: string
+          example: SUCCESS
+        ResponseToken:
+          type: string
+          example: CTcZUb/QejeRtGaJy91CR45H8MnqXpevrujWXbMXkXUwguUyF5yKa5ujP/nfgRLkbdcf0ztSMZyV62Jl1PDqxV2c/PP3Dk2DoAv/5t9t2P0=
+        CommitmentPairoffResponses:
+          type: array
+          items:
+            type: object
+            properties:
+              ContractIdentifier:
+                type: string
+                example: 99999999
+              PairoffResult:
+                type: object
+                properties:
+                  ContractDurationDayCount:
+                    type: string
+                  AmountDueToFreddieMac:
+                    type: string
+                  ToleranceAmount:
+                    type: string
+                  RequestedPairoffAmount:
+                    type: number
+                  OriginalContractAmount:
+                    type: string
+                  LoanPurchaseContractType:
+                    type: string
+                  FundedLoans:
+                    type: string
+                  AmountDueToCustomer:
+                    type: string
+                  NonFundedLoans:
+                    type: string
+                  ExpirationDate:
+                    type: string
+                additionalProperties: false
+            additionalProperties: false
+    PriceErrorResponse500:
+      required:
+      - CorrelationIdentifier
+      - ResponseTime
+      - CommitmentPriceResponses
+      properties:
+        CorrelationIdentifier:
+          type: string
+          example: e2b7048e-6307-48a5-b8a1-29235a91183a
+        ResponseTime:
+          type: string
+          example: 07/11/2025 16:37:23
+        CommitmentPriceResponses:
+          type: array
+          example:
+          - ContractBase:
+              CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
+            CommitmentErrors:
+            - ErrorCode: '500'
+              ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+          items:
+            anyOf:
+            - type: object
+              example:
+                ContractBase:
+                  CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
+                CommitmentErrors:
+                - ErrorCode: '500'
+                  ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+              required:
+              - ContractBase
+              - CommitmentErrors
+              properties:
+                ContractBase:
+                  type: object
+                  example:
+                    CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
+                  required:
+                  - CorrelationIdentifier
+                  properties:
+                    CorrelationIdentifier:
+                      type: string
+                      example: e2b7048e-6307-48a5-b8a1-29235a91183a
+                  additionalProperties: true
+                CommitmentErrors:
+                  type: array
+                  example:
+                  - ErrorCode: '500'
+                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                  items:
+                    anyOf:
+                    - type: object
+                      example:
+                        ErrorCode: '500'
+                        ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      required:
+                      - ErrorCode
+                      - ErrorMessage
+                      properties:
+                        ErrorCode:
+                          type: string
+                          example: '500'
+                        ErrorMessage:
+                          type: string
+                          example: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      additionalProperties: true
+              additionalProperties: true
+    PairoffDecisionErrorResponse500:
+      required:
+      - CorrelationIdentifier
+      - ResponseTime
+      - CommitmentPairoffDecisionResponses
+      properties:
+        CorrelationIdentifier:
+          type: string
+          example: e2b7048e-6307-48a5-b8a1-29235a91183a
+        ResponseTime:
+          type: string
+          example: 07/11/2025 16:37:23
+        CommitmentPairoffDecisionResponses:
+          type: array
+          example:
+          - CommitmentErrors:
+            - ErrorCode: '500'
+              ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+          items:
+            anyOf:
+            - type: object
+              example:
+                CommitmentErrors:
+                - ErrorCode: '500'
+                  ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+              required:
+              - CommitmentErrors
+              properties:
+                CommitmentErrors:
+                  type: array
+                  example:
+                  - ErrorCode: '500'
+                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                  items:
+                    anyOf:
+                    - type: object
+                      example:
+                        ErrorCode: '500'
+                        ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      required:
+                      - ErrorCode
+                      - ErrorMessage
+                      properties:
+                        ErrorCode:
+                          type: string
+                          example: '500'
+                        ErrorMessage:
+                          type: string
+                          example: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      additionalProperties: true
+              additionalProperties: true
+    ExtensionErrorResponse500:
+      required:
+      - CorrelationIdentifier
+      - ResponseTime
+      - CommitmentExtensionResponses
+      properties:
+        CorrelationIdentifier:
+          type: string
+          example: e2b7048e-6307-48a5-b8a1-29235a91183a
+        ResponseTime:
+          type: string
+          example: 07/11/2025 16:37:23
+        CommitmentExtensionResponses:
+          type: array
+          example:
+          - CommitmentErrors:
+            - ErrorCode: '500'
+              ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+          items:
+            anyOf:
+            - type: object
+              example:
+                CommitmentErrors:
+                - ErrorCode: '500'
+                  ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+              required:
+              - CommitmentErrors
+              properties:
+                CommitmentErrors:
+                  type: array
+                  example:
+                  - ErrorCode: '500'
+                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                  items:
+                    anyOf:
+                    - type: object
+                      example:
+                        ErrorCode: '500'
+                        ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      required:
+                      - ErrorCode
+                      - ErrorMessage
+                      properties:
+                        ErrorCode:
+                          type: string
+                          example: '500'
+                        ErrorMessage:
+                          type: string
+                          example: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      additionalProperties: true
+              additionalProperties: true
+    CashCommitmentRequest:
+      type: object
+      required:
+      - CommitmentRequestMetaData
+      properties:
+        CommitmentRequestMetaData:
+          type: object
+          properties:
+            CorrelationIdentifier:
+              type: string
+              example: 533a425b-5823-4b43-9054-73490b7dbde9
+            RequestTime:
+              type: string
+              example: 2025-07-0911T23:57:12.480-04:00
+            ResponseToken:
+              type: string
+              description: ResponseToken to be sent for price decision operations in hexcode format. The value should be same as the ResponseToken sent in price operation respectively
+              example: 8bbef9261b2b4120de81ec6ce32caec448788cb9cf235bb3887376d3b13845c66713f4c1a2495956dee3915a68d33803
+            RequestingPartyAccountIdentifier:
+              type: string
+              example: '879603'
+            CounterPartyType:
+              type: string
+            OrganizationIdentifier:
+              type: integer
+            VendorIdentifier:
+              type: string
+            VendorName:
+              type: string
+            VendorSoftware:
+              type: string
+            VendorSoftwareVersion:
+              type: string
+            TemplateVersion:
+              type: number
+          additionalProperties: false
+          required:
+          - CorrelationIdentifier
+        Commitments:
+          type: array
+          items:
+            type: object
+            properties:
+              ContractBase:
+                type: object
+                properties:
+                  CorrelationIdentifier:
+                    type: string
+                    example: 533a425b-5823-4b43-9054-73490b7dbde9
+                  LoanPurchaseContractType:
+                    type: string
+                    example: Mandatory
+                  LoanAmortizationType:
+                    type: string
+                    example: Fixed
+                  SystemContractExecutionMethodType:
+                    type: string
+                    example: Cash
+                  ServicingOptionType:
+                    type: string
+                    example: Retained
+                  SellerIdentifier:
+                    type: string
+                    example: '999999'
+                  ContractName:
+                    type: string
+                    example: Cash Mandatory 15 YR
+                  PricingIdentifier:
+                    type: string
+                    example: M99999999
+                  ProductDefinition:
+                    type: number
+                    example: '1008'
+                additionalProperties: false
+                required:
+                - CorrelationIdentifier
+              ServicingOption:
+                type: object
+                properties:
+                  ServicingOptionRetained:
+                    type: object
+                    properties:
+                      CounterpartyAccountIdentifier:
+                        type: string
+                        example: '999999'
+                      ServicingFeeRate:
+                        type: number
+                        example: '0.00250'
+                      ContractRemittanceScheduleType:
+                        type: string
+                        example: Gold
+                      InterestAccountingMethodType:
+                        type: string
+                        example: Scheduled/Actual
+                    additionalProperties: false
+                  ServicingOptionReleased:
+                    type: object
+                    properties:
+                      ContractAverageLoanUPBAmount:
+                        type: number
+                        example: '2000.0'
+                      ContractEscrowDepthType:
+                        type: string
+                        example: Not Escrowed
+                      ContractAMinusIndicator:
+                        type: string
+                        example: 'true'
+                      CrossSellRightsRetentionIndicator:
+                        type: string
+                        example: Seller Retained
+                      StateType:
+                        type: string
+                        example: DC
+                      FinancedUnitCount:
+                        type: string
+                      MortgageType:
+                        type: string
+                      MortgageConformityType:
+                        type: string
+                      PropertyEstateType:
+                        type: string
+                      ProjectLegalStructureType:
+                        type: string
+                      ConstructionMethodType:
+                        type: string
+                      LegalEntityType:
+                        type: string
+                      LoanProductPaymentFrequencyType:
+                        type: string
+                      LoanScheduledFirstPaymentDate:
+                        type: string
+                      LoanPurposeType:
+                        type: string
+                      LoanRefinanceCashOutDeterminationType:
+                        type: string
+                      LoanOriginatorType:
+                        type: string
+                      LoanPropertyUsageType:
+                        type: string
+                      LoanLevelCreditScoreValue:
+                        type: number
+                      LTVRatioPercent:
+                        type: number
+                      HMDARateSpreadPercent:
+                        type: string
+                      CombinedLTVRatioPercent:
+                        type: number
+                      LoanProgramIdentifierType:
+                        type: array
+                        items:
+                          type: string
+                          example: Renovation
+                      RefinanceProgramIdentifierType:
+                        type: string
+                      InvestorFeatureIdentifier:
+                        type: array
+                        items:
+                          type: string
+                          example: ifi
+                      ConvertibleFlag:
+                        type: string
+                      BuyDownTemporarySubsidyIndicator:
+                        type: string
+                      AssumabilityIndicator:
+                        type: string
+                      RemoteOnlineNotarizationIndicator:
+                        type: string
+                        example: 'true'
+                    additionalProperties: false
+                  ServicingOptionCTOS:
+                    type: object
+                    properties:
+                      CounterpartyAccountIdentifier:
+                        type: string
+                        example: '999999'
+                      ServicingFeeRate:
+                        type: number
+                        example: '0.00250'
+                      ContractRemittanceScheduleType:
+                        type: string
+                        example: Gold
+                      InterestAccountingMethodType:
+                        type: string
+                        example: Scheduled/Actual
+                      ContractAverageLoanUPBAmount:
+                        type: number
+                        example: '2000.0'
+                      ContractEscrowDepthType:
+                        type: string
+                        example: Not Escrowed
+                      ContractAMinusIndicator:
+                        type: string
+                        example: 'true'
+                      CrossSellRightsRetentionIndicator:
+                        type: string
+                        example: Seller Retained
+                      StateType:
+                        type: string
+                        example: DC
+                      FinancedUnitCount:
+                        type: string
+                      MortgageType:
+                        type: string
+                      MortgageConformityType:
+                        type: string
+                      PropertyEstateType:
+                        type: string
+                      ProjectLegalStructureType:
+                        type: string
+                      ConstructionMethodType:
+                        type: string
+                      LegalEntityType:
+                        type: string
+                      LoanProductPaymentFrequencyType:
+                        type: string
+                      LoanScheduledFirstPaymentDate:
+                        type: string
+                      LoanPurposeType:
+                        type: string
+                      LoanRefinanceCashOutDeterminationType:
+                        type: string
+                      LoanOriginatorType:
+                        type: string
+                      LoanPropertyUsageType:
+                        type: string
+                      LoanLevelCreditScoreValue:
+                        type: number
+                      LTVRatioPercent:
+                        type: number
+                      HMDARateSpreadPercent:
+                        type: string
+                      CombinedLTVRatioPercent:
+                        type: number
+                      LoanProgramIdentifierType:
+                        type: array
+                        items:
+                          type: string
+                          example: Renovation
+                      RefinanceProgramIdentifierType:
+                        type: string
+                      InvestorFeatureIdentifier:
+                        type: array
+                        items:
+                          type: string
+                          example: ifi
+                      ConvertibleFlag:
+                        type: string
+                      BuyDownTemporarySubsidyIndicator:
+                        type: string
+                      AssumabilityIndicator:
+                        type: string
+                      RemoteOnlineNotarizationIndicator:
+                        type: string
+                        example: 'true'
+                    additionalProperties: false
+                additionalProperties: false
+              CashContract:
+                type: object
+                properties:
+                  OriginalContractAmount:
+                    type: number
+                  ContractDurationDayCount:
+                    type: integer
+                    example: '15'
+                  CashSpecifiedPoolIndicator:
+                    type: string
+                    example: 'No'
+                  CashSpecifiedPoolType:
+                    type: string
+                  ContractLTVRangeType:
+                    type: object
+                    required:
+                    - min
+                    - max
+                    properties:
+                      min:
+                        type: number
+                      max:
+                        type: number
+                    additionalProperties: false
+                  ContractFixedInterestRateRange:
+                    type: object
+                    properties:
+                      min:
+                        type: number
+                      max:
+                        type: number
+                    additionalProperties: false
+                  ContractInterestRate:
+                    type: number
+                  ServicingFeeRate:
+                    type: number
+                additionalProperties: false
+            additionalProperties: false
+            required:
+            - ContractBase
+        Decisions:
+          type: array
+          items:
+            type: object
+            properties:
+              SellerIdentifier:
+                type: string
+                example: '999999'
+              ContractIdentifier:
+                type: string
+              DecisionType:
+                type: string
+                example: Accept
+            additionalProperties: false
+            required:
+            - ContractIdentifier
+            - SellerIdentifier
+            - DecisionType
+        CommitmentExtensions:
+          type: array
+          items:
+            type: object
+            properties:
+              SellerIdentifier:
+                type: string
+                example: '999999'
+              ContractIdentifier:
+                type: string
+                example: '99999999'
+              ContractExtensionPeriod:
+                type: integer
+                example: 3
+            additionalProperties: false
+            required:
+            - ContractIdentifier
+            - SellerIdentifier
+            - ContractExtensionPeriod
+        CommitmentPairoffs:
+          type: array
+          items:
+            type: object
+            properties:
+              SellerIdentifier:
+                type: string
+                example: '999999'
+              ContractIdentifier:
+                type: string
+                example: '99999999'
+              PairoffType:
+                type: string
+                example: Other Amount
+              PairoffUPBAmount:
+                type: integer
+                example: 9999
+            additionalProperties: false
+            required:
+            - ContractIdentifier
+            - SellerIdentifier
+            - PairoffType
+            - PairoffUPBAmount
+    CashCommitmentPriceResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - CorrelationIdentifier
+      - ResponseTime
+      - CommitmentPriceResponses
+      properties:
+        CorrelationIdentifier:
+          type: string
+          example: 533a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime:
+          type: string
+          example: 07/11/2025 14:18:06
+        ResponseToken:
+          type: string
+          example: cFG4/GmaaSx5jXpyEwDCeDUsebhQlffwYWAO3q0ju+mXbyYcsFiFH5glYSVFlrqsOnEc3UuQTdD3z0h588B4Vg==
+        CommitmentPriceResponses:
+          type: array
+          items:
+            type: object
+            properties:
+              ContractBase:
+                type: object
+                properties:
+                  CorrelationIdentifier:
+                    type: string
+                    example: 533a425b-5823-4b43-9054-73490b7dbde9
+                  ContractIdentifier:
+                    type: string
+                    example: '99999999'
+                  LoanPurchaseContractType:
+                    type: string
+                    example: Mandatory
+                  LoanAmortizationType:
+                    type: string
+                    example: Fixed
+                  SystemContractExecutionMethodType:
+                    type: string
+                    example: Cash
+                  ServicingOptionType:
+                    type: string
+                    example: Released
+                  SellerIdentifier:
+                    type: string
+                    example: '999999'
+                  ContractName:
+                    type: string
+                    example: sys2sys_seller
+                  PricingIdentifier:
+                    type: string
+                    example: M99999999
+                  ProductDefinition:
+                    type: integer
+                    example: 1008
+                  EffectiveDate:
+                    type: string
+                    example: 07/11/2025 14:17:57
+                  ContractExpirationDate:
+                    type: string
+                    example: 07/27/2025
+                  PurchaseContractStatusType:
+                    type: string
+                    example: Open
+                  RemainingBalance:
+                    type: string
+                    example: 100000
+                  ConvertibleFlag:
+                    type: string
+                    example: 'false'
+                  AssumabilityIndicator:
+                    type: string
+                    example: 'true'
+                  TotalUPB:
+                    type: string
+                    example: 0
+              ServicingOption:
+                type: object
+                properties:
+                  ServicingOptionReleased:
+                    type: object
+                    properties:
+                      ContractAverageLoanUPBAmount:
+                        type: string
+                        example: 2000
+                      ContractEscrowDepthType:
+                        type: string
+                        example: Taxes And Insurance
+                      ContractAMinusIndicator:
+                        type: string
+                        example: 'false'
+                      CrossSellRightsRetentionIndicator:
+                        type: string
+                        example: 'false'
+                      StateType:
+                        type: string
+                        example: DC
+                      MortgageType:
+                        type: string
+                        example: Conventional
+                      MortgageConformityType:
+                        type: string
+                        example: Conforming Mortgage
+                      PropertyEstateType:
+                        type: string
+                        example: Fee Simple
+                      ProjectLegalStructureType:
+                        type: string
+                        example: Condominium
+                      ConstructionMethodType:
+                        type: string
+                        example: Manufactured
+                      LoanProductPaymentFrequencyType:
+                        type: string
+                        example: Monthly
+                      LoanScheduledFirstPaymentDate:
+                        type: string
+                        example: 07/11/2025
+                      LoanPurposeType:
+                        type: string
+                        example: Purchase
+                      LoanOriginatorType:
+                        type: string
+                        example: Lender
+                      FinancedUnitCount:
+                        type: string
+                        example: '1'
+                      LoanLevelCreditScoreValue:
+                        type: integer
+                        example: 786
+                      LTVRatioPercent:
+                        type: number
+                        example: 2
+                      HMDARateSpreadPercent:
+                        type: string
+                        example: '0.06'
+                      CombinedLTVRatioPercent:
+                        type: number
+                        example: 2
+                      LoanProgramIdentifierType:
+                        type: array
+                        items:
+                          type: string
+                          example: Renovation
+                      InvestorFeatureIdentifier:
+                        type: array
+                        items:
+                          type: string
+                          example: ifi
+                      ConvertibleFlag:
+                        type: string
+                        example: 'false'
+                      RemoteOnlineNotarizationIndicator:
+                        type: string
+                        example: 'true'
+                      LoanRefinanceCashOutDeterminationType:
+                        type: string
+                        example: Cash Out
+                      RefinanceProgramIdentifierType:
+                        type: string
+                        example: Texas Equity
+                      BuyDownTemporarySubsidyIndicator:
+                        type: string
+                        example: 'false'
+                      AssumabilityIndicator:
+                        type: string
+                        example: 'false'
+                  ServicingOptionCTOS:
+                    type: object
+                    properties:
+                      PayoffRemittanceDayCount:
+                        type: integer
+                      InterestAccountingMethodType:
+                        type: string
+                      ContractRemittanceScheduleType:
+                        type: string
+                      CounterpartyAccountIdentifier:
+                        type: string
+                      ServicingFeeRate:
+                        type: number
+                      ContractAverageLoanUPBAmount:
+                        type: string
+                        example: 2000
+                      ContractEscrowDepthType:
+                        type: string
+                        example: Taxes And Insurance
+                      ContractAMinusIndicator:
+                        type: string
+                        example: 'false'
+                      CrossSellRightsRetentionIndicator:
+                        type: string
+                        example: 'false'
+                      StateType:
+                        type: string
+                        example: DC
+                      MortgageType:
+                        type: string
+                        example: Conventional
+                      MortgageConformityType:
+                        type: string
+                        example: Conforming Mortgage
+                      PropertyEstateType:
+                        type: string
+                        example: Fee Simple
+                      ProjectLegalStructureType:
+                        type: string
+                        example: Condominium
+                      ConstructionMethodType:
+                        type: string
+                        example: Manufactured
+                      LoanProductPaymentFrequencyType:
+                        type: string
+                        example: Monthly
+                      LoanScheduledFirstPaymentDate:
+                        type: string
+                        example: 07/11/2025
+                      LoanPurposeType:
+                        type: string
+                        example: Purchase
+                      LoanOriginatorType:
+                        type: string
+                        example: Lender
+                      FinancedUnitCount:
+                        type: string
+                        example: '1'
+                      LoanLevelCreditScoreValue:
+                        type: integer
+                        example: 786
+                      LTVRatioPercent:
+                        type: number
+                        example: 2
+                      HMDARateSpreadPercent:
+                        type: string
+                        example: '0.06'
+                      CombinedLTVRatioPercent:
+                        type: number
+                        example: 2
+                      LoanProgramIdentifierType:
+                        type: array
+                        items:
+                          type: string
+                          example: Renovation
+                      InvestorFeatureIdentifier:
+                        type: array
+                        items:
+                          type: string
+                          example: ifi
+                      ConvertibleFlag:
+                        type: string
+                        example: 'false'
+                      RemoteOnlineNotarizationIndicator:
+                        type: string
+                        example: 'true'
+                      LoanRefinanceCashOutDeterminationType:
+                        type: string
+                        example: Cash Out
+                      RefinanceProgramIdentifierType:
+                        type: string
+                        example: Texas Equity
+                      BuyDownTemporarySubsidyIndicator:
+                        type: string
+                        example: 'false'
+                      AssumabilityIndicator:
+                        type: string
+                        example: 'false'
+                  ServicingOptionRetained:
+                    type: object
+                    properties:
+                      PayoffRemittanceDayCount:
+                        type: integer
+                      InterestAccountingMethodType:
+                        type: string
+                      ContractRemittanceScheduleType:
+                        type: string
+                      CounterpartyAccountIdentifier:
+                        type: string
+                      ServicingFeeRate:
+                        type: number
+              CashContract:
+                type: object
+                properties:
+                  OriginalContractAmount:
+                    type: string
+                    example: 100000
+                  ContractDurationDayCount:
+                    type: integer
+                    example: 15
+                  CashSpecifiedPoolIndicator:
+                    type: string
+                    example: 'Yes'
+                  CashSpecifiedPoolType:
+                    type: string
+                    example: Max LLB <= 175,000
+                  ContractLTVRangeType:
+                    type: object
+                    properties:
+                      min:
+                        type: number
+                        example: 0
+                      max:
+                        type: number
+                        example: 105
+                  ContractFixedInterestRateRange:
+                    type: object
+                    properties:
+                      min:
+                        type: number
+                        example: 6
+                      max:
+                        type: number
+                        example: 6.5
+                  ContractGrossMarginRange:
+                    type: object
+                    properties:
+                      min:
+                        type: string
+                        example: '2.500'
+                      max:
+                        type: string
+                        example: '3.250'
+                  ServicingFeeRate:
+                    type: number
+                    example: 0.25
+                  LoanBalloonIndicator:
+                    type: string
+                    example: 'false'
+                  LoanAmortizationPeriodType:
+                    type: string
+                    example: Month
+                  LoanAmortizationPeriodCount:
+                    type: string
+                    example: 239 to 362 months
+                  LoanMaturityPeriodCount:
+                    type: string
+                    example: 241 to 360 months
+                  MortgageType:
+                    type: string
+                    example: Conventional
+                  MasterCommitmentPurposeType:
+                    type: string
+                    example: Flow
+                  TotalPairoffAmount:
+                    type: string
+                    example: '0.0'
+              CommitmentPriceResult:
+                type: object
+                properties:
+                  PriceDateTime:
+                    type: string
+                    example: 07/11/2025 02:18:06
+                  PriceResults:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        InterestRate:
+                          type: string
+                          example: '3.000'
+                        ContractPrice:
+                          type: string
+                          example: '92.849'
+                        ContractSRP:
+                          type: string
+                          example: '8.250'
+                        ContractAssetPrice:
+                          type: string
+                          example: '92.849'
+              CommitmentErrors:
+                type: array
+                example:
+                - ErrorCode: ELIG0003
+                  ErrorMessage: Invalid Contract Product Identifier.
+                items:
+                  anyOf:
+                  - type: object
+                    example:
+                      ErrorCode: ELIG0003
+                      ErrorMessage: Invalid Contract Product Identifier.
+                    required:
+                    - ErrorCode
+                    - ErrorMessage
+                    properties:
+                      ErrorCode:
+                        type: string
+                        example: ELIG0003
+                      ErrorMessage:
+                        type: string
+                        example: Invalid Contract Product Identifier.
+                    additionalProperties: true
+    PriceErrorResponse401:
+      required:
+      - error
+      - code
+      - errors
+      properties:
+        error:
+          type: string
+          example: Rejected by policy
+        code:
+          type: number
+          example: 401.007
+        errors:
+          type: array
+          example:
+          - status: Unauthorized
+            detail:
+            - error: Invalid User Credentials.
+            timestamp: '2021-12-01T19:19:39.906Z'
+          items:
+            anyOf:
+            - type: object
+              example:
+                status: Unauthorized
+                detail:
+                - error: Invalid User Credentials.
+                timestamp: '2025-07-11T19:19:39.906Z'
+              required:
+              - status
+              - detail
+              - timestamp
+              properties:
+                status:
+                  type: string
+                  example: Unauthorized
+                detail:
+                  type: array
+                  example:
+                  - error: Invalid User Credentials.
+                  items:
+                    anyOf:
+                    - type: object
+                      example:
+                        error: Invalid User Credentials.
+                      required:
+                      - error
+                      properties:
+                        error:
+                          type: string
+                          example: Invalid User Credentials.
+                      additionalProperties: true
+                timestamp:
+                  type: string
+                  example: '2025-07-11T19:19:39.906Z'
+              additionalProperties: true
+    CashContractExtensionResponse:
+      required:
+      - CorrelationIdentifier
+      - CommitmentExtensionResponses
+      properties:
+        CorrelationIdentifier:
+          type: string
+          example: 533a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime:
+          type: string
+          example: 07/11/2025 14:28:19
+        StatusType:
+          type: string
+          example: SUCCESS
+        ResponseToken:
+          type: string
+          example: CTcZUb/QejeRtGaJy91CR45H8MnqXpevrujWXbMXkXUwguUyF5yKa5ujP/nfgRLkbdcf0ztSMZyV62Jl1PDqxV2c/PP3Dk2DoAv/5t9t2P0=
+        CommitmentExtensionResponses:
+          type: array
+          items:
+            type: object
+            properties:
+              ContractIdentifier:
+                type: string
+                example: 99999999
+              ExtensionFeeAssessed:
+                type: object
+                properties:
+                  AmountDueToFreddieMac:
+                    type: number
+                additionalProperties: false
+              ExtensionDetails:
+                type: object
+                properties:
+                  AmountToExtend:
+                    type: number
+                  DaysToExtend:
+                    type: string
+                  NewExpirationDate:
+                    type: string
+                  NewContractPeriod:
+                    type: string
+                additionalProperties: false
+            additionalProperties: false
+    CashContractPairoffDecisionResponse:
+      required:
+      - CorrelationIdentifier
+      - CommitmentPairoffDecisionResponses
+      properties:
+        CorrelationIdentifier:
+          type: string
+          example: 533a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime:
+          type: string
+          example: 07/11/2025 14:28:39
+        CommitmentPairoffDecisionResponses:
+          type: array
+          items:
+            type: object
+            properties:
+              SellerIdentifier:
+                type: string
+                example: '999999'
+              ContractIdentifier:
+                type: string
+                example: '99999999'
+              PurchaseContractStatusType:
+                type: string
+                example: Accepted
+              AcceptedDateTime:
+                type: string
+                example: 07/11/2025 14:28:18
+              DecisionStatus:
+                type: string
+                example: ACCEPT
+    ExtensionDecisionErrorResponse500:
+      required:
+      - CorrelationIdentifier
+      - ResponseTime
+      - CommitmentExtensionDecisionResponses
+      properties:
+        CorrelationIdentifier:
+          type: string
+          example: e2b7048e-6307-48a5-b8a1-29235a91183a
+        ResponseTime:
+          type: string
+          example: 07/11/2025 16:37:23
+        CommitmentExtensionDecisionResponses:
+          type: array
+          example:
+          - CommitmentErrors:
+            - ErrorCode: '500'
+              ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+          items:
+            anyOf:
+            - type: object
+              example:
+                CommitmentErrors:
+                - ErrorCode: '500'
+                  ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+              required:
+              - CommitmentErrors
+              properties:
+                CommitmentErrors:
+                  type: array
+                  example:
+                  - ErrorCode: '500'
+                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                  items:
+                    anyOf:
+                    - type: object
+                      example:
+                        ErrorCode: '500'
+                        ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      required:
+                      - ErrorCode
+                      - ErrorMessage
+                      properties:
+                        ErrorCode:
+                          type: string
+                          example: '500'
+                        ErrorMessage:
+                          type: string
+                          example: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      additionalProperties: true
+              additionalProperties: true
+    PriceErrorResponse403:
+      required:
+      - ErrorCode
+      - ErrorMessage
+      properties:
+        ErrorCode:
+          type: string
+          example: '403'
+        ErrorMessage:
+          type: string
+          example: Rejected by Policy.
+    CashContractExtensionDecisionResponse:
+      required:
+      - CorrelationIdentifier
+      - CommitmentExtensionDecisionResponses
+      properties:
+        CorrelationIdentifier:
+          type: string
+          example: 533a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime:
+          type: string
+          example: 07/11/2025 14:28:39
+        CommitmentExtensionDecisionResponses:
+          type: array
+          items:
+            type: object
+            properties:
+              SellerIdentifier:
+                type: string
+                example: '999999'
+              ContractIdentifier:
+                type: string
+                example: '99999999'
+              PurchaseContractStatusType:
+                type: string
+                example: Accepted
+              AcceptedDateTime:
+                type: string
+                example: 07/11/2025 14:28:18
+              DecisionStatus:
+                type: string
+                example: ACCEPT
+    CashContractDecisionResponse:
+      required:
+      - CorrelationIdentifier
+      - CommitmentPriceDecisionResponses
+      properties:
+        CorrelationIdentifier:
+          type: string
+          example: 533a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime:
+          type: string
+          example: 07/11/2025 14:18:35
+        CommitmentPriceDecisionResponses:
+          type: array
+          items:
+            type: object
+            properties:
+              ContractIdentifier:
+                type: string
+                example: '99999999'
+              SellerIdentifier:
+                type: string
+                example: '999999'
+              PurchaseContractStatusType:
+                type: string
+                example: Accepted
+              AcceptedDateTime:
+                type: string
+                example: 07/11/2025 14:18:06
+              DecisionStatus:
+                type: string
+                example: ACCEPT
+    PriceDecisionErrorResponse500:
+      required:
+      - CorrelationIdentifier
+      - ResponseTime
+      - CommitmentPriceDecisionResponses
+      properties:
+        CorrelationIdentifier:
+          type: string
+          example: e2b7048e-6307-48a5-b8a1-29235a91183a
+        ResponseTime:
+          type: string
+          example: 07/11/2025 16:37:23
+        CommitmentPriceDecisionResponses:
+          type: array
+          example:
+          - SellerIdentifier: '999999'
+            CommitmentErrors:
+            - ErrorCode: '500'
+              ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+          items:
+            anyOf:
+            - type: object
+              example:
+                SellerIdentifier: '999999'
+                CommitmentErrors:
+                - ErrorCode: '500'
+                  ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+              required:
+              - SellerIdentifier
+              - CommitmentErrors
+              properties:
+                SellerIdentifier:
+                  type: string
+                  example:
+                    SellerIdentifier: '999999'
+                  additionalProperties: true
+                CommitmentErrors:
+                  type: array
+                  example:
+                  - ErrorCode: '500'
+                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                  items:
+                    anyOf:
+                    - type: object
+                      example:
+                        ErrorCode: '500'
+                        ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      required:
+                      - ErrorCode
+                      - ErrorMessage
+                      properties:
+                        ErrorCode:
+                          type: string
+                          example: '500'
+                        ErrorMessage:
+                          type: string
+                          example: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      additionalProperties: true
+              additionalProperties: true
+    PairoffErrorResponse500:
+      required:
+      - CorrelationIdentifier
+      - ResponseTime
+      - CommitmentPairoffResponses
+      properties:
+        CorrelationIdentifier:
+          type: string
+          example: e2b7048e-6307-48a5-b8a1-29235a91183a
+        ResponseTime:
+          type: string
+          example: 07/11/2025 16:37:23
+        CommitmentPairoffResponses:
+          type: array
+          example:
+          - CommitmentErrors:
+            - ErrorCode: '500'
+              ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+          items:
+            anyOf:
+            - type: object
+              example:
+                CommitmentErrors:
+                - ErrorCode: '500'
+                  ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+              required:
+              - CommitmentErrors
+              properties:
+                CommitmentErrors:
+                  type: array
+                  example:
+                  - ErrorCode: '500'
+                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                  items:
+                    anyOf:
+                    - type: object
+                      example:
+                        ErrorCode: '500'
+                        ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      required:
+                      - ErrorCode
+                      - ErrorMessage
+                      properties:
+                        ErrorCode:
+                          type: string
+                          example: '500'
+                        ErrorMessage:
+                          type: string
+                          example: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      additionalProperties: true
+              additionalProperties: true
+  examples:
+    MandatoryFixedSellerCTOSNoAIFContRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+          RequestTime: 07/11/2025 17:17:10
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          VendorIdentifier: ''
+          VendorName: ''
+          VendorSoftware: ''
+          VendorSoftwareVersion: ''
+          TemplateVersion: 1.0
+        Commitments:
+        - ContractBase:
+            CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+            SystemContractExecutionMethodType: Cash
+            LoanPurchaseContractType: Mandatory
+            LoanAmortizationType: Fixed
+            ServicingOptionType: CTOS
+            SellerIdentifier: '999999'
+            ContractName: Cash CTOS
+            PricingIdentifier: NONE
+            ProductDefinition: 1008
+          ServicingOption:
+            ServicingOptionCTOS:
+              CounterpartyAccountIdentifier: '999999'
+              ServicingFeeRate: 0.25
+              ContractRemittanceScheduleType: Standard
+              InterestAccountingMethodType: Scheduled/Actual
+          CashContract:
+            OriginalContractAmount: 125000.0
+            ContractDurationDayCount: 25
+            CashSpecifiedPoolIndicator: 'Yes'
+            CashSpecifiedPoolType: Max LLB <= 225,000
+            ContractLTVRangeType:
+              min: 0
+              max: 105
+            ContractFixedInterestRateRange:
+              min: 6
+              max: 6.5
+    CashContractPairoffResponse:
+      value:
+        CorrelationIdentifier: 8704cn70184nc4817984n01n8798CC871113
+        ResponseTime: 11/05/2025 15:31:51
+        StatusType: SUCCESS
+        ResponseToken: jbf6k9K5z9XaqVi18MnZgHygTklFgrbZE/nKgP+Grx7QRExULUzUNLN3gZy3+rMYTp+356wDjs7BUWy2ra0FMg==
+        CommitmentPairoffResponses:
+        - ContractIdentifier: '999999999'
+          PairoffResult:
+            ContractDurationDayCount: '30'
+            AmountDueToFreddieMac: '0.00'
+            ToleranceAmount: '25000.00'
+            RequestedPairoffAmount: 1000.0
+            OriginalContractAmount: '1000000.00'
+            LoanPurchaseContractType: Mandatory
+            FundedLoans: '0.00'
+            AmountDueToCustomer: '0.81'
+            NonFundedLoans: '0.00'
+            ExpirationDate: 12/03/2025
+    CashContractDecisionRequest:
+      value:
+        CommitmentRequestMetaData:
+          RequestTime: 07/11/2025 17:17:10
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+          ResponseToken: 26a/W5KYd/5Jz1EkLoaaWuiMZ1fVbJd5N9m0q03xPDrHOO8OCU/6GtgEoYcC7uD0RmAxrS6rzPUyPVQZfSRlbw==
+          TemplateVersion: 1.0
+        Decisions:
+        - SellerIdentifier: '999999'
+          ContractIdentifier: '999999999'
+          DecisionType: Accept
+    MandatoryFixedSellerCTOSNOAFIResponse:
+      value:
+        CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+        ResponseTime: 07/08/2025 11:06:28
+        ResponseToken: Rx8wefK/w9gDWOTydYDmPz8SqsqEQ+Kt8jFIaYCCU89mhpj//OI+gpDxOhtFku/eIVWd1wDIITxsrWER6FBkXA==
+        CommitmentPriceResponses:
+        - ContractBase:
+            ProductDefinition: 1008
+            PurchaseContractStatusType: Open
+            RemainingBalance: '125000.00'
+            ContractExpirationDate: 08/04/2025
+            ContractName: Cash CTOS
+            LoanAmortizationType: Fixed
+            PricingIdentifier: NONE
+            SystemContractExecutionMethodType: Cash
+            SellerIdentifier: '999999'
+            LoanPurchaseContractType: Mandatory
+            ServicingOptionType: Concurrent TOS
+            ContractIdentifier: '99999999'
+            EffectiveDate: 07/08/2025 11:06:26
+            CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+            TotalUPB: '0.00'
+          ServicingOption:
+            ServicingOptionCTOS:
+              PayoffRemittanceDayCount: 5
+              InterestAccountingMethodType: Scheduled/Actual
+              ContractRemittanceScheduleType: Standard
+              CounterpartyAccountIdentifier: '999999'
+              ServicingFeeRate: 0.25
+          CashContract:
+            ContractDurationDayCount: '25'
+            LoanAmortizationPeriodCount: 239 to 362 months
+            ContractFixedInterestRateRange:
+              min: 6.0
+              max: 6.5
+            ContractLTVRangeType:
+              min: 0.0
+              max: 105.0
+            LoanAmortizationPeriodType: Month
+            LoanBalloonIndicator: 'false'
+            OriginalContractAmount: '125000.00'
+            MortgageType: Conventional
+            MasterCommitmentPurposeType: Flow
+            LoanMaturityPeriodCount: 241 to 360 months
+            CashSpecifiedPoolIndicator: 'Yes'
+            CashSpecifiedPoolType: Max LLB <= 250,000
+            TotalPairoffAmount: '0.0'
+          CommitmentPriceResult:
+            PriceDateTime: 07/08/2025 11:06:28
+            PriceResults:
+            - InterestRate: '6.000'
+              ContractPrice: '99.026'
+            - InterestRate: '6.125'
+              ContractPrice: '99.593'
+            - InterestRate: '6.250'
+              ContractPrice: '100.044'
+            - InterestRate: '6.375'
+              ContractPrice: '100.627'
+            - InterestRate: '6.500'
+              ContractPrice: '101.093'
+    CashContractExtensionRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+          RequestTime: 07/11/2025 09:43:45
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          VendorIdentifier: ''
+          VendorName: ''
+          VendorSoftware: ''
+          VendorSoftwareVersion: ''
+          TemplateVersion: 1.0
+        CommitmentExtensions:
+        - SellerIdentifier: '999999'
+          ContractIdentifier: '99999999'
+          ContractExtensionPeriod: 3
+    CashContractExtensionDecisionRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+          RequestTime: 07/11/2025 09:44:45
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          ResponseToken: eVY+k/+VldJtr9pX+54/9Zs8xjj50Lvkyn2FkwmYu6Kn/MW6oudtaZ6/EvPI9oAHVO9/PAj33lUsH4CQkxQlDg==
+          VendorIdentifier: ''
+          VendorName: ''
+          VendorSoftware: ''
+          VendorSoftwareVersion: ''
+          TemplateVersion: 1.0
+        Decisions:
+        - SellerIdentifier: '999999'
+          ContractIdentifier: '99999999'
+          DecisionType: Accept
+    BestEffortsFixedSellerRetainedContractResponse:
+      value:
+        CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+        ResponseTime: 07/07/2025 14:36:57
+        ResponseToken: MH02ky34DJgxnRWNP3BCP5w+drXwEyoQRl3iU3Je6wm68l2MJQlp3vIdGCLnYITkmpXHXWr8FIo6XEojrmZZLg==
+        CommitmentPriceResponses:
+        - ContractBase:
+            ProductDefinition: 1008
+            PurchaseContractStatusType: Open
+            RemainingBalance: '125000.00'
+            ContractExpirationDate: 08/01/2025
+            ContractName: Cash Retained
+            LoanAmortizationType: Fixed
+            PricingIdentifier: NONE
+            SystemContractExecutionMethodType: Cash
+            SellerIdentifier: '999999'
+            LoanPurchaseContractType: Best Efforts
+            ServicingOptionType: Retained
+            ContractIdentifier: '999999999'
+            EffectiveDate: 07/07/2025 14:36:55
+            CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+            TotalUPB: '0.00'
+          ServicingOption:
+            ServicingOptionRetained:
+              PayoffRemittanceDayCount: 5
+              InterestAccountingMethodType: Scheduled/Actual
+              ContractRemittanceScheduleType: Standard
+              CounterpartyAccountIdentifier: '999999'
+              ServicingFeeRate: 0.25
+          CashContract:
+            ContractDurationDayCount: '25'
+            LoanAmortizationPeriodCount: 239 to 362 months
+            ContractFixedInterestRateRange:
+              min: 4.0
+              max: 4.0
+            ContractLTVRangeType:
+              min: 0.0
+              max: 105.0
+            LoanAmortizationPeriodType: Month
+            LoanBalloonIndicator: 'false'
+            OriginalContractAmount: '125000.00'
+            MortgageType: Conventional
+            MasterCommitmentPurposeType: Flow
+            LoanMaturityPeriodCount: 241 to 360 months
+            CashSpecifiedPoolIndicator: 'No'
+            TotalPairoffAmount: '0.0'
+          CommitmentPriceResult:
+            PriceDateTime: 07/07/2025 14:36:57
+            PriceResults:
+            - InterestRate: '4.000'
+              ContractPrice: '86.851'
+    MandatoryFixedSellerReleasedContractResponse:
+      value:
+        CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+        ResponseTime: 07/11/2025 17:37:58
+        ResponseToken: 0bhYdfari2nsX8OqraCS5A5x1NBXOZnNNJu6LAJq+PUDmIAs/8Ph4PnH32yIrzFTWeyH7LdsTGtOlaxwb2yfAQ==
+        CommitmentPriceResponses:
+        - ContractBase:
+            CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+            ContractIdentifier: '999999999'
+            LoanPurchaseContractType: Mandatory
+            LoanAmortizationType: Fixed
+            SystemContractExecutionMethodType: Cash
+            ServicingOptionType: Released
+            SellerIdentifier: '999999'
+            ContractName: Fixed_Released
+            PricingIdentifier: NONE
+            ProductDefinition: 1008
+            EffectiveDate: 05/12/2022 17:37:48
+            ContractExpirationDate: 08/11/2025
+            PurchaseContractStatusType: Open
+            RemainingBalance: '1000000.00'
+            TotalUPB: '0.00'
+          ServicingOption:
+            ServicingOptionReleased:
+              ContractAverageLoanUPBAmount: '100000.00'
+              ContractEscrowDepthType: Not Escrowed
+              ContractAMinusIndicator: 'false'
+              CrossSellRightsRetentionIndicator: 'false'
+              StateType: CA
+              FinancedUnitCount: '1'
+              MortgageType: Conventional
+              MortgageConformityType: Conforming Mortgage
+              ProjectLegalStructureType: Condominium
+              LoanProductPaymentFrequencyType: Monthly
+              RemoteOnlineNotarizationIndicator: 'true'
+              LoanScheduledFirstPaymentDate: 07/20/2025
+              LoanPurposeType: Purchase
+              LoanLevelCreditScoreValue: 720
+              LTVRatioPercent: 87.0
+              CombinedLTVRatioPercent: '87'
+              InvestorFeatureIdentifier:
+              - H01
+              ConvertibleFlag: 'false'
+              AssumabilityIndicator: 'false'
+              BuyDownTemporarySubsidyIndicator: 'False'
+              HMDARateSpreadPercent: '0.06'
+              LoanOriginatorType: Lender
+          CashContract:
+            OriginalContractAmount: '1000000.00'
+            ContractDurationDayCount: '15'
+            CashSpecifiedPoolIndicator: 'Yes'
+            CashSpecifiedPoolType: Max LLB <= 225,000
+            ContractLTVRangeType:
+              min: 0.0
+              max: 105.0
+            ContractFixedInterestRateRange:
+              min: 4.0
+              max: 4.5
+            LoanBalloonIndicator: 'false'
+            LoanAmortizationPeriodType: Month
+            LoanAmortizationPeriodCount: 239 to 362 months
+            LoanMaturityPeriodCount: 241 to 360 months
+            MortgageType: Conventional
+            MasterCommitmentPurposeType: Flow
+            TotalPairoffAmount: '0.0'
+          CommitmentPriceResult:
+            PriceDateTime: 07/11/2025 17:37:58
+            PriceResults:
+            - InterestRate: '4.000'
+              ContractPrice: '98.596'
+              ContractSRP: '1.140'
+              ContractAssetPrice: '97.456'
+            - InterestRate: '4.125'
+              ContractPrice: '99.243'
+              ContractSRP: '1.140'
+              ContractAssetPrice: '98.103'
+            - InterestRate: '4.250'
+              ContractPrice: '100.125'
+              ContractSRP: '1.140'
+              ContractAssetPrice: '98.985'
+            - InterestRate: '4.375'
+              ContractPrice: '100.668'
+              ContractSRP: '1.140'
+              ContractAssetPrice: '99.528'
+            - InterestRate: '4.500'
+              ContractPrice: '101.302'
+              ContractSRP: '1.140'
+              ContractAssetPrice: '100.162'
+    CashContractPairoffDecisionResponse:
+      value:
+        CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime: 07/11/2025 09:49:56
+        CommitmentPairoffDecisionResponses:
+        - SellerIdentifier: '999999'
+          ContractIdentifier: '99999999'
+          PurchaseContractStatusType: Accepted
+          AcceptedDateTime: 07/11/2025 09:49:56 000
+          DecisionStatus: ACCEPT
+    MandatoryFixedSellerRetainedContractRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+          RequestTime: 07/11/2025 11:22:05
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          VendorIdentifier: compass123
+          VendorName: Compass
+          VendorSoftware: '002'
+          VendorSoftwareVersion: '0.2'
+          TemplateVersion: 1.0
+        Commitments:
+        - ContractBase:
+            CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+            SystemContractExecutionMethodType: Cash
+            LoanPurchaseContractType: Mandatory
+            LoanAmortizationType: Fixed
+            ServicingOptionType: Retained
+            SellerIdentifier: '999999'
+            ContractName: Cash Retained
+            PricingIdentifier: NONE
+            ProductDefinition: 1008
+          ServicingOption:
+            ServicingOptionRetained:
+              CounterpartyAccountIdentifier: '999999'
+              ServicingFeeRate: 0.25
+              ContractRemittanceScheduleType: Standard
+              InterestAccountingMethodType: Scheduled/Actual
+          CashContract:
+            OriginalContractAmount: 125000.0
+            ContractDurationDayCount: 25
+            CashSpecifiedPoolIndicator: 'No'
+            CashSpecifiedPoolType: ''
+            ContractLTVRangeType:
+              min: 0
+              max: 105
+            ContractFixedInterestRateRange:
+              min: 6
+              max: 6.5
+    MandatoryFixedSellerRetainedContractResponse:
+      value:
+        CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+        ResponseTime: 07/11/2025 16:53:42
+        ResponseToken: OfA6x47xQtGc1I0dTPcehVYnKdyT9HysZUCIuERqw+l0Xj15Xd1k5iqk0nB+HTLwtDZyDh5ghmZG99Zz/m3zfQ==
+        CommitmentPriceResponses:
+        - ContractBase:
+            CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+            ContractIdentifier: '999999999'
+            LoanPurchaseContractType: Mandatory
+            LoanAmortizationType: Fixed
+            SystemContractExecutionMethodType: Cash
+            ServicingOptionType: Retained
+            SellerIdentifier: '999999'
+            ContractName: Cash Retained
+            PricingIdentifier: NONE
+            ProductDefinition: 1008
+            EffectiveDate: 07/11/2025 16:53:35
+            ContractExpirationDate: 08/06/2025
+            PurchaseContractStatusType: Open
+            RemainingBalance: '125000.00'
+            TotalUPB: '0.00'
+          ServicingOption:
+            ServicingOptionRetained:
+              CounterpartyAccountIdentifier: '999999'
+              ServicingFeeRate: 0.25
+              ContractRemittanceScheduleType: Standard
+              InterestAccountingMethodType: Scheduled/Actual
+              PayoffRemittanceDayCount: 5
+          CashContract:
+            OriginalContractAmount: '125000.00'
+            ContractDurationDayCount: '25'
+            CashSpecifiedPoolIndicator: 'No'
+            ContractLTVRangeType:
+              min: 0.0
+              max: 105.0
+            ContractFixedInterestRateRange:
+              min: 6.0
+              max: 6.5
+            LoanBalloonIndicator: 'false'
+            LoanAmortizationPeriodType: Month
+            LoanAmortizationPeriodCount: 239 to 362 months
+            LoanMaturityPeriodCount: 241 to 360 months
+            MortgageType: Conventional
+            MasterCommitmentPurposeType: Flow
+            TotalPairoffAmount: '0.0'
+          CommitmentPriceResult:
+            PriceDateTime: 07/11/2025 16:53:42
+            PriceResults:
+            - InterestRate: '3.000'
+              ContractPrice: '93.304'
+            - InterestRate: '3.125'
+              ContractPrice: '94.142'
+            - InterestRate: '3.250'
+              ContractPrice: '91.740'
+            - InterestRate: '3.375'
+              ContractPrice: '92.697'
+            - InterestRate: '3.500'
+              ContractPrice: '93.608'
+    MandatoryFixedSellerReleasedContractRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+          RequestTime: 07/11/2025 04:59:53
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          VendorIdentifier: ''
+          VendorName: ''
+          VendorSoftware: ''
+          VendorSoftwareVersion: ''
+          TemplateVersion: 1.0
+        Commitments:
+        - ContractBase:
+            CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+            LoanPurchaseContractType: Mandatory
+            LoanAmortizationType: Fixed
+            SystemContractExecutionMethodType: Cash
+            ServicingOptionType: Released
+            SellerIdentifier: '999999'
+            ContractName: Fixed_Released
+            PricingIdentifier: NONE
+            ProductDefinition: 1008
+          ServicingOption:
+            ServicingOptionReleased:
+              ContractAverageLoanUPBAmount: 100000
+              ContractEscrowDepthType: Not Escrowed
+              ContractAMinusIndicator: 'False'
+              CrossSellRightsRetentionIndicator: 'False'
+              StateType: CA
+              FinancedUnitCount: '1'
+              MortgageType: Conventional
+              MortgageConformityType: Conforming Mortgage
+              PropertyEstateType: ''
+              ProjectLegalStructureType: Condominium
+              ConstructionMethodType: ''
+              LegalEntityType: ''
+              LoanProductPaymentFrequencyType: Monthly
+              LoanScheduledFirstPaymentDate: '2025-07-20'
+              LoanPurposeType: Purchase
+              LoanRefinanceCashOutDeterminationType: ''
+              LoanLevelCreditScoreValue: 720
+              RemoteOnlineNotarizationIndicator: 'true'
+              LTVRatioPercent: 87
+              LoanPropertyUsageType: Primary Residence
+              CombinedLTVRatioPercent: 87
+              LoanProgramIdentifierType:
+              - ''
+              RefinanceProgramIdentifierType: ''
+              InvestorFeatureIdentifier:
+              - H01
+              ConvertibleFlag: 'False'
+              AssumabilityIndicator: 'False'
+              HMDARateSpreadPercent: '0.06'
+              LoanOriginatorType: Lender
+              BuyDownTemporarySubsidyIndicator: 'False'
+          CashContract:
+            OriginalContractAmount: 1000000
+            ContractDurationDayCount: 15
+            CashSpecifiedPoolIndicator: 'Yes'
+            CashSpecifiedPoolType: Max LLB <= 225,000
+            ContractLTVRangeType:
+              min: 0
+              max: 105
+            ContractFixedInterestRateRange:
+              min: 4
+              max: 4.5
+    ManFixedSellerCTOSContWithAIFContRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+          RequestTime: 07/11/2025 17:17:10
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          VendorIdentifier: ''
+          VendorName: ''
+          VendorSoftware: ''
+          VendorSoftwareVersion: ''
+          TemplateVersion: 1.0
+        Commitments:
+        - ContractBase:
+            CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+            SystemContractExecutionMethodType: Cash
+            LoanPurchaseContractType: Mandatory
+            LoanAmortizationType: Fixed
+            ServicingOptionType: CTOS
+            SellerIdentifier: '999999'
+            ContractName: Cash CTOS
+            PricingIdentifier: NONE
+            ProductDefinition: 1008
+          ServicingOption:
+            ServicingOptionCTOS:
+              CounterpartyAccountIdentifier: '999999'
+              ServicingFeeRate: 0.25
+              ContractRemittanceScheduleType: Standard
+              InterestAccountingMethodType: Scheduled/Actual
+              ContractAverageLoanUPBAmount: 100000
+              ContractEscrowDepthType: Not Escrowed
+              ContractAMinusIndicator: 'False'
+              CrossSellRightsRetentionIndicator: 'False'
+              StateType: CA
+              FinancedUnitCount: '1'
+              MortgageType: Conventional
+              MortgageConformityType: Conforming Mortgage
+              PropertyEstateType: ''
+              ProjectLegalStructureType: Condominium
+              ConstructionMethodType: ''
+              LegalEntityType: ''
+              LoanProductPaymentFrequencyType: Monthly
+              LoanScheduledFirstPaymentDate: '2025-07-20'
+              LoanPurposeType: Purchase
+              LoanRefinanceCashOutDeterminationType: ''
+              LoanLevelCreditScoreValue: 720
+              RemoteOnlineNotarizationIndicator: 'true'
+              LTVRatioPercent: 87
+              LoanPropertyUsageType: Primary Residence
+              CombinedLTVRatioPercent: 87
+              LoanProgramIdentifierType:
+              - ''
+              RefinanceProgramIdentifierType: ''
+              InvestorFeatureIdentifier:
+              - H01
+              ConvertibleFlag: 'False'
+              AssumabilityIndicator: 'False'
+              HMDARateSpreadPercent: '0.06'
+              LoanOriginatorType: Lender
+              BuyDownTemporarySubsidyIndicator: 'False'
+          CashContract:
+            OriginalContractAmount: 125000.0
+            ContractDurationDayCount: 25
+            CashSpecifiedPoolIndicator: 'Yes'
+            CashSpecifiedPoolType: Max LLB <= 225,000
+            ContractLTVRangeType:
+              min: 0
+              max: 105
+            ContractFixedInterestRateRange:
+              min: 6
+              max: 6.5
+    CashContractExtensionDecisionResponse:
+      value:
+        CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime: 07/11/2025 09:49:56
+        CommitmentExtensionDecisionResponses:
+        - SellerIdentifier: '999999'
+          ContractIdentifier: '99999999'
+          PurchaseContractStatusType: Accepted
+          AcceptedDateTime: 07/11/2025 09:49:56 000
+          DecisionStatus: ACCEPT
+    CashContractExtensionResponse:
+      value:
+        CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime: 07/11/2025 09:43:49
+        StatusType: SUCCESS
+        ResponseToken: eVY+k/+VldJtr9pX+54/9Zs8xjj50Lvkyn2FkwmYu6Kn/MW6oudtaZ6/EvPI9oAHVO9/PAj33lUsH4CQkxQlDg==
+        CommitmentExtensionResponses:
+        - ContractIdentifier: '99999999'
+          ExtensionFeeAssessed:
+            AmountDueToFreddieMac: 27.54
+          ExtensionDetails:
+            AmountToExtend: 100000.0
+            DaysToExtend: 3
+            NewExpirationDate: 2025/07/12 23:59:59 012
+            NewContractPeriod: 6
+    ManFixedSellerCTOSContWithAllInFundRes:
+      value:
+        CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+        ResponseTime: 07/08/2025 11:06:28
+        ResponseToken: Rx8wefK/w9gDWOTydYDmPz8SqsqEQ+Kt8jFIaYCCU89mhpj//OI+gpDxOhtFku/eIVWd1wDIITxsrWER6FBkXA==
+        CommitmentPriceResponses:
+        - ContractBase:
+            ProductDefinition: 1008
+            PurchaseContractStatusType: Open
+            RemainingBalance: '125000.00'
+            ContractExpirationDate: 08/04/2025
+            ContractName: Cash CTOS
+            LoanAmortizationType: Fixed
+            PricingIdentifier: NONE
+            SystemContractExecutionMethodType: Cash
+            SellerIdentifier: '999999'
+            LoanPurchaseContractType: Mandatory
+            ServicingOptionType: Concurrent TOS
+            ContractIdentifier: '99999999'
+            EffectiveDate: 07/08/2025 11:06:26
+            CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+            TotalUPB: '0.00'
+          ServicingOption:
+            ServicingOptionCTOS:
+              PayoffRemittanceDayCount: 5
+              InterestAccountingMethodType: Scheduled/Actual
+              ContractRemittanceScheduleType: Standard
+              CounterpartyAccountIdentifier: '999999'
+              ServicingFeeRate: 0.25
+              ContractAverageLoanUPBAmount: '100000.00'
+              ContractEscrowDepthType: Not Escrowed
+              ContractAMinusIndicator: 'false'
+              CrossSellRightsRetentionIndicator: 'false'
+              StateType: CA
+              FinancedUnitCount: '1'
+              MortgageType: Conventional
+              MortgageConformityType: Conforming Mortgage
+              ProjectLegalStructureType: Condominium
+              LoanProductPaymentFrequencyType: Monthly
+              RemoteOnlineNotarizationIndicator: 'true'
+              LoanScheduledFirstPaymentDate: 07/20/2025
+              LoanPurposeType: Purchase
+              LoanLevelCreditScoreValue: 720
+              LTVRatioPercent: 87.0
+              CombinedLTVRatioPercent: '87'
+              InvestorFeatureIdentifier:
+              - H01
+              ConvertibleFlag: 'false'
+              AssumabilityIndicator: 'false'
+              BuyDownTemporarySubsidyIndicator: 'False'
+              HMDARateSpreadPercent: '0.06'
+              LoanOriginatorType: Lender
+          CashContract:
+            ContractDurationDayCount: '25'
+            LoanAmortizationPeriodCount: 239 to 362 months
+            ContractFixedInterestRateRange:
+              min: 6.0
+              max: 6.5
+            ContractLTVRangeType:
+              min: 0.0
+              max: 105.0
+            LoanAmortizationPeriodType: Month
+            LoanBalloonIndicator: 'false'
+            OriginalContractAmount: '125000.00'
+            MortgageType: Conventional
+            MasterCommitmentPurposeType: Flow
+            LoanMaturityPeriodCount: 241 to 360 months
+            CashSpecifiedPoolIndicator: 'Yes'
+            CashSpecifiedPoolType: Max LLB <= 250,000
+            TotalPairoffAmount: '0.0'
+          CommitmentPriceResult:
+            PriceDateTime: 07/08/2025 11:06:28
+            PriceResults:
+            - InterestRate: '6.000'
+              ContractPrice: '99.026'
+              ContractSRP: '1.140'
+              ContractAssetPrice: '97.456'
+            - InterestRate: '6.125'
+              ContractPrice: '99.593'
+              ContractSRP: '1.140'
+              ContractAssetPrice: '98.103'
+            - InterestRate: '6.250'
+              ContractPrice: '100.044'
+              ContractSRP: '1.140'
+              ContractAssetPrice: '98.985'
+            - InterestRate: '6.375'
+              ContractPrice: '100.627'
+              ContractSRP: '1.140'
+              ContractAssetPrice: '99.528'
+            - InterestRate: '6.500'
+              ContractPrice: '101.093'
+              ContractSRP: '1.140'
+              ContractAssetPrice: '100.162'
+    BestEffortsFixedSellerRetainedContractRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+          RequestTime: 07/07/2025 14:36:56
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          VendorIdentifier: compass123
+          VendorName: Compass
+          VendorSoftware: '002'
+          VendorSoftwareVersion: '0.2'
+          TemplateVersion: 1.0
+        Commitments:
+        - ContractBase:
+            CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+            SystemContractExecutionMethodType: Cash
+            LoanPurchaseContractType: Best Efforts
+            LoanAmortizationType: Fixed
+            ServicingOptionType: Retained
+            SellerIdentifier: '999999'
+            ContractName: Cash Retained
+            PricingIdentifier: NONE
+            ProductDefinition: 1008
+          ServicingOption:
+            ServicingOptionRetained:
+              CounterpartyAccountIdentifier: '999999'
+              ServicingFeeRate: 0.25
+              ContractRemittanceScheduleType: Standard
+              InterestAccountingMethodType: Scheduled/Actual
+          CashContract:
+            OriginalContractAmount: 125000.0
+            ContractDurationDayCount: 25
+            CashSpecifiedPoolIndicator: 'No'
+            CashSpecifiedPoolType: ''
+            ContractLTVRangeType:
+              min: 0
+              max: 105
+            ContractInterestRate: 4
+    CashContractDecisionResponse:
+      value:
+        CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+        ResponseTime: 07/11/2025 11:56:00
+        CommitmentPriceDecisionResponses:
+        - ContractIdentifier: '999999999'
+          SellerIdentifier: '999999'
+          PurchaseContractStatusType: Accepted
+          AcceptedDateTime: 07/11/2025 11:55:25
+          DecisionStatus: ACCEPT
+    MandatoryFixedSellerCTOSContractResponse:
+      value:
+        CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+        ResponseTime: 07/08/2025 11:06:28
+        ResponseToken: Rx8wefK/w9gDWOTydYDmPz8SqsqEQ+Kt8jFIaYCCU89mhpj//OI+gpDxOhtFku/eIVWd1wDIITxsrWER6FBkXA==
+        CommitmentPriceResponses:
+        - ContractBase:
+            ProductDefinition: 1008
+            PurchaseContractStatusType: Open
+            RemainingBalance: '125000.00'
+            ContractExpirationDate: 08/04/2025
+            ContractName: Cash CTOS
+            LoanAmortizationType: Fixed
+            PricingIdentifier: NONE
+            SystemContractExecutionMethodType: Cash
+            SellerIdentifier: '999999'
+            LoanPurchaseContractType: Mandatory
+            ServicingOptionType: Concurrent TOS
+            ContractIdentifier: '99999999'
+            EffectiveDate: 07/08/2025 11:06:26
+            CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+            TotalUPB: '0.00'
+          ServicingOption:
+            ServicingOptionRetained:
+              PayoffRemittanceDayCount: 5
+              InterestAccountingMethodType: Scheduled/Actual
+              ContractRemittanceScheduleType: Standard
+              CounterpartyAccountIdentifier: '999999'
+              ServicingFeeRate: 0.25
+          CashContract:
+            ContractDurationDayCount: '25'
+            LoanAmortizationPeriodCount: 239 to 362 months
+            ContractFixedInterestRateRange:
+              min: 6.0
+              max: 6.5
+            ContractLTVRangeType:
+              min: 0.0
+              max: 105.0
+            LoanAmortizationPeriodType: Month
+            LoanBalloonIndicator: 'false'
+            OriginalContractAmount: '125000.00'
+            MortgageType: Conventional
+            MasterCommitmentPurposeType: Flow
+            LoanMaturityPeriodCount: 241 to 360 months
+            CashSpecifiedPoolIndicator: 'Yes'
+            CashSpecifiedPoolType: Max LLB <= 250,000
+            TotalPairoffAmount: '0.0'
+          CommitmentPriceResult:
+            PriceDateTime: 07/08/2025 11:06:28
+            PriceResults:
+            - InterestRate: '6.000'
+              ContractPrice: '99.026'
+            - InterestRate: '6.125'
+              ContractPrice: '99.593'
+            - InterestRate: '6.250'
+              ContractPrice: '100.044'
+            - InterestRate: '6.375'
+              ContractPrice: '100.627'
+            - InterestRate: '6.500'
+              ContractPrice: '101.093'
+    MandatoryARMSellerRetainedContractRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+          RequestTime: 07/11/2025 04:59:53
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          VendorIdentifier: ''
+          VendorName: ''
+          VendorSoftware: ''
+          VendorSoftwareVersion: ''
+          TemplateVersion: 1.0
+        Commitments:
+        - ContractBase:
+            CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+            LoanPurchaseContractType: Mandatory
+            LoanAmortizationType: Adjustable Rate
+            SystemContractExecutionMethodType: Cash
+            ServicingOptionType: Retained
+            SellerIdentifier: '999999'
+            ContractName: ARM Retained
+            PricingIdentifier: M99999999
+            ProductDefinition: 1579
+          ServicingOption:
+            ServicingOptionRetained:
+              CounterpartyAccountIdentifier: '999999'
+              ContractRemittanceScheduleType: Standard
+              InterestAccountingMethodType: Scheduled/Actual
+          CashContract:
+            OriginalContractAmount: 2500000
+            ContractDurationDayCount: 90
+            CashSpecifiedPoolIndicator: ''
+            ContractInterestRate: 3.001
+            ServicingFeeRate: 0.25
+    CashContractPairoffRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+          RequestTime: 07/11/2025 09:43:45
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          VendorIdentifier: ''
+          VendorName: ''
+          VendorSoftware: ''
+          VendorSoftwareVersion: ''
+          TemplateVersion: 1.0
+        CommitmentPairoffs:
+        - SellerIdentifier: '999999'
+          ContractIdentifier: '999999999'
+          PairoffType: Other Amount
+          PairoffUPBAmount: 1000
+    MandatoryFixedSellerCTOSContractRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+          RequestTime: 07/11/2025 17:17:10
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          VendorIdentifier: ''
+          VendorName: ''
+          VendorSoftware: ''
+          VendorSoftwareVersion: ''
+          TemplateVersion: 1.0
+        Commitments:
+        - ContractBase:
+            CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+            SystemContractExecutionMethodType: Cash
+            LoanPurchaseContractType: Mandatory
+            LoanAmortizationType: Fixed
+            ServicingOptionType: CTOS
+            SellerIdentifier: '999999'
+            ContractName: Cash CTOS
+            PricingIdentifier: NONE
+            ProductDefinition: 1008
+          ServicingOption:
+            ServicingOptionRetained:
+              CounterpartyAccountIdentifier: '999999'
+              ServicingFeeRate: 0.25
+              ContractRemittanceScheduleType: Standard
+              InterestAccountingMethodType: Scheduled/Actual
+          CashContract:
+            OriginalContractAmount: 125000.0
+            ContractDurationDayCount: 25
+            CashSpecifiedPoolIndicator: 'Yes'
+            CashSpecifiedPoolType: Max LLB <= 225,000
+            ContractLTVRangeType:
+              min: 0
+              max: 105
+            ContractFixedInterestRateRange:
+              min: 6
+              max: 6.5
+    CashContractPairoffDecisionRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+          RequestTime: 07/11/2025 09:44:45
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          ResponseToken: eVY+k/+VldJtr9pX+54/9Zs8xjj50Lvkyn2FkwmYu6Kn/MW6oudtaZ6/EvPI9oAHVO9/PAj33lUsH4CQkxQlDg==
+          VendorIdentifier: ''
+          VendorName: ''
+          VendorSoftware: ''
+          VendorSoftwareVersion: ''
+          TemplateVersion: 1.0
+        Decisions:
+        - SellerIdentifier: '999999'
+          ContractIdentifier: '99999999'
+          DecisionType: Accept
+    MandatoryARMSellerRetainedContractResponse:
+      value:
+        CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+        ResponseTime: 07/11/2025 11:21:47
+        ResponseToken: Uuwk8wXzoNdah/9l4a/KP1Q7XwQZw5enY3129C5rJhezqYQ7sT+rWNs8W+hDYB3rwabxmyGCRSfq5aIkdx1cGg==
+        CommitmentPriceResponses:
+        - ContractBase:
+            CorrelationIdentifier: 8704cn70184nc4817984n01n8798n7870261
+            ContractIdentifier: '99999999'
+            LoanPurchaseContractType: Mandatory
+            LoanAmortizationType: Adjustable Rate
+            SystemContractExecutionMethodType: Cash
+            ServicingOptionType: Retained
+            SellerIdentifier: '999999'
+            ContractName: ARM Retained
+            PricingIdentifier: M99999999
+            ProductDefinition: 1579
+            EffectiveDate: 07/11/2025 11:21:41
+            ContractExpirationDate: 09/21/2025
+            PurchaseContractStatusType: Open
+            RemainingBalance: '2500000.00'
+            TotalUPB: '0.00'
+            ConvertibleFlag: 'false'
+            AssumabilityIndicator: 'true'
+          ServicingOption:
+            ServicingOptionRetained:
+              CounterpartyAccountIdentifier: '999999'
+              ContractRemittanceScheduleType: Standard
+              InterestAccountingMethodType: Scheduled/Actual
+              PayoffRemittanceDayCount: 5
+          CashContract:
+            OriginalContractAmount: '2500000.00'
+            ContractDurationDayCount: '90'
+            ContractLTVRangeType:
+              min: 0.0
+              max: 0.0
+            ContractFixedInterestRateRange:
+              min: 2.875
+              max: 3.25
+            LoanBalloonIndicator: 'false'
+            LoanAmortizationPeriodType: Month
+            LoanAmortizationPeriodCount: 121 to 360 months
+            LoanMaturityPeriodCount: 121 to 360 months
+            MortgageType: Conventional
+            MasterCommitmentPurposeType: Flow
+            TotalPairoffAmount: '0.0'
+            ServicingFeeRate: 0.25
+          CommitmentPriceResult:
+            PriceDateTime: 07/11/2025 11:21:47
+            PriceResults:
+            - InterestRate: '2.875'
+              ContractPrice: '99.672'
+            - InterestRate: '3.000'
+              ContractPrice: '99.776'
+            - InterestRate: '3.001'
+              ContractPrice: '99.777'
+            - InterestRate: '3.125'
+              ContractPrice: '99.880'
+            - InterestRate: '3.250'
+              ContractPrice: '100.028'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic

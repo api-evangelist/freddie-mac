@@ -1,0 +1,600 @@
+openapi: 3.2.0
+info:
+  title: Resolve Valuation & Pricing API
+  version: 2.0.0
+  description: When you connect through the Resolve Valuation & Pricing API, you’ll receive minimum net proceed values for short sales. The API is a new and faster way of receiving an MNP as well as ordering a value if one is not already available in the Real Estate Valuation and Pricing tool. Through seamless B2B integration, you’ll increase productivity and speed up mortgage resolution.
+servers:
+- url: https://api-test.freddiemac.com/singlefamily/servicing/v2/rvp-service/rvpInfo
+security:
+- bearerAuth: []
+tags:
+- name: Resolve Valuation & Pricing API
+  description: When you connect through the Resolve Valuation & Pricing API, you’ll receive minimum net proceed values for short sales. The API is a new and faster way of receiving an MNP as well as ordering a value if one is not already available in the Real Estate Valuation and Pricing tool. Through seamless B2B integration, you’ll increase productivity and speed up mortgage resolution.
+paths:
+  /rvpService:
+    post:
+      tags:
+      - Resolve Valuation & Pricing API
+      summary: Delivers real-time minimum net proceed values and data for single or bulk real…
+      description: ''
+      operationId: ShortSaleMNPUsingPOST
+      requestBody:
+        description: Short Sale MNP Service Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShortSaleMNPServiceRequest'
+            examples:
+              RequestCompletedMNPWithFutureGTD:
+                $ref: '#/components/examples/RequestCompletedMNPWithFutureGTD'
+              RequestOrderMNP:
+                $ref: '#/components/examples/RequestOrderMNP'
+        required: true
+      responses:
+        '200':
+          description: "<b>OK</b> Request succeeded.\n\n <b>Sample Response Messages</b> <br/> <ul> <li><strong>RVP00005 </strong>Duplicate Freddie Mac Loan Number.\n </li> <li><strong>RVP00006 </strong>Seller Servicer Number is invalid.\n </li> <li><strong>RVP00007 </strong>Seller Servicer Number is required.\n </li> <li><strong>RVP00008 </strong>The Freddie Mac Loan Number is invalid. Please enter a Valid Freddie Mac Loan Number.\n </li> <li><strong>RVP00009 </strong>You are not authorized to submit a request for the loan number entered.\n </li> <li><strong>RVP00010 </strong>Serivce Loan Number is invalid.\n </li> <li><strong>RVP00011 </strong>MNP Status is Pending, check back again on the next business day.\n </li> <li><strong>RVP00012 </strong>BPO is on hold, please fix the issue listed in the Hold Reasons/Comments, or contact your Loss Mitigation Analyst for additional information.\n </li> <li><strong>RVP00013 </strong>Property Type is invalid.\n </li> <li><strong>RVP00014 </strong>Servicer Contact First Name is missing.\n </li> <li><strong>RVP00015 </strong>Servicer Contact Last Name is missing.\n </li> <li><strong>RVP00016 </strong>Servicer Contact Phone is missing.\n </li> <li><strong>RVP00017 </strong>Servicer Contact Email is missing.\n </li> <li><strong>RVP00018 </strong>Property Type is missing.\n </li> <li><strong>RVP00019 </strong>Property Contact Day Phone is missing.\n </li> <li><strong>RVP00020 </strong>Special Interior Access is missing.\n </li> <li><strong>RVP00021</strong>Property Contact First Name is missing.\n </li> <li><strong>RVP00022 </strong>Property Contact Last Name is missing.\n </li> <li><strong>RVP00023 </strong>The MNP has a pending dispute. Please come back on the next business day to check on the dispute status or contact your Loss Mitigation Analyst for additional information.\n </li> <li><strong>RVP00024 </strong>Servicer Contact Phone is invalid.\n </li> <li><strong>RVP00025 </strong>Property Contact Day Phone is invalid.\n </li> <li><strong>RVP00026 </strong>Servicer Contact Email is invalid.\n </li> <li><strong>RVP00027 </strong>No current MNP found for loan requested. MNP request has been filed. Please monitor MNP Request Status on a daily basis.\n </li> <li><strong>RVP00029 </strong>Request Type is Invalid.\n </li> <li><strong>RVP00030 </strong>Request Type is Required.\n </li> <li><strong>RVP00034 </strong>The request for Minimum Net proceeds cannot be completed as there is a workout associated to the loan in Approved, Settled or Closed status.\n </li> <li><strong>RVP00033 </strong>The Freddie Mac Loan Number you entered shows a status of REO in our system.\n </li> <li><strong>RVP00032 </strong>The Freddie Mac Loan Number you entered shows a status of CLOSED in our system. A closed loan is a loan that is Paid Off or Charged Off.\n </li> <li><strong>RVP00031 </strong>Unable to complete MNP request. Please refer to Cancel Reasons/Comments for further directions, or contact your Loss Mitigation Analyst for additional information.\n </li> <li><strong>RVP00035 </strong>No current MNP found for loan requested. Please provide all required and valid data, so that a new MNP can be ordered.\n </li> </ul>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShortSaleMNPServiceResponse'
+              examples:
+                ResponseCompletedMNPWithFutureGTD:
+                  $ref: '#/components/examples/ResponseCompletedMNPWithFutureGTD'
+                ResponseOrderMNP:
+                  $ref: '#/components/examples/ResponseOrderMNP'
+        '400':
+          description: "<b>Bad Request</b> \n\n <font size='1' color='black'><b>Error codes & details</b></font> \n\n <ul> <li><B>400.001</B> Malformed content from the client \n\n </li><li><B>400.002</B> Request data does not match the application schema, please validate the request data. \n\n</li><li><B>400.005</B> Empty request body \n\n </li><li><B>400.006</B> Content-type must be application/json \n\n </li></ul>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: '400.006'
+                message: Missing header Content-type
+                details:
+                - error: Content-type must be application/json
+        '401':
+          description: "<b>Unauthorized</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <ul><li><B>401.001</B> Invalid Access Token, please validate the token, if error persists please renew your token. \n\n </li><li><b>401.002</b> Access Token Expired, please renew your access token. \n\n </li><li><b>401.003</b> API Product mismatch for token. Your token does not have access to the requested API \n\n </li><li><b>401.004</b> Invalid API Key, please validate the Client ID \n\n </li><li><b>401.005</b> Invalid API Key for given resource \n\n </li><li><b>401.006</b> Insufficient scope for Application \n\n </li><li><b>401.007</b> Invalid Username/Password combination, the provided combination of username and password is incorrect, please verify your credentials. \n\n </li><li><b>401.008</b> Invalid Refresh Token. \n\n </li><li><b>401.009</b> Invalid client secret \n\n </li><li><b>401.010</b> Refresh Token expired.</li></ul>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: '401.002'
+                message: Access Token Expired
+                details:
+                  error: Access Token Expired, please renew your access token.
+        '404':
+          description: "<b>Not Found</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>404.001</b> No resource for POST <b>/path</b>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: '404.001'
+                message: No resource for POST /path
+                details:
+                  error: No resource for POST /path
+        '429':
+          description: "<b>Too Many Requests</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>429.001</b> Rate limit exceeded, too many requests have been sent per second. \n\n <b>429.002</b> Quota limit exceeded, too many requests have been sent per minute."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 429.001
+                message: Rate limit exceeded
+                details:
+                  error: Rate limit exceeded, too many requests have been sent per second.
+        '500':
+          description: "<b>Internal server error.</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>500</b> Internal server error."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: '500'
+                message: Internal server error
+                details:
+                - error: Liquidation API is unable to retrieve data for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
+      x-codegen-request-body-name: shortSaleMNPServiceRequest
+components:
+  examples:
+    ResponseCompletedMNPWithFutureGTD:
+      summary: Scenario 1 - Response when there is a completed and valid short sale MNP
+      description: A new submission response
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              createdDatetime: '2021-05-05T15:29:49.158Z'
+          responseData:
+            isRVPRequestValid: true
+            errorList: []
+            responseRVPList:
+            - loanIdentifier: '999999999'
+              servicerLoanIdentifier: ab00123456789
+              servicerAccountIdentifier: '999999'
+              requestType: MNP
+              serviceType: Interior/Exterior BPO w/Photos
+              orderSource: Servicer
+              isValid: true
+              isMNPObtained: true
+              errorWorkoutList: []
+              valuationData:
+                mnpStatus: Completed
+                mnpRequestCompletionDate: 01/01/9999
+                desktopReviewComments: S
+                minimumNetProceedAmount: 71319.0
+                goodThroughDate: 01/01/9999
+                estimatedMarketValue: 54000.0
+                mnpRequestIdentifier: '123456'
+              servicerContactDetails:
+                servicerContactFirstName: Jim
+                servicerContactLastName: Jones
+                servicerContactPhone: '1234567890'
+                servicerContactEmail: JIM@EMAILSERVER.COM
+    ResponseOrderMNP:
+      summary: Scenario 2 - Response when a new MNP Order is Placed
+      description: A new submission response
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              createdDatetime: '2021-05-05T15:36:38.371Z'
+          responseData:
+            isRVPRequestValid: true
+            errorList: []
+            responseRVPList:
+            - loanIdentifier: '888888888'
+              servicerLoanIdentifier: ab00123456789
+              servicerAccountIdentifier: '888888'
+              requestType: MNP
+              serviceType: Interior/Exterior BPO w/Photos
+              orderSource: Servicer
+              isValid: true
+              isMNPObtained: false
+              errorWorkoutList:
+              - workoutErrorCode: RVP00027
+                workoutErrorDescription: No current MNP found for loan requested. MNP request has been filed. Please monitor MNP Request Status on a daily basis.
+                workoutErrorType: Informational
+              valuationData:
+                mnpStatus: Pending
+                mnpRequestIdentifier: '123456'
+              servicerContactDetails:
+                servicerContactFirstName: JIM
+                servicerContactLastName: JONES
+                servicerContactPhone: '1234567890'
+                servicerContactEmail: JIM@emailserver.com
+    RequestCompletedMNPWithFutureGTD:
+      summary: Scenario 1 - Retrieve a completed short sale MNP with future good thru date
+      description: A new submission
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2018-12-10T13:45:00.000Z'
+          requestData:
+            workoutList:
+            - externalData:
+                servicerAccountIdentifier: '999999'
+                loanIdentifier: '999999999'
+                requestType: MNP
+                servicerLoanIdentifier: ab00123456789
+    RequestOrderMNP:
+      summary: Scenario 2 - Request when a new MNP Order is Placed.
+      description: A new submission
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2018-12-10T13:45:00.000Z'
+          requestData:
+            workoutList:
+            - externalData:
+                servicerAccountIdentifier: '888888'
+                loanIdentifier: '888888888'
+                requestType: MNP
+                servicerLoanIdentifier: ab00123456789
+                serviceType: Interior/Exterior BPO w/Photos
+                rEVP:
+                  valuationData:
+                  - category: PropertyType
+                    value: Single Family Detached
+                  - category: ServicerContactFirstName
+                    value: Jim
+                  - category: ServicerContactLastName
+                    value: Jones
+                  - category: ServicerContactPhone
+                    value: '123456789'
+                  - category: ServicerContactPhoneExtension
+                    value: '1234'
+                  - category: ServicerContactEmail
+                    value: JIM@GMAIL.COM
+                  - category: PropertyContactFirstName
+                    value: Harry
+                  - category: PropertyContactLastName
+                    value: James
+                  - category: PropertyContactPhone
+                    value: '123456789'
+                  - category: PropertyContactPhoneExtension
+                    value: '1234'
+                  - category: SpecialInteriorAccess
+                    value: Watch out for a dog
+  schemas:
+    ShortSaleMNPServiceRequest:
+      title: ShortSaleMNPServiceRequest
+      description: The root schema comprises the entire JSON document.
+      type: object
+      properties:
+        message:
+          title: The Message Schema
+          type: object
+          properties:
+            aboutVersions:
+              title: The Aboutversions Schema
+              description: Dataset to capture the header information
+              type: object
+              properties:
+                aboutVersion:
+                  title: The Aboutversion Schema
+                  description: Dataset to capture the header information
+                  type: object
+                  properties:
+                    aboutVersionIdentifier:
+                      title: The Aboutversionidentifier Schema
+                      description: This is the version number of the schema in use
+                      type: string
+                      example: S1.0.01
+                    createdDatetime:
+                      title: The Createddatetime Schema
+                      description: The date and time stamp of response schema creation
+                      type: string
+                      example: '2019-09-19T09:29:11Z'
+                  required:
+                  - aboutVersionIdentifier
+                  - createdDatetime
+                  default: {}
+              required:
+              - aboutVersion
+              default: {}
+            requestData:
+              title: The Requestdata Schema
+              description: An explanation about the purpose of this instance.
+              type: object
+              properties:
+                workoutList:
+                  title: The Workoutlist Schema
+                  description: An explanation about the purpose of this instance.
+                  type: array
+                  items:
+                    title: The Items Schema
+                    description: An explanation about the purpose of this instance.
+                    type: object
+                    properties:
+                      externalData:
+                        title: The Externaldata Schema
+                        description: An explanation about the purpose of this instance.
+                        type: object
+                        properties:
+                          servicerAccountIdentifier:
+                            title: The Sellerservicernumber Schema
+                            description: 'Unique identifier, issued by Freddie Mac, for the individual Seller or Servicer. '
+                            type: string
+                          loanIdentifier:
+                            title: The Loanidentifier Schema
+                            description: Unique Freddie Mac identifier assigned to a financial instrument within the system.
+                            type: string
+                          servicerLoanIdentifier:
+                            title: The Servicer Loan Identifier Schema
+                            description: A unique identifier assigned by the servicer to identify the loan.
+                            type: string
+                          requestType:
+                            type: string
+                          rEVP:
+                            type: object
+                            properties:
+                              valuationData:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    category:
+                                      type: string
+                                      enum:
+                                      - PropertyType
+                                      - ServicerContactFirstName
+                                      - ServicerContactLastName
+                                      - ServicerContactPhone
+                                      - ServicerContactEmail
+                                      - PropertyContactFirstName
+                                      - PropertyContactLastName
+                                      - PropertyContactPhone
+                                      - SpecialInteriorAccess
+                                      - ServicerContactPhoneExtension
+                                      - PropertyContactPhoneExtension
+                                    value:
+                                      type: string
+                                  required:
+                                  - category
+                                  - value
+                            required:
+                            - valuationData
+                        required:
+                        - servicerAccountIdentifier
+                        - loanIdentifier
+                        - servicerLoanIdentifier
+                        - requestType
+                        - rEVP
+                        default: {}
+                    required:
+                    - externalData
+                    default: {}
+                  default: []
+              required:
+              - workoutList
+              default: {}
+          required:
+          - aboutVersions
+          - requestData
+          default: {}
+      required:
+      - message
+      default: {}
+    ShortSaleMNPServiceResponse:
+      title: ShortSaleMNPServiceResponse
+      description: The root schema comprises the entire JSON document.
+      type: object
+      properties:
+        message:
+          title: The Message Schema
+          type: object
+          properties:
+            aboutVersions:
+              title: The Aboutversions Schema
+              description: Dataset to capture the header information
+              type: object
+              properties:
+                aboutVersion:
+                  title: The Aboutversion Schema
+                  description: Data set to capture the header information
+                  type: object
+                  properties:
+                    aboutVersionIdentifier:
+                      title: The Aboutversionidentifier Schema
+                      description: This is the version number of the schema in use
+                      type: string
+                      example: S1.0.01
+                    createdDatetime:
+                      title: The Createddatetime Schema
+                      description: The date and time stamp of response schema creation
+                      type: string
+                      example: '2019-09-19T09:29:11Z'
+                  required:
+                  - aboutVersionIdentifier
+                  - createdDatetime
+                  default: {}
+                  example: {}
+              required:
+              - aboutVersion
+              default: {}
+            responseData:
+              title: The Responsedata Schema
+              description: Collection of the data attributes that depicts the response to a workout request.
+              type: object
+              properties:
+                isRVPRequestValid:
+                  title: The isRequest valid Schema
+                  description: Indicates any request level error occured
+                  type: boolean
+                requestResponseRVPIdentifier:
+                  title: The requestResponseIdentifier valid Schema
+                  description: ' unique identifier that associates the response back to the original request'
+                  type: integer
+                errorList:
+                  title: The Errorlist Schema
+                  description: Request level eligilbity messages
+                  type: array
+                  items:
+                    title: The Items Schema
+                    type: object
+                    properties:
+                      errorCode:
+                        title: The ErrorCode Schema
+                        description: unique code representing schema validation error  encountered during the validation process
+                        type: string
+                      errorText:
+                        title: The ErrorDescription Schema
+                        description: Error description for the Schema validation error during the validation process.
+                        type: string
+                        example: Invalid Schema
+                responseRVPList:
+                  title: The ResponseRVPlist Schema
+                  description: Collection of the data attributes that depicts the response to a RVP request.
+                  type: array
+                  items:
+                    title: The Items Schema
+                    type: object
+                    properties:
+                      loanIdentifier:
+                        title: The Loanidentifier Schema
+                        description: Unique Freddie Mac identifier assigned to a financial instrument within the system.
+                        type: string
+                      servicerLoanIdentifier:
+                        description: A unique identifier assigned by the servicer to identify the loan.
+                        type: string
+                      servicerAccountIdentifier:
+                        title: The Servicer Account Identifier Schema
+                        description: 'Unique identifier, issued by Freddie Mac, for the individual Seller or Servicer. '
+                        type: string
+                      requestType:
+                        title: The Workout Reporting Status Type Schema
+                        description: Type of Real Estate valuation data being requested to indicate if a request is for Minimum Net Proceeds, Credit Bid Valuation or Dispute data.
+                        type: string
+                      serviceType:
+                        description: A discrete set of values that describes the types of inspection that were performed in order to obtain the information needed for a property appraisal or broker price opinion.
+                        type: string
+                      orderSource:
+                        description: 'Captures the source of the request.  '
+                        type: string
+                      isValid:
+                        title: The Isvalid Schema
+                        description: Indicates when the processing encountered any format validation or loan validation errors
+                        type: boolean
+                      isMNPObtained:
+                        description: Indicates the status of the MNP request to retreive property value
+                        type: boolean
+                      errorWorkoutList:
+                        title: The Errorworkoutlist Schema
+                        description: 'Collection of Loan level validation messages '
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            workoutErrorCode:
+                              title: The Workout Error Code Schema
+                              description: Unique code representing format validation or loan validation error encountered during the validation process
+                              type: string
+                            workoutErrorDescription:
+                              title: The workoutErrorDescription Schema
+                              description: This is the error description for the Schema validation error during the validation process.
+                              type: string
+                            workoutErrorType:
+                              title: The WorkoutErrorType Schema
+                              description: Indicates the type of the error message
+                              type: string
+                      valuationData:
+                        title: The Minimum Net Proceeds Schema
+                        description: 'Indicates a collection of MNP request related data elements '
+                        type: object
+                        properties:
+                          mnpStatus:
+                            title: The MNP Status Schema
+                            description: Status of a MNP Request
+                            type: string
+                          mnpRequestCompletionDate:
+                            title: The MNP Request Completion Date Schema
+                            description: Date when the MNP request was successfully completed
+                            type: string
+                          desktopReviewComments:
+                            title: The Desktop Review Comments Schema
+                            description: Additional comments to support the approval status
+                            type: string
+                          mnpRequestDeclinedDate:
+                            title: The MNP Request Declined Date Schema
+                            description: Date when the MNP request was declined
+                            type: string
+                          reasonForDecline:
+                            title: The Reason For Decline Schema
+                            description: Reason for the decline reason
+                            type: string
+                          mnpRequestHoldDate:
+                            title: The MNP Request Hold Date Schema
+                            description: Date when the MNP request was put on hold
+                            type: string
+                          bpoHoldReason:
+                            title: The BPO Hold Reason Schema
+                            description: Comment related to BPO Request
+                            type: string
+                          bpoHoldComments:
+                            title: The BPO Hold Comments Schema
+                            description: Explanation for why RVP or BPO cannot complete their process as requested
+                            type: string
+                          mnpRequestCancelledDate:
+                            title: The MNP REquest Cancelled Date Schema
+                            description: Date when the MNP request cancelled
+                            type: string
+                          bpoCancelReason:
+                            title: The BPO Cancel Reason Schema
+                            description: Explanation for why REVP or BPO cannot complete their process as requested
+                            type: string
+                          bpoCancelComments:
+                            title: The BPO Cancel Comments Schema
+                            description: Explanation for why REVP or BPO cannot complete their process as requested
+                            type: string
+                          bpoOrderID:
+                            title: The BPO Order Identifier Schema
+                            description: Unique Identifier representing the BPO order
+                            type: integer
+                          minimumNetProceedAmount:
+                            title: The Minimum Net Proceeds Schema
+                            description: Minimum Net Proceeds for the loan
+                            type: number
+                          goodThroughDate:
+                            title: The Good Through Date Schema
+                            description: The date that the request is good for depending on the business needs. It typically is good for 90 days from the date of request.
+                            type: string
+                          estimatedMarketValue:
+                            title: The Estimated Market Value Schema
+                            description: Combined market value recommended by the brokers/appraisers~ etc. who filled out a BPO for this asset.
+                            type: number
+                          mnpRequestIdentifier:
+                            title: The MNP Request Completion Date Schema
+                            description: MNP Request ID
+                            type: string
+                      servicerContactDetails:
+                        title: The Servicer Cotact Details Schema
+                        description: Indicates a collection of Servicer contavt details
+                        type: object
+                        properties:
+                          servicerContactFirstName:
+                            title: The Servicer Contact First Name schema
+                            description: The first name of the individual that is a contact for the servicer.
+                            type: string
+                          servicerContactLastName:
+                            title: The Servicer Contact Last Name schema
+                            description: The last name of the individual that is a contact for the servicer.
+                            type: string
+                          servicerContactPhone:
+                            title: 'The Servicer Contact Phone Schema '
+                            description: The phone number for the counterparty organization contact
+                            type: string
+                          servicerContactPhoneExtension:
+                            title: The Servicer Contact Phone Extension Schema
+                            description: The phone number extension for the counterparty organization contact
+                            type: string
+                          servicerContactEmail:
+                            title: The Servicer Contact Email Schema
+                            description: The email address for the Servicer contact.
+                            type: string
+                          disputeContactEmail:
+                            title: The Dispute Contact Email Schema
+                            description: The email address for the contact.
+                            type: string
+                    required:
+                    - loanIdentifier
+                    - servicerAccountIdentifier
+              required:
+              - isRVPRequestValid
+              - requestResponseRVPIdentifier
+              - responseRVPList
+          required:
+          - aboutVersions
+          - responseData
+          default: {}
+      required:
+      - message
+      default: {}
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            title: The Items Schema
+            type: object
+            properties:
+              error:
+                description: error messages
+                type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token

@@ -1,0 +1,1107 @@
+openapi: 3.2.0
+info:
+  title: Data Share Bid Tape API
+  version: 1.0.0
+  description: Aggregators can have greater confidence when pricing and valuing correspondent loans with fast easy access to key loan data and loan-level summary assessment results from Loan Product Advisor®, Loan Quality Advisor®, Loan Collateral Advisor® and Loan Closing Advisor® at the point of loan bid.
+tags:
+- name: Data Share Bid Tape
+  description: Aggregators can have greater confidence when pricing and valuing correspondent loans with fast easy access to key loan data and loan-level summary assessment results from Loan Product Advisor®, Loan Quality Advisor®, Loan Collateral Advisor® and Loan Closing Advisor® at the point of loan bid.
+paths:
+  /getbidsummary:
+    post:
+      tags:
+      - Data Share Bid Tape
+      summary: Submit the lender loan identifier and subject property address and receive key…
+      operationId: getbidsummaryPOST
+      requestBody:
+        description: <b>Data Share Bid Tape Request</b>
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BidSummaryResultsRequest'
+            examples:
+              SuccessAllEligibleBidSummaryResultsRequest:
+                $ref: '#/components/examples/SuccessAllEligibleBidSummaryResultsRequest'
+              SuccessNotEligibleBidSummaryResultsRequest:
+                $ref: '#/components/examples/SuccessNotEligibleBidSummaryResultsRequest'
+              NoSLIDMatchfromSRSBidSummaryResultsRequest:
+                $ref: '#/components/examples/NoSLIDMatchfromSRSBidSummaryResultsRequest'
+              CDDSDownBidSummaryResultsRequest:
+                $ref: '#/components/examples/CDDSDownBidSummaryResultsRequest'
+              ERRSDownBidSummaryResultsRequest:
+                $ref: '#/components/examples/ERRSDownBidSummaryResultsRequest'
+              ERRSandCDDSDownBidSummaryResultsRequest:
+                $ref: '#/components/examples/ERRSandCDDSDownBidSummaryResultsRequest'
+              ERRSandCDDSDocumentsMissingBidSummaryResultsRequest:
+                $ref: '#/components/examples/ERRSandCDDSDocumentsMissingBidSummaryResultsRequest'
+              PartialResultsfromLPASummaryResultswithBidSummaryRequest:
+                $ref: '#/components/examples/PartialResultsfromLPASummaryResultswithBidSummaryRequest'
+              getbidsummaryLenderLoanIdentifierandAddressFieldMissingRequest:
+                $ref: '#/components/examples/getbidsummaryLenderLoanIdentifierandAddressFieldMissingRequest'
+              getbidsummaryLenderLoanIdentifierMorethan50charactersRequest:
+                $ref: '#/components/examples/getbidsummaryLenderLoanIdentifierMorethan50charactersRequest'
+              BadRequestSchemaFailureBidSummaryResultsRequest:
+                $ref: '#/components/examples/BadRequestSchemaFailureBidSummaryResultsRequest'
+        required: true
+      responses:
+        '200':
+          description: "<b>OK</b> \n\n <font size='1' color='black'><b>Business Messages</b></font> \n\n <b>DSA901</b> Loan Advisor Data Share API  is unable to obtain the complete set of summary results for the submitted request at this time.Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.\n\n <b>DSA903</b> No matching summary results were found for the submitted request at this time.Please verify the data and resubmit or contact Customer Support at (800-FREDDIE) for assistance.\n\n <b>DSA701</b> Loan Advisor Data Share API is unable to find an internal match key for the submitted request at this time.Please verify the data and resubmit or contact Customer Support at (800-FREDDIE) for assistance. \n\n <b>DSA022</b> Found all available summary results. "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BidSummaryResultsResponse'
+              examples:
+                SuccessAllEligibleBidSummaryResultsResponse:
+                  $ref: '#/components/examples/SuccessAllEligibleBidSummaryResultsResponse'
+                SuccessNotEligibleBidSummaryResultsResponse:
+                  $ref: '#/components/examples/SuccessNotEligibleBidSummaryResultsResponse'
+                NoSLIDMatchfromSRSBidSummaryResultsResponse:
+                  $ref: '#/components/examples/NoSLIDMatchfromSRSBidSummaryResultsResponse'
+                CDDSDownBidSummaryResultsResponse:
+                  $ref: '#/components/examples/CDDSDownBidSummaryResultsResponse'
+                ERRSDownBidSummaryResultsResponse:
+                  $ref: '#/components/examples/ERRSDownBidSummaryResultsResponse'
+                ERRSandCDDSDownBidSummaryResultsResponse:
+                  $ref: '#/components/examples/ERRSandCDDSDownBidSummaryResultsResponse'
+                ERRSandCDDSDocumentsMissingBidSummaryResultsResponse:
+                  $ref: '#/components/examples/ERRSandCDDSDocumentsMissingBidSummaryResultsResponse'
+                PartialResultsfromLPASummaryResultswithBidSummaryResponse:
+                  $ref: '#/components/examples/PartialResultsfromLPASummaryResultswithBidSummaryResponse'
+        '400':
+          description: "<b>Bad Request</b> \n\n <font size='1' color='black'><b>Error codes & details</b></font> \n\n <B>400.001</B> Malformed content from the client \n\n <B>400.002</B> Request data does not match the application schema, please validate the request data. \n\n<B>400.005</B> Empty request body \n\n <B>400.006</B> Content-type must be either application/json or application/xml \n\n <font size='1' color='black'><b>Business Messages</b></font> \n\n  <b>DSA020</b> StateCode should be submitted in two character StateCode Abbreviation format. Please verify and resubmit. \n\n <b>DSA021</b> Request data does not match the application schema.  Please validate the request data and resubmit. \n\n <b>DSA061</b> Request does not contain the bare minimum fields required to process. Please provide the full property address (addressLineText, cityName, stateCode, postalCode) along with Lender Loan Identifier. Please verify and resubmit. \n\n <b>DSA035</b> The Lender Loan Identifier for attribute and length must be less than or equal to 50 characters. Please verify and resubmit."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/SystemError'
+              examples:
+                getbidsummaryLenderLoanIdentifierandAddressFieldMissingResponse:
+                  $ref: '#/components/examples/getbidsummaryLenderLoanIdentifierandAddressFieldMissingResponse'
+                getbidsummaryLenderLoanIdentifierMorethan50charactersResponse:
+                  $ref: '#/components/examples/getbidsummaryLenderLoanIdentifierMorethan50charactersResponse'
+                BadRequestSchemaFailureBidSummaryResultsResponse:
+                  $ref: '#/components/examples/BadRequestSchemaFailureBidSummaryResultsResponse'
+                SystemError:
+                  $ref: '#/components/examples/systemErrorExample'
+        '401':
+          description: "<b>Unauthorized</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>401.001</B> Invalid Access Token, please validate the token, if error persists please renew your token. \n\n <b>401.002</b> Access Token expired, please renew your access token. \n\n <b>401.003</b> API Product mismatch for token. Your token does not have access to the requested API \n\n <b>401.004</b> Invalid API Key, please validate the Client ID \n\n <b>401.005</b> Invalid API Key for given resource \n\n <b>401.006</b> Insufficient scope for Application \n\n <b>401.007</b> Invalid Username/Password combination, the provided combination of username and password is incorrect, please verify your credentials. \n\n <b>401.008</b> Invalid Refresh Token. \n\n <b>401.009</b> Invalid client secret \n\n <b>401.010</b> Refresh Token expired."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemError'
+              example:
+                code: 401.001
+                message: Invalid Access Token
+                details:
+                - error: Invalid Access Token, please validate the token, if error persists please renew your token.
+        '404':
+          description: "<b>Not Found</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>404.001</b> No resource for POST <b>/path</b>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemError'
+              example:
+                code: 404.001
+                message: No resource for POST /path
+                details:
+                - error: No resource for POST /path
+        '429':
+          description: "<b>Too Many Requests</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>429.001</b> Rate limit exceeded, decrease the number of requests per second been sent. \n\n <b>429.002</b> Quota limit exceeded, decrease the number of requests per minute been sent."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemError'
+              example:
+                code: 429.001
+                message: Rate limit exceeded
+                details:
+                - error: Rate limit exceeded, decrease the number of requests per second been sent.
+        '500':
+          description: "<b>Internal server error</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>DSA902</b> Loan Advisor Data Share API  is unable to retrieve summary results for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. \n\n <b>DSA700</b> Loan Advisor Data Share API  is unable to process the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. \n\n  <b>DSA800</b> Loan Advisor Data Share API  is unable to retrieve summary results for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. \n\n <b>DSA900</b> Loan Advisor Data Share API  is unable to retrieve summary results for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/SystemError'
+              examples:
+                SystemError:
+                  $ref: '#/components/examples/systemErrorExample'
+components:
+  schemas:
+    LoanSubmissionBatch:
+      title: LoanSubmissionBatch
+      type: object
+      properties:
+        SummaryResultMessageDateTime:
+          type: string
+          description: Date and time of the source system submission.
+          example: 08-12-2020 11:23:08:000
+        SummaryResultMessageSourceType:
+          type: string
+          description: The source of record of the summary result data from either an internal or external system that produced the results.
+          example: LPA
+      description: Contains source system date and time for the available summary results.
+    BidSummaryResponse:
+      title: BidSummaryResponse
+      type: object
+      properties:
+        StandardizedPropertyAddress:
+          $ref: '#/components/schemas/PropertyAddress'
+        SummaryResultsResponse:
+          type: array
+          items:
+            $ref: '#/components/schemas/BidSummaryResultsResponseContainer'
+      description: Contains Response information
+    Message:
+      title: Message
+      type: object
+      required:
+      - messageCode
+      - messageDescription
+      properties:
+        messageCode:
+          type: string
+          example: DSA022
+        messageDescription:
+          type: string
+          example: Found all available summary results.
+      description: Information about one or more Loan Advisor Data Share API response messages. Holds all occurrences of Loan Advisor Data Share API System messages.
+    InnerLoanData:
+      title: InnerLoanData
+      type: object
+      properties:
+        LoanData:
+          example:
+          - LoanDataType
+          - LoanDataValue
+          description: A container that consists of  the LoanDatum properties LoanDataType and LoanDataValue
+          type: array
+          items:
+            $ref: '#/components/schemas/LoanDatum'
+        SourceSystemType:
+          example: LPA
+          description: The source of record of the loan data from either an internal or external system that produced the results.
+          type: string
+      description: The inner loan data that consists of the LoanData field and SourceSystemType
+    Result:
+      title: Result
+      type: object
+      description: Container with Result information
+      properties:
+        LoanData:
+          type: array
+          items:
+            $ref: '#/components/schemas/InnerLoanData'
+        LoanSubmissionBatch:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoanSubmissionBatch'
+        SummaryResultMessage:
+          type: array
+          items:
+            $ref: '#/components/schemas/SummaryResultMessage'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    AppraisalInformation:
+      title: AppraisalInformation
+      type: object
+      properties:
+        AppraisalIdentifier:
+          description: A unique identifier assigned by a party for all appraisal data delivered to the party for this loan. The party assigning the identifier can be provided using the IdentifierOwnerURI associated with a MISMO identifier
+          example: '1036603086'
+          type: string
+        AppraisalDocumentType:
+          description: The Type of Document that Indicates one of the three UCDP-submitted evaluation data file associated with the property, e.g. Appraisal 1, Appraisal 2, or Appraisal 3
+          example: Appraisal 1
+          type: string
+        LoanCollateralAdvisorSubmissionDatetime:
+          description: The date and time when the appraisal was submitted in UCDP
+          example: 08-11-2020 17:02:36:122
+          type: string
+      description: The Container for AppraisalInformation
+    BidSummaryResultsRequest:
+      title: BidSummaryResultsRequest
+      required:
+      - loanIdentifiers
+      - parties
+      - requestDateTimeStamp
+      - version
+      type: object
+      properties:
+        loanIdentifiers:
+          type: object
+          description: A collection of objects that define the specific Data Share API Request.
+          $ref: '#/components/schemas/LoanBidSummaryIdentifiers'
+        parties:
+          type: array
+          description: A collection of objects that define specific parties to a deal. This includes the direct participating parties, such as sellers and vendors.
+          items:
+            $ref: '#/components/schemas/Party'
+        requestBatchIdentifier:
+          type: string
+          description: The unique identifier assigned to a batch of requests.
+          example: 1153460976
+        requestDateTimeStamp:
+          type: string
+          description: Timestamp when the request was received from customer.
+          example: 08-12-2020 11:20:08:000
+        requestTransactionIdentifier:
+          type: string
+          description: The unique identifier assigned to each request.
+          example: 1122352342374352
+        loanDeliveryFilePreparer:
+          type: string
+          description: Vendor field that gets sent as part of RequestMetadata
+          example: abchome
+        version:
+          type: string
+          description: Request schema version defined by customer.
+          example: 1
+      description: Loan Advisor Data Share API Request container to hold the BidSummaryResultstRequest information.
+    SummaryResultMessage:
+      title: SummaryResultMessage
+      type: object
+      properties:
+        SummaryResultMessageSourceType:
+          type: string
+          description: The source of record of the summary result data from either an internal or external system that produced the results.
+          example: LoanProspector
+        SummaryResultMessageCategoryType:
+          type: string
+          description: Identifies the type of Summary Service Category (friendly name of the summary services category). For example, General Information, Data Quality etc.
+          example: LPACollateralRandWEligibility
+        SummaryResultDecisionDescription:
+          type: string
+          description: The concluding decision after summary services collects data, as communicated by a reader-friendly status code.
+          example: Eligible
+        SummaryResultMessageCategory:
+          type: string
+          description: The Category assigned to group each of the summary results.
+          example: RepandWarranty
+        AppraisalInformation:
+          $ref: '#/components/schemas/AppraisalInformation'
+      description: Contains information related to Summary Result messages
+    LoanBidSummaryIdentifiers:
+      title: LoanBidSummaryIdentifiers
+      required:
+      - correlationID
+      - lenderLoanIdentifier
+      - propertyAddress
+      type: object
+      properties:
+        correlationID:
+          type: string
+          maxLength: 36
+          minLength: 0
+          example: 234558890
+          description: A system generated number used to uniquely identify an instance of a correlation.
+        lenderLoanIdentifier:
+          type: string
+          maxLength: 50
+          minLength: 0
+          example: E2E_GPC_IFI_H37
+          description: The value of the identifier for the specified lenderLoanIdentifier
+        propertyAddress:
+          $ref: '#/components/schemas/Address'
+      description: Contains loan bid summary identifiers submitted by customer
+    Party:
+      title: Party
+      type: object
+      properties:
+        partyRoleIdentifier:
+          type: string
+          description: The unique identifier assigned to the party role.
+          example: '000601'
+          maxLength: 10
+          minLength: 1
+          pattern: ^[0-9A-Za-z\s]*$
+        partyRoleType:
+          type: string
+          description: A value from a MISMO defined list that identifies the role that the party plays in the transaction. Parties may be either a person or legal entity. A party may play multiple roles in a transaction.
+          example: Seller
+      description: A collection of information about a single party to a transaction.  Included direct participants like the borrower and seller.
+    Error:
+      title: Error
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+          description: ''
+      description: Information about the error.
+    SystemError:
+      title: SystemError
+      type: object
+      required:
+      - code
+      - details
+      - message
+      properties:
+        code:
+          type: string
+          description: Error Code
+        message:
+          type: string
+          description: Error Description
+        details:
+          type: object
+          description: A collection of error details. Details container will contain error format.
+          items:
+            $ref: '#/components/schemas/Error'
+      description: Information about the errors.
+    BidSummaryResultsResponseContainer:
+      title: BidSummaryResultsResponseContainer
+      type: object
+      description: 'Consists of the container with Result information '
+      properties:
+        Results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Result'
+    LoanDatum:
+      title: LoanDatum
+      type: object
+      required:
+      - LoanDataType
+      - LoanDataValue
+      properties:
+        LoanDataType:
+          type: string
+          description: Identifies the type of Loan Data . For example, LoanApplicationBaseLoanAmount, LoanPurposeType
+          example: LoanApplicationBaseLoanAmount
+        LoanDataValue:
+          type: string
+          description: The corresponding value for the specified Loan data type
+          example: '80000.0'
+      description: The Loan Datam consists of LoanDataType and LoanDataValue
+    Address:
+      title: Address
+      type: object
+      properties:
+        addressLineText:
+          description: The first line of the unstructured (unparsed) street address.
+          example: 12 CALLE CESAR GONZALEZ
+          maxLength: 256
+          minLength: 0
+          type: string
+        cityName:
+          description: The name of the city.
+          example: ADJUNTAS
+          maxLength: 100
+          minLength: 0
+          type: string
+        stateCode:
+          description: The two-character representation of the US state, US Territory, Canadian Province, or Military Address abbreviation.
+          example: PR
+          maxLength: 18
+          minLength: 0
+          type: string
+        postalCode:
+          type: string
+          description: The postal code (ZIP code in the US) for the address. ZIP code may be either 5 or 9 digits.
+          example: '00601'
+      description: Contains raw property address information submitted by customer.
+    BidSummaryRequestMetaData:
+      title: BidSummaryRequestMetaData
+      type: object
+      properties:
+        RequestBatchIdentifier:
+          type: string
+          description: The unique identifier assigned to a batch of requests.
+          example: 1153460976
+        loanDeliveryFilePreparer:
+          type: string
+          description: Vendor field that gets sent as part of RequestMetadata
+          example: abchome
+        RequestTransactionIdentifier:
+          type: string
+          description: The unique identifier assigned to each request.
+          example: 1122352342374352
+        Version:
+          type: string
+          description: Request schema version defined by customer.
+          example: 1
+        loanIdentifiers:
+          $ref: '#/components/schemas/LoanBidSummaryIdentifiers'
+        parties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Party'
+        transactionId:
+          type: string
+          description: Unique identifier generated by the system for each request.
+          example: 519ab2fd-18dc-445a-acd8-9f2b7f0fd94a
+      description: Contains the Request Metadata received from customer
+    BidSummaryResultsResponse:
+      title: BidSummaryResultsResponse
+      type: object
+      properties:
+        RequestMetaData:
+          $ref: '#/components/schemas/BidSummaryRequestMetaData'
+        Response:
+          $ref: '#/components/schemas/BidSummaryResponse'
+      description: Contains the bid summary result response information.
+    PropertyAddress:
+      title: PropertyAddress
+      type: object
+      properties:
+        addressLineText:
+          description: The first line of the unstructured (unparsed) street address.
+          example: 12 CALLE CESAR GONZALEZ
+          maxLength: 256
+          minLength: 0
+          type: string
+        cityName:
+          description: The name of the city.
+          example: ADJUNTAS
+          maxLength: 100
+          minLength: 0
+          type: string
+        stateCode:
+          description: The two-character representation of the US state, US Territory, Canadian Province, or Military Address abbreviation.
+          example: PR
+          maxLength: 18
+          minLength: 0
+          type: string
+        postalCode:
+          type: string
+          description: The postal code (ZIP code in the US) for the address. ZIP code may be either 5 or 9 digits.
+          example: '00601'
+        zipPlusFourCode:
+          type: string
+          description: The Zip Plus Four Code for address and length must be less than or equal to 18 characters.
+          example: 2308
+      description: Contains Standardized property address information
+  examples:
+    NoSLIDMatchfromSRSBidSummaryResultsRequest:
+      summary: Scenario 3 No SLID Match from SRS Bid Summary Results Request
+      description: No SLID Match from SRS Bid Summary Results Request
+      value:
+        version: 1
+        requestBatchIdentifier: 14234612359
+        loanDeliveryFilePreparer: '000000'
+        requestTransactionIdentifier: 123Testing123
+        requestDateTimeStamp: 08-12-2020 11:56:59:000
+        loanIdentifiers:
+          correlationID: correlationID_5
+          lenderLoanIdentifier: CTE2LPA015
+          propertyAddress:
+            addressLineText: 175 13TH ST
+            cityName: WASHINGTON
+            stateCode: DC
+            postalCode: '20013'
+        parties:
+        - partyRoleType: SELLER
+          partyRoleIdentifier: '000601'
+    PartialResultsfromLPASummaryResultswithBidSummaryResponse:
+      summary: Scenario 8 Partial Results from LPA Summary Results with Bid Summary Response
+      description: Scenario 8 Partial Results from LPA Summary Results with Bid Summary Response
+      value:
+        RequestMetaData:
+          RequestBatchIdentifier: '1'
+          loanDeliveryFilePreparer: '000000'
+          RequestTransactionIdentifier: '1234786'
+          loanIdentifiers:
+            correlationID: correlationID_10
+            lenderLoanIdentifier: L104231
+            propertyAddress:
+              addressLineText: '1203 RIVER RD # 3A'
+              cityName: EDGEWATER
+              stateCode: NJ
+              postalCode: '07020'
+          parties:
+          - partyRoleType: SELLER
+            partyRoleIdentifier: '000601'
+        Response:
+          SummaryResultsResponse:
+          - Results:
+            - SummaryResultMessage:
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: PurchaseEligibility
+                SummaryResultDecisionDescription: 000 Freddie Mac Eligible.
+                SummaryResultMessageCategory: PurchaseEligibility
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: AutomatedCollateralEvaluation
+                SummaryResultDecisionDescription: InEligible
+                SummaryResultMessageCategory: RepandWarranty
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: LPAAssetRandWEligibility
+                SummaryResultDecisionDescription: NotEligible
+                SummaryResultMessageCategory: RepandWarranty
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: LPACollateralRandWEligibility
+                SummaryResultDecisionDescription: NotEligible
+                SummaryResultMessageCategory: RepandWarranty
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: AutomatedUnderwritingRecommendation
+                SummaryResultDecisionDescription: Accept
+                SummaryResultMessageCategory: RiskAssessment
+              LoanSubmissionBatch:
+              - SummaryResultMessageDateTime: 02-22-2022 11:11:55:284
+                SummaryResultMessageSourceType: LPA
+              LoanData:
+              - SourceSystemType: LPA
+                LoanData:
+                - LoanDataType: LoanAmortizationPeriodCount
+                  LoanDataValue: '360'
+                - LoanDataType: FinancedUnitCount
+                  LoanDataValue: '1'
+                - LoanDataType: LoanRefinanceCashOutDeterminationType
+                  LoanDataValue: TestValue
+                - LoanDataType: BorrowerPropertyPurchasePriceAmount
+                  LoanDataValue: '120000.0'
+                - LoanDataType: PropertyCategoryDescription
+                  LoanDataValue: SingleFamilyAttached
+                - LoanDataType: LoanFirstRateAdjustmentMonthsCount
+                  LoanDataValue: '0'
+                - LoanDataType: NoteRate
+                  LoanDataValue: '0.0'
+                - LoanDataType: LoanLevelCreditScoreValue
+                  LoanDataValue: '779'
+                - LoanDataType: TotalSubordinateFinancingAmount
+                  LoanDataValue: '0.0'
+                - LoanDataType: MedianFamilyIncomeHighIncomeAmount
+                  LoanDataValue: 127800.0,129000.0
+                - LoanDataType: TotalMonthlyIncomeAmount
+                  LoanDataValue: '4597.0'
+                - LoanDataType: LoanPropertyUsageType
+                  LoanDataValue: SecondHome
+                - LoanDataType: TotalDebtExpenseRatioPercent
+                  LoanDataValue: '46.0'
+                - LoanDataType: LTV RatioPercent
+                  LoanDataValue: '66.55'
+                - LoanDataType: TLTV RatioPercent
+                  LoanDataValue: '66.55'
+                - LoanDataType: HTLTV RatioPercent
+                  LoanDataValue: '67.55'
+                - LoanDataType: LoanProgramType
+                  LoanDataValue: HomePossibleMortgage,ChoiceHome
+                - LoanDataType: PropertyAppraisedValueAmount
+                  LoanDataValue: '120000.0'
+              messages:
+              - messageCode: DSA022
+                messageDescription: Found all available summary results
+          StandardizedPropertyAddress:
+            addressLineText: '1203 RIVER RD # 3A'
+            cityName: EDGEWATER
+            stateCode: NJ
+            postalCode: '07020'
+            zipPlusFourCode: '1456'
+    ERRSDownBidSummaryResultsResponse:
+      summary: Scenario 5 ERRS Down Bid Summary Results Response
+      description: Scenario 5 ERRS Down Bid Summary Results Response
+      value:
+        details:
+        - messageCode: DSA900
+          messageDescription: Loan Advisor Data Share API is unable to retrieve summary results for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
+    getbidsummaryLenderLoanIdentifierMorethan50charactersResponse:
+      summary: Scenario 10 getbidsummary LenderLoanIdentifier More than 50 characters Response
+      description: Scenario 10 getbidsummary LenderLoanIdentifier More than 50 characters Response
+      value:
+        code: '400.002'
+        message: Bad Request
+        details:
+        - messageCode: DSA035
+          messageDescription: The Lender Loan Identifier for attribute and length must be less than or equal to 50 characters. Please verify and resubmit.
+    getbidsummaryLenderLoanIdentifierMorethan50charactersRequest:
+      summary: Scenario 10 getbidsummary LenderLoanIdentifier More than 50 characters Request
+      description: Scenario 10 getbidsummary LenderLoanIdentifier More than 50 characters Request
+      value:
+        version: '1'
+        requestBatchIdentifier: '1'
+        loanDeliveryFilePreparer: '000000'
+        requestTransactionIdentifier: '1234786'
+        requestDateTimeStamp: 08-12-2020 11:56:59:000
+        loanIdentifiers:
+          correlationID: correlationID_3
+          lenderLoanIdentifier: HO_DC5400_AffSecondHO_DC5400_AffSecondHO_ DC5400_DC4
+          propertyAddress:
+            addressLineText: 1 CHERRY ST
+            cityName: LAWRENCE
+            stateCode: MA
+            postalCode: 01841
+        parties:
+        - partyRoleType: SELLER
+          partyRoleIdentifier: '000601'
+    systemErrorExample:
+      value:
+        code: 500
+        message: Internal Server Error
+        details:
+        - messageCode: DSA500
+          messageDescription: Loan Advisor Data Share service is unable to retrieve data for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
+    ERRSDownBidSummaryResultsRequest:
+      summary: Scenario 5 ERRS Down Bid Summary Results Request
+      description: Scenario 5 ERRS Down Bid Summary Results Request
+      value:
+        version: '1'
+        requestBatchIdentifier: '1'
+        loanDeliveryFilePreparer: '000000'
+        requestTransactionIdentifier: '1234786'
+        requestDateTimeStamp: 08-12-2020 11:56:59:000
+        loanIdentifiers:
+          correlationID: correlationID_7
+          lenderLoanIdentifier: ALEX0310
+          propertyAddress:
+            addressLineText: 3529 CAVE HILL PL
+            cityName: LEXINGTON
+            stateCode: KY
+            postalCode: '40513'
+        parties:
+        - partyRoleType: SELLER
+          partyRoleIdentifier: '000601'
+    SuccessAllEligibleBidSummaryResultsResponse:
+      summary: Scenario 1 Success All Eligible Bid Summary Results Response
+      description: Scenario 1 Success All Eligible Bid Summary Results Response
+      value:
+        RequestMetaData:
+          RequestBatchIdentifier: '1'
+          loanDeliveryFilePreparer: '000000'
+          RequestTransactionIdentifier: '1234786'
+          loanIdentifiers:
+            correlationID: correlationID_1
+            lenderLoanIdentifier: HO_DC5400_AffSecond
+            propertyAddress:
+              addressLineText: 12 CALLE CESAR GONZALEZ
+              cityName: ADJUNTAS
+              stateCode: PR
+              postalCode: '00601'
+          parties:
+          - partyRoleType: SELLER
+            partyRoleIdentifier: '000601'
+        Response:
+          SummaryResultsResponse:
+          - Results:
+            - SummaryResultMessage:
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: PurchaseEligibility
+                SummaryResultDecisionDescription: 000 Freddie Mac Eligible.
+                SummaryResultMessageCategory: PurchaseEligibility
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: AutomatedCollateralEvaluation
+                SummaryResultDecisionDescription: Eligible
+                SummaryResultMessageCategory: RepandWarranty
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: LPAAssetRandWEligibility
+                SummaryResultDecisionDescription: Eligible
+                SummaryResultMessageCategory: RepandWarranty
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: LPACollateralRandWEligibility
+                SummaryResultDecisionDescription: Eligible
+                SummaryResultMessageCategory: RepandWarranty
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: LPAIncomeRandWEligibility
+                SummaryResultDecisionDescription: Eligible
+                SummaryResultMessageCategory: RepandWarranty
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: AutomatedUnderwritingRecommendation
+                SummaryResultDecisionDescription: Accept
+                SummaryResultMessageCategory: RiskAssessment
+              LoanSubmissionBatch:
+              - SummaryResultMessageDateTime: 02-22-2022 11:11:55:284
+                SummaryResultMessageSourceType: LPA
+              LoanData:
+              - SourceSystemType: LPA
+                LoanData:
+                - LoanDataType: LoanAmortizationPeriodCount
+                  LoanDataValue: '360'
+                - LoanDataType: FinancedUnitCount
+                  LoanDataValue: '1'
+                - LoanDataType: LoanRefinanceCashOutDeterminationType
+                  LoanDataValue: TestValue
+                - LoanDataType: BorrowerPropertyPurchasePriceAmount
+                  LoanDataValue: '120000.0'
+                - LoanDataType: PropertyCategoryDescription
+                  LoanDataValue: SingleFamilyAttached
+                - LoanDataType: LoanFirstRateAdjustmentMonthsCount
+                  LoanDataValue: '0'
+                - LoanDataType: NoteRate
+                  LoanDataValue: '0.0'
+                - LoanDataType: LoanLevelCreditScoreValue
+                  LoanDataValue: '779'
+                - LoanDataType: TotalSubordinateFinancingAmount
+                  LoanDataValue: '0.0'
+                - LoanDataType: MedianFamilyIncomeHighIncomeAmount
+                  LoanDataValue: 127800.0,129000.0
+                - LoanDataType: TotalMonthlyIncomeAmount
+                  LoanDataValue: '4597.0'
+                - LoanDataType: LoanPropertyUsageType
+                  LoanDataValue: SecondHome
+                - LoanDataType: TotalDebtExpenseRatioPercent
+                  LoanDataValue: '46.0'
+                - LoanDataType: LTV RatioPercent
+                  LoanDataValue: '66.55'
+                - LoanDataType: TLTV RatioPercent
+                  LoanDataValue: '66.55'
+                - LoanDataType: HTLTV RatioPercent
+                  LoanDataValue: '67.55'
+                - LoanDataType: LoanProgramType
+                  LoanDataValue: HomePossibleMortgage,ChoiceHome,
+                - LoanDataType: LoanApplicationBaseLoanAmount
+                  LoanDataValue: '80000.0'
+                - LoanDataType: LoanPurposeType
+                  LoanDataValue: Purchase
+                - LoanDataType: PropertyAppraisedValueAmount
+                  LoanDataValue: '120000.0'
+              messages:
+              - messageCode: DSA022
+                messageDescription: Found all available summary results
+          StandardizedPropertyAddress:
+            addressLineText: 12 CALLE CESAR GONZALEZ
+            cityName: ADJUNTAS
+            stateCode: PR
+            postalCode: '00601'
+            zipPlusFourCode: 2308
+    PartialResultsfromLPASummaryResultswithBidSummaryRequest:
+      summary: Scenario 8 Partial Results from LPA Summary Results with Bid Summary Request
+      description: Scenario 8 Partial Results from LPA Summary Results with Bid Summary Request
+      value:
+        version: '1'
+        requestBatchIdentifier: '1'
+        loanDeliveryFilePreparer: '000000'
+        requestTransactionIdentifier: '1234786'
+        requestDateTimeStamp: 08-12-2020 11:56:59:000
+        loanIdentifiers:
+          correlationID: correlationID_10
+          lenderLoanIdentifier: L104231
+          propertyAddress:
+            addressLineText: '1203 RIVER RD # 3A'
+            cityName: EDGEWATER
+            stateCode: NJ
+            postalCode: '07020'
+        parties:
+        - partyRoleType: SELLER
+          partyRoleIdentifier: '000601'
+    ERRSandCDDSDownBidSummaryResultsResponse:
+      summary: Scenario 6 ERRS and CDDS Down Bid Summary Results Response
+      description: Scenario 6 ERRS and CDDS Down Bid Summary Results Response
+      value:
+        details:
+        - messageCode: DSA902
+          messageDescription: Loan Advisor Data Share API is unable to retrieve summary results for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
+    SuccessAllEligibleBidSummaryResultsRequest:
+      summary: Scenario 1 Success All Eligible Bid Summary Results Request
+      description: Scenario 1 Success All Eligible Bid Summary Results Request
+      value:
+        version: '1'
+        requestBatchIdentifier: '1'
+        loanDeliveryFilePreparer: '000000'
+        requestTransactionIdentifier: '1234786'
+        requestDateTimeStamp: 08-12-2020 11:56:59:000
+        loanIdentifiers:
+          correlationID: correlationID_1
+          lenderLoanIdentifier: HO_DC5400_AffSecond
+          propertyAddress:
+            addressLineText: 12 CALLE CESAR GONZALEZ
+            cityName: ADJUNTAS
+            stateCode: PR
+            postalCode: '00601'
+        parties:
+        - partyRoleType: SELLER
+          partyRoleIdentifier: '000601'
+    getbidsummaryLenderLoanIdentifierandAddressFieldMissingRequest:
+      summary: Scenario 9 getbidsummary LenderLoanIdentifier and Address Field Missing Request
+      description: Scenario 9 getbidsummary LenderLoanIdentifier and Address Field Missing Request
+      value:
+        version: '1'
+        requestBatchIdentifier: '1'
+        loanDeliveryFilePreparer: '000000'
+        requestTransactionIdentifier: '1234786'
+        requestDateTimeStamp: 08-12-2020 11:56:59:000
+        loanIdentifiers:
+          correlationID: correlationID_2
+          lenderLoanIdentifier: ''
+          propertyAddress:
+            addressLineText: 1 CHERRY ST
+            cityName: ''
+            stateCode: MA
+            postalCode: 01841
+        parties:
+        - partyRoleType: SELLER
+          partyRoleIdentifier: '000601'
+    SuccessNotEligibleBidSummaryResultsRequest:
+      summary: Scenario 2 Success All Not Eligible Bid Summary Results Request
+      description: Success All Not Eligible Bid Summary Results Request
+      value:
+        version: '1'
+        requestBatchIdentifier: '1'
+        loanDeliveryFilePreparer: '000000'
+        requestTransactionIdentifier: '1234786'
+        requestDateTimeStamp: 08-12-2020 11:56:59:000
+        loanIdentifiers:
+          correlationID: correlationID_4
+          lenderLoanIdentifier: LPA003JUL220
+          propertyAddress:
+            addressLineText: 1203 E SAN ANTONIO DR APT 102
+            cityName: LONG BEACH
+            stateCode: CA
+            postalCode: '90807'
+        parties:
+        - partyRoleType: SELLER
+          partyRoleIdentifier: '000601'
+    SuccessNotEligibleBidSummaryResultsResponse:
+      summary: Scenario 2 Success All Not Eligible Bid Summary Results Response
+      description: Success All Not Eligible Bid Summary Results Response
+      value:
+        RequestMetaData:
+          RequestBatchIdentifier: '1'
+          loanDeliveryFilePreparer: '000000'
+          RequestTransactionIdentifier: '1234786'
+          loanIdentifiers:
+            correlationID: correlationID_4
+            lenderLoanIdentifier: LPA003JUL220
+            propertyAddress:
+              addressLineText: 1203 E SAN ANTONIO DR APT 102
+              cityName: LONG BEACH
+              stateCode: CA
+              postalCode: '90807'
+          parties:
+          - partyRoleType: SELLER
+            partyRoleIdentifier: '000601'
+        Response:
+          SummaryResultsResponse:
+          - Results:
+            - SummaryResultMessage:
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: PurchaseEligibility
+                SummaryResultDecisionDescription: 000 Freddie Mac Eligible.
+                SummaryResultMessageCategory: PurchaseEligibility
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: AutomatedCollateralEvaluation
+                SummaryResultDecisionDescription: InEligible
+                SummaryResultMessageCategory: RepandWarranty
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: LPAAssetRandWEligibility
+                SummaryResultDecisionDescription: NotEligible
+                SummaryResultMessageCategory: RepandWarranty
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: LPACollateralRandWEligibility
+                SummaryResultDecisionDescription: NotEligible
+                SummaryResultMessageCategory: RepandWarranty
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: LPAIncomeRandWEligibility
+                SummaryResultDecisionDescription: NotEligible
+                SummaryResultMessageCategory: RepandWarranty
+              - SummaryResultMessageSourceType: LoanProspector
+                SummaryResultMessageCategoryType: AutomatedUnderwritingRecommendation
+                SummaryResultDecisionDescription: Accept
+                SummaryResultMessageCategory: RiskAssessment
+              LoanSubmissionBatch:
+              - SummaryResultMessageDateTime: 02-22-2022 11:11:55:284
+                SummaryResultMessageSourceType: LPA
+              LoanData:
+              - SourceSystemType: LPA
+                LoanData:
+                - LoanDataType: LoanAmortizationPeriodCount
+                  LoanDataValue: '360'
+                - LoanDataType: FinancedUnitCount
+                  LoanDataValue: '1'
+                - LoanDataType: LoanRefinanceCashOutDeterminationType
+                  LoanDataValue: TestValue
+                - LoanDataType: BorrowerPropertyPurchasePriceAmount
+                  LoanDataValue: '120000.0'
+                - LoanDataType: PropertyCategoryDescription
+                  LoanDataValue: SingleFamilyAttached
+                - LoanDataType: LoanFirstRateAdjustmentMonthsCount
+                  LoanDataValue: '0'
+                - LoanDataType: NoteRate
+                  LoanDataValue: '0.0'
+                - LoanDataType: LoanLevelCreditScoreValue
+                  LoanDataValue: '779'
+                - LoanDataType: TotalSubordinateFinancingAmount
+                  LoanDataValue: '0.0'
+                - LoanDataType: MedianFamilyIncomeHighIncomeAmount
+                  LoanDataValue: 127800.0,129000.0
+                - LoanDataType: TotalMonthlyIncomeAmount
+                  LoanDataValue: '4597.0'
+                - LoanDataType: LoanPropertyUsageType
+                  LoanDataValue: SecondHome
+                - LoanDataType: TotalDebtExpenseRatioPercent
+                  LoanDataValue: '46.0'
+                - LoanDataType: LTV RatioPercent
+                  LoanDataValue: '66.55'
+                - LoanDataType: TLTV RatioPercent
+                  LoanDataValue: '66.55'
+                - LoanDataType: HTLTV RatioPercent
+                  LoanDataValue: '67.55'
+                - LoanDataType: LoanProgramType
+                  LoanDataValue: HomePossibleMortgage,ChoiceHome
+                - LoanDataType: PropertyAppraisedValueAmount
+                  LoanDataValue: '120000.0'
+              messages:
+              - messageCode: DSA022
+                messageDescription: Found all available summary results
+          StandardizedPropertyAddress:
+            addressLineText: 1203 E SAN ANTONIO DR APT 102
+            cityName: LONG BEACH
+            stateCode: CA
+            postalCode: '90807'
+            zipPlusFourCode: '6820'
+    BadRequestSchemaFailureBidSummaryResultsResponse:
+      summary: Scenario 11 Schema Failure Response
+      description: Schema Failure Response
+      value:
+        code: 400.002
+        message: Bad Request
+        details:
+        - messageCode: DSA021
+          messageDescription: Request data does not match the application schema. Please validate the request data and resubmit.
+    NoSLIDMatchfromSRSBidSummaryResultsResponse:
+      summary: Scenario 3 No SLID Match from SRS SummaryResults Response
+      description: No SLID Match from SRS SummaryResults Response
+      value:
+        RequestMetaData:
+          RequestBatchIdentifier: '14234612359'
+          loanDeliveryFilePreparer: '000000'
+          RequestTransactionIdentifier: 123Testing123
+          transactionId: 1411879d-a8f2-41c9-a1c4-dbfc5845b9e0
+          loanIdentifiers:
+            correlationID: correlationID_5
+            lenderLoanIdentifier: CTE2LPA015
+            propertyAddress:
+              addressLineText: 175 13TH ST
+              cityName: WASHINGTON
+              stateCode: DC
+              postalCode: '20013'
+          parties:
+          - partyRoleType: SELLER
+            partyRoleIdentifier: '000601'
+        Response:
+          SummaryResultsResponse:
+          - Results:
+            - messages:
+              - messageCode: DSA701
+                messageDescription: Loan Advisor Data Share API is unable to find an internal match key for the submitted request at this time.Please verify the data and resubmit or contact Customer Support at (800-FREDDIE) for assistance.
+    CDDSDownBidSummaryResultsResponse:
+      summary: Scenario 4 CDDS Down Bid Summary Results  Response
+      description: Scenario 4 CDDS Down Bid Summary Results  Response
+      value:
+        details:
+        - messageCode: DSA800
+          messageDescription: Loan Advisor Data Share API is unable to retrieve summary results for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
+    ERRSandCDDSDownBidSummaryResultsRequest:
+      summary: Scenario 6 ERRS and CDDS Down Bid Summary Results Request
+      description: Scenario 6 ERRS and CDDS Down Bid Summary Results Request
+      value:
+        version: '1'
+        requestBatchIdentifier: '1'
+        loanDeliveryFilePreparer: '000000'
+        requestTransactionIdentifier: '1234786'
+        requestDateTimeStamp: 08-12-2020 11:56:59:000
+        loanIdentifiers:
+          correlationID: correlationID_8
+          lenderLoanIdentifier: ULAD2checkpml055
+          propertyAddress:
+            addressLineText: 3500 MYSTIC POINTE DR
+            cityName: AVENTURA
+            stateCode: FL
+            postalCode: '33180'
+        parties:
+        - partyRoleType: SELLER
+          partyRoleIdentifier: '000601'
+    BadRequestSchemaFailureBidSummaryResultsRequest:
+      summary: Scenario 11 Schema Failure Request
+      description: Schema Failure Request
+      value:
+        version: '1'
+        requestBatchIdentifier: '1'
+        loanDeliveryFilePreparer: '000000'
+        requestTransactionIdentifier: '1234786'
+        requestDateTimeStamp: 08-12-2020 11:56:59:000
+        loanIdentifiers:
+          lenderLoanIdentifier: HO_DC5400_AffSecond
+          propertyAddress:
+            addressLineText: 1 CHERRY ST
+            cityName: LAWRENCE
+            stateCode: MA
+            postalCode: 01841
+        parties:
+        - partyRoleType: SELLER
+          partyRoleIdentifier: '000601'
+    ERRSandCDDSDocumentsMissingBidSummaryResultsResponse:
+      summary: Scenario 7 ERRS and CDDS Documents Missing Response
+      description: Scenario 7 ERRS and CDDS Documents Missing Response
+      value:
+        RequestMetaData:
+          RequestBatchIdentifier: '1'
+          RequestTransactionIdentifier: '1234786'
+          loanIdentifiers:
+            correlationID: correlationID_9
+            lenderLoanIdentifier: CTE2LPA006
+            propertyAddress:
+              addressLineText: 12027 ROYAL RD UNIT 9
+              cityName: EL CAJON
+              stateCode: CA
+              postalCode: '92021'
+          parties:
+          - partyRoleType: SELLER
+            partyRoleIdentifier: '000601'
+        Response:
+          SummaryResultsResponse:
+          - Results:
+            - messages:
+              - messageCode: DSA903
+                messageDescription: Loan Advisor Data Share API is unable to find any matching results for the submitted request at this time.Please verify the data and resubmit or contact Customer Support at 1-800-FREDDIE (373-3343) for assistance.
+          StandardizedPropertyAddress:
+            addressLineText: 12027 ROYAL RD UNIT 9
+            cityName: EL CAJON
+            stateCode: CA
+            postalCode: 92021
+            zipPlusFourCode: 1534
+    CDDSDownBidSummaryResultsRequest:
+      summary: Scenario 4 CDDS Down Bid Summary Results Request
+      description: Scenario 4 CDDS Down Bid Summary Results Request
+      value:
+        version: '1'
+        requestBatchIdentifier: '1'
+        loanDeliveryFilePreparer: '000000'
+        requestTransactionIdentifier: '1234786'
+        requestDateTimeStamp: 08-12-2020 11:56:59:000
+        loanIdentifiers:
+          correlationID: correlationID_6
+          lenderLoanIdentifier: CTE2LPA007
+          propertyAddress:
+            addressLineText: 1204 CHAMBERLAIN DR APT 4
+            cityName: MEMPHIS
+            stateCode: TN
+            postalCode: 38119
+        parties:
+        - partyRoleType: SELLER
+          partyRoleIdentifier: '000601'
+    getbidsummaryLenderLoanIdentifierandAddressFieldMissingResponse:
+      summary: Scenario 9 getbidsummary LenderLoanIdentifier and Address Field Missing Response
+      description: Scenario 9 getbidsummary LenderLoanIdentifier and Address Field Missing Response
+      value:
+        code: '400'
+        message: Bad Request
+        details:
+        - messageCode: DSA061
+          messageDescription: Request does not contain the bare minimum fields required to process. Please provide the full property address (addressLineText, cityName, stateCode, postalCode) along with Lender Loan Identifier. Please verify and resubmit.
+    ERRSandCDDSDocumentsMissingBidSummaryResultsRequest:
+      summary: Scenario 7 ERRS and CDDS Documents Missing Request
+      description: Scenario 7 ERRS and CDDS Documents Missing Request
+      value:
+        version: '1'
+        requestBatchIdentifier: '1'
+        loanDeliveryFilePreparer: '000000'
+        requestTransactionIdentifier: '1234786'
+        requestDateTimeStamp: 08-12-2020 11:56:59:000
+        loanIdentifiers:
+          correlationID: correlationID_9
+          lenderLoanIdentifier: CTE2LPA006
+          propertyAddress:
+            addressLineText: 12027 ROYAL RD UNIT 9
+            cityName: EL CAJON
+            stateCode: CA
+            postalCode: '92021'
+        parties:
+        - partyRoleType: SELLER
+          partyRoleIdentifier: '000601'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token

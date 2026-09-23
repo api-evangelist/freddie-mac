@@ -1,0 +1,1658 @@
+openapi: 3.2.0
+info:
+  title: Resolve Liquidation API
+  version: 1.0.0
+  description: Resolve Liquidation API is a quicker, more efficient solution to submit short sale requests to Freddie Mac for decisioning and settlement.
+servers:
+- url: https://api-test.freddiemac.com/singlefamily/servicing/v1/resolve/liquidation-service/api
+security:
+- bearerAuth: []
+tags:
+- name: Resolve Liquidation API
+  description: Resolve Liquidation API is a quicker, more efficient solution to submit short sale requests to Freddie Mac for decisioning and settlement.
+paths:
+  /shortsale:
+    post:
+      tags:
+      - Resolve Liquidation API
+      summary: Delivers real-time eligibility decisions and data for single or bulk short sale…
+      description: ''
+      operationId: requestWorkoutUsingPOST
+      requestBody:
+        description: Workout Service Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkoutServiceRequest'
+            examples:
+              LoanEligibleForShortSale:
+                $ref: '#/components/examples/RequestScenario1'
+              LoanNotEligibleExceptionReviewNotRequested:
+                $ref: '#/components/examples/RequestScenario2'
+              LoanNotEligibleExceptionReviewRequested:
+                $ref: '#/components/examples/RequestScenario3'
+        required: true
+      responses:
+        '200':
+          description: "<b>OK</b> Request succeeded.\n\n <b>Sample Eligibility Messages</b> <br/> <ul> <li><strong>LM000047 </strong>Loan is in <i>status</i> status. Please review request and submit to Freddie Mac for exception review if necessary.\n </li><li><strong>LM000048 </strong>Sale must be an arm’s length transaction. All parties involved in the sale must be unrelated/unaffiliated.\n </li> <li><strong>LM000049 </strong>Total payment to junior lien holders is greater than $6,000. \n </li> <li><strong>LM000050 </strong>Payoff of the second mortgage loan cannot be greater than Second Lien UPB amount.\n </li> <li><strong>LM000052 </strong>Net Sale Proceeds does not meet Minimum Net Proceeds. \n </li> <li><strong>LM000053 </strong>Loan is active. Borrower does not have a qualifying hardship reason. Hardship Reason provided in the request is <<Hardship_Reason_Type_List::Alphanumeric>>.\n </li> <li><strong>LM000054 </strong>Loan is active and property is not Primary Residence.\n </li> <li><strong>LM000055 </strong>Borrower has Non Retirement Liquid Assets greater than $50,000.\n </li> <li><strong>LM000056 </strong>Cash contribution is less than minimum Borrower Cash Contribution requirement.\n </li> <li><strong>LM000057 </strong>Property does not meet MLS listing requirement, and was listed on MLS for less than 5 days.\n </li> <li><strong>LM000058 </strong>Borrower acquired a new mortgage within six months of DDLPI.\n </li> <li><strong>LM000059 </strong>Agent commissions exceed 6% of sales price.\n </li> <li><strong>LM000060 </strong>Cash Contribution is less than what was negotiated. Please validate the amount and resubmit.\n </li> <li><strong>LM000061 </strong>The amount paid to second mortgage lien holder(s) exceeds the authorized amount. Please validate the amount and resubmit.\n </li> <li><strong>LM000062 </strong>The amount paid for relocation expenses exceeds the authorized amount. Please validate the amount and resubmit.\n </li> <li><strong>LM000063 </strong>Final Net Proceeds amount is less than the authorized amount. Please send to Freddie Mac for Manual Settlement Review.\n </li> <li><strong>LM000064 </strong>MNP amount is missing. Please send to Freddie Mac for Manual Settlement Review.\n </li> <li><strong>LM000065 </strong>Loan is not eligible for Short Sale liquidation. Please review the Freddie Mac response and validate the terms submitted.\n </li> <li><strong>LM000066 </strong>Loan is approved for Short Sale liquidation.  Please review the final terms and submit for Settlement.\n </li> <li><strong>LM000067 </strong>Loan cannot be processed for Short Sale Liquidation Settlement. Please review the Freddie Mac response and resubmit the corrected information or submit for manual review.\n </li> <li><strong>LM000068 </strong>Loan has been successfully submitted for Settlement.  Please review your Manager Series reports for updates.\n </li> <li><strong>LM000069 </strong>Loan is Credit Enhanced with Recourse. \n </li> <li><strong>LM000089 </strong>Cooperative Share loan is ineligible for delegated short sale approval.\n </li> <li><strong>LM000090 </strong>Borrowers making cash contribution are not eligible for relocation incentive. Please validate contribution amount and relocation incentive amount and resubmit.\n </li> <li><strong>LM000091 </strong>Borrowers receiving DLA/Government Relocation Assistance are ineligible for Freddie Mac relocation incentive. \n </li> <li><strong>LM000092 </strong>Total relocation from Freddie Mac and alternative relocation source exceeds the authorized amount of $3,000.\n </li> <li><strong>LM000093 </strong>Cash contribution is less than minimum Borrower Cash Contribution requirement and no justification provided.\n </li> <li><strong>LM000094 </strong>Borrower cash contribution is less than calculated amount. Please ensure circumstances for reduced contribution amount are documented. \n </li> <li><strong>LM000099 </strong>Borrower ineligible for relocation assistance. Property is not Primary Residence or Owner Occupied. \n </li> <li><strong>LM000100 </strong>Loan is and not eligible for Freddie Mac Short Sale process. Please ensure Short Sale request is compliant with agency guidelines and follow claim filing process as outlined in Guide or submit to Freddie Mac for exception review if necessary. \n </li> <li><strong>LM000103 </strong>Property has not met MLS listing requirement and is not eligible for delegated shortsale review.\n </li> <li><strong>LI001100 </strong>data element is required.\n </li> <li><strong>LI001101 </strong>data element is invalid.\n </li> <li><strong>LI001152 </strong>Freddie Mac Loan Number is duplicate.\n </li> <li><strong>LI001163 </strong>Servicer number provided on the request is not authorized to process the loan.\n </li> <li><strong>LI001000 </strong>Invalid Schema.\n </li> <li><strong>LI001001 </strong>JSON parse exception.\n </li> <li><strong>LI001050 </strong>Exception occurred during processing. Please resubmit the workout request.\n </li> <li><strong>LI001152 </strong>Freddie Mac Loan Number is duplicate.\n </li> <li><strong>LI002001 </strong>Requested Loan Number does not belong to Freddie Mac.\n </li> <li><strong>LI002002 </strong>Freddie Mac Loan Number does not belong to the Servicer.\n </li> </ul>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkoutServiceResponse'
+              examples:
+                LoanEligibleForShortSaleResponse:
+                  $ref: '#/components/examples/ResponseScenario1'
+                LoanNotEligibleExceptionReviewNotRequestedResponse:
+                  $ref: '#/components/examples/ResponseScenario2'
+                LoanNotEligibleExceptionReviewRequestedResponse:
+                  $ref: '#/components/examples/ResponseScenario3'
+        '400':
+          description: "<b>Bad Request</b> \n\n <font size='1' color='black'><b>Error codes & details</b></font> \n\n <ul> <li><B>400.001</B> Malformed content from the client \n\n </li><li><B>400.002</B> Request data does not match the application schema, please validate the request data. \n\n</li><li><B>400.005</B> Empty request body \n\n </li><li><B>400.006</B> Content-type must be application/json \n\n </li></ul>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: '400.006'
+                message: Missing header Content-type
+                details:
+                - error: Content-type must be application/json
+        '401':
+          description: "<b>Unauthorized</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <ul><li><B>401.001</B> Invalid Access Token, please validate the token, if error persists please renew your token. \n\n </li><li><b>401.002</b> Access Token Expired, please renew your access token. \n\n </li><li><b>401.003</b> API Product mismatch for token. Your token does not have access to the requested API \n\n </li><li><b>401.004</b> Invalid API Key, please validate the Client ID \n\n </li><li><b>401.005</b> Invalid API Key for given resource \n\n </li><li><b>401.006</b> Insufficient scope for Application \n\n </li><li><b>401.007</b> Invalid Username/Password combination, the provided combination of username and password is incorrect, please verify your credentials. \n\n </li><li><b>401.008</b> Invalid Refresh Token. \n\n </li><li><b>401.009</b> Invalid client secret \n\n </li><li><b>401.010</b> Refresh Token expired.</li></ul>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: '401.002'
+                message: Access Token Expired
+                details:
+                  error: Access Token Expired, please renew your access token.
+        '404':
+          description: "<b>Not Found</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>404.001</b> No resource for POST <b>/path</b>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: '404.001'
+                message: No resource for POST /path
+                details:
+                  error: No resource for POST /path
+        '429':
+          description: "<b>Too Many Requests</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>429.001</b> Rate limit exceeded, too many requests have been sent per second. \n\n <b>429.002</b> Quota limit exceeded, too many requests have been sent per minute."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 429.001
+                message: Rate limit exceeded
+                details:
+                  error: Rate limit exceeded, too many requests have been sent per second.
+        '500':
+          description: "<b>Internal server error.</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>500</b> Internal server error."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: '500'
+                message: Internal server error
+                details:
+                - error: Liquidation API is unable to retrieve data for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
+      x-codegen-request-body-name: workoutServiceRequest
+components:
+  examples:
+    ResponseScenario1:
+      summary: Scenario 1 - Response when loan is eligible for short sale
+      description: A new submission response
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2021-05-06T09:45:14.535Z'
+          responseData:
+            isRequestValid: true
+            requestResponseIdentifier: 1559
+            errorList: []
+            responseWorkoutList:
+            - loanIdentifier: '999999999'
+              servicerAccountIdentifier: '999999'
+              servicerLoanIdentifier: abcd123456789
+              workoutReportingStatusType: WAReq
+              workoutProgramType: SHRTSLE
+              isValid: true
+              isMNPObtained: true
+              errorWorkoutList: []
+              valuationData:
+                mnpRequestIdentifier: 123456
+                mnpStatus: Completed
+                servicerContactFirstName: Jim
+                servicerContactLastName: Jones
+                servicerContactPhone: '1234567890'
+                servicerContactEmail: jim_jones@emailserver.com
+                minimumNetProceedAmount: 40392.12
+                goodThroughDate: 01/01/9999
+                estimatedMarketValue: 243100.0
+                mnpRequestCompletionDate: 01/01/9999
+              workoutProgramResponses:
+              - isEligible: true
+                messageWorkoutList:
+                - workoutMessageCode: LM000066
+                  workoutMessageDescription: Loan 999999999 is approved for Short Sale liquidation.  Please review the final terms and submit for Settlement.
+                  workoutMessageType: Informational
+                postWorkoutData:
+                  workoutApprovedDate: 05-06-2021
+                  settlementChargesToSeller: 3400.0
+                  secondMortgagePayoffAmount: 200.0
+                  borrowerContributionAmount: 6269.2
+                  investorRelocationAssistance: 0.0
+                  approvedNetSaleProceeds: 396600.0
+              loanData:
+                loanLastPaidInstallmentDate: 04-01-2021
+                currentLoanGrossUPBAmount: 35155.63
+                currentPrincipalAndInterestPaymentAmount: 24.9
+                currentMonthlyHousingExpenseToIncomeRatioPercent: 3.21
+                propertyAddress:
+                  Property Street: 123 Main Street
+                  Property Zipcode: '123450000'
+                  Property City: City Name
+                  Property State: VA
+    RequestScenario2:
+      summary: Scenario 2 - Loan is not eligible for short sale and exception review not requested
+      description: A new submission
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2018-12-10T13:45:00.000Z'
+          requestData:
+            workoutList:
+            - externalData:
+                workoutReportingStatusType: WAReq
+                workoutProgramType: SHRTSLE
+                servicerAccountIdentifier: '888888'
+                loanIdentifier: '888888888'
+                servicerLoanIdentifier: abcd123456789
+                borrowerResponsePackageReceivedDate: 05-01-2020
+                loanImminentDefaultIndicator: Y
+                exceptionReviewRequestIndicator: N
+                propertyType: Single Family Detached
+                hardshipReasons:
+                - hardshipReasonType: BusinessFail
+                - hardshipReasonType: Death
+                - hardshipReasonType: Disaster
+                - hardshipReasonType: Relocation
+                - hardshipReasonType: Other
+                  reasonForExtenuatingCircumstances: Just Because
+                propertyInfo:
+                  propertyConditionType: Condemned
+                  propertyUsageType: PR
+                  propertyOccupancyType: OC
+                  grossRentalIncome: 10000
+                partyInfo:
+                  totalCashReserveAmount: 51000
+                  totalMonthlyLiabilities: 0.1
+                  party:
+                  - borrowerType: Primary
+                    borrowerInfo:
+                      borrowerDetail:
+                        creditScoreDate: 12-10-2018
+                        creditScoreValue: 450
+                      currentIncomeItem:
+                      - currentIncomeItemDetail:
+                          currentIncomeMonthlyTotalAmount: 600
+                          incomeType: GrossMonthlyIncome
+                  - borrowerType: Secondary
+                    borrowerInfo:
+                      borrowerDetail:
+                        creditScoreDate: 12-10-2018
+                        creditScoreValue: 570
+                      currentIncomeItem:
+                      - currentIncomeItemDetail:
+                          currentIncomeMonthlyTotalAmount: 1000
+                          incomeType: GrossMonthlyIncome
+                premodHousingExpense:
+                - housingExpensePaymentAmount: 50
+                  housingExpenseType: HomeownersInsurance
+                - housingExpensePaymentAmount: 50
+                  housingExpenseType: RealEstateTax
+                - housingExpensePaymentAmount: 100
+                  housingExpenseType: HOACondoFees
+                - housingExpensePaymentAmount: 2000
+                  housingExpenseType: PrResMortgagePITIAS
+                - housingExpensePaymentAmount: 5000
+                  housingExpenseType: TotalMonthlyExpenses
+                - housingExpensePaymentAmount: 1000
+                  housingExpenseType: EscrowShortagePaymentAmount
+                liquidations:
+                  closingData:
+                  - category: BuyersFirstName
+                    value: Jim
+                  - category: BuyersLastName
+                    value: Jones
+                  - category: ClosingDate
+                    value: 10-10-2020
+                  - category: AdjustmentsForItemsPaidInAdvance
+                    value: '200'
+                  - category: PayoffOfSecondMortgageLoan
+                    value: '200'
+                  - category: InvestorRelocationAssistance
+                    value: '0'
+                  - category: ServicerRelocationAssistance
+                    value: '200'
+                  - category: DLA-OtherGovernmentRelocationAssistance
+                    value: '200'
+                  - category: RelocationAssistancefromAlternative Sources
+                    value: '200'
+                  - category: CommissionPaidAtSettlement
+                    value: '200'
+                  - category: CityTownTaxes
+                    value: '200'
+                  - category: CityTownTaxesStartDate
+                    value: 01-01-2018
+                  - category: CityTownTaxesEndDate
+                    value: 12-31-2019
+                  - category: CountyTaxes
+                    value: '200'
+                  - category: CountyTaxesStartDate
+                    value: 10-10-2019
+                  - category: CountyTaxesEndDate
+                    value: 10-10-2019
+                  - category: CityCountyTaxStamps
+                    value: '200'
+                  - category: Assessments
+                    value: '200'
+                  - category: SettlementOrClosingFee
+                    value: '200'
+                  - category: DocumentPreparation
+                    value: '200'
+                  - category: NotaryFee
+                    value: '200'
+                  - category: AttorneysFees
+                    value: '200'
+                  - category: TitleInsurance
+                    value: '200'
+                  - category: TitleExamSearch
+                    value: '200'
+                  - category: WireTransferFee
+                    value: '200'
+                  - category: RecordingFees
+                    value: '200'
+                  - category: Survey
+                    value: '200'
+                  - category: HOACOADues
+                    value: '200'
+                  - category: MiscFee1
+                    value: '200'
+                  - category: MiscFeeDescription1
+                    value: '200'
+                  - category: MiscFee2
+                    value: '200'
+                  - category: MiscFeeDescription2
+                    value: '200'
+                  - category: MiscFee3
+                    value: '200'
+                  - category: MiscFeeDescription3
+                    value: '200'
+                  - category: BorrowerContribution
+                    value: '2942.20'
+                  propertyContractInfo:
+                    contractSalesDate: 09-17-2020
+                    contractSalesPrice: 5000
+                    mLSListDate: 09-01-2020
+                    aRMSLengthTransactionIndicator: Y
+                  additionalData:
+                    newMortgages: Y
+                    secondLienUPB: 10000
+                    secondLienMortgageLender: Wells
+                    isInsufficientContributionJustified: N
+                    reasonForInsufficientContribution: Just Because
+                  valuationData:
+                  - category: ServicerContactFirstName
+                    value: Jim
+                  - category: ServicerContactLastName
+                    value: Jones
+                  - category: ServicerContactPhone
+                    value: '123456789'
+                  - category: ServicerContactPhoneExtension
+                    value: '1234'
+                  - category: ServicerContactEmail
+                    value: JIM@EMAILSERVER.COM
+                  - category: PropertyContactFirstName
+                    value: Harry
+                  - category: PropertyContactLastName
+                    value: James
+                  - category: PropertyContactPhone
+                    value: '123456789'
+                  - category: PropertyContactPhoneExtension
+                    value: '1234'
+                  - category: SpecialInteriorAccess
+                    value: Watch Out for the dog
+    ResponseScenario3:
+      summary: Scenario 3 - Response when loan is not eligible for short sale and exception review is requested
+      description: A new submission response
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2021-06-01T12:35:16.249Z'
+          responseData:
+            isRequestValid: true
+            requestResponseIdentifier: 6608
+            errorList: []
+            responseWorkoutList:
+            - loanIdentifier: '777777777'
+              servicerAccountIdentifier: '777777'
+              servicerLoanIdentifier: abcd123456789
+              workoutReportingStatusType: WAReq
+              workoutProgramType: SHRTSLE
+              isValid: true
+              isMNPObtained: true
+              errorWorkoutList: []
+              valuationData:
+                mnpRequestIdentifier: 673312
+                mnpStatus: Completed
+                servicerContactFirstName: Jim
+                servicerContactLastName: Jones
+                servicerContactPhone: '1234567890'
+                servicerContactEmail: JIM@EMAILSERVER.COM
+                minimumNetProceedAmount: 125654.0
+                goodThroughDate: 01/01/9999
+                propertyValuationAmount: 54000.0
+                mnpRequestCompletionDate: 01/01/9999
+              workoutProgramResponses:
+              - isEligible: false
+                messageWorkoutList:
+                - workoutMessageCode: LM000055
+                  workoutMessageDescription: Borrower has Non Retirement Liquid Assets greater than $50,000. Non Retirement Liquid Assets provided in the request is $51,000.00.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LM000056
+                  workoutMessageDescription: Cash contribution is less than minimum Borrower Cash Contribution requirement. Cash Contribution provided in the request is $2,942.20 and Borrower Cash Contribution required is $10,200.00.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LI002068
+                  workoutMessageDescription: Loan has been submitted for exception review. Updates to exception review submission cannot be made via API during review process. Please visit Decision Insights for more information.
+                  workoutMessageType: Informational
+                postWorkoutData:
+                  settlementChargesToSeller: 3600.0
+                  secondMortgagePayoffAmount: 200.0
+                  borrowerContributionAmount: 2942.2
+                  investorRelocationAssistance: 0.0
+                  approvedNetSaleProceeds: 226400.0
+              loanData:
+                loanLastPaidInstallmentDate: 04-01-2021
+                currentLoanGrossUPBAmount: 119010.32
+                currentPrincipalAndInterestPaymentAmount: 1091.28
+                currentMonthlyHousingExpenseToIncomeRatioPercent: 11.13
+                exceptionReviewStatusType: SUBMITTED
+                propertyAddress:
+                  PropertyZipcode: '303310000'
+                  PropertyStreet: 123 Main Street
+                  PropertyCity: McLean
+                  PropertyState: VA
+              workoutExceptionData:
+                exceptionReviewRequestID: SS001234
+                hardshipReasons: []
+                premodHousingExpense: []
+                closingData: []
+    ResponseScenario2:
+      summary: Scenario 2 - Response when loan is not eligible for short sale and exception review is not requested
+      description: A new submission response
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2021-05-06T09:47:25.801Z'
+          responseData:
+            isRequestValid: true
+            requestResponseIdentifier: 1560
+            errorList: []
+            responseWorkoutList:
+            - loanIdentifier: '888888888'
+              servicerAccountIdentifier: '888888'
+              servicerLoanIdentifier: abcd123456789
+              workoutReportingStatusType: WAReq
+              workoutProgramType: SHRTSLE
+              isValid: true
+              isMNPObtained: true
+              errorWorkoutList: []
+              valuationData:
+                mnpRequestIdentifier: 664753
+                mnpStatus: Completed
+                servicerContactFirstName: Jim
+                servicerContactLastName: Jones
+                servicerContactPhone: '1234567890'
+                servicerContactEmail: jim_jones@emailserver.com
+                minimumNetProceedAmount: 40392.12
+                goodThroughDate: 01/01/9999
+                propertyValuationAmount: 243100.0
+                mnpRequestCompletionDate: 01/01/9999
+              workoutProgramResponses:
+              - isEligible: false
+                messageWorkoutList:
+                - workoutMessageCode: LM000058
+                  workoutMessageDescription: Borrower acquired a newmortgage within six months of DDLPI.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LM000055
+                  workoutMessageDescription: Borrower has Non Retirement Liquid Assets greater than $50,000.Non Retirement Liquid Assets provided in the request is $51,000.00.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LM000056
+                  workoutMessageDescription: Cash contribution is less thanminimum Borrower Cash Contribution requirement. Cash Contribution provided in the request is $2,942.20 and Borrower Cash Contribution required is $10,200.00.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LM000052
+                  workoutMessageDescription: Net Sale Proceeds does not meet Minimum Net Proceeds. Net Sale Proceeds provided in the request is $1,400.00 and Minimum Net Proceeds is$40,392.12.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LM000048
+                  workoutMessageDescription: Sale must be an arm’s length transaction. All parties involved in the sale must beunrelated/unaffiliated.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LM000065
+                  workoutMessageDescription: Loan 888888888 is not eligible for Short Sale liquidation.   Please review theFreddie Mac response and validate the terms submitted. Please resubmit the correct terms for processing or submit to Freddie Mac for non-delegated review.
+                  workoutMessageType: Informational
+                postWorkoutData:
+                  settlementChargesToSeller: 3600.0
+                  secondMortgagePayoffAmount: 200.0
+                  borrowerContributionAmount: 2942.2
+                  investorRelocationAssistance: 0.0
+                  approvedNetSaleProceeds: 1400.0
+              loanData:
+                loanLastPaidInstallmentDate: 04-01-2021
+                currentLoanGrossUPBAmount: 35155.63
+                currentPrincipalAndInterestPaymentAmount: 24.9
+                currentMonthlyHousingExpenseToIncomeRatioPercent: 1.94
+                propertyAddress:
+                  Property Street: 123 Main Street
+                  Property Zipcode: '123450000'
+                  Property City: City Name
+                  Property State: VA
+    RequestScenario3:
+      summary: Scenario 3 - Loan is not eligible for short sale and exception review is requested
+      description: A new submission
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2018-12-10T13:45:00.000Z'
+          requestData:
+            workoutList:
+            - externalData:
+                servicerAccountIdentifier: '777777'
+                loanIdentifier: '777777777'
+                workoutReportingStatusType: WAReq
+                workoutProgramType: SHRTSLE
+                servicerLoanIdentifier: abcd123456789
+                borrowerResponsePackageReceivedDate: 05-01-2020
+                loanImminentDefaultIndicator: N
+                exceptionReviewRequestIndicator: Y
+                propertyType: Single Family Detached
+                hardshipReasons:
+                - hardshipReasonType: BusinessFail
+                - hardshipReasonType: Death
+                - hardshipReasonType: Disaster
+                - hardshipReasonType: Relocation
+                - hardshipReasonType: Other
+                  reasonForExtenuatingCircumstances: Just Because
+                propertyInfo:
+                  propertyConditionType: Condemned
+                  propertyUsageType: PR
+                  propertyOccupancyType: OC
+                  grossRentalIncome: 1000
+                partyInfo:
+                  totalCashReserveAmount: 10000
+                  totalMonthlyLiabilities: 0.1
+                  party:
+                  - borrowerType: Primary
+                    borrowerInfo:
+                      borrowerDetail:
+                        creditScoreDate: 12-10-2018
+                        creditScoreValue: 460
+                      currentIncomeItem:
+                      - currentIncomeItemDetail:
+                          currentIncomeMonthlyTotalAmount: 2000
+                          incomeType: GrossMonthlyIncome
+                  - borrowerType: Secondary
+                    borrowerInfo:
+                      borrowerDetail:
+                        creditScoreDate: 12-10-2018
+                        creditScoreValue: 650
+                      currentIncomeItem:
+                      - currentIncomeItemDetail:
+                          currentIncomeMonthlyTotalAmount: 4000
+                          incomeType: GrossMonthlyIncome
+                premodHousingExpense:
+                - housingExpensePaymentAmount: 50
+                  housingExpenseType: HomeownersInsurance
+                - housingExpensePaymentAmount: 50
+                  housingExpenseType: RealEstateTax
+                - housingExpensePaymentAmount: 100
+                  housingExpenseType: HOACondoFees
+                - housingExpensePaymentAmount: 2000
+                  housingExpenseType: PrResMortgagePITIAS
+                - housingExpensePaymentAmount: 500000
+                  housingExpenseType: TotalMonthlyExpenses
+                - housingExpensePaymentAmount: 1000
+                  housingExpenseType: EscrowShortagePaymentAmount
+                liquidations:
+                  closingData:
+                  - category: BuyersFirstName
+                    value: Jim
+                  - category: BuyersLastName
+                    value: Jones
+                  - category: ClosingDate
+                    value: 10-10-2020
+                  - category: AdjustmentsForItemsPaidInAdvance
+                    value: '200'
+                  - category: PayoffOfSecondMortgageLoan
+                    value: '200'
+                  - category: InvestorRelocationAssistance
+                    value: '0'
+                  - category: ServicerRelocationAssistance
+                    value: '200'
+                  - category: DLA-OtherGovernmentRelocationAssistance
+                    value: '200'
+                  - category: RelocationAssistancefromAlternativeSources
+                    value: '200'
+                  - category: CommissionPaidAtSettlement
+                    value: '200'
+                  - category: CityTownTaxes
+                    value: '200'
+                  - category: CityTownTaxesStartDate
+                    value: 01-01-2018
+                  - category: CityTownTaxesEndDate
+                    value: 12-31-2019
+                  - category: CountyTaxes
+                    value: '200'
+                  - category: CountyTaxesStartDate
+                    value: 10-10-2019
+                  - category: CountyTaxesEndDate
+                    value: 10-10-2019
+                  - category: CityCountyTaxStamps
+                    value: '200'
+                  - category: Assessments
+                    value: '200'
+                  - category: SettlementOrClosingFee
+                    value: '200'
+                  - category: DocumentPreparation
+                    value: '200'
+                  - category: NotaryFee
+                    value: '200'
+                  - category: AttorneysFees
+                    value: '200'
+                  - category: TitleInsurance
+                    value: '200'
+                  - category: TitleExamSearch
+                    value: '200'
+                  - category: WireTransferFee
+                    value: '200'
+                  - category: RecordingFees
+                    value: '200'
+                  - category: Survey
+                    value: '200'
+                  - category: HOACOADues
+                    value: '200'
+                  - category: MiscFee1
+                    value: '200'
+                  - category: MiscFeeDescription1
+                    value: '200'
+                  - category: MiscFee2
+                    value: null
+                  - category: MiscFeeDescription2
+                    value: '200'
+                  - category: MiscFee3
+                    value: '200'
+                  - category: MiscFeeDescription3
+                    value: '200'
+                  - category: BorrowerContribution
+                    value: '8083.68'
+                  propertyContractInfo:
+                    contractSalesDate: 09-17-2020
+                    contractSalesPrice: 100000
+                    propertyListedInMLS: Y
+                    mLSListDate: 09-01-2020
+                    aRMSLengthTransactionIndicator: N
+                  additionalData:
+                    newMortgages: N
+                    secondLienUPB: 10000
+                    secondLienMortgageLender: Wells
+                    isInsufficientContributionJustified: N
+                    reasonForInsufficientContribution: Just Because
+                  valuationData:
+                  - category: ServicerContactFirstName
+                    value: null
+                  - category: ServicerContactLastName
+                    value: Jones
+                  - category: ServicerContactPhone
+                    value: '1234567890'
+                  - category: ServicerContactPhoneExtension
+                    value: '1234'
+                  - category: ServicerContactEmail
+                    value: JIM@EMAILSERVER.COM
+                  - category: PropertyContactFirstName
+                    value: Harry
+                  - category: PropertyContactLastName
+                    value: James
+                  - category: PropertyContactPhone
+                    value: '123456789'
+                  - category: PropertyContactPhoneExtension
+                    value: '1234'
+                  - category: SpecialInteriorAccess
+                    value: Watch Out for the dog
+    RequestScenario1:
+      summary: Scenario 1 - Loan is eligible for short sale
+      description: A new submission
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2018-12-10T13:45:00.000Z'
+          requestData:
+            workoutList:
+            - externalData:
+                workoutReportingStatusType: WAReq
+                workoutProgramType: SHRTSLE
+                servicerAccountIdentifier: '999999'
+                loanIdentifier: '999999999'
+                servicerLoanIdentifier: abcd123456789
+                borrowerResponsePackageReceivedDate: 05-01-2020
+                loanImminentDefaultIndicator: N
+                exceptionReviewRequestIndicator: N
+                propertyType: Single Family Detached
+                hardshipReasons:
+                - hardshipReasonType: BusinessFail
+                - hardshipReasonType: Death
+                - hardshipReasonType: Disaster
+                - hardshipReasonType: Relocation
+                - hardshipReasonType: Other
+                  reasonForExtenuatingCircumstances: Just Because
+                propertyInfo:
+                  propertyConditionType: Condemned
+                  propertyUsageType: PR
+                  propertyOccupancyType: OC
+                  grossRentalIncome: 1000
+                partyInfo:
+                  totalCashReserveAmount: 10000
+                  totalMonthlyLiabilities: 0.1
+                  party:
+                  - borrowerType: Primary
+                    borrowerInfo:
+                      borrowerDetail:
+                        creditScoreDate: 12-10-2018
+                        creditScoreValue: 460
+                      currentIncomeItem:
+                      - currentIncomeItemDetail:
+                          currentIncomeMonthlyTotalAmount: 2000
+                          incomeType: GrossMonthlyIncome
+                  - borrowerType: Secondary
+                    borrowerInfo:
+                      borrowerDetail:
+                        creditScoreDate: 12-10-2018
+                        creditScoreValue: 650
+                      currentIncomeItem:
+                      - currentIncomeItemDetail:
+                          currentIncomeMonthlyTotalAmount: 4000
+                          incomeType: GrossMonthlyIncome
+                premodHousingExpense:
+                - housingExpensePaymentAmount: 50
+                  housingExpenseType: HomeownersInsurance
+                - housingExpensePaymentAmount: 50
+                  housingExpenseType: RealEstateTax
+                - housingExpensePaymentAmount: 100
+                  housingExpenseType: HOACondoFees
+                - housingExpensePaymentAmount: 2000
+                  housingExpenseType: PrResMortgagePITIAS
+                - housingExpensePaymentAmount: 500000
+                  housingExpenseType: TotalMonthlyExpenses
+                - housingExpensePaymentAmount: 1000
+                  housingExpenseType: EscrowShortagePaymentAmount
+                liquidations:
+                  closingData:
+                  - category: BuyersFirstName
+                    value: Jim
+                  - category: BuyersLastName
+                    value: Jones
+                  - category: ClosingDate
+                    value: 10-10-2020
+                  - category: AdjustmentsForItemsPaidInAdvance
+                    value: '200'
+                  - category: PayoffOfSecondMortgageLoan
+                    value: '200'
+                  - category: InvestorRelocationAssistance
+                    value: '0'
+                  - category: ServicerRelocationAssistance
+                    value: '200'
+                  - category: DLA-OtherGovernmentRelocationAssistance
+                    value: '200'
+                  - category: RelocationAssistancefromAlternativeSources
+                    value: '200'
+                  - category: CommissionPaidAtSettlement
+                    value: '200'
+                  - category: CityTownTaxes
+                    value: '200'
+                  - category: CityTownTaxesStartDate
+                    value: 01-01-2018
+                  - category: CityTownTaxesEndDate
+                    value: 12-31-2019
+                  - category: CountyTaxes
+                    value: '200'
+                  - category: CountyTaxesStartDate
+                    value: 10-10-2019
+                  - category: CountyTaxesEndDate
+                    value: 10-10-2019
+                  - category: CityCountyTaxStamps
+                    value: '200'
+                  - category: Assessments
+                    value: '200'
+                  - category: SettlementOrClosingFee
+                    value: '200'
+                  - category: DocumentPreparation
+                    value: '200'
+                  - category: NotaryFee
+                    value: '200'
+                  - category: AttorneysFees
+                    value: '200'
+                  - category: TitleInsurance
+                    value: '200'
+                  - category: TitleExamSearch
+                    value: '200'
+                  - category: WireTransferFee
+                    value: '200'
+                  - category: RecordingFees
+                    value: '200'
+                  - category: Survey
+                    value: '200'
+                  - category: HOACOADues
+                    value: '200'
+                  - category: MiscFee1
+                    value: '200'
+                  - category: MiscFeeDescription1
+                    value: '200'
+                  - category: MiscFee2
+                    value: null
+                  - category: MiscFeeDescription2
+                    value: '200'
+                  - category: MiscFee3
+                    value: '200'
+                  - category: MiscFeeDescription3
+                    value: '200'
+                  - category: BorrowerContribution
+                    value: '6269.20'
+                  propertyContractInfo:
+                    contractSalesDate: 09-17-2020
+                    contractSalesPrice: 400000
+                    propertyListedInMLS: Y
+                    mLSListDate: 09-01-2020
+                    aRMSLengthTransactionIndicator: N
+                  additionalData:
+                    newMortgages: N
+                    secondLienUPB: 10000
+                    secondLienMortgageLender: Wells
+                    isInsufficientContributionJustified: N
+                    reasonForInsufficientContribution: Just Because
+                  valuationData:
+                  - category: ServicerContactFirstName
+                    value: JIM
+                  - category: ServicerContactLastName
+                    value: Jones
+                  - category: ServicerContactPhone
+                    value: '123456789'
+                  - category: ServicerContactPhoneExtension
+                    value: '1234'
+                  - category: ServicerContactEmail
+                    value: JIM@EMAILSERVER.COM
+                  - category: PropertyContactFirstName
+                    value: Harry
+                  - category: PropertyContactLastName
+                    value: James
+                  - category: PropertyContactPhone
+                    value: '1234567890'
+                  - category: PropertyContactPhoneExtension
+                    value: '1234'
+                  - category: SpecialInteriorAccess
+                    value: Watch Out for the dog
+  schemas:
+    WorkoutServiceResponse:
+      title: WorkoutServiceResponse
+      description: The root schema comprises the entire JSON document.
+      type: object
+      properties:
+        message:
+          title: The Message Schema
+          type: object
+          properties:
+            aboutVersions:
+              title: The Aboutversions Schema
+              description: Dataset to capture the header information
+              type: object
+              properties:
+                aboutVersion:
+                  title: The Aboutversion Schema
+                  description: Data set to capture the header information
+                  type: object
+                  properties:
+                    aboutVersionIdentifier:
+                      title: The Aboutversionidentifier Schema
+                      description: This is the version number of the schema in use
+                      type: string
+                      example: S1.0.01
+                    createdDatetime:
+                      title: The Createddatetime Schema
+                      description: The date and time stamp of response schema creation
+                      type: string
+                      example: '2019-09-19T09:29:11Z'
+                  required:
+                  - aboutVersionIdentifier
+                  - createdDatetime
+                  default: {}
+                  example: {}
+              required:
+              - aboutVersion
+              default: {}
+            responseData:
+              title: The Responsedata Schema
+              description: Collection of the data attributes that depicts the response to a workout request.
+              type: object
+              properties:
+                isRequestValid:
+                  title: The isRequest valid Schema
+                  description: Indicates any request level error occured
+                  type: boolean
+                requestResponseIdentifier:
+                  title: The requestResponseIdentifier valid Schema
+                  description: ' unique identifier that associates the response back to the original request'
+                  type: integer
+                errorList:
+                  title: The Errorlist Schema
+                  description: Request level eligilbity messages
+                  type: array
+                  items:
+                    title: The Items Schema
+                    type: object
+                    properties:
+                      errorCode:
+                        title: The ErrorCode Schema
+                        description: unique code representing schema validation error  encountered during the validation process
+                        type: string
+                      errorText:
+                        title: The ErrorDescription Schema
+                        description: Error description for the Schema validation error during the validation process.
+                        type: string
+                responseWorkoutList:
+                  title: The Responseworkoutlist Schema
+                  description: Collection of the data attributes that depicts the response to a workout request.
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      loanIdentifier:
+                        title: The Loanidentifier Schema
+                        description: Unique Freddie Mac identifier assigned to a financial instrument within the system.
+                        type: string
+                      servicerAccountIdentifier:
+                        title: The Servicer Account Identifier Schema
+                        description: 'Unique identifier, issued by Freddie Mac, for the individual Seller or Servicer. '
+                        type: string
+                      servicerLoanIdentifier:
+                        type: string
+                      workoutProgramType:
+                        title: The Workout Program Type Schema
+                        description: The type workout being processed.
+                        type: string
+                      workoutReportingStatusType:
+                        title: The Workout Reporting Status Type Schema
+                        description: 'Type of Real Estate valuation data being requested to indicate if a request is for Minimum Net Proceeds, Credit Bid Valuation or Dispute data.
+
+                          '
+                        type: string
+                      isValid:
+                        title: The Isvalid Schema
+                        description: Indicates when the processing encountered any format validation or loan validation errors
+                        type: boolean
+                      isMNPObtained:
+                        title: The Is MNP Obtained Schema
+                        description: Indicates the status of the MNP request to retreive property value
+                        type: boolean
+                      errorWorkoutList:
+                        title: The Errorworkoutlist Schema
+                        description: 'Collection of Loan level validation messages '
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            workoutErrorCode:
+                              title: The Workout Error Code Schema
+                              description: Unique code representing format validation or loan validation error encountered during the validation process
+                              type: string
+                            workoutErrorDescription:
+                              title: The workoutErrorDescription Schema
+                              description: This is the error description for the Schema validation error during the validation process.
+                              type: string
+                            workoutErrorType:
+                              title: The WorkoutErrorType Schema
+                              description: Indicates the type of the error message
+                              type: string
+                      valuationData:
+                        title: The Minimum Net Proceeds Schema
+                        description: 'Indicates a collection of MNP request related data elements '
+                        type: object
+                        properties:
+                          mnpRequestIdentifier:
+                            title: The MNP Request Identifier
+                            description: A unique identifier of an individual request for a valuation on a property.
+                            type: integer
+                          mnpStatus:
+                            description: Status of a MNP Request
+                            type: string
+                          bpoHoldCancelReason:
+                            title: The BPO HoldCancelReason Schema
+                            description: Comment related to BPO Request
+                            type: string
+                          servicerContactFirstName:
+                            title: The Servicer Contact First Name schema
+                            description: The first name of the individual that is a contact for the servicer.
+                            type: string
+                          servicerContactLastName:
+                            title: The Servicer Contact Last Name schema
+                            description: The last name of the individual that is a contact for the servicer.
+                            type: string
+                          servicerContactPhone:
+                            title: 'The Servicer Contact Phone Schema '
+                            description: The phone number for the counterparty organization contact
+                            type: string
+                          servicerContactEmail:
+                            title: The Servicer Contact Email Schema
+                            description: The email address for the Servicer contact.
+                            type: string
+                          disputeContactEmail:
+                            title: The Dispute Contact Email Schema
+                            description: ' The email address for the Servicer contact who disputed the short sale.'
+                            type: string
+                          minimumNetProceedAmount:
+                            title: The Minimum Net Proceeds Schema
+                            description: Minimum Net Proceeds for the loan
+                            type: number
+                          goodThroughDate:
+                            title: The Good Through Date Schema
+                            description: The date that the request is good for depending on the business needs. It typically is good for 90 days from the date of request.
+                            type: string
+                          estimatedMarketValue:
+                            title: The Property Valuation Amount Schema
+                            description: Value of the property
+                            type: number
+                          bpoOrderId:
+                            title: BPO Order ID
+                            description: BPO Order ID.
+                            type: string
+                          serviceType:
+                            type: string
+                          mnpRequestCompletionDate:
+                            type: string
+                      workoutProgramResponses:
+                        title: The Workout Program Responses Schema
+                        description: Collection of the data attributes that depicts the eligibilty response to a workout request.
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            isEligible:
+                              title: The Is eligible Schema
+                              description: Indicates when the processing encountered any eligibility messages
+                              type: boolean
+                            messageWorkoutList:
+                              title: The message Workout List Schema
+                              description: Postive and negative informational and eligibility messages
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  workoutMessageCode:
+                                    title: The workout Message Code Schema
+                                    description: Includes eligiblity messages codes triggered during the rules validation process
+                                    type: string
+                                  workoutMessageDescription:
+                                    title: The workout MessageDescription Schema
+                                    description: Error description for the eligiblity messages triggered during the rules validation process
+                                    type: string
+                                  workoutMessageType:
+                                    title: The workoutMessageType schema
+                                    description: Indicates the type of the error message-Fatal,Warning, Informational
+                                    type: string
+                            postWorkoutData:
+                              title: The PostWorkoutData Schema
+                              description: Post liquidation data elements
+                              type: object
+                              properties:
+                                workoutApprovedDate:
+                                  title: The workoutApprovedDate Schema
+                                  description: The approval date is the date that Freddie Mac approves the workout terms agreed to with the borrower.
+                                  type: string
+                                settlementChargesToSeller:
+                                  title: The settlementChargesToSeller Schema
+                                  description: Closing costs expenses and commissions paid at settlement of shortsale.
+                                  type: number
+                                secondMortgagePayoffAmount:
+                                  title: The secondMortgagePayoffAmount Schema
+                                  description: Dollar amount to payoff the second mortgage lien.
+                                  type: number
+                                borrowerContributionAmount:
+                                  title: The borrowerContributionAmount Schema
+                                  description: Dollar amount in cash that the borrower will contribute towards the delinquent upb/interest.
+                                  type: number
+                                investorRelocationAssistance:
+                                  title: The investorRelocationAssistance Schema
+                                  description: Dollar amount of first item of other liens on the property that will reduce the amount due to the seller.
+                                  type: number
+                                approvedNetSaleProceeds:
+                                  title: The approvedNetSaleProceeds Schema
+                                  description: Dollar amount of net proceeds from the sale of the subject property before deductions are taken out.
+                                  type: number
+                                allowableClosingCosts:
+                                  type: number
+                            settlementData:
+                              title: The SettlementData Schema
+                              description: Collection of Settlement data elements
+                              type: object
+                              properties:
+                                payoffType:
+                                  title: The Payoff Type Schema
+                                  description: The type of payoff was reported
+                                  type: string
+                                payoffDate:
+                                  title: The Payoff date Schema
+                                  description: The date when associated payoff type was reported
+                                  type: string
+                                finalNetSaleProceeds:
+                                  title: The finalNetSaleProceeds Schema
+                                  description: Dollar amount of net proceeds from the sale of the subject property before deductions are taken out at the time of settlement.
+                                  type: number
+                                actualSecondMortgagePayoffAmount:
+                                  title: The actualSecondMortgagePayoffAmount Schema
+                                  description: Dollar amount to payoff the second mortgage lien at the time of settlement.
+                                  type: number
+                                actualBorrowerContributionAmount:
+                                  title: The actualBorrowerContributionAmount Schema
+                                  description: Dollar amount in cash that the borrower will contribute towards the delinquent upb/interest at the time of settlement.
+                                  type: number
+                                actualInvestorRelocationAssistanceAmount:
+                                  title: The actualInvestorRelocationAssistanceAmount Schema
+                                  description: Dollar amount of first item of other liens on the property that will reduce the amount due to the investor.
+                                  type: number
+                                contractSalesPrice:
+                                  title: The contractSalesPrice Schema
+                                  description: The amount of money the contract is for
+                                  type: number
+                                closingDate:
+                                  title: The ClosedDate Schema
+                                  description: The date when Freddie Mac settles on the liquidation tterms agreed to with the borrower.
+                                  type: string
+                          required:
+                          - postWorkoutData
+                          - settlementData
+                      loanData:
+                        description: Collection of the internal data attributes that was used to make the eligibility decision
+                        type: object
+                        properties:
+                          mortgageType:
+                            type: string
+                          loanServicingStatusType:
+                            title: The Loanservicingstatustype Schema
+                            description: Loan status.
+                            type: string
+                          loanImminentDefaultIndicator:
+                            title: The Loanimminentdefaultindicator Schema
+                            description: Indicate whether or not this loan is at Imminent Default.
+                            type: string
+                          loanLastPaidInstallmentDate:
+                            title: The loanLastPaidInstallmentDate Schema
+                            description: 'Date of current last paid installment '
+                            type: string
+                          currentLoanGrossUPBAmount:
+                            title: The currentLoanGrossUPBAmount Schema
+                            description: The unpaid principal balance on the loan at the time of workout eligibility determination.
+                            type: number
+                          currentPrincipalAndInterestPaymentAmount:
+                            title: loanPrincipalAndInterestPaymentAmount Schema
+                            description: Monthly principal and interest payment (principal and interest constant) on a mortgage  at the time of workout eligibility determination.
+                            type: number
+                          currentMonthlyHousingExpenseToIncomeRatioPercent:
+                            title: The Current Monthly Housing Expense To Income Ratio Percent Schema
+                            description: Pre workout ratio of the Monthly housing debt payments of primary residence and total monthly income amount of the borrower. The monthly debt payments include principal, interest, taxes, insurance (except MI), association dues and any escrow shortage amount (PITIAS).
+                            type: number
+                          inflightWorkoutType:
+                            title: The Inflight Workout Type Schema
+                            description: Represents the open workout type, if any, on the loan at the time of the workout evaluation.
+                            type: string
+                          inflightWorkoutStatusType:
+                            title: The Inflight Workout Status Type Schema
+                            description: Represents the workout status on the open workouts, if any, on the loan at the time of the workout evaluation.
+                            type: string
+                          workoutSourceCode:
+                            title: The Workout Source Code Schema
+                            description: 'Indicates from what source a loan workout was originated. '
+                            type: string
+                          exceptionReviewStatusType:
+                            title: The nonDelegatedReviewStatusType Schema
+                            description: indicates the status of the inprogress non-delegated request (if applicable)
+                            type: string
+                          propertyUsageType:
+                            title: The Property Usage Type
+                            description: An explanation about the usage of this iproperty
+                            type: string
+                          propertyAddress:
+                            title: The Propertyaddress Schema
+                            description: COllection of elements representing the address of the property
+                            type: object
+                            properties:
+                              propertyStreet:
+                                title: The Propertystreet Schema
+                                description: An explanation about the purpose of this instance.
+                                type: string
+                              propertyCity:
+                                title: The Propertycity Schema
+                                description: An explanation about the purpose of this instance.
+                                type: string
+                              propertyState:
+                                title: The Propertystate Schema
+                                description: An explanation about the purpose of this instance.
+                                type: string
+                              propertyZipCode:
+                                title: The Propertyzip Schema
+                                description: An explanation about the purpose of this instance.
+                                type: string
+                      workoutExceptionData:
+                        description: Collection of the additional non-delegated related internal data attributes that was used to make the eligibility decision
+                        type: object
+                        properties:
+                          exceptionReviewRequestID:
+                            type: string
+                          hardshipReasons:
+                            title: The Hardshipreasons Schema
+                            description: An array of hardship reason types associated to a loan in a workout.
+                            type: array
+                            items:
+                              title: The Items Schema
+                              description: An explanation about the purpose of this instance.
+                              type: object
+                              properties:
+                                hardshipReasonType:
+                                  title: The Hardshipreasontype Schema
+                                  description: A discrete set of values that describes the nature of hardship for the borrower.
+                                  type: string
+                                reasonForExtenuatingCircumstances:
+                                  type: string
+                          partyInfo:
+                            title: The Partyinfo Schema
+                            description: Group of attributes that are associated to borrower detail
+                            type: object
+                            properties:
+                              grossRentalIncome:
+                                title: The Grossrentalincome Schema
+                                description: The amount of revenue generated by the owned property from rent on a monthly basis.
+                                type: number
+                              totalCashReserveAmount:
+                                title: The Totalcashreserveamount Schema
+                                description: Any non-retirement liquid assets the borrower has available for withdrawal.
+                                type: number
+                              totalMonthlyLiabilities:
+                                type: number
+                              party:
+                                title: The Party Schema
+                                description: Borrower and Coborrower related data attributes
+                                type: array
+                                items:
+                                  title: The Items Schema
+                                  description: An explanation about the purpose of this instance.
+                                  type: object
+                                  properties:
+                                    borrowerType:
+                                      title: The Borrower Type Schema
+                                      description: This identifies the type of borrower(s) on the loan
+                                      type: string
+                                    individualFirstName:
+                                      title: The Individual First Name Schema
+                                      description: The first Name of the borrower
+                                      type: string
+                                    individualLastName:
+                                      title: The Individual Last Name Schema
+                                      description: The last Name of the borrower
+                                      type: string
+                                    creditScoreValue:
+                                      title: The Creditscorevalue Schema
+                                      description: The numeric credit score resulting from credit evaluation model.
+                                      type: integer
+                                    grossMonthlyIncome:
+                                      title: The grossMonthlyIncome Schema
+                                      description: The amount of income per borrower on a monthly basis.
+                                      type: number
+                          premodHousingExpense:
+                            title: The Premodhousingexpense Schema
+                            description: Grouping of all the housing expenses types
+                            type: array
+                            items:
+                              title: The Items Schema
+                              description: An explanation about the purpose of this instance.
+                              type: object
+                              properties:
+                                housingExpensePaymentAmount:
+                                  title: The Housingexpensepaymentamount Schema
+                                  description: The housing expense amount associated to a housing expense type code
+                                  type: number
+                                housingExpenseType:
+                                  title: The Housingexpensetype Schema
+                                  description: The pre mod housing expense types
+                                  type: string
+                                  enum:
+                                  - TotalMonthlyExpenses
+                                  - HOACondoFees
+                                  - RealEstateTax
+                                  - HomeownersInsurance
+                                  - PrResMortgagePITIAS
+                          propertyContractInfo:
+                            type: object
+                            properties:
+                              contractSalesPrice:
+                                type: string
+                              mLSListDate:
+                                type: string
+                              contractSalesDate:
+                                type: string
+                            additionalProperties: {}
+                          additionalData:
+                            type: object
+                            properties:
+                              newMortgages:
+                                type: string
+                              secondLienUPB:
+                                type: number
+                              secondLienMortgageLender:
+                                type: string
+                              isInsufficientContributionJustified:
+                                type: string
+                              reasonForInsufficientContribution:
+                                type: string
+                          closingData:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                category:
+                                  type: string
+                                value:
+                                  type: string
+                          escrow:
+                            type: object
+                            properties:
+                              escrowDetail:
+                                type: object
+                                properties:
+                                  escrowShortagePaymentAmount:
+                                    type: number
+                          exceptionReviewComments:
+                            type: string
+                          exceptionReviewStatusReason:
+                            type: string
+                    required:
+                    - loanIdentifier
+                    - servicerAccountIdentifier
+                    - isValid
+              required:
+              - isRequestValid
+              - requestResponseIdentifier
+              - responseWorkoutList
+          required:
+          - aboutVersions
+          - responseData
+          default: {}
+      required:
+      - message
+      default: {}
+    WorkoutServiceRequest:
+      title: WorkoutServiceRequest
+      description: The root schema comprises the entire JSON document.
+      type: object
+      properties:
+        message:
+          title: The Message Schema
+          type: object
+          properties:
+            aboutVersions:
+              title: The Aboutversions Schema
+              description: Dataset to capture the header information
+              type: object
+              properties:
+                aboutVersion:
+                  title: The Aboutversion Schema
+                  description: Dataset to capture the header information
+                  type: object
+                  properties:
+                    aboutVersionIdentifier:
+                      title: The Aboutversionidentifier Schema
+                      description: This is the version number of the schema in use
+                      type: string
+                      example: S1.0.01
+                    createdDatetime:
+                      title: The Createddatetime Schema
+                      description: The date and time stamp of response schema creation
+                      type: string
+                      example: '2019-09-19T09:29:11Z'
+                  required:
+                  - aboutVersionIdentifier
+                  - createdDatetime
+                  default: {}
+              required:
+              - aboutVersion
+              default: {}
+            requestData:
+              title: The Requestdata Schema
+              description: Collection of the data attributes that depicts the request attributes within a workout request
+              type: object
+              properties:
+                workoutList:
+                  title: The Workoutlist Schema
+                  description: Collection of the data attributes on the  workout request
+                  type: array
+                  items:
+                    title: The Items Schema
+                    type: object
+                    properties:
+                      externalData:
+                        title: The Externaldata Schema
+                        description: An explanation about the purpose of this instance.
+                        type: object
+                        properties:
+                          workoutReportingStatusType:
+                            title: The Requesttype Schema
+                            description: A discrete set of values that describe the stage the workout process is in.
+                            type: string
+                          workoutProgramType:
+                            title: The Workoutprogramtype Schema
+                            description: The type of workout being processed
+                            type: string
+                          servicerAccountIdentifier:
+                            title: The Sellerservicernumber Schema
+                            description: 'Unique identifier, issued by Freddie Mac, for the individual Seller or Servicer. '
+                            type: string
+                          loanIdentifier:
+                            title: The Loanidentifier Schema
+                            description: Unique Freddie Mac identifier assigned to a financial instrument within the system.
+                            type: string
+                          exceptionReviewRequestID:
+                            type: string
+                          exceptionReviewRequestIndicator:
+                            type: string
+                          servicerLoanIdentifier:
+                            title: The Servicer Loan Identifier Schema
+                            description: A unique identifier assigned by the servicer to identify the loan.
+                            type: string
+                          borrowerResponsePackageReceivedDate:
+                            title: The Borrowerresponsepackagereceiveddate Schema
+                            description: This is the date on which the servicer receives the Borrower response package from the borrower.
+                            type: string
+                          loanImminentDefaultIndicator:
+                            title: The Loanimminentdefaultindicator Schema
+                            description: Indicate whether or not this loan is at Imminent Default.
+                            type: string
+                          hardshipReasons:
+                            title: The Hardshipreasons Schema
+                            description: An array of hardship reason types associated to a loan in a workout.
+                            type: array
+                            items:
+                              title: The Items Schema
+                              description: An explanation about the purpose of this instance.
+                              type: object
+                              properties:
+                                hardshipReasonType:
+                                  title: The Hardshipreasontype Schema
+                                  description: A discrete set of values that describes the nature of hardship for the borrower.
+                                  type: string
+                                reasonForExtenuatingCircumstances:
+                                  type: string
+                          propertyInfo:
+                            title: The Propertyinfo Schema
+                            description: Group of attributes captured at a property level
+                            type: object
+                            properties:
+                              propertyConditionType:
+                                title: The Propertyconditiontype Schema
+                                description: A discrete set of values that describes the physical condition of a property.
+                                type: string
+                              propertyUsageType:
+                                title: The Propertyusagetype Schema
+                                description: A discrete set of values that specifies intended use by the borrower of the property
+                                type: string
+                              propertyOccupancyType:
+                                title: The Propertyoccupancytype Schema
+                                description: A discrete set of values that specifies intended occupancy of  the borrower of the property
+                                type: string
+                              grossRentalIncome:
+                                title: The Grossrentalincome Schema
+                                description: The amount of revenue generated by the owned property from rent on a monthly basis.
+                                type: number
+                          partyInfo:
+                            title: The Partyinfo Schema
+                            description: Group of attributes that are associated to borrower detail
+                            type: object
+                            properties:
+                              totalCashReserveAmount:
+                                title: The Totalcashreserveamount Schema
+                                description: Any non-retirement liquid assets the borrower has available for withdrawal.
+                                type: number
+                              totalMonthlyLiabilities:
+                                type: number
+                              party:
+                                title: The Party Schema
+                                description: Borrower and Coborrower related data attributes
+                                type: array
+                                items:
+                                  title: The Items Schema
+                                  description: An explanation about the purpose of this instance.
+                                  type: object
+                                  properties:
+                                    borrowerType:
+                                      title: The Borrower Type Schema
+                                      description: This identifies the type of borrower(s) on the loan
+                                      type: string
+                                    borrowerInfo:
+                                      title: The Borrowerinfo Schema
+                                      description: An explanation about the purpose of this instance.
+                                      type: object
+                                      properties:
+                                        borrowerDetail:
+                                          title: The Borrowerdetail Schema
+                                          description: An explanation about the purpose of this instance.
+                                          type: object
+                                          properties:
+                                            creditScoreDate:
+                                              title: The Creditscoredate Schema
+                                              description: The date when the credit repository reported the borrower credit rating.
+                                              type: string
+                                            creditScoreValue:
+                                              title: The Creditscorevalue Schema
+                                              description: The numeric credit score resulting from credit evaluation model.
+                                              type: integer
+                                        currentIncomeItem:
+                                          title: The Currentincomeitem Schema
+                                          description: An explanation about the purpose of this instance.
+                                          type: array
+                                          items:
+                                            title: The Items Schema
+                                            description: An explanation about the purpose of this instance.
+                                            type: object
+                                            properties:
+                                              currentIncomeItemDetail:
+                                                title: The Currentincomeitemdetail Schema
+                                                description: An explanation about the purpose of this instance.
+                                                type: object
+                                                properties:
+                                                  currentIncomeMonthlyTotalAmount:
+                                                    title: The Currentincomemonthlytotalamount Schema
+                                                    description: represents the amount value associated to the income type
+                                                    type: number
+                                                  incomeType:
+                                                    title: The Incometype Schema
+                                                    description: represemts the different income types associated to a borrower type
+                                                    type: string
+                          premodHousingExpense:
+                            title: The Premodhousingexpense Schema
+                            description: Grouping of all the housing expenses types
+                            type: array
+                            items:
+                              title: The Items Schema
+                              description: An explanation about the purpose of this instance.
+                              type: object
+                              properties:
+                                housingExpensePaymentAmount:
+                                  title: The Housingexpensepaymentamount Schema
+                                  description: The housing expense amount associated to a housing expense type code
+                                  type: number
+                                housingExpenseType:
+                                  title: The Housingexpensetype Schema
+                                  description: The pre mod housing expense types
+                                  type: string
+                                  enum:
+                                  - TotalMonthlyExpenses
+                                  - HOACondoFees
+                                  - RealEstateTax
+                                  - HomeownersInsurance
+                                  - PrResMortgagePITIAS
+                                  - EscrowShortagePaymentAmount
+                          liquidations:
+                            type: object
+                            properties:
+                              closingData:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    category:
+                                      type: string
+                                    value:
+                                      type: string
+                              propertyContractInfo:
+                                type: object
+                                properties:
+                                  contractSalesDate:
+                                    type: string
+                                  contractSalesPrice:
+                                    type: number
+                                  mLSListDate:
+                                    type: string
+                                  aRMSLengthTransactionIndicator:
+                                    type: string
+                              additionalData:
+                                type: object
+                                properties:
+                                  newMortgages:
+                                    type: string
+                                  secondLienUPB:
+                                    type: number
+                                  secondLienMortgageLender:
+                                    type: string
+                                  isInsufficientContributionJustified:
+                                    type: string
+                                  reasonForInsufficientContribution:
+                                    type: string
+                              valuationData:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    category:
+                                      type: string
+                                      enum:
+                                      - ServicerContactFirstName
+                                      - ServicerContactLastName
+                                      - ServicerContactPhone
+                                      - ServicerContactEmail
+                                      - PropertyContactFirstName
+                                      - PropertyContactLastName
+                                      - PropertyContactPhone
+                                      - SpecialInteriorAccess
+                                      - ServicerContactPhoneExtension
+                                      - PropertyContactPhoneExtension
+                                    value:
+                                      type: string
+                              liquidationStatusInformation:
+                                type: object
+                                properties:
+                                  liquidationSettlement:
+                                    type: object
+                                    properties:
+                                      closingData:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            category:
+                                              type: string
+                                            value:
+                                              type: string
+                                      finalNetSaleProceeds:
+                                        type: number
+                                  liquidationCancel:
+                                    type: object
+                                    properties:
+                                      workoutCancellationReasonType:
+                                        type: string
+                          workoutCommentsText:
+                            type: string
+                          eligibilityQuestionnaire:
+                            type: object
+                            properties:
+                              reinstatementViable:
+                                type: string
+                              repaymentWithActiveOffer:
+                                type: string
+                              willingToRetainProperty:
+                                type: string
+                              hardshipResolved:
+                                type: string
+                              ableToMakeContractualPayment:
+                                type: string
+                              leaseholdTermsAffectedDueToWorkout:
+                                type: string
+                          propertyType:
+                            type: string
+                        required:
+                        - servicerAccountIdentifier
+                        - loanIdentifier
+                    required:
+                    - externalData
+                    default: {}
+                  default: []
+              required:
+              - workoutList
+              default: {}
+          required:
+          - aboutVersions
+          - requestData
+          default: {}
+      required:
+      - message
+      default: {}
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            title: The Items Schema
+            type: object
+            properties:
+              error:
+                description: error messages
+                type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token

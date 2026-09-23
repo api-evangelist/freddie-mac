@@ -1,0 +1,288 @@
+openapi: 3.2.0
+info:
+  title: Beyond ACE Property Data PDF API
+  version: 3.0.0
+servers:
+- url: https://api-test.freddiemac.com/single-family/loan-advisor-suite/las-beyondace-api/v2
+security:
+- bearerAuth: []
+tags:
+- name: Property Data PDF
+paths:
+  /pdf/{propertyDataId}:
+    get:
+      tags:
+      - Property Data PDF
+      summary: Retrieve PDF
+      description: Endpoint to get the PDF submitted.
+      operationId: getPDF
+      parameters:
+      - name: propertyDataId
+        in: path
+        description: Existing PropertyDataID generated during initial submission.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: PDF retrieved Sucussesfully
+        '401':
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+                PDFNotFoundResponse:
+                  $ref: '#/components/examples/PDFNotFoundResponse'
+        '404':
+          description: Url malformed found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+                PDFNotFoundResponse:
+                  $ref: '#/components/examples/PDFNotFoundResponse'
+        '429':
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        '500':
+          description: "<p><strong>Internal Server Error</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Property Data PDF
+      summary: Endpoint to upload PDF
+      description: Endpoint to submit the PDF.
+      operationId: savePDF
+      parameters:
+      - name: propertyDataId
+        in: path
+        description: Existing PropertyDataID generated during initial submission.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/insertDaImage'
+      responses:
+        '201':
+          description: PDF Saved Sucussesfully
+        '401':
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        '404':
+          description: Image Meta not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+                PDFNotFoundResponse:
+                  $ref: '#/components/examples/PDFNotFoundResponse'
+        '429':
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        '500':
+          description: "<p><strong>Internal Server Error</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+components:
+  requestBodies:
+    insertDaImage:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+            description: Image size must be within 1 MB to 50 MB.Image must be submitted in a valid format of JPG/PNG/JPEG.
+  schemas:
+    Message:
+      required:
+      - messageCode
+      - messageDescription
+      type: object
+      properties:
+        messageCode:
+          type: string
+        messageDescription:
+          type: string
+    ErrorResponse:
+      required:
+      - code
+      - details
+      - message
+      - proxyCorrelationId
+      type: object
+      properties:
+        proxyCorrelationId:
+          type: string
+          description: PDR API assigned control number for the request.
+        code:
+          type: string
+          description: Error Code
+        message:
+          type: string
+          description: Error Description
+        details:
+          type: array
+          description: A collection of error details. Details container will contain error format.
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Error'
+            - $ref: '#/components/schemas/Message'
+      description: Information about the errors.
+    Error:
+      required:
+      - error
+      type: object
+      properties:
+        error:
+          type: string
+      description: Information about the error.
+  examples:
+    PDFNotFoundResponse:
+      summary: PDF not found response
+      description: This typically can happen when the PDF is not submitted.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 404
+        message: No resource for GET/POST
+        details:
+        - error: propertyDataId {propertyDataId} provided for PDF not found.
+    BACEAPIInternalErrorResponse:
+      summary: Internal Server error
+      description: An 0005 error that indicates that the request could not be processed. Please reach out to Customer Support.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 500
+        message: Internal Server Error
+        details:
+        - MessageCode: '0005'
+          MessageDescription: API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
+    BACEAPIUnauthorizedResponse:
+      summary: Unauthorized Response
+      description: The user is not authorized to access the application.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 401
+        message: Unable to authorize the request.
+        details:
+        - error: The user profile is not authorized to access the system.
+    BACEAPINotFoundResponse:
+      summary: Resource not found
+      description: This typically can happen if the resource URL is not correct.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 404.001
+        message: No resource for GET/POST
+        details:
+        - error: No resource for GET/POST
+    BACEAPILimitExceededResponse:
+      summary: Quota or Resource Limit Exceeded
+      description: The number of requests made exceed the threshold. Reduce the number of requests.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 429.002
+        message: Quota limit exceeded
+        details:
+        - error: Quota limit exceeded, decrease the number of requests per minute been sent.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Token acquired from OAuth API for the user credentials

@@ -1,0 +1,608 @@
+openapi: 3.2.0
+info:
+  title: Current Mortgage Snapshot API
+  description: Get fast, easy access to key loan data to help validate loan information obtained from the borrower or other sources (e.g., credit report) when processing refinances or loans with REO properties
+  version: 1.0.0
+servers:
+- url: https://api-test.freddiemac.com/single-family/current-mortgage-snapshot-api/v1
+security:
+- bearerAuth: []
+tags:
+- name: Current Mortgage Snapshot
+  description: Get fast, easy access to key loan data to help validate loan information obtained from the borrower or other sources (e.g., credit report) when processing refinances or loans with REO properties
+paths:
+  /requestMortgageData:
+    post:
+      tags:
+      - Current Mortgage Snapshot
+      summary: Retrieve loan level data including both original (at closing) and current loan…
+      operationId: requestMortgageData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CurrentMortgageSnapshotRequest'
+            examples:
+              Example1:
+                $ref: '#/components/examples/RequestExample1'
+              Example2:
+                $ref: '#/components/examples/RequestExample2'
+              Example3:
+                $ref: '#/components/examples/RequestExample3'
+              Example4:
+                $ref: '#/components/examples/RequestExample4'
+        required: true
+      responses:
+        '200':
+          description: "<b>OK</b> \n\n <font size='1' color='black'>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentMortgageSnapshotResponse'
+              examples:
+                Example1:
+                  $ref: '#/components/examples/ResponseExample1'
+                Example2:
+                  $ref: '#/components/examples/ResponseExample2'
+                Example3:
+                  $ref: '#/components/examples/ResponseExample3'
+        '400':
+          description: "<b>Bad Request</b> \n\n <font size='1' color='black'><b>Error codes & details</b></font> \n\n <B>400.001</B> Malformed content from the client \n\n <B>400.002</B> Request data does not match the application schema, please validate the request data. \n\n<B>400.005</B> Empty request body \n\n <B>400.006</B> Content-type must be application/json \n\n "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentMortgageSnapshotErrorResponse'
+              example:
+                code: '400.006'
+                message: Missing header Content-type
+                details:
+                - error: Content-type must be application/json
+        '401':
+          description: "<b>Unauthorized</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <B>401.001</B> Invalid Access Token, please validate the token, if error persists please renew your token. \n\n <b>401.002</b> Access Token Expired, please renew your access token. \n\n <b>401.003</b> API Product mismatch for token. Your token does not have access to the requested API \n\n <b>401.004</b> Invalid API Key, please validate the Client ID \n\n <b>401.005</b> Invalid API Key for given resource \n\n <b>401.006</b> Insufficient scope for Application \n\n <b>401.007</b> Invalid Username/Password combination, the provided combination of username and password is incorrect, please verify your credentials. \n\n <b>401.008</b> Invalid Refresh Token. \n\n <b>401.009</b> Invalid client secret \n\n <b>401.010</b> Refresh Token expired."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentMortgageSnapshotErrorResponse'
+              example:
+                code: '401.002'
+                message: Access Token Expired
+                details:
+                - error: Access Token Expired, please renew your access token.
+        '404':
+          description: "<b>Not Found</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>404.001</b> No resource for POST <b>/path</b>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentMortgageSnapshotErrorResponse'
+              example:
+                code: 404.001
+                message: No resource for POST /path
+                details:
+                  error: No resource for POST /path
+        '429':
+          description: "<b>Too Many Requests</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>429.001</b> Rate limit exceeded, too many requests have been sent per second. \n\n <b>429.002</b> Quota limit exceeded, too many requests have been sent per minute."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentMortgageSnapshotErrorResponse'
+              example:
+                code: 429.001
+                message: Rate limit exceeded
+                details:
+                  error: Rate limit exceeded, too many requests have been sent per second.
+        '500':
+          description: "<b>Internal server error.</b> \n\n <font size='1' color='black'><b>Error codes & details </b></font> \n\n <b>500</b> Internal server error."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentMortgageSnapshotErrorResponse'
+              example:
+                code: '500'
+                message: Internal server error
+                details:
+                - error: API is unable to retrieve data for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
+      deprecated: false
+components:
+  examples:
+    ResponseExample3:
+      summary: Response 3 - Invalid request schema
+      value:
+        code: '400.002'
+        message: Request data does not match the application schema, please validate the request data.
+        details:
+        - error: 'address.stateCode: does not have a value in the enumeration [AK, AL, AR, AZ, CA, CO, CT, DC, DE, FL, GA, GU, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, MT, NC, ND, NE, NH, NJ, NM, NV, NY, OH, OK, OR, PA, PR, RI, SC, SD, TN, TX, UT, VI, VA, VT, WA, WI, WV, WY]'
+    ResponseExample1:
+      summary: Response 1 - Get original and current loan data
+      value:
+        requestTransactionIdentifier: 5d6cf7e9-8b40-9ff3-85e0-03f6f260dd89
+        transactionDateTime: '2021-11-02T17:22:42.478Z'
+        inputAddress:
+          addressLineText: 1106 N FLAMINGO RD
+          cityName: ROGERS
+          postalCode: '72756'
+          stateCode: AR
+          addressUnitIdentifier: ''
+        address:
+          addressLineText: 1106 N FLAMINGO RD
+          cityName: ROGERS
+          postalCode: '72756'
+          stateCode: AR
+        priorLoanTerms:
+          loanStateType: AtClosing
+          noteAmount: '424650.00'
+          initialPrincipalAndInterestPaymentAmount: '2681.28'
+          noteDate: '2024-12-27'
+          noteRatePercent: '0.08375'
+          amortizationType: Fixed
+          loanMaturityPeriodType: Month
+          loanMaturityPeriodCount: '360'
+          balloonIndicator: N
+          miCertificateIdentifier: '33338856'
+          miCompanyName: MGIC
+          miCoveragePercent: '30'
+          prepaymentPenaltyIndicator: N
+          upbAmount: '424265.37'
+          scheduledFirstPaymentDate: '2025-02-01'
+        currentLoanTerms:
+          loanStateType: Current
+          principalAndInterestPaymentAmount: '997.21'
+          noteRatePercent: '0.08375'
+          miCertificateIdentifier: '33338856'
+          miCompanyName: MGIC
+          miCoveragePercent: '30'
+          upbAmount: '424265.37'
+          freddieMacLoanIdentifier: '1694076'
+          lienPriorityType: FirstLien
+          loanMortgageType: Conventional
+          eightyPercentHUDMedianIncomeAmount: '81440.00'
+    RequestExample3:
+      summary: Scenario 3 - No matching SS# therefore no loan data found
+      value:
+        requestTransactionIdentifier: 6e6da9da-6b10-4995-89a0-b793b6f2b1b9
+        partyRoleType: Seller
+        partyRoleIdentifier: '123456'
+        address:
+          addressLineText: 8200 JONES BRANCH DR
+          cityName: MCLEAN
+          postalCode: '22102'
+          stateCode: VA
+        borrowerInformation:
+          partyRoleType: Borrower
+          lastName: NOWELL
+          taxpayerIdentifierType: SocialSecurityNumber
+          taxpayerIdentifierValue: '555555547'
+          automatedUnderwritingCaseIdentifier: A6429129
+    RequestExample1:
+      summary: Scenario 1 - Get original and current loan data
+      value:
+        requestTransactionIdentifier: 5d6cf7e9-8b40-9ff3-85e0-03f6f260dd89
+        partyRoleType: Seller
+        partyRoleIdentifier: '123456'
+        address:
+          addressLineText: 1106 N FLAMINGO RD
+          cityName: ROGERS
+          postalCode: '72756'
+          stateCode: AR
+        borrowerInformation:
+          partyRoleType: Borrower
+          lastName: BLEDSOE
+          taxpayerIdentifierType: SocialSecurityNumber
+          taxpayerIdentifierValue: '555555543'
+          automatedUnderwritingCaseIdentifier: A9734128
+    RequestExample4:
+      summary: Scenario 4 - Invalid request schema
+      value:
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        partyRoleType: Seller
+        partyRoleIdentifier: '123456'
+        address:
+          addressLineText: 4317 HIGHLAND HILLS ST
+          addressUnitIdentifier: B1C
+          cityName: BAKERSFIELD
+          postalCode: '93308'
+          stateCode: TE
+        borrowerInformation:
+          partyRoleType: Borrower
+          lastName: Bakersfield
+          taxpayerIdentifierType: SocialSecurityNumber
+          taxpayerIdentifierValue: '114455778'
+          automatedUnderwritingCaseIdentifier: C1234567
+    ResponseExample2:
+      summary: Response 2 - No matching loan data
+      value:
+        requestTransactionIdentifier: 6e6da9da-6b10-4995-89a0-b793b6f2b1b9
+        transactionDateTime: '2021-02-04T20:33:53.688Z'
+        inputAddress:
+          addressLineText: 8200 Jones Branch Drive
+          cityName: Mclean
+          postalCode: '22102'
+          stateCode: VA
+        address:
+          addressLineText: 8200 JONES BRANCH DR
+          cityName: MCLEAN
+          postalCode: '22102'
+          stateCode: VA
+        loanMatchMessage: Freddie Mac did not find any loans matching the given borrower information.
+    RequestExample2:
+      summary: Scenario 2 - Get original and current loan data
+      value:
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        partyRoleType: Servicer
+        partyRoleIdentifier: '123456'
+        address:
+          addressLineText: 1455 N Rockwell ST
+          addressUnitIdentifier: '3'
+          cityName: Chicago
+          postalCode: '60622'
+          stateCode: IL
+        borrowerInformation:
+          partyRoleType: Borrower
+          lastName: LACIVITA
+          taxpayerIdentifierType: SocialSecurityNumber
+          taxpayerIdentifierValue: '555555545'
+          automatedUnderwritingCaseIdentifier: '1421409300'
+  schemas:
+    CurrentMortgageSnapshotRequest_address:
+      required:
+      - addressLineText
+      - cityName
+      - postalCode
+      - stateCode
+      type: object
+      properties:
+        addressLineText:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: The subject property address with the address number, pre-directional, street name, post-directional, address unit designators and address unit value.
+          example: 4317 HIGHLAND HILLS ST
+        addressUnitIdentifier:
+          type: string
+          description: The identifier value associated with the Secondary Address Unit Designator of the subject property.
+          example: B1C
+        cityName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: The name of the city of the subject property.
+          example: BAKERSFIELD
+        postalCode:
+          maxLength: 10
+          minLength: 5
+          pattern: ^[0-9]{5}(?:-[0-9]{4})?$
+          type: string
+          description: The 5-digit or full 9-digit (xxxxx-xxxx) zip code of the subject property.
+          example: '11223'
+        stateCode:
+          pattern: ^[A-Za-z\s]*$
+          type: string
+          description: The two-character representation of the US state, US Territory, Canadian Province, Military APO FPO, or Territory.
+          example: CA
+          enum:
+          - AK
+          - AL
+          - AR
+          - AZ
+          - CA
+          - CO
+          - CT
+          - DC
+          - DE
+          - FL
+          - GA
+          - GU
+          - HI
+          - IA
+          - ID
+          - IL
+          - IN
+          - KS
+          - KY
+          - LA
+          - MA
+          - MD
+          - ME
+          - MI
+          - MN
+          - MO
+          - MS
+          - MT
+          - NC
+          - ND
+          - NE
+          - NH
+          - NJ
+          - NM
+          - NV
+          - NY
+          - OH
+          - OK
+          - OR
+          - PA
+          - PR
+          - RI
+          - SC
+          - SD
+          - TN
+          - TX
+          - UT
+          - VI
+          - VA
+          - VT
+          - WA
+          - WI
+          - WV
+          - WY
+      additionalProperties: false
+      description: Subject Property Address.
+    CurrentMortgageSnapshotRequest_borrowerInformation:
+      required:
+      - automatedUnderwritingCaseIdentifier
+      - lastName
+      - taxpayerIdentifierType
+      - taxpayerIdentifierValue
+      type: object
+      properties:
+        partyRoleType:
+          type: string
+          example: Borrower
+          enum:
+          - Borrower
+        lastName:
+          maxLength: 35
+          minLength: 1
+          type: string
+          description: The last name of the individual represented by the parent object.
+          example: Bakersfield
+        taxpayerIdentifierType:
+          type: string
+          description: Specifies the type of identification number used by the Internal Revenue Service (IRS) in the administration of tax laws. It is issued either by the Social Security Administration (SSA) or the IRS. A Social Security number (SSN) is issued by the SSA; all other taxpayer identification numbers are issued by the IRS.
+          example: SocialSecurityNumber
+          enum:
+          - EmployerIdentificationNumber
+          - IndividualTaxpayerIdentificationNumber
+          - PreparerTaxpayerIdentificationNumber
+          - SocialSecurityNumber
+          - TaxpayerIdentificationNumberForPendingUSAdoptions
+        taxpayerIdentifierValue:
+          maxLength: 9
+          minLength: 9
+          pattern: ^[0-9]{9}$
+          type: string
+          description: The value of the taxpayer identifier as assigned by the IRS to the individual or legal entity.
+          example: '114455778'
+        automatedUnderwritingCaseIdentifier:
+          maxLength: 8
+          minLength: 8
+          type: string
+          description: A unique identifier assigned by the underwriting system to the underwriting case for a specific loan application.
+          example: C1234567
+      additionalProperties: false
+    Errors:
+      title: Errors
+      type: object
+      properties:
+        error:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    CurrentMortgageSnapshotResponse:
+      required:
+      - address
+      - inputAddress
+      - requestTransactionIdentifier
+      - transactionDateTime
+      type: object
+      properties:
+        requestTransactionIdentifier:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: 128-bit Globally unique identifier (GUID) assigned to each request.
+          example: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        transactionDateTime:
+          type: string
+          example: '2021-02-10T22:05:37.184Z'
+        inputAddress:
+          $ref: '#/components/schemas/CurrentMortgageSnapshotRequest_address'
+        address:
+          $ref: '#/components/schemas/CurrentMortgageSnapshotRequest_address'
+        priorLoanTerms:
+          $ref: '#/components/schemas/CurrentMortgageSnapshotResponse_priorLoanTerms'
+        currentLoanTerms:
+          $ref: '#/components/schemas/CurrentMortgageSnapshotResponse_currentLoanTerms'
+        loanMatchMessage:
+          type: string
+          example: Freddie Mac did not find any loans matching the given borrower information.
+      additionalProperties: false
+    CurrentMortgageSnapshotErrorResponse:
+      title: CurrentMortgageSnapshotErrorResponse
+      type: object
+      properties:
+        errorEnvelope:
+          $ref: '#/components/schemas/ErrorEnvelope'
+    Error:
+      title: Error
+      type: object
+      properties:
+        errorCode:
+          type: string
+        errorDescription:
+          type: string
+    ErrorEnvelope:
+      title: ErrorEnvelope
+      type: object
+      properties:
+        errors:
+          $ref: '#/components/schemas/Errors'
+    CurrentMortgageSnapshotRequest:
+      required:
+      - address
+      - borrowerInformation
+      - partyRoleIdentifier
+      - partyRoleType
+      - requestTransactionIdentifier
+      type: object
+      properties:
+        requestTransactionIdentifier:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: 128-bit Globally unique identifier (GUID) assigned to each request.
+          example: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        partyRoleType:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Identifies the role that the party plays in the transaction. Parties may be either a person or legal entity. A party may play multiple roles in a transaction.
+          example: Seller
+          enum:
+          - Broker
+          - Correspondent
+          - Lender
+          - Seller
+          - Servicer
+        partyRoleIdentifier:
+          maxLength: 10
+          minLength: 1
+          type: string
+          description: The unique identifier assigned to the party role.
+          example: '123456'
+        address:
+          $ref: '#/components/schemas/CurrentMortgageSnapshotRequest_address'
+        borrowerInformation:
+          $ref: '#/components/schemas/CurrentMortgageSnapshotRequest_borrowerInformation'
+      additionalProperties: false
+    CurrentMortgageSnapshotResponse_currentLoanTerms:
+      type: object
+      properties:
+        loanStateType:
+          type: string
+          description: Identifies the state in time for the information associated with this occurrence of LOAN
+          example: Current
+        principalAndInterestPaymentAmount:
+          type: string
+          description: The dollar amount of the principal and interest payment associated with the Adjustment Change Effective Due Date.
+          example: '1242.53'
+        noteRatePercent:
+          type: string
+          description: The calculated or pre-determined interest note rate that is effective on the particular effective due date.
+          example: '0.04625'
+        miCertificateIdentifier:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: The identifier (unique within the MI company) assigned by a mortgage insurer to track a loan or pool policy.
+          example: '56986322'
+        miCompanyName:
+          maxLength: 255
+          minLength: 1
+          type: string
+          description: The name of the Private Mortgage Insurance provider.
+          example: Essent
+        miCoveragePercent:
+          type: string
+          description: The percentage (expressed in decimal form) of the loan principal amount insured by the mortgage insurance.
+          example: '30'
+        upbAmount:
+          type: string
+          description: The current unpaid principal balance on the loan. For HAMP Loan Modification, this is the sum of interest bearing and non-interest bearing UPB.
+          example: '73824.18'
+        freddieMacLoanIdentifier:
+          type: string
+          description: This is the 9-digit Freddie Mac-supplied number assigned to the original Mortgage by the Seller when the Mortgage was initially sold to Freddie Mac.
+          example: '99093591'
+        lienPriorityType:
+          type: string
+          description: A discrete set of values that specifies the lien priority of the loan, relative to other liens on the subject property.
+          example: FirstLien
+        loanMortgageType:
+          type: string
+          description: A discrete set of values that specifies the type of mortgage being applied for or that has been granted.  Values include Conventional, Farmers Home Administration, FHA, HELOC, Local Agency, Other, State Agency, VA
+          example: Conventional
+        eightyPercentHUDMedianIncomeAmount:
+          type: string
+          description: The HUD estimated 80% median family incomes to determine borrower eligibility for all applications related to affordable lending products.
+          example: '47760.0'
+      additionalProperties: false
+    CurrentMortgageSnapshotResponse_priorLoanTerms:
+      type: object
+      properties:
+        loanStateType:
+          type: string
+          description: Identifies the state in time for the information associated with this occurrence of LOAN.
+          example: AtClosing
+        noteAmount:
+          type: string
+          description: The dollar amount of the Mortgage as stated on the original note.
+          example: '241350.00'
+        initialPrincipalAndInterestPaymentAmount:
+          type: string
+          description: The dollar amount of the Principal and Interest payment as stated on the Note. The Principal and Interest payment is usually obtained using the loan amount and interest rate to arrive at full amortization during the loan term.
+          example: '1456.48'
+        noteDate:
+          type: string
+          description: The date of the mortgage note document.  This is the date on which the loan was originated.
+          example: 10/21/2020
+        noteRatePercent:
+          type: string
+          description: The calculated or pre-determined interest note rate that is effective on the particular effective due date.
+          example: '0.03125'
+        amortizationType:
+          maxLength: 255
+          minLength: 1
+          type: string
+          description: A discrete set of values that describe the repayment of a mortgage debt with periodic payment of both principle and interest, calculated to retire the obligation at the end of a fixed period of time.
+          example: AdjustableRate
+        loanMaturityPeriodType:
+          maxLength: 255
+          minLength: 1
+          type: string
+          description: The value that is being counted (e.g., year, month, week).   This applies to the maturity period for the loan.
+          example: Month
+        loanMaturityPeriodCount:
+          type: string
+          description: The scheduled number of periods (as defined by Loan Maturity Period Type) after which a loan will come due.
+          example: '360'
+        balloonIndicator:
+          maxLength: 1
+          minLength: 1
+          type: string
+          description: An indicator whether or not a final balloon payment (larger than the normal periodic payment) is required under the terms of the loan repayment schedule to fully pay off the loan.
+          example: N
+        miCertificateIdentifier:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: The identifier (unique within the MI company) assigned by a mortgage insurer to track a loan or pool policy.
+          example: '3806692327'
+        miCompanyName:
+          maxLength: 255
+          minLength: 1
+          type: string
+          description: The name of the Private Mortgage Insurance provider.
+          example: CMG
+        miCoveragePercent:
+          type: string
+          description: The percentage (expressed in decimal form) of the loan principal amount insured by the mortgage insurance.
+          example: '25.0000'
+        prepaymentPenaltyIndicator:
+          maxLength: 1
+          minLength: 1
+          type: string
+          description: 'Indicates whether the loan includes a penalty charged to the borrower in the event of prepayment. '
+          example: N
+        upbAmount:
+          type: string
+          description: The original unpaid principal balance on the loan. For HAMP Loan Mod, this is the sum of interest bearing and non-interest bearing UPB.
+          example: '205066.51'
+        scheduledFirstPaymentDate:
+          type: string
+          description: The date of the first scheduled mortgage payment to be made by the borrower under the terms of the mortgage.
+          example: 11/1/2020
+      additionalProperties: false
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token

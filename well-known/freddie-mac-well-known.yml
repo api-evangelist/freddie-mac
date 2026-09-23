@@ -83,7 +83,7 @@ hosts:
   documents:
   - path: /.well-known/security.txt
     status: 200
-    file: well-known/freddie-mac-api-security.txt
+    file: freddie-mac-api-security.txt
   - path: /.well-known/openid-configuration
     status: 404
   - path: /.well-known/oauth-authorization-server
@@ -102,7 +102,7 @@ hosts:
   documents:
   - path: /.well-known/security.txt
     status: 200
-    file: well-known/freddie-mac-api-test-security.txt
+    file: freddie-mac-api-test-security.txt
   - path: /.well-known/openid-configuration
     status: 404
   - path: /.well-known/oauth-authorization-server

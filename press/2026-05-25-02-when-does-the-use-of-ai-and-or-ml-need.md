@@ -1,7 +1,9 @@
 ---
 title: When does the use of AI and/or ML need ...
 url: https://guide.freddiemac.com/app/guide/faq/FA1448
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Freddie Mac" press release artificial intelligence'
 position: 2
 source: serpapi-google

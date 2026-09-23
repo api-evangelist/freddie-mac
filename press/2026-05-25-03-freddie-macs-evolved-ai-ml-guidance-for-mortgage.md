@@ -1,7 +1,9 @@
 ---
 title: Freddie Mac's Evolved AI/ML Guidance for Mortgage ...
 url: https://richeymay.com/resource/articles/navigating-the-new-frontier-freddie-macs-evolved-ai-ml-guidance-for-mortgage-companies/
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Freddie Mac" press release artificial intelligence'
 position: 3
 source: serpapi-google

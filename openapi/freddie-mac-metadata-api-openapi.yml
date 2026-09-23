@@ -1,0 +1,590 @@
+openapi: 3.2.0
+info:
+  title: Beyond ACE Metadata API
+  version: 3.0.0
+servers:
+- url: https://api-test.freddiemac.com/single-family/loan-advisor-suite/las-beyondace-api/v2
+security:
+- bearerAuth: []
+tags:
+- name: Metadata
+paths:
+  /property/{propertyDataId}/imagemetalist:
+    get:
+      tags:
+      - Metadata
+      summary: Get existing metadata list
+      description: Endpoint to get the exisitng Image metadata.
+      operationId: getMetaDataList
+      parameters:
+      - name: propertyDataId
+        in: path
+        description: Existing PropertyDataID generated during initial submission.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Data has been found. Request body contains Property Data object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageMetaDataList'
+        '401':
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        '404':
+          description: Property not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+                PropertyNotFoundResponse:
+                  $ref: '#/components/examples/GETImageMetaNotFoundResponse'
+        '429':
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        '500':
+          description: "<p><strong>Internal Server Error</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+  /property/{propertyDataId}/imagemeta:
+    post:
+      tags:
+      - Metadata
+      summary: Submit Property Data Image MetaData
+      description: Endpoint to submit Image metadata.
+      operationId: postPropertyDataImage
+      parameters:
+      - name: propertyDataId
+        in: path
+        description: Existing PropertyDataID generated during initial submission.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Image metadata
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageMetaData'
+          application/pda.v3+json:
+            schema:
+              $ref: '#/components/schemas/ImageMetaData'
+          application/pda.v4+json:
+            schema:
+              $ref: '#/components/schemas/ImageMetaData'
+        required: true
+      responses:
+        '201':
+          description: Metadata created, image Id returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageStorageLocation'
+        '400':
+          description: Bad request. Request body contains ErrorResponse object with validationErrors definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        '404':
+          description: Property not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+                GETImageMetaNotFoundResponse:
+                  $ref: '#/components/examples/GETImageMetaNotFoundResponse'
+        '429':
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        '500':
+          description: "<p><strong>Internal Server Error</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+  /property/imagemeta/{imageId}:
+    put:
+      tags:
+      - Metadata
+      summary: Update Property Data Image MetaData
+      description: Endpoint to update Image metadata.
+      operationId: updateMetadata
+      parameters:
+      - name: imageId
+        in: path
+        description: Existing Image Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Lender-Id
+        in: header
+        description: Unique identifier assigned to the lender whose data is being submitted to the API.  This lender must have a relationship established within Freddie Mac’s registration system with the AMC or Valuation Technology Provider submitting their data, if the lender is not submitting their own data directly.  Sellers will generally have a 6-digit number and Third-Party Originators (TPOs) a 7-digit number (e.g. 000000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-Amc-Id
+        in: header
+        description: Unique identifier for the submitting Appraisal Management Company (AMC) or Valuation Technology Provider submitting data to the API on behalf of a lender (e.g. AMC0000).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: X-LenderLoan-Id
+        in: header
+        description: Identifier for the lender’s loan number (e.g. 0501555332).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Image metadata
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageMetaData'
+        required: true
+      responses:
+        '200':
+          description: Metadata updated.
+        '400':
+          description: Bad request. Request body contains ErrorResponse object with validationErrors definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: "<p><strong>Unauthorized</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>401.001:</strong> Invalid Access Token. </li> <li><strong>401.002:</strong> Access Token Expired. </li> <li><strong>401.003:</strong> API Product mismatch for token. </li> <li><strong>401.004:</strong> Invalid API Key. </li> <li><strong>401.005:</strong> Invalid API Key for given resource. </li> <li><strong>401.006:</strong> Insufficient scope for Application. </li> <li><strong>401.007:</strong> Invalid Username/Password combination. </li> <li><strong>401.008:</strong> Invalid Refresh Token. </li> <li><strong>401.009:</strong> Invalid Client Secret. </li> <li><strong>401.010:</strong> Refresh Token expired. </li> <li><strong>401:</strong> Unable to authorize the request. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIUnauthorizedResponse:
+                  $ref: '#/components/examples/BACEAPIUnauthorizedResponse'
+        '404':
+          description: Property not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPINotFoundResponse:
+                  $ref: '#/components/examples/BACEAPINotFoundResponse'
+        '429':
+          description: "<p><strong>Too many Requests</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p>\n<ul> <li><strong>429.001:</strong> Rate limit exceeded, decrease the number of requests per second been sent</li> <li><strong>429.002:</strong> Quota limit exceeded, decrease the number of requests per minute been sent. </li> </ul> "
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPILimitExceededResponse:
+                  $ref: '#/components/examples/BACEAPILimitExceededResponse'
+        '500':
+          description: "<p><strong>Internal Server Error</strong></p>\n <p><small><small>Error codes &amp; details</small></small></p> <ul><li><strong>0005:</strong> API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance. </li></ul>"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BACEAPIInternalErrorResponse:
+                  $ref: '#/components/examples/BACEAPIInternalErrorResponse'
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    GPSCoordinates:
+      required:
+      - latitude
+      - longitude
+      type: object
+      properties:
+        latitude:
+          type: number
+          description: Waterfall Subject Latitude as centroid of latitude of all images, OR a specific image likely to be present in all dwellings, such as the kitchen OR a photo of the main entrance of the dwelling. If latitude from images is unavailable, use geocoder from subject address.
+          format: float
+          example: 38.889248
+        longitude:
+          type: number
+          description: Waterfall Subject Longitude as centroid of longitude of all images, OR a specific image likely to be present in all dwellings, such as the kitchen OR a photo of the main entrance of the dwelling. If latitude/longitude from images is unavailable, use geocoder from subject address.
+          format: float
+          example: -77.050636
+      additionalProperties: false
+    ImageStorageLocation:
+      type: object
+      properties:
+        imageId:
+          type: string
+          example: bcde070d-8c4c-4f0d-9d8a-162843c10334
+        imageMeta:
+          $ref: '#/components/schemas/ImageMetaData'
+        uploadUrl:
+          type: string
+    Message:
+      required:
+      - messageCode
+      - messageDescription
+      type: object
+      properties:
+        messageCode:
+          type: string
+        messageDescription:
+          type: string
+    ErrorResponse:
+      required:
+      - code
+      - details
+      - message
+      - proxyCorrelationId
+      type: object
+      properties:
+        proxyCorrelationId:
+          type: string
+          description: PDR API assigned control number for the request.
+        code:
+          type: string
+          description: Error Code
+        message:
+          type: string
+          description: Error Description
+        details:
+          type: array
+          description: A collection of error details. Details container will contain error format.
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Error'
+            - $ref: '#/components/schemas/Message'
+      description: Information about the errors.
+    ImageMetaDataList:
+      required:
+      - metadataList
+      type: object
+      properties:
+        metadataList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageStorageLocation'
+    ImageMetaData:
+      required:
+      - description
+      - geoPosition
+      - imageNotAvailable
+      - imageType
+      - parentObjectJsonPath
+      - timestamp
+      type: object
+      properties:
+        propertyDataId:
+          type: string
+          example: acde070d-8c4c-4f0d-9d8a-162843c10333
+        imageType:
+          type: string
+          enum:
+          - STREET_ADDRESS
+          - UNIT_NUMBER
+          - STREET_LEFT
+          - STREET_RIGHT
+          - ROAD_UNDER_MAINTAINED
+          - ADVERSE_SITE_CONDITIONS
+          - ATTACHED_GARAGE_EXTERIOR
+          - ATTACHED_GARAGE_INTERIOR
+          - DETACHED_GARAGE_EXTERIOR
+          - DETACHED_GARAGE_INTERIOR
+          - BUILTIN_GARAGE_EXTERIOR
+          - BUILTIN_GARAGE_INTERIOR
+          - SIDING_GARAGE_DEFICIENCY
+          - WINDOWS_GARAGE_DEFICIENCY
+          - DOORS_GARAGE_DEFICIENCY
+          - GARAGE_DOOR_GARAGE_DEFICIENCY
+          - EXTERIOR_WALLS_GARAGE_DEFICIENCY
+          - INTERIOR_WALLS_GARAGE_DEFICIENCY
+          - CEILING_GARAGE_DEFICIENCY
+          - ROOF_GARAGE_DEFICIENCY
+          - FOUNDATION_GARAGE_DEFICIENCY
+          - OTHER_GARAGE_DEFICIENCY
+          - SIDING_CARSTORAGE_DEFICIENCY
+          - WINDOWS_CARSTORAGE_DEFICIENCY
+          - DOORS_CARSTORAGE_DEFICIENCY
+          - GARAGE_DOOR_CARSTORAGE_DEFICIENCY
+          - EXTERIOR_WALLS_CARSTORAGE_DEFICIENCY
+          - INTERIOR_WALLS_CARSTORAGE_DEFICIENCY
+          - CEILING_CARSTORAGE_DEFICIENCY
+          - ROOF_CARSTORAGE_DEFICIENCY
+          - FOUNDATION_CARSTORAGE_DEFICIENCY
+          - OTHER_CARSTORAGE_DEFICIENCY
+          - CARPORT
+          - OPEN_ASSIGNED
+          - SF_VIEW
+          - CONDO_VIEW
+          - VIEW_FRONT
+          - VIEW_LEFT_SIDE
+          - VIEW_RIGHT_SIDE
+          - VIEW_REAR
+          - BORDERING_INFLUENCE
+          - WATERFRONT
+          - WATERFRONT_SITE_IMPROVEMENTS
+          - PROPERTY_IMPROVEMENTS
+          - FEATURE_TYPE
+          - INGROUND_POOL_CONCERNS
+          - NONRESIDENTIAL_USE
+          - STRUCTURE_FRONT
+          - STRUCTURE_LEFT_SIDE
+          - STRUCTURE_RIGHT_SIDE
+          - STRUCTURE_REAR
+          - BUILDING_FRONT
+          - BUILDING_LEFT
+          - BUILDING_RIGHT
+          - BUILDING_REAR
+          - ROOM
+          - KITCHEN
+          - BATHROOM
+          - LIVING_ROOM
+          - OVEN_RANGE
+          - FLOORING_INTERIOR_DEFICIENCY
+          - PLUMBING_FIXTURES_INTERIOR_DEFICIENCY
+          - ELECTRICAL_FIXTURES_INTERIOR_DEFICIENCY
+          - CABINET_COUNTERTOPS_INTERIOR_DEFICIENCY
+          - APPLIANCES_INTERIOR_DEFICIENCY
+          - WALLS_INTERIOR_DEFICIENCY
+          - CEILING_INTERIOR_DEFICIENCY
+          - SHOWER_TUB_SURROUND_INTERIOR_DEFICIENCY
+          - OTHER_INTERIOR_DEFICIENCY
+          - FLOORING_INTERIOR_UPDATE
+          - PLUMBING_FIXTURES_INTERIOR_UPDATE
+          - ELECTRICAL_FIXTURES_INTERIOR_UPDATE
+          - CABINET_COUNTERTOPS_INTERIOR_UPDATE
+          - APPLIANCES_INTERIOR_UPDATE
+          - WALLS_INTERIOR_UPDATE
+          - CEILING_INTERIOR_UPDATE
+          - OTHER_INTERIOR_UPDATE
+          - FLOOR_PLAN
+          - FOUNDATION_EXTERIOR_DEFICIENCY
+          - ROOF_EXTERIOR_DEFICIENCY
+          - SIDING_EXTERIOR_DEFICIENCY
+          - FASCIA_EXTERIOR_DEFICIENCY
+          - WINDOWS_EXTERIOR_DEFICIENCY
+          - DOORS_EXTERIOR_DEFICIENCY
+          - GUTTERS_DOWNSPOUTS_EXTERIOR_DEFICIENCY
+          - EAVES_EXTERIOR_DEFICIENCY
+          - CHIMNEY_EXTERIOR_DEFICIENCY
+          - PORCH_EXTERIOR_DEFICIENCY
+          - PATIO_EXTERIOR_DEFICIENCY
+          - DECK_EXTERIOR_DEFICIENCY
+          - BALCONY_EXTERIOR_DEFICIENCY
+          - ENTRY_STAIRS_EXTERIOR_DEFICIENCY
+          - CARPORT_EXTERIOR_DEFICIENCY
+          - DRIVEWAY_EXTERIOR_DEFICIENCY
+          - INCOMPLETE_LANDSCAPING_EXTERIOR_DEFICIENCY
+          - OTHER_EXTERIOR_DEFICIENCY
+          - EXTERIOR_WALLS_EXTERIOR_DEFICIENCY
+          - SIDING_EXTERIOR_UPDATE
+          - DOORS_EXTERIOR_UPDATE
+          - WALLS_EXTERIOR_UPDATE
+          - ROOF_EXTERIOR_UPDATE
+          - FOUNDATION_EXTERIOR_UPDATE
+          - FENCE_EXTERIOR_UPDATE
+          - OTHER_EXTERIOR_UPDATE
+          - WINDOWS_EXTERIOR_UPDATE
+          - PLUMBING_MECHANICAL_DEFICIENCY
+          - ELECTRICAL_MECHANICAL_DEFICIENCY
+          - HEATING_MECHANICAL_DEFICIENCY
+          - WATER_HEATER_MECHANICAL_DEFICIENCY
+          - COOLING_MECHANICAL_DEFICIENCY
+          - SUMP_PUMP_MECHANICAL_DEFICIENCY
+          - OTHER_MECHANICAL_DEFICIENCY
+          - PLUMBING_MECHANICAL_UPDATE
+          - ELECTRICAL_MECHANICAL_UPDATE
+          - HEATING_MECHANICAL_UPDATE
+          - WATER_HEATER_MECHANICAL_UPDATE
+          - COOLING_MECHANICAL_UPDATE
+          - SUMP_PUMP_MECHANICAL_UPDATE
+          - OTHER_MECHANICAL_UPDATE
+          - OTHER
+        description:
+          type: string
+          description: Image Description
+        imageTags:
+          type: array
+          description: optional image tags
+          items:
+            type: string
+        geoPosition:
+          $ref: '#/components/schemas/GPSCoordinates'
+        timestamp:
+          type: integer
+          description: Must be UTC timestamp in seconds.
+          format: int64
+          example: 1694559274
+        imageNotAvailable:
+          type: boolean
+          description: true/false (if an image is not available then this field should be set to true, otherwise it should be false.) <b>Note:</b>  Image omission will affect Waiver Eligibility. Conditional value, if alwaysRequired is true, imageNotAvailable must be false, image must be provided.
+        alwaysRequired:
+          type: boolean
+          description: true/false (This field will be true for images that are required for the Inspection to be considered Complete).
+        parentObjectJsonPath:
+          type: string
+    Error:
+      required:
+      - error
+      type: object
+      properties:
+        error:
+          type: string
+      description: Information about the error.
+  examples:
+    GETImageMetaNotFoundResponse:
+      summary: Imagemetadata not found response
+      description: This typically can happen when the image is not submitted.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 404.001
+        message: No resource for GET/POST
+        details:
+        - error: propertyDataId {propertyDataId} provided for getting Image metaData not found.
+    BACEAPIInternalErrorResponse:
+      summary: Internal Server error
+      description: An 0005 error that indicates that the request could not be processed. Please reach out to Customer Support.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 500
+        message: Internal Server Error
+        details:
+        - MessageCode: '0005'
+          MessageDescription: API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
+    BACEAPIUnauthorizedResponse:
+      summary: Unauthorized Response
+      description: The user is not authorized to access the application.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 401
+        message: Unable to authorize the request.
+        details:
+        - error: The user profile is not authorized to access the system.
+    BACEAPINotFoundResponse:
+      summary: Resource not found
+      description: This typically can happen if the resource URL is not correct.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 404.001
+        message: No resource for GET/POST
+        details:
+        - error: No resource for GET/POST
+    BACEAPILimitExceededResponse:
+      summary: Quota or Resource Limit Exceeded
+      description: The number of requests made exceed the threshold. Reduce the number of requests.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 429.002
+        message: Quota limit exceeded
+        details:
+        - error: Quota limit exceeded, decrease the number of requests per minute been sent.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Token acquired from OAuth API for the user credentials

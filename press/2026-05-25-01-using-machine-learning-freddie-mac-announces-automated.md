@@ -1,7 +1,9 @@
 ---
 title: Using Machine Learning, Freddie Mac Announces Automated ...
 url: https://freddiemac.gcs-web.com/news-releases/news-release-details/using-machine-learning-freddie-mac-announces-automated
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Freddie Mac" press release artificial intelligence'
 position: 1
 source: serpapi-google
