@@ -46,7 +46,6 @@ modified: '2026-09-10'
 position: Producing
 tags:
 - Freddie Mac
-- Federal-Government
 - Housing
 - Mortgage
 - Lending
@@ -55,9 +54,9 @@ tags:
 - Secondary Market
 - MISMO
 - Fortune 100
+- Government-Sponsored Enterprise
 tags_raw:
 - Freddie Mac
-- Federal Government
 - Housing
 - Mortgage
 - Lending
@@ -66,6 +65,7 @@ tags_raw:
 - Secondary Market
 - MISMO
 - Fortune 100
+- Government-Sponsored Enterprise
 url: https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/apis.yml
 specificationVersion: '0.23'
 apis:
@@ -1437,3 +1437,5 @@ x-enrichment:
   status: enriched
   artifacts_added: 82
   pass: local-v3
+x-tags-removed:
+- Federal Government

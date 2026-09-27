@@ -103,718 +103,6 @@ paths:
                 - error: Liquidation API is unable to retrieve data for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
       x-codegen-request-body-name: workoutServiceRequest
 components:
-  examples:
-    ResponseScenario1:
-      summary: Scenario 1 - Response when loan is eligible for short sale
-      description: A new submission response
-      value:
-        message:
-          aboutVersions:
-            aboutVersion:
-              aboutVersionIdentifier: S1.0.01
-              createdDatetime: '2021-05-06T09:45:14.535Z'
-          responseData:
-            isRequestValid: true
-            requestResponseIdentifier: 1559
-            errorList: []
-            responseWorkoutList:
-            - loanIdentifier: '999999999'
-              servicerAccountIdentifier: '999999'
-              servicerLoanIdentifier: abcd123456789
-              workoutReportingStatusType: WAReq
-              workoutProgramType: SHRTSLE
-              isValid: true
-              isMNPObtained: true
-              errorWorkoutList: []
-              valuationData:
-                mnpRequestIdentifier: 123456
-                mnpStatus: Completed
-                servicerContactFirstName: Jim
-                servicerContactLastName: Jones
-                servicerContactPhone: '1234567890'
-                servicerContactEmail: jim_jones@emailserver.com
-                minimumNetProceedAmount: 40392.12
-                goodThroughDate: 01/01/9999
-                estimatedMarketValue: 243100.0
-                mnpRequestCompletionDate: 01/01/9999
-              workoutProgramResponses:
-              - isEligible: true
-                messageWorkoutList:
-                - workoutMessageCode: LM000066
-                  workoutMessageDescription: Loan 999999999 is approved for Short Sale liquidation.  Please review the final terms and submit for Settlement.
-                  workoutMessageType: Informational
-                postWorkoutData:
-                  workoutApprovedDate: 05-06-2021
-                  settlementChargesToSeller: 3400.0
-                  secondMortgagePayoffAmount: 200.0
-                  borrowerContributionAmount: 6269.2
-                  investorRelocationAssistance: 0.0
-                  approvedNetSaleProceeds: 396600.0
-              loanData:
-                loanLastPaidInstallmentDate: 04-01-2021
-                currentLoanGrossUPBAmount: 35155.63
-                currentPrincipalAndInterestPaymentAmount: 24.9
-                currentMonthlyHousingExpenseToIncomeRatioPercent: 3.21
-                propertyAddress:
-                  Property Street: 123 Main Street
-                  Property Zipcode: '123450000'
-                  Property City: City Name
-                  Property State: VA
-    RequestScenario2:
-      summary: Scenario 2 - Loan is not eligible for short sale and exception review not requested
-      description: A new submission
-      value:
-        message:
-          aboutVersions:
-            aboutVersion:
-              aboutVersionIdentifier: S1.0.01
-              createdDatetime: '2018-12-10T13:45:00.000Z'
-          requestData:
-            workoutList:
-            - externalData:
-                workoutReportingStatusType: WAReq
-                workoutProgramType: SHRTSLE
-                servicerAccountIdentifier: '888888'
-                loanIdentifier: '888888888'
-                servicerLoanIdentifier: abcd123456789
-                borrowerResponsePackageReceivedDate: 05-01-2020
-                loanImminentDefaultIndicator: Y
-                exceptionReviewRequestIndicator: N
-                propertyType: Single Family Detached
-                hardshipReasons:
-                - hardshipReasonType: BusinessFail
-                - hardshipReasonType: Death
-                - hardshipReasonType: Disaster
-                - hardshipReasonType: Relocation
-                - hardshipReasonType: Other
-                  reasonForExtenuatingCircumstances: Just Because
-                propertyInfo:
-                  propertyConditionType: Condemned
-                  propertyUsageType: PR
-                  propertyOccupancyType: OC
-                  grossRentalIncome: 10000
-                partyInfo:
-                  totalCashReserveAmount: 51000
-                  totalMonthlyLiabilities: 0.1
-                  party:
-                  - borrowerType: Primary
-                    borrowerInfo:
-                      borrowerDetail:
-                        creditScoreDate: 12-10-2018
-                        creditScoreValue: 450
-                      currentIncomeItem:
-                      - currentIncomeItemDetail:
-                          currentIncomeMonthlyTotalAmount: 600
-                          incomeType: GrossMonthlyIncome
-                  - borrowerType: Secondary
-                    borrowerInfo:
-                      borrowerDetail:
-                        creditScoreDate: 12-10-2018
-                        creditScoreValue: 570
-                      currentIncomeItem:
-                      - currentIncomeItemDetail:
-                          currentIncomeMonthlyTotalAmount: 1000
-                          incomeType: GrossMonthlyIncome
-                premodHousingExpense:
-                - housingExpensePaymentAmount: 50
-                  housingExpenseType: HomeownersInsurance
-                - housingExpensePaymentAmount: 50
-                  housingExpenseType: RealEstateTax
-                - housingExpensePaymentAmount: 100
-                  housingExpenseType: HOACondoFees
-                - housingExpensePaymentAmount: 2000
-                  housingExpenseType: PrResMortgagePITIAS
-                - housingExpensePaymentAmount: 5000
-                  housingExpenseType: TotalMonthlyExpenses
-                - housingExpensePaymentAmount: 1000
-                  housingExpenseType: EscrowShortagePaymentAmount
-                liquidations:
-                  closingData:
-                  - category: BuyersFirstName
-                    value: Jim
-                  - category: BuyersLastName
-                    value: Jones
-                  - category: ClosingDate
-                    value: 10-10-2020
-                  - category: AdjustmentsForItemsPaidInAdvance
-                    value: '200'
-                  - category: PayoffOfSecondMortgageLoan
-                    value: '200'
-                  - category: InvestorRelocationAssistance
-                    value: '0'
-                  - category: ServicerRelocationAssistance
-                    value: '200'
-                  - category: DLA-OtherGovernmentRelocationAssistance
-                    value: '200'
-                  - category: RelocationAssistancefromAlternative Sources
-                    value: '200'
-                  - category: CommissionPaidAtSettlement
-                    value: '200'
-                  - category: CityTownTaxes
-                    value: '200'
-                  - category: CityTownTaxesStartDate
-                    value: 01-01-2018
-                  - category: CityTownTaxesEndDate
-                    value: 12-31-2019
-                  - category: CountyTaxes
-                    value: '200'
-                  - category: CountyTaxesStartDate
-                    value: 10-10-2019
-                  - category: CountyTaxesEndDate
-                    value: 10-10-2019
-                  - category: CityCountyTaxStamps
-                    value: '200'
-                  - category: Assessments
-                    value: '200'
-                  - category: SettlementOrClosingFee
-                    value: '200'
-                  - category: DocumentPreparation
-                    value: '200'
-                  - category: NotaryFee
-                    value: '200'
-                  - category: AttorneysFees
-                    value: '200'
-                  - category: TitleInsurance
-                    value: '200'
-                  - category: TitleExamSearch
-                    value: '200'
-                  - category: WireTransferFee
-                    value: '200'
-                  - category: RecordingFees
-                    value: '200'
-                  - category: Survey
-                    value: '200'
-                  - category: HOACOADues
-                    value: '200'
-                  - category: MiscFee1
-                    value: '200'
-                  - category: MiscFeeDescription1
-                    value: '200'
-                  - category: MiscFee2
-                    value: '200'
-                  - category: MiscFeeDescription2
-                    value: '200'
-                  - category: MiscFee3
-                    value: '200'
-                  - category: MiscFeeDescription3
-                    value: '200'
-                  - category: BorrowerContribution
-                    value: '2942.20'
-                  propertyContractInfo:
-                    contractSalesDate: 09-17-2020
-                    contractSalesPrice: 5000
-                    mLSListDate: 09-01-2020
-                    aRMSLengthTransactionIndicator: Y
-                  additionalData:
-                    newMortgages: Y
-                    secondLienUPB: 10000
-                    secondLienMortgageLender: Wells
-                    isInsufficientContributionJustified: N
-                    reasonForInsufficientContribution: Just Because
-                  valuationData:
-                  - category: ServicerContactFirstName
-                    value: Jim
-                  - category: ServicerContactLastName
-                    value: Jones
-                  - category: ServicerContactPhone
-                    value: '123456789'
-                  - category: ServicerContactPhoneExtension
-                    value: '1234'
-                  - category: ServicerContactEmail
-                    value: JIM@EMAILSERVER.COM
-                  - category: PropertyContactFirstName
-                    value: Harry
-                  - category: PropertyContactLastName
-                    value: James
-                  - category: PropertyContactPhone
-                    value: '123456789'
-                  - category: PropertyContactPhoneExtension
-                    value: '1234'
-                  - category: SpecialInteriorAccess
-                    value: Watch Out for the dog
-    ResponseScenario3:
-      summary: Scenario 3 - Response when loan is not eligible for short sale and exception review is requested
-      description: A new submission response
-      value:
-        message:
-          aboutVersions:
-            aboutVersion:
-              aboutVersionIdentifier: S1.0.01
-              createdDatetime: '2021-06-01T12:35:16.249Z'
-          responseData:
-            isRequestValid: true
-            requestResponseIdentifier: 6608
-            errorList: []
-            responseWorkoutList:
-            - loanIdentifier: '777777777'
-              servicerAccountIdentifier: '777777'
-              servicerLoanIdentifier: abcd123456789
-              workoutReportingStatusType: WAReq
-              workoutProgramType: SHRTSLE
-              isValid: true
-              isMNPObtained: true
-              errorWorkoutList: []
-              valuationData:
-                mnpRequestIdentifier: 673312
-                mnpStatus: Completed
-                servicerContactFirstName: Jim
-                servicerContactLastName: Jones
-                servicerContactPhone: '1234567890'
-                servicerContactEmail: JIM@EMAILSERVER.COM
-                minimumNetProceedAmount: 125654.0
-                goodThroughDate: 01/01/9999
-                propertyValuationAmount: 54000.0
-                mnpRequestCompletionDate: 01/01/9999
-              workoutProgramResponses:
-              - isEligible: false
-                messageWorkoutList:
-                - workoutMessageCode: LM000055
-                  workoutMessageDescription: Borrower has Non Retirement Liquid Assets greater than $50,000. Non Retirement Liquid Assets provided in the request is $51,000.00.
-                  workoutMessageType: Fatal
-                - workoutMessageCode: LM000056
-                  workoutMessageDescription: Cash contribution is less than minimum Borrower Cash Contribution requirement. Cash Contribution provided in the request is $2,942.20 and Borrower Cash Contribution required is $10,200.00.
-                  workoutMessageType: Fatal
-                - workoutMessageCode: LI002068
-                  workoutMessageDescription: Loan has been submitted for exception review. Updates to exception review submission cannot be made via API during review process. Please visit Decision Insights for more information.
-                  workoutMessageType: Informational
-                postWorkoutData:
-                  settlementChargesToSeller: 3600.0
-                  secondMortgagePayoffAmount: 200.0
-                  borrowerContributionAmount: 2942.2
-                  investorRelocationAssistance: 0.0
-                  approvedNetSaleProceeds: 226400.0
-              loanData:
-                loanLastPaidInstallmentDate: 04-01-2021
-                currentLoanGrossUPBAmount: 119010.32
-                currentPrincipalAndInterestPaymentAmount: 1091.28
-                currentMonthlyHousingExpenseToIncomeRatioPercent: 11.13
-                exceptionReviewStatusType: SUBMITTED
-                propertyAddress:
-                  PropertyZipcode: '303310000'
-                  PropertyStreet: 123 Main Street
-                  PropertyCity: McLean
-                  PropertyState: VA
-              workoutExceptionData:
-                exceptionReviewRequestID: SS001234
-                hardshipReasons: []
-                premodHousingExpense: []
-                closingData: []
-    ResponseScenario2:
-      summary: Scenario 2 - Response when loan is not eligible for short sale and exception review is not requested
-      description: A new submission response
-      value:
-        message:
-          aboutVersions:
-            aboutVersion:
-              aboutVersionIdentifier: S1.0.01
-              createdDatetime: '2021-05-06T09:47:25.801Z'
-          responseData:
-            isRequestValid: true
-            requestResponseIdentifier: 1560
-            errorList: []
-            responseWorkoutList:
-            - loanIdentifier: '888888888'
-              servicerAccountIdentifier: '888888'
-              servicerLoanIdentifier: abcd123456789
-              workoutReportingStatusType: WAReq
-              workoutProgramType: SHRTSLE
-              isValid: true
-              isMNPObtained: true
-              errorWorkoutList: []
-              valuationData:
-                mnpRequestIdentifier: 664753
-                mnpStatus: Completed
-                servicerContactFirstName: Jim
-                servicerContactLastName: Jones
-                servicerContactPhone: '1234567890'
-                servicerContactEmail: jim_jones@emailserver.com
-                minimumNetProceedAmount: 40392.12
-                goodThroughDate: 01/01/9999
-                propertyValuationAmount: 243100.0
-                mnpRequestCompletionDate: 01/01/9999
-              workoutProgramResponses:
-              - isEligible: false
-                messageWorkoutList:
-                - workoutMessageCode: LM000058
-                  workoutMessageDescription: Borrower acquired a newmortgage within six months of DDLPI.
-                  workoutMessageType: Fatal
-                - workoutMessageCode: LM000055
-                  workoutMessageDescription: Borrower has Non Retirement Liquid Assets greater than $50,000.Non Retirement Liquid Assets provided in the request is $51,000.00.
-                  workoutMessageType: Fatal
-                - workoutMessageCode: LM000056
-                  workoutMessageDescription: Cash contribution is less thanminimum Borrower Cash Contribution requirement. Cash Contribution provided in the request is $2,942.20 and Borrower Cash Contribution required is $10,200.00.
-                  workoutMessageType: Fatal
-                - workoutMessageCode: LM000052
-                  workoutMessageDescription: Net Sale Proceeds does not meet Minimum Net Proceeds. Net Sale Proceeds provided in the request is $1,400.00 and Minimum Net Proceeds is$40,392.12.
-                  workoutMessageType: Fatal
-                - workoutMessageCode: LM000048
-                  workoutMessageDescription: Sale must be an arm’s length transaction. All parties involved in the sale must beunrelated/unaffiliated.
-                  workoutMessageType: Fatal
-                - workoutMessageCode: LM000065
-                  workoutMessageDescription: Loan 888888888 is not eligible for Short Sale liquidation.   Please review theFreddie Mac response and validate the terms submitted. Please resubmit the correct terms for processing or submit to Freddie Mac for non-delegated review.
-                  workoutMessageType: Informational
-                postWorkoutData:
-                  settlementChargesToSeller: 3600.0
-                  secondMortgagePayoffAmount: 200.0
-                  borrowerContributionAmount: 2942.2
-                  investorRelocationAssistance: 0.0
-                  approvedNetSaleProceeds: 1400.0
-              loanData:
-                loanLastPaidInstallmentDate: 04-01-2021
-                currentLoanGrossUPBAmount: 35155.63
-                currentPrincipalAndInterestPaymentAmount: 24.9
-                currentMonthlyHousingExpenseToIncomeRatioPercent: 1.94
-                propertyAddress:
-                  Property Street: 123 Main Street
-                  Property Zipcode: '123450000'
-                  Property City: City Name
-                  Property State: VA
-    RequestScenario3:
-      summary: Scenario 3 - Loan is not eligible for short sale and exception review is requested
-      description: A new submission
-      value:
-        message:
-          aboutVersions:
-            aboutVersion:
-              aboutVersionIdentifier: S1.0.01
-              createdDatetime: '2018-12-10T13:45:00.000Z'
-          requestData:
-            workoutList:
-            - externalData:
-                servicerAccountIdentifier: '777777'
-                loanIdentifier: '777777777'
-                workoutReportingStatusType: WAReq
-                workoutProgramType: SHRTSLE
-                servicerLoanIdentifier: abcd123456789
-                borrowerResponsePackageReceivedDate: 05-01-2020
-                loanImminentDefaultIndicator: N
-                exceptionReviewRequestIndicator: Y
-                propertyType: Single Family Detached
-                hardshipReasons:
-                - hardshipReasonType: BusinessFail
-                - hardshipReasonType: Death
-                - hardshipReasonType: Disaster
-                - hardshipReasonType: Relocation
-                - hardshipReasonType: Other
-                  reasonForExtenuatingCircumstances: Just Because
-                propertyInfo:
-                  propertyConditionType: Condemned
-                  propertyUsageType: PR
-                  propertyOccupancyType: OC
-                  grossRentalIncome: 1000
-                partyInfo:
-                  totalCashReserveAmount: 10000
-                  totalMonthlyLiabilities: 0.1
-                  party:
-                  - borrowerType: Primary
-                    borrowerInfo:
-                      borrowerDetail:
-                        creditScoreDate: 12-10-2018
-                        creditScoreValue: 460
-                      currentIncomeItem:
-                      - currentIncomeItemDetail:
-                          currentIncomeMonthlyTotalAmount: 2000
-                          incomeType: GrossMonthlyIncome
-                  - borrowerType: Secondary
-                    borrowerInfo:
-                      borrowerDetail:
-                        creditScoreDate: 12-10-2018
-                        creditScoreValue: 650
-                      currentIncomeItem:
-                      - currentIncomeItemDetail:
-                          currentIncomeMonthlyTotalAmount: 4000
-                          incomeType: GrossMonthlyIncome
-                premodHousingExpense:
-                - housingExpensePaymentAmount: 50
-                  housingExpenseType: HomeownersInsurance
-                - housingExpensePaymentAmount: 50
-                  housingExpenseType: RealEstateTax
-                - housingExpensePaymentAmount: 100
-                  housingExpenseType: HOACondoFees
-                - housingExpensePaymentAmount: 2000
-                  housingExpenseType: PrResMortgagePITIAS
-                - housingExpensePaymentAmount: 500000
-                  housingExpenseType: TotalMonthlyExpenses
-                - housingExpensePaymentAmount: 1000
-                  housingExpenseType: EscrowShortagePaymentAmount
-                liquidations:
-                  closingData:
-                  - category: BuyersFirstName
-                    value: Jim
-                  - category: BuyersLastName
-                    value: Jones
-                  - category: ClosingDate
-                    value: 10-10-2020
-                  - category: AdjustmentsForItemsPaidInAdvance
-                    value: '200'
-                  - category: PayoffOfSecondMortgageLoan
-                    value: '200'
-                  - category: InvestorRelocationAssistance
-                    value: '0'
-                  - category: ServicerRelocationAssistance
-                    value: '200'
-                  - category: DLA-OtherGovernmentRelocationAssistance
-                    value: '200'
-                  - category: RelocationAssistancefromAlternativeSources
-                    value: '200'
-                  - category: CommissionPaidAtSettlement
-                    value: '200'
-                  - category: CityTownTaxes
-                    value: '200'
-                  - category: CityTownTaxesStartDate
-                    value: 01-01-2018
-                  - category: CityTownTaxesEndDate
-                    value: 12-31-2019
-                  - category: CountyTaxes
-                    value: '200'
-                  - category: CountyTaxesStartDate
-                    value: 10-10-2019
-                  - category: CountyTaxesEndDate
-                    value: 10-10-2019
-                  - category: CityCountyTaxStamps
-                    value: '200'
-                  - category: Assessments
-                    value: '200'
-                  - category: SettlementOrClosingFee
-                    value: '200'
-                  - category: DocumentPreparation
-                    value: '200'
-                  - category: NotaryFee
-                    value: '200'
-                  - category: AttorneysFees
-                    value: '200'
-                  - category: TitleInsurance
-                    value: '200'
-                  - category: TitleExamSearch
-                    value: '200'
-                  - category: WireTransferFee
-                    value: '200'
-                  - category: RecordingFees
-                    value: '200'
-                  - category: Survey
-                    value: '200'
-                  - category: HOACOADues
-                    value: '200'
-                  - category: MiscFee1
-                    value: '200'
-                  - category: MiscFeeDescription1
-                    value: '200'
-                  - category: MiscFee2
-                    value: null
-                  - category: MiscFeeDescription2
-                    value: '200'
-                  - category: MiscFee3
-                    value: '200'
-                  - category: MiscFeeDescription3
-                    value: '200'
-                  - category: BorrowerContribution
-                    value: '8083.68'
-                  propertyContractInfo:
-                    contractSalesDate: 09-17-2020
-                    contractSalesPrice: 100000
-                    propertyListedInMLS: Y
-                    mLSListDate: 09-01-2020
-                    aRMSLengthTransactionIndicator: N
-                  additionalData:
-                    newMortgages: N
-                    secondLienUPB: 10000
-                    secondLienMortgageLender: Wells
-                    isInsufficientContributionJustified: N
-                    reasonForInsufficientContribution: Just Because
-                  valuationData:
-                  - category: ServicerContactFirstName
-                    value: null
-                  - category: ServicerContactLastName
-                    value: Jones
-                  - category: ServicerContactPhone
-                    value: '1234567890'
-                  - category: ServicerContactPhoneExtension
-                    value: '1234'
-                  - category: ServicerContactEmail
-                    value: JIM@EMAILSERVER.COM
-                  - category: PropertyContactFirstName
-                    value: Harry
-                  - category: PropertyContactLastName
-                    value: James
-                  - category: PropertyContactPhone
-                    value: '123456789'
-                  - category: PropertyContactPhoneExtension
-                    value: '1234'
-                  - category: SpecialInteriorAccess
-                    value: Watch Out for the dog
-    RequestScenario1:
-      summary: Scenario 1 - Loan is eligible for short sale
-      description: A new submission
-      value:
-        message:
-          aboutVersions:
-            aboutVersion:
-              aboutVersionIdentifier: S1.0.01
-              createdDatetime: '2018-12-10T13:45:00.000Z'
-          requestData:
-            workoutList:
-            - externalData:
-                workoutReportingStatusType: WAReq
-                workoutProgramType: SHRTSLE
-                servicerAccountIdentifier: '999999'
-                loanIdentifier: '999999999'
-                servicerLoanIdentifier: abcd123456789
-                borrowerResponsePackageReceivedDate: 05-01-2020
-                loanImminentDefaultIndicator: N
-                exceptionReviewRequestIndicator: N
-                propertyType: Single Family Detached
-                hardshipReasons:
-                - hardshipReasonType: BusinessFail
-                - hardshipReasonType: Death
-                - hardshipReasonType: Disaster
-                - hardshipReasonType: Relocation
-                - hardshipReasonType: Other
-                  reasonForExtenuatingCircumstances: Just Because
-                propertyInfo:
-                  propertyConditionType: Condemned
-                  propertyUsageType: PR
-                  propertyOccupancyType: OC
-                  grossRentalIncome: 1000
-                partyInfo:
-                  totalCashReserveAmount: 10000
-                  totalMonthlyLiabilities: 0.1
-                  party:
-                  - borrowerType: Primary
-                    borrowerInfo:
-                      borrowerDetail:
-                        creditScoreDate: 12-10-2018
-                        creditScoreValue: 460
-                      currentIncomeItem:
-                      - currentIncomeItemDetail:
-                          currentIncomeMonthlyTotalAmount: 2000
-                          incomeType: GrossMonthlyIncome
-                  - borrowerType: Secondary
-                    borrowerInfo:
-                      borrowerDetail:
-                        creditScoreDate: 12-10-2018
-                        creditScoreValue: 650
-                      currentIncomeItem:
-                      - currentIncomeItemDetail:
-                          currentIncomeMonthlyTotalAmount: 4000
-                          incomeType: GrossMonthlyIncome
-                premodHousingExpense:
-                - housingExpensePaymentAmount: 50
-                  housingExpenseType: HomeownersInsurance
-                - housingExpensePaymentAmount: 50
-                  housingExpenseType: RealEstateTax
-                - housingExpensePaymentAmount: 100
-                  housingExpenseType: HOACondoFees
-                - housingExpensePaymentAmount: 2000
-                  housingExpenseType: PrResMortgagePITIAS
-                - housingExpensePaymentAmount: 500000
-                  housingExpenseType: TotalMonthlyExpenses
-                - housingExpensePaymentAmount: 1000
-                  housingExpenseType: EscrowShortagePaymentAmount
-                liquidations:
-                  closingData:
-                  - category: BuyersFirstName
-                    value: Jim
-                  - category: BuyersLastName
-                    value: Jones
-                  - category: ClosingDate
-                    value: 10-10-2020
-                  - category: AdjustmentsForItemsPaidInAdvance
-                    value: '200'
-                  - category: PayoffOfSecondMortgageLoan
-                    value: '200'
-                  - category: InvestorRelocationAssistance
-                    value: '0'
-                  - category: ServicerRelocationAssistance
-                    value: '200'
-                  - category: DLA-OtherGovernmentRelocationAssistance
-                    value: '200'
-                  - category: RelocationAssistancefromAlternativeSources
-                    value: '200'
-                  - category: CommissionPaidAtSettlement
-                    value: '200'
-                  - category: CityTownTaxes
-                    value: '200'
-                  - category: CityTownTaxesStartDate
-                    value: 01-01-2018
-                  - category: CityTownTaxesEndDate
-                    value: 12-31-2019
-                  - category: CountyTaxes
-                    value: '200'
-                  - category: CountyTaxesStartDate
-                    value: 10-10-2019
-                  - category: CountyTaxesEndDate
-                    value: 10-10-2019
-                  - category: CityCountyTaxStamps
-                    value: '200'
-                  - category: Assessments
-                    value: '200'
-                  - category: SettlementOrClosingFee
-                    value: '200'
-                  - category: DocumentPreparation
-                    value: '200'
-                  - category: NotaryFee
-                    value: '200'
-                  - category: AttorneysFees
-                    value: '200'
-                  - category: TitleInsurance
-                    value: '200'
-                  - category: TitleExamSearch
-                    value: '200'
-                  - category: WireTransferFee
-                    value: '200'
-                  - category: RecordingFees
-                    value: '200'
-                  - category: Survey
-                    value: '200'
-                  - category: HOACOADues
-                    value: '200'
-                  - category: MiscFee1
-                    value: '200'
-                  - category: MiscFeeDescription1
-                    value: '200'
-                  - category: MiscFee2
-                    value: null
-                  - category: MiscFeeDescription2
-                    value: '200'
-                  - category: MiscFee3
-                    value: '200'
-                  - category: MiscFeeDescription3
-                    value: '200'
-                  - category: BorrowerContribution
-                    value: '6269.20'
-                  propertyContractInfo:
-                    contractSalesDate: 09-17-2020
-                    contractSalesPrice: 400000
-                    propertyListedInMLS: Y
-                    mLSListDate: 09-01-2020
-                    aRMSLengthTransactionIndicator: N
-                  additionalData:
-                    newMortgages: N
-                    secondLienUPB: 10000
-                    secondLienMortgageLender: Wells
-                    isInsufficientContributionJustified: N
-                    reasonForInsufficientContribution: Just Because
-                  valuationData:
-                  - category: ServicerContactFirstName
-                    value: JIM
-                  - category: ServicerContactLastName
-                    value: Jones
-                  - category: ServicerContactPhone
-                    value: '123456789'
-                  - category: ServicerContactPhoneExtension
-                    value: '1234'
-                  - category: ServicerContactEmail
-                    value: JIM@EMAILSERVER.COM
-                  - category: PropertyContactFirstName
-                    value: Harry
-                  - category: PropertyContactLastName
-                    value: James
-                  - category: PropertyContactPhone
-                    value: '1234567890'
-                  - category: PropertyContactPhoneExtension
-                    value: '1234'
-                  - category: SpecialInteriorAccess
-                    value: Watch Out for the dog
   schemas:
     WorkoutServiceResponse:
       title: WorkoutServiceResponse
@@ -1311,6 +599,22 @@ components:
       required:
       - message
       default: {}
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            title: The Items Schema
+            type: object
+            properties:
+              error:
+                description: error messages
+                type: string
     WorkoutServiceRequest:
       title: WorkoutServiceRequest
       description: The root schema comprises the entire JSON document.
@@ -1635,22 +939,718 @@ components:
       required:
       - message
       default: {}
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
+  examples:
+    ResponseScenario2:
+      summary: Scenario 2 - Response when loan is not eligible for short sale and exception review is not requested
+      description: A new submission response
+      value:
         message:
-          type: string
-        details:
-          type: array
-          items:
-            title: The Items Schema
-            type: object
-            properties:
-              error:
-                description: error messages
-                type: string
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2021-05-06T09:47:25.801Z'
+          responseData:
+            isRequestValid: true
+            requestResponseIdentifier: 1560
+            errorList: []
+            responseWorkoutList:
+            - loanIdentifier: '888888888'
+              servicerAccountIdentifier: '888888'
+              servicerLoanIdentifier: abcd123456789
+              workoutReportingStatusType: WAReq
+              workoutProgramType: SHRTSLE
+              isValid: true
+              isMNPObtained: true
+              errorWorkoutList: []
+              valuationData:
+                mnpRequestIdentifier: 664753
+                mnpStatus: Completed
+                servicerContactFirstName: Jim
+                servicerContactLastName: Jones
+                servicerContactPhone: '1234567890'
+                servicerContactEmail: jim_jones@emailserver.com
+                minimumNetProceedAmount: 40392.12
+                goodThroughDate: 01/01/9999
+                propertyValuationAmount: 243100.0
+                mnpRequestCompletionDate: 01/01/9999
+              workoutProgramResponses:
+              - isEligible: false
+                messageWorkoutList:
+                - workoutMessageCode: LM000058
+                  workoutMessageDescription: Borrower acquired a newmortgage within six months of DDLPI.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LM000055
+                  workoutMessageDescription: Borrower has Non Retirement Liquid Assets greater than $50,000.Non Retirement Liquid Assets provided in the request is $51,000.00.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LM000056
+                  workoutMessageDescription: Cash contribution is less thanminimum Borrower Cash Contribution requirement. Cash Contribution provided in the request is $2,942.20 and Borrower Cash Contribution required is $10,200.00.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LM000052
+                  workoutMessageDescription: Net Sale Proceeds does not meet Minimum Net Proceeds. Net Sale Proceeds provided in the request is $1,400.00 and Minimum Net Proceeds is$40,392.12.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LM000048
+                  workoutMessageDescription: Sale must be an arm’s length transaction. All parties involved in the sale must beunrelated/unaffiliated.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LM000065
+                  workoutMessageDescription: Loan 888888888 is not eligible for Short Sale liquidation.   Please review theFreddie Mac response and validate the terms submitted. Please resubmit the correct terms for processing or submit to Freddie Mac for non-delegated review.
+                  workoutMessageType: Informational
+                postWorkoutData:
+                  settlementChargesToSeller: 3600.0
+                  secondMortgagePayoffAmount: 200.0
+                  borrowerContributionAmount: 2942.2
+                  investorRelocationAssistance: 0.0
+                  approvedNetSaleProceeds: 1400.0
+              loanData:
+                loanLastPaidInstallmentDate: 04-01-2021
+                currentLoanGrossUPBAmount: 35155.63
+                currentPrincipalAndInterestPaymentAmount: 24.9
+                currentMonthlyHousingExpenseToIncomeRatioPercent: 1.94
+                propertyAddress:
+                  Property Street: 123 Main Street
+                  Property Zipcode: '123450000'
+                  Property City: City Name
+                  Property State: VA
+    RequestScenario1:
+      summary: Scenario 1 - Loan is eligible for short sale
+      description: A new submission
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2018-12-10T13:45:00.000Z'
+          requestData:
+            workoutList:
+            - externalData:
+                workoutReportingStatusType: WAReq
+                workoutProgramType: SHRTSLE
+                servicerAccountIdentifier: '999999'
+                loanIdentifier: '999999999'
+                servicerLoanIdentifier: abcd123456789
+                borrowerResponsePackageReceivedDate: 05-01-2020
+                loanImminentDefaultIndicator: N
+                exceptionReviewRequestIndicator: N
+                propertyType: Single Family Detached
+                hardshipReasons:
+                - hardshipReasonType: BusinessFail
+                - hardshipReasonType: Death
+                - hardshipReasonType: Disaster
+                - hardshipReasonType: Relocation
+                - hardshipReasonType: Other
+                  reasonForExtenuatingCircumstances: Just Because
+                propertyInfo:
+                  propertyConditionType: Condemned
+                  propertyUsageType: PR
+                  propertyOccupancyType: OC
+                  grossRentalIncome: 1000
+                partyInfo:
+                  totalCashReserveAmount: 10000
+                  totalMonthlyLiabilities: 0.1
+                  party:
+                  - borrowerType: Primary
+                    borrowerInfo:
+                      borrowerDetail:
+                        creditScoreDate: 12-10-2018
+                        creditScoreValue: 460
+                      currentIncomeItem:
+                      - currentIncomeItemDetail:
+                          currentIncomeMonthlyTotalAmount: 2000
+                          incomeType: GrossMonthlyIncome
+                  - borrowerType: Secondary
+                    borrowerInfo:
+                      borrowerDetail:
+                        creditScoreDate: 12-10-2018
+                        creditScoreValue: 650
+                      currentIncomeItem:
+                      - currentIncomeItemDetail:
+                          currentIncomeMonthlyTotalAmount: 4000
+                          incomeType: GrossMonthlyIncome
+                premodHousingExpense:
+                - housingExpensePaymentAmount: 50
+                  housingExpenseType: HomeownersInsurance
+                - housingExpensePaymentAmount: 50
+                  housingExpenseType: RealEstateTax
+                - housingExpensePaymentAmount: 100
+                  housingExpenseType: HOACondoFees
+                - housingExpensePaymentAmount: 2000
+                  housingExpenseType: PrResMortgagePITIAS
+                - housingExpensePaymentAmount: 500000
+                  housingExpenseType: TotalMonthlyExpenses
+                - housingExpensePaymentAmount: 1000
+                  housingExpenseType: EscrowShortagePaymentAmount
+                liquidations:
+                  closingData:
+                  - category: BuyersFirstName
+                    value: Jim
+                  - category: BuyersLastName
+                    value: Jones
+                  - category: ClosingDate
+                    value: 10-10-2020
+                  - category: AdjustmentsForItemsPaidInAdvance
+                    value: '200'
+                  - category: PayoffOfSecondMortgageLoan
+                    value: '200'
+                  - category: InvestorRelocationAssistance
+                    value: '0'
+                  - category: ServicerRelocationAssistance
+                    value: '200'
+                  - category: DLA-OtherGovernmentRelocationAssistance
+                    value: '200'
+                  - category: RelocationAssistancefromAlternativeSources
+                    value: '200'
+                  - category: CommissionPaidAtSettlement
+                    value: '200'
+                  - category: CityTownTaxes
+                    value: '200'
+                  - category: CityTownTaxesStartDate
+                    value: 01-01-2018
+                  - category: CityTownTaxesEndDate
+                    value: 12-31-2019
+                  - category: CountyTaxes
+                    value: '200'
+                  - category: CountyTaxesStartDate
+                    value: 10-10-2019
+                  - category: CountyTaxesEndDate
+                    value: 10-10-2019
+                  - category: CityCountyTaxStamps
+                    value: '200'
+                  - category: Assessments
+                    value: '200'
+                  - category: SettlementOrClosingFee
+                    value: '200'
+                  - category: DocumentPreparation
+                    value: '200'
+                  - category: NotaryFee
+                    value: '200'
+                  - category: AttorneysFees
+                    value: '200'
+                  - category: TitleInsurance
+                    value: '200'
+                  - category: TitleExamSearch
+                    value: '200'
+                  - category: WireTransferFee
+                    value: '200'
+                  - category: RecordingFees
+                    value: '200'
+                  - category: Survey
+                    value: '200'
+                  - category: HOACOADues
+                    value: '200'
+                  - category: MiscFee1
+                    value: '200'
+                  - category: MiscFeeDescription1
+                    value: '200'
+                  - category: MiscFee2
+                    value: null
+                  - category: MiscFeeDescription2
+                    value: '200'
+                  - category: MiscFee3
+                    value: '200'
+                  - category: MiscFeeDescription3
+                    value: '200'
+                  - category: BorrowerContribution
+                    value: '6269.20'
+                  propertyContractInfo:
+                    contractSalesDate: 09-17-2020
+                    contractSalesPrice: 400000
+                    propertyListedInMLS: Y
+                    mLSListDate: 09-01-2020
+                    aRMSLengthTransactionIndicator: N
+                  additionalData:
+                    newMortgages: N
+                    secondLienUPB: 10000
+                    secondLienMortgageLender: Wells
+                    isInsufficientContributionJustified: N
+                    reasonForInsufficientContribution: Just Because
+                  valuationData:
+                  - category: ServicerContactFirstName
+                    value: JIM
+                  - category: ServicerContactLastName
+                    value: Jones
+                  - category: ServicerContactPhone
+                    value: '123456789'
+                  - category: ServicerContactPhoneExtension
+                    value: '1234'
+                  - category: ServicerContactEmail
+                    value: JIM@EMAILSERVER.COM
+                  - category: PropertyContactFirstName
+                    value: Harry
+                  - category: PropertyContactLastName
+                    value: James
+                  - category: PropertyContactPhone
+                    value: '1234567890'
+                  - category: PropertyContactPhoneExtension
+                    value: '1234'
+                  - category: SpecialInteriorAccess
+                    value: Watch Out for the dog
+    ResponseScenario3:
+      summary: Scenario 3 - Response when loan is not eligible for short sale and exception review is requested
+      description: A new submission response
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2021-06-01T12:35:16.249Z'
+          responseData:
+            isRequestValid: true
+            requestResponseIdentifier: 6608
+            errorList: []
+            responseWorkoutList:
+            - loanIdentifier: '777777777'
+              servicerAccountIdentifier: '777777'
+              servicerLoanIdentifier: abcd123456789
+              workoutReportingStatusType: WAReq
+              workoutProgramType: SHRTSLE
+              isValid: true
+              isMNPObtained: true
+              errorWorkoutList: []
+              valuationData:
+                mnpRequestIdentifier: 673312
+                mnpStatus: Completed
+                servicerContactFirstName: Jim
+                servicerContactLastName: Jones
+                servicerContactPhone: '1234567890'
+                servicerContactEmail: JIM@EMAILSERVER.COM
+                minimumNetProceedAmount: 125654.0
+                goodThroughDate: 01/01/9999
+                propertyValuationAmount: 54000.0
+                mnpRequestCompletionDate: 01/01/9999
+              workoutProgramResponses:
+              - isEligible: false
+                messageWorkoutList:
+                - workoutMessageCode: LM000055
+                  workoutMessageDescription: Borrower has Non Retirement Liquid Assets greater than $50,000. Non Retirement Liquid Assets provided in the request is $51,000.00.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LM000056
+                  workoutMessageDescription: Cash contribution is less than minimum Borrower Cash Contribution requirement. Cash Contribution provided in the request is $2,942.20 and Borrower Cash Contribution required is $10,200.00.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LI002068
+                  workoutMessageDescription: Loan has been submitted for exception review. Updates to exception review submission cannot be made via API during review process. Please visit Decision Insights for more information.
+                  workoutMessageType: Informational
+                postWorkoutData:
+                  settlementChargesToSeller: 3600.0
+                  secondMortgagePayoffAmount: 200.0
+                  borrowerContributionAmount: 2942.2
+                  investorRelocationAssistance: 0.0
+                  approvedNetSaleProceeds: 226400.0
+              loanData:
+                loanLastPaidInstallmentDate: 04-01-2021
+                currentLoanGrossUPBAmount: 119010.32
+                currentPrincipalAndInterestPaymentAmount: 1091.28
+                currentMonthlyHousingExpenseToIncomeRatioPercent: 11.13
+                exceptionReviewStatusType: SUBMITTED
+                propertyAddress:
+                  PropertyZipcode: '303310000'
+                  PropertyStreet: 123 Main Street
+                  PropertyCity: McLean
+                  PropertyState: VA
+              workoutExceptionData:
+                exceptionReviewRequestID: SS001234
+                hardshipReasons: []
+                premodHousingExpense: []
+                closingData: []
+    RequestScenario2:
+      summary: Scenario 2 - Loan is not eligible for short sale and exception review not requested
+      description: A new submission
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2018-12-10T13:45:00.000Z'
+          requestData:
+            workoutList:
+            - externalData:
+                workoutReportingStatusType: WAReq
+                workoutProgramType: SHRTSLE
+                servicerAccountIdentifier: '888888'
+                loanIdentifier: '888888888'
+                servicerLoanIdentifier: abcd123456789
+                borrowerResponsePackageReceivedDate: 05-01-2020
+                loanImminentDefaultIndicator: Y
+                exceptionReviewRequestIndicator: N
+                propertyType: Single Family Detached
+                hardshipReasons:
+                - hardshipReasonType: BusinessFail
+                - hardshipReasonType: Death
+                - hardshipReasonType: Disaster
+                - hardshipReasonType: Relocation
+                - hardshipReasonType: Other
+                  reasonForExtenuatingCircumstances: Just Because
+                propertyInfo:
+                  propertyConditionType: Condemned
+                  propertyUsageType: PR
+                  propertyOccupancyType: OC
+                  grossRentalIncome: 10000
+                partyInfo:
+                  totalCashReserveAmount: 51000
+                  totalMonthlyLiabilities: 0.1
+                  party:
+                  - borrowerType: Primary
+                    borrowerInfo:
+                      borrowerDetail:
+                        creditScoreDate: 12-10-2018
+                        creditScoreValue: 450
+                      currentIncomeItem:
+                      - currentIncomeItemDetail:
+                          currentIncomeMonthlyTotalAmount: 600
+                          incomeType: GrossMonthlyIncome
+                  - borrowerType: Secondary
+                    borrowerInfo:
+                      borrowerDetail:
+                        creditScoreDate: 12-10-2018
+                        creditScoreValue: 570
+                      currentIncomeItem:
+                      - currentIncomeItemDetail:
+                          currentIncomeMonthlyTotalAmount: 1000
+                          incomeType: GrossMonthlyIncome
+                premodHousingExpense:
+                - housingExpensePaymentAmount: 50
+                  housingExpenseType: HomeownersInsurance
+                - housingExpensePaymentAmount: 50
+                  housingExpenseType: RealEstateTax
+                - housingExpensePaymentAmount: 100
+                  housingExpenseType: HOACondoFees
+                - housingExpensePaymentAmount: 2000
+                  housingExpenseType: PrResMortgagePITIAS
+                - housingExpensePaymentAmount: 5000
+                  housingExpenseType: TotalMonthlyExpenses
+                - housingExpensePaymentAmount: 1000
+                  housingExpenseType: EscrowShortagePaymentAmount
+                liquidations:
+                  closingData:
+                  - category: BuyersFirstName
+                    value: Jim
+                  - category: BuyersLastName
+                    value: Jones
+                  - category: ClosingDate
+                    value: 10-10-2020
+                  - category: AdjustmentsForItemsPaidInAdvance
+                    value: '200'
+                  - category: PayoffOfSecondMortgageLoan
+                    value: '200'
+                  - category: InvestorRelocationAssistance
+                    value: '0'
+                  - category: ServicerRelocationAssistance
+                    value: '200'
+                  - category: DLA-OtherGovernmentRelocationAssistance
+                    value: '200'
+                  - category: RelocationAssistancefromAlternative Sources
+                    value: '200'
+                  - category: CommissionPaidAtSettlement
+                    value: '200'
+                  - category: CityTownTaxes
+                    value: '200'
+                  - category: CityTownTaxesStartDate
+                    value: 01-01-2018
+                  - category: CityTownTaxesEndDate
+                    value: 12-31-2019
+                  - category: CountyTaxes
+                    value: '200'
+                  - category: CountyTaxesStartDate
+                    value: 10-10-2019
+                  - category: CountyTaxesEndDate
+                    value: 10-10-2019
+                  - category: CityCountyTaxStamps
+                    value: '200'
+                  - category: Assessments
+                    value: '200'
+                  - category: SettlementOrClosingFee
+                    value: '200'
+                  - category: DocumentPreparation
+                    value: '200'
+                  - category: NotaryFee
+                    value: '200'
+                  - category: AttorneysFees
+                    value: '200'
+                  - category: TitleInsurance
+                    value: '200'
+                  - category: TitleExamSearch
+                    value: '200'
+                  - category: WireTransferFee
+                    value: '200'
+                  - category: RecordingFees
+                    value: '200'
+                  - category: Survey
+                    value: '200'
+                  - category: HOACOADues
+                    value: '200'
+                  - category: MiscFee1
+                    value: '200'
+                  - category: MiscFeeDescription1
+                    value: '200'
+                  - category: MiscFee2
+                    value: '200'
+                  - category: MiscFeeDescription2
+                    value: '200'
+                  - category: MiscFee3
+                    value: '200'
+                  - category: MiscFeeDescription3
+                    value: '200'
+                  - category: BorrowerContribution
+                    value: '2942.20'
+                  propertyContractInfo:
+                    contractSalesDate: 09-17-2020
+                    contractSalesPrice: 5000
+                    mLSListDate: 09-01-2020
+                    aRMSLengthTransactionIndicator: Y
+                  additionalData:
+                    newMortgages: Y
+                    secondLienUPB: 10000
+                    secondLienMortgageLender: Wells
+                    isInsufficientContributionJustified: N
+                    reasonForInsufficientContribution: Just Because
+                  valuationData:
+                  - category: ServicerContactFirstName
+                    value: Jim
+                  - category: ServicerContactLastName
+                    value: Jones
+                  - category: ServicerContactPhone
+                    value: '123456789'
+                  - category: ServicerContactPhoneExtension
+                    value: '1234'
+                  - category: ServicerContactEmail
+                    value: JIM@EMAILSERVER.COM
+                  - category: PropertyContactFirstName
+                    value: Harry
+                  - category: PropertyContactLastName
+                    value: James
+                  - category: PropertyContactPhone
+                    value: '123456789'
+                  - category: PropertyContactPhoneExtension
+                    value: '1234'
+                  - category: SpecialInteriorAccess
+                    value: Watch Out for the dog
+    ResponseScenario1:
+      summary: Scenario 1 - Response when loan is eligible for short sale
+      description: A new submission response
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2021-05-06T09:45:14.535Z'
+          responseData:
+            isRequestValid: true
+            requestResponseIdentifier: 1559
+            errorList: []
+            responseWorkoutList:
+            - loanIdentifier: '999999999'
+              servicerAccountIdentifier: '999999'
+              servicerLoanIdentifier: abcd123456789
+              workoutReportingStatusType: WAReq
+              workoutProgramType: SHRTSLE
+              isValid: true
+              isMNPObtained: true
+              errorWorkoutList: []
+              valuationData:
+                mnpRequestIdentifier: 123456
+                mnpStatus: Completed
+                servicerContactFirstName: Jim
+                servicerContactLastName: Jones
+                servicerContactPhone: '1234567890'
+                servicerContactEmail: jim_jones@emailserver.com
+                minimumNetProceedAmount: 40392.12
+                goodThroughDate: 01/01/9999
+                estimatedMarketValue: 243100.0
+                mnpRequestCompletionDate: 01/01/9999
+              workoutProgramResponses:
+              - isEligible: true
+                messageWorkoutList:
+                - workoutMessageCode: LM000066
+                  workoutMessageDescription: Loan 999999999 is approved for Short Sale liquidation.  Please review the final terms and submit for Settlement.
+                  workoutMessageType: Informational
+                postWorkoutData:
+                  workoutApprovedDate: 05-06-2021
+                  settlementChargesToSeller: 3400.0
+                  secondMortgagePayoffAmount: 200.0
+                  borrowerContributionAmount: 6269.2
+                  investorRelocationAssistance: 0.0
+                  approvedNetSaleProceeds: 396600.0
+              loanData:
+                loanLastPaidInstallmentDate: 04-01-2021
+                currentLoanGrossUPBAmount: 35155.63
+                currentPrincipalAndInterestPaymentAmount: 24.9
+                currentMonthlyHousingExpenseToIncomeRatioPercent: 3.21
+                propertyAddress:
+                  Property Street: 123 Main Street
+                  Property Zipcode: '123450000'
+                  Property City: City Name
+                  Property State: VA
+    RequestScenario3:
+      summary: Scenario 3 - Loan is not eligible for short sale and exception review is requested
+      description: A new submission
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2018-12-10T13:45:00.000Z'
+          requestData:
+            workoutList:
+            - externalData:
+                servicerAccountIdentifier: '777777'
+                loanIdentifier: '777777777'
+                workoutReportingStatusType: WAReq
+                workoutProgramType: SHRTSLE
+                servicerLoanIdentifier: abcd123456789
+                borrowerResponsePackageReceivedDate: 05-01-2020
+                loanImminentDefaultIndicator: N
+                exceptionReviewRequestIndicator: Y
+                propertyType: Single Family Detached
+                hardshipReasons:
+                - hardshipReasonType: BusinessFail
+                - hardshipReasonType: Death
+                - hardshipReasonType: Disaster
+                - hardshipReasonType: Relocation
+                - hardshipReasonType: Other
+                  reasonForExtenuatingCircumstances: Just Because
+                propertyInfo:
+                  propertyConditionType: Condemned
+                  propertyUsageType: PR
+                  propertyOccupancyType: OC
+                  grossRentalIncome: 1000
+                partyInfo:
+                  totalCashReserveAmount: 10000
+                  totalMonthlyLiabilities: 0.1
+                  party:
+                  - borrowerType: Primary
+                    borrowerInfo:
+                      borrowerDetail:
+                        creditScoreDate: 12-10-2018
+                        creditScoreValue: 460
+                      currentIncomeItem:
+                      - currentIncomeItemDetail:
+                          currentIncomeMonthlyTotalAmount: 2000
+                          incomeType: GrossMonthlyIncome
+                  - borrowerType: Secondary
+                    borrowerInfo:
+                      borrowerDetail:
+                        creditScoreDate: 12-10-2018
+                        creditScoreValue: 650
+                      currentIncomeItem:
+                      - currentIncomeItemDetail:
+                          currentIncomeMonthlyTotalAmount: 4000
+                          incomeType: GrossMonthlyIncome
+                premodHousingExpense:
+                - housingExpensePaymentAmount: 50
+                  housingExpenseType: HomeownersInsurance
+                - housingExpensePaymentAmount: 50
+                  housingExpenseType: RealEstateTax
+                - housingExpensePaymentAmount: 100
+                  housingExpenseType: HOACondoFees
+                - housingExpensePaymentAmount: 2000
+                  housingExpenseType: PrResMortgagePITIAS
+                - housingExpensePaymentAmount: 500000
+                  housingExpenseType: TotalMonthlyExpenses
+                - housingExpensePaymentAmount: 1000
+                  housingExpenseType: EscrowShortagePaymentAmount
+                liquidations:
+                  closingData:
+                  - category: BuyersFirstName
+                    value: Jim
+                  - category: BuyersLastName
+                    value: Jones
+                  - category: ClosingDate
+                    value: 10-10-2020
+                  - category: AdjustmentsForItemsPaidInAdvance
+                    value: '200'
+                  - category: PayoffOfSecondMortgageLoan
+                    value: '200'
+                  - category: InvestorRelocationAssistance
+                    value: '0'
+                  - category: ServicerRelocationAssistance
+                    value: '200'
+                  - category: DLA-OtherGovernmentRelocationAssistance
+                    value: '200'
+                  - category: RelocationAssistancefromAlternativeSources
+                    value: '200'
+                  - category: CommissionPaidAtSettlement
+                    value: '200'
+                  - category: CityTownTaxes
+                    value: '200'
+                  - category: CityTownTaxesStartDate
+                    value: 01-01-2018
+                  - category: CityTownTaxesEndDate
+                    value: 12-31-2019
+                  - category: CountyTaxes
+                    value: '200'
+                  - category: CountyTaxesStartDate
+                    value: 10-10-2019
+                  - category: CountyTaxesEndDate
+                    value: 10-10-2019
+                  - category: CityCountyTaxStamps
+                    value: '200'
+                  - category: Assessments
+                    value: '200'
+                  - category: SettlementOrClosingFee
+                    value: '200'
+                  - category: DocumentPreparation
+                    value: '200'
+                  - category: NotaryFee
+                    value: '200'
+                  - category: AttorneysFees
+                    value: '200'
+                  - category: TitleInsurance
+                    value: '200'
+                  - category: TitleExamSearch
+                    value: '200'
+                  - category: WireTransferFee
+                    value: '200'
+                  - category: RecordingFees
+                    value: '200'
+                  - category: Survey
+                    value: '200'
+                  - category: HOACOADues
+                    value: '200'
+                  - category: MiscFee1
+                    value: '200'
+                  - category: MiscFeeDescription1
+                    value: '200'
+                  - category: MiscFee2
+                    value: null
+                  - category: MiscFeeDescription2
+                    value: '200'
+                  - category: MiscFee3
+                    value: '200'
+                  - category: MiscFeeDescription3
+                    value: '200'
+                  - category: BorrowerContribution
+                    value: '8083.68'
+                  propertyContractInfo:
+                    contractSalesDate: 09-17-2020
+                    contractSalesPrice: 100000
+                    propertyListedInMLS: Y
+                    mLSListDate: 09-01-2020
+                    aRMSLengthTransactionIndicator: N
+                  additionalData:
+                    newMortgages: N
+                    secondLienUPB: 10000
+                    secondLienMortgageLender: Wells
+                    isInsufficientContributionJustified: N
+                    reasonForInsufficientContribution: Just Because
+                  valuationData:
+                  - category: ServicerContactFirstName
+                    value: null
+                  - category: ServicerContactLastName
+                    value: Jones
+                  - category: ServicerContactPhone
+                    value: '1234567890'
+                  - category: ServicerContactPhoneExtension
+                    value: '1234'
+                  - category: ServicerContactEmail
+                    value: JIM@EMAILSERVER.COM
+                  - category: PropertyContactFirstName
+                    value: Harry
+                  - category: PropertyContactLastName
+                    value: James
+                  - category: PropertyContactPhone
+                    value: '123456789'
+                  - category: PropertyContactPhoneExtension
+                    value: '1234'
+                  - category: SpecialInteriorAccess
+                    value: Watch Out for the dog
   securitySchemes:
     bearerAuth:
       type: http

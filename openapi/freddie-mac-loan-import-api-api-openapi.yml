@@ -420,23 +420,37 @@ paths:
                   $ref: '#/components/examples/FileImportStatusInternalErrorResponse'
 components:
   examples:
-    FileImportStatusInternalErrorResponse:
-      summary: Internal Server error
+    LoanImportFileStatusIntermediateResponse:
       value:
-        responseDetails:
+        fileStatusResultsResponse:
+        - fileIdentifier: 99999
+          userIdentifier: test_pmasys2sys76
+          fileName: Loan_Cash_Retained_SIT44_New_2025-06-24 112158_000250_147357.xml
           fileStatus: Error
-          errors:
-          - errorCode: SYST0001
-            errorMessage: An application error has occurred. Please call 1-800-FREDDIE to report this problem.
-            errorType: ImportError
-    InvalidPoolNumberResponse:
-      value:
-        responseDetails:
-          fileStatus: Error
-          errors:
-          - errorCode: LI0012
-            errorMessage: The Pool Number provided is not valid.
-            errorType: ImportError
+          fileCreationTime: 2025-06-24 11:21 AM
+          sellerIdentifier: '999999'
+          organizationBranchIdentifier: 999999
+          totalLoans: 2
+          totalCurrentUPB: 489000
+          totalLoansWithErrors: 1
+          totalCurrentUPBOfLoansWithImportErrors: 244500
+          totalLoansWithProductErrors: 1
+          totalCurrentUPBOfLoansWithProductErrors: 244500
+          totalLoansWithProductLabelled: 1
+          totalLoansWithImportWarnings: 1
+          totalCurrentUPBOfLoansWithImportWarnings: 244500
+          totalLoansWithProductAndImportWarnings: 1
+          totalLoansWithEvaluationErrors: 1
+          totalCurrentUPBOfLoansWithCriticalErrors: 244500
+          totalLoansWithEvaluationWarnings: 1
+          totalLoansWithoutEvaluationWarnings: 0
+          totalLoansNotEligibleForRNWAssetRelief: 1
+          totalLoansNotEligibleForRNWCollateralRelief: 1
+          totalLoansNotEligibleForRNWIncomeRelief: 0
+          totalLoansWithAllocationErrors: 1
+          totalCurrentUPBOfLoansWithAllocationErrors: 244500
+          totalLoansAllocated: 0
+          requestToEvaluateLoans: true
     CorrelationIdentifierInvalidDataTypeResponse:
       summary: CorrelationIdentifier Invalid Data Type
       description: The Server can not process the request
@@ -445,21 +459,78 @@ components:
         errors:
         - errorCode: LIS0002
           errorMessage: 'CorrelationIdentifier: expected type: String, found: Integer.'
-    LoanImportFileStatusRequestForSMA:
+    SellerIdentifierInvalidRequestTypeResponse:
+      summary: SellerIdentifier Invalid Request Type
+      description: The Server can not process the request
       value:
-        correlationIdentifier: '9999'
-        sellerIdentifier: '999999'
-        sellerOrganizationBranchIdentifier: 999999
-        requestingPartyAccountIdentifier: SMA999
-        counterPartyType: SecondaryMarketAdvisor
-        fileIdentifier: 99999
-    ContractUPBLimitIndicatorRequiredResponse:
+        fileStatus: Error
+        errors:
+        - errorCode: LIS0002
+          errorMessage: 'SellerIdentifier: expected type: String, found: Integer.'
+    CorrelationIdentifierRequiredResponse:
+      summary: CorrelationIdentifier Required
+      description: The Server can not process the request
+      value:
+        fileStatus: Error
+        errors:
+        - errorCode: LIS0001
+          errorMessage: Required key [correlationIdentifier] not found.
+    FileIdentifierRequiredResponse:
+      summary: FileIdentifier Required
+      description: The Server can not process the request
+      value:
+        fileStatus: Error
+        errors:
+        - errorCode: LIS0001
+          errorMessage: Required key [fileIdentifier] not found.
+    InvalidPoolNumberResponse:
       value:
         responseDetails:
           fileStatus: Error
           errors:
-          - errorCode: LIS0001
-            errorMessage: Required key [contractUPBLimitIndicator] not found.
+          - errorCode: LI0012
+            errorMessage: The Pool Number provided is not valid.
+            errorType: ImportError
+    LoanImportFileStatusRequestForSeller:
+      value:
+        correlationIdentifier: '9999'
+        sellerIdentifier: '999999'
+        sellerOrganizationBranchIdentifier: 999999
+        counterPartyType: Seller
+        fileIdentifier: 99999
+    ImportLoanResponse:
+      summary: ImportResponse
+      description: The Import loan file status results details
+      value:
+        responseDetails:
+          fileStatus: InProgress
+          fileIdentifier: 99999
+          sellerIdentifier: '999999'
+          fileName: SampleH49Loan_1Loan_2025-09-22 134708_000278_147357.xml
+          estimatedTimeToRetrieveImportResultsInSecs: 15
+    SellerOrganizationBranchIdentifierRequiredResponse:
+      summary: SellerOrganizationBranchIdentifier Required
+      description: The Server can not process the request
+      value:
+        fileStatus: Error
+        errors:
+        - errorCode: LIS0001
+          errorMessage: Required key [sellerOrganizationBranchIdentifier] not found.
+    FileIdentifierInvalidRequestTypeResponse:
+      summary: FileIdentifier Invalid Request Type
+      description: The Server can not process the request
+      value:
+        fileStatus: Error
+        errors:
+        - errorCode: LIS0002
+          errorMessage: 'FileIdentifier: expected type: Number, found: String.'
+    PoolNumberInvalidRequestTypeResponse:
+      value:
+        responseDetails:
+          fileStatus: Error
+          errors:
+          - errorCode: LIS0002
+            errorMessage: 'PoolNumber: expected type: String, found: Integer.'
     LoanImportFileStatusReponseWithoutErrors:
       value:
         fileStatusResultsResponse:
@@ -486,108 +557,6 @@ components:
           totalLoansWithAllocationErrors: 0
           totalLoansAllocated: 0
           requestToEvaluateLoans: true
-    FileIdentifierInvalidRequestTypeResponse:
-      summary: FileIdentifier Invalid Request Type
-      description: The Server can not process the request
-      value:
-        fileStatus: Error
-        errors:
-        - errorCode: LIS0002
-          errorMessage: 'FileIdentifier: expected type: Number, found: String.'
-    SellerIdentifierInvalidRequestTypeResponse:
-      summary: SellerIdentifier Invalid Request Type
-      description: The Server can not process the request
-      value:
-        fileStatus: Error
-        errors:
-        - errorCode: LIS0002
-          errorMessage: 'SellerIdentifier: expected type: String, found: Integer.'
-    LoanImportFileStatusRequestForSeller:
-      value:
-        correlationIdentifier: '9999'
-        sellerIdentifier: '999999'
-        sellerOrganizationBranchIdentifier: 999999
-        counterPartyType: Seller
-        fileIdentifier: 99999
-    PoolNumberInvalidRequestTypeResponse:
-      value:
-        responseDetails:
-          fileStatus: Error
-          errors:
-          - errorCode: LIS0002
-            errorMessage: 'PoolNumber: expected type: String, found: Integer.'
-    SellerOrganizationBranchIdentifierRequiredResponse:
-      summary: SellerOrganizationBranchIdentifier Required
-      description: The Server can not process the request
-      value:
-        fileStatus: Error
-        errors:
-        - errorCode: LIS0001
-          errorMessage: Required key [sellerOrganizationBranchIdentifier] not found.
-    ImportLoanResponse:
-      summary: ImportResponse
-      description: The Import loan file status results details
-      value:
-        responseDetails:
-          fileStatus: InProgress
-          fileIdentifier: 99999
-          sellerIdentifier: '999999'
-          fileName: SampleH49Loan_1Loan_2025-09-22 134708_000278_147357.xml
-          estimatedTimeToRetrieveImportResultsInSecs: 15
-    ImportErrorResponse401:
-      value:
-        error:
-          type: string
-          reqruire: true
-          example: Rejected by policy
-        code:
-          type: number
-          reqruire: true
-          example: 401.007
-        errors:
-          type: array
-          reqruire: true
-          example:
-          - status: Unauthorized
-            detail:
-            - error: Invalid User Credentials.
-            timestamp: '2021-12-01T19:19:39.906Z'
-          items:
-            anyOf:
-            - type: object
-              example:
-                status: Unauthorized
-                detail:
-                - error: Invalid User Credentials.
-                timestamp: '2025-07-11T19:19:39.906Z'
-              required:
-              - status
-              - detail
-              - timestamp
-              properties:
-                status:
-                  type: string
-                  example: Unauthorized
-                detail:
-                  type: array
-                  example:
-                  - error: Invalid User Credentials.
-                  items:
-                    anyOf:
-                    - type: object
-                      example:
-                        error: Invalid User Credentials.
-                      required:
-                      - error
-                      properties:
-                        error:
-                          type: string
-                          example: Invalid User Credentials.
-                      additionalProperties: true
-                timestamp:
-                  type: string
-                  example: '2025-07-11T19:19:39.906Z'
-              additionalProperties: true
     ImportErrorResponse403:
       value:
         code:
@@ -602,6 +571,30 @@ components:
           type: string
           reqruire: true
           example: Accessing the resource you were trying to reach is forbidden
+    ContractUPBLimitIndicatorRequiredResponse:
+      value:
+        responseDetails:
+          fileStatus: Error
+          errors:
+          - errorCode: LIS0001
+            errorMessage: Required key [contractUPBLimitIndicator] not found.
+    FileImportStatusInternalErrorResponse:
+      summary: Internal Server error
+      value:
+        responseDetails:
+          fileStatus: Error
+          errors:
+          - errorCode: SYST0001
+            errorMessage: An application error has occurred. Please call 1-800-FREDDIE to report this problem.
+            errorType: ImportError
+    LoanImportFileStatusRequestForSMA:
+      value:
+        correlationIdentifier: '9999'
+        sellerIdentifier: '999999'
+        sellerOrganizationBranchIdentifier: 999999
+        requestingPartyAccountIdentifier: SMA999
+        counterPartyType: SecondaryMarketAdvisor
+        fileIdentifier: 99999
     LoanImportFileStatusReponseWithErrors:
       value:
         fileStatusResultsResponse:
@@ -688,53 +681,60 @@ components:
         errors:
         - errorCode: LIS0001
           errorMessage: Required key [sellerIdentifier] not found.
-    FileIdentifierRequiredResponse:
-      summary: FileIdentifier Required
-      description: The Server can not process the request
+    ImportErrorResponse401:
       value:
-        fileStatus: Error
+        error:
+          type: string
+          reqruire: true
+          example: Rejected by policy
+        code:
+          type: number
+          reqruire: true
+          example: 401.007
         errors:
-        - errorCode: LIS0001
-          errorMessage: Required key [fileIdentifier] not found.
-    LoanImportFileStatusIntermediateResponse:
-      value:
-        fileStatusResultsResponse:
-        - fileIdentifier: 99999
-          userIdentifier: test_pmasys2sys76
-          fileName: Loan_Cash_Retained_SIT44_New_2025-06-24 112158_000250_147357.xml
-          fileStatus: Error
-          fileCreationTime: 2025-06-24 11:21 AM
-          sellerIdentifier: '999999'
-          organizationBranchIdentifier: 999999
-          totalLoans: 2
-          totalCurrentUPB: 489000
-          totalLoansWithErrors: 1
-          totalCurrentUPBOfLoansWithImportErrors: 244500
-          totalLoansWithProductErrors: 1
-          totalCurrentUPBOfLoansWithProductErrors: 244500
-          totalLoansWithProductLabelled: 1
-          totalLoansWithImportWarnings: 1
-          totalCurrentUPBOfLoansWithImportWarnings: 244500
-          totalLoansWithProductAndImportWarnings: 1
-          totalLoansWithEvaluationErrors: 1
-          totalCurrentUPBOfLoansWithCriticalErrors: 244500
-          totalLoansWithEvaluationWarnings: 1
-          totalLoansWithoutEvaluationWarnings: 0
-          totalLoansNotEligibleForRNWAssetRelief: 1
-          totalLoansNotEligibleForRNWCollateralRelief: 1
-          totalLoansNotEligibleForRNWIncomeRelief: 0
-          totalLoansWithAllocationErrors: 1
-          totalCurrentUPBOfLoansWithAllocationErrors: 244500
-          totalLoansAllocated: 0
-          requestToEvaluateLoans: true
-    CorrelationIdentifierRequiredResponse:
-      summary: CorrelationIdentifier Required
-      description: The Server can not process the request
-      value:
-        fileStatus: Error
-        errors:
-        - errorCode: LIS0001
-          errorMessage: Required key [correlationIdentifier] not found.
+          type: array
+          reqruire: true
+          example:
+          - status: Unauthorized
+            detail:
+            - error: Invalid User Credentials.
+            timestamp: '2021-12-01T19:19:39.906Z'
+          items:
+            anyOf:
+            - type: object
+              example:
+                status: Unauthorized
+                detail:
+                - error: Invalid User Credentials.
+                timestamp: '2025-07-11T19:19:39.906Z'
+              required:
+              - status
+              - detail
+              - timestamp
+              properties:
+                status:
+                  type: string
+                  example: Unauthorized
+                detail:
+                  type: array
+                  example:
+                  - error: Invalid User Credentials.
+                  items:
+                    anyOf:
+                    - type: object
+                      example:
+                        error: Invalid User Credentials.
+                      required:
+                      - error
+                      properties:
+                        error:
+                          type: string
+                          example: Invalid User Credentials.
+                      additionalProperties: true
+                timestamp:
+                  type: string
+                  example: '2025-07-11T19:19:39.906Z'
+              additionalProperties: true
   schemas:
     LoanImportRequest:
       description: This is the metadata for Loan Import processing.
@@ -797,58 +797,6 @@ components:
           type: string
           description: The unique designation assigned to the security by the issuer.
           example: SA9999
-    LoanImportResponse:
-      description: The Import loan file status results details.
-      required:
-      - estimatedTimeToRetrieveImportResultsInSecs
-      - fileIdentifier
-      - fileName
-      - fileStatus
-      - sellerIdentifier
-      type: object
-      properties:
-        responseDetails:
-          type: object
-          properties:
-            fileStatus:
-              maxLength: 30
-              type: string
-              description: The status of the import loan file.
-              example: InProgress
-            fileIdentifier:
-              type: integer
-              description: The file identifier for the import loan file.
-              example: 38587
-            sellerIdentifier:
-              maxLength: 6
-              type: string
-              description: The unique identifier assigned to a party, which may be an individual, a counterparty, or a related organization.
-              example: '999999'
-            fileName:
-              maxLength: 130
-              type: string
-              description: The name of the import loan file.
-              example: 3H49Loans_ImpErr_ProdErr_ImpWrng 3Loans.xml
-            estimatedTimeToRetrieveImportResultsInSecs:
-              type: integer
-              description: The estimated time, in seconds, to retrieve the import results.
-              example: 15
-            errors:
-              type: array
-              items:
-                properties:
-                  errorCode:
-                    type: string
-                    description: A unique code value associated with the error message.
-                    example: LI0019
-                  errorMessage:
-                    type: string
-                    description: The error message corresponding to the error code sent.
-                    example: The value entered for the Financed Unit Count is not a valid value. Please correct the value to a number between 1 and 4 and resubmit the loan.
-                  errorType:
-                    type: string
-                    description: The type of error triggered such as Import, Product, Allocation, Evaluation and Representation and Warranty Relief.
-                    example: ImportError
     LoanImportFileStatusResponse:
       description: The Import loan file status results details.
       required:
@@ -1086,6 +1034,58 @@ components:
           type: integer
           description: The file identifier for the import loan file.
           example: 9999
+    LoanImportResponse:
+      description: The Import loan file status results details.
+      required:
+      - estimatedTimeToRetrieveImportResultsInSecs
+      - fileIdentifier
+      - fileName
+      - fileStatus
+      - sellerIdentifier
+      type: object
+      properties:
+        responseDetails:
+          type: object
+          properties:
+            fileStatus:
+              maxLength: 30
+              type: string
+              description: The status of the import loan file.
+              example: InProgress
+            fileIdentifier:
+              type: integer
+              description: The file identifier for the import loan file.
+              example: 38587
+            sellerIdentifier:
+              maxLength: 6
+              type: string
+              description: The unique identifier assigned to a party, which may be an individual, a counterparty, or a related organization.
+              example: '999999'
+            fileName:
+              maxLength: 130
+              type: string
+              description: The name of the import loan file.
+              example: 3H49Loans_ImpErr_ProdErr_ImpWrng 3Loans.xml
+            estimatedTimeToRetrieveImportResultsInSecs:
+              type: integer
+              description: The estimated time, in seconds, to retrieve the import results.
+              example: 15
+            errors:
+              type: array
+              items:
+                properties:
+                  errorCode:
+                    type: string
+                    description: A unique code value associated with the error message.
+                    example: LI0019
+                  errorMessage:
+                    type: string
+                    description: The error message corresponding to the error code sent.
+                    example: The value entered for the Financed Unit Count is not a valid value. Please correct the value to a number between 1 and 4 and resubmit the loan.
+                  errorType:
+                    type: string
+                    description: The type of error triggered such as Import, Product, Allocation, Evaluation and Representation and Warranty Relief.
+                    example: ImportError
   securitySchemes:
     bearerAuth:
       type: http

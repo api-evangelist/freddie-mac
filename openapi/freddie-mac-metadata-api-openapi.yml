@@ -297,6 +297,53 @@ paths:
       security:
       - bearerAuth: []
 components:
+  examples:
+    GETImageMetaNotFoundResponse:
+      summary: Imagemetadata not found response
+      description: This typically can happen when the image is not submitted.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 404.001
+        message: No resource for GET/POST
+        details:
+        - error: propertyDataId {propertyDataId} provided for getting Image metaData not found.
+    BACEAPILimitExceededResponse:
+      summary: Quota or Resource Limit Exceeded
+      description: The number of requests made exceed the threshold. Reduce the number of requests.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 429.002
+        message: Quota limit exceeded
+        details:
+        - error: Quota limit exceeded, decrease the number of requests per minute been sent.
+    BACEAPINotFoundResponse:
+      summary: Resource not found
+      description: This typically can happen if the resource URL is not correct.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 404.001
+        message: No resource for GET/POST
+        details:
+        - error: No resource for GET/POST
+    BACEAPIUnauthorizedResponse:
+      summary: Unauthorized Response
+      description: The user is not authorized to access the application.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 401
+        message: Unable to authorize the request.
+        details:
+        - error: The user profile is not authorized to access the system.
+    BACEAPIInternalErrorResponse:
+      summary: Internal Server error
+      description: An 0005 error that indicates that the request could not be processed. Please reach out to Customer Support.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 500
+        message: Internal Server Error
+        details:
+        - MessageCode: '0005'
+          MessageDescription: API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
   schemas:
     GPSCoordinates:
       required:
@@ -315,16 +362,14 @@ components:
           format: float
           example: -77.050636
       additionalProperties: false
-    ImageStorageLocation:
+    Error:
+      required:
+      - error
       type: object
       properties:
-        imageId:
+        error:
           type: string
-          example: bcde070d-8c4c-4f0d-9d8a-162843c10334
-        imageMeta:
-          $ref: '#/components/schemas/ImageMetaData'
-        uploadUrl:
-          type: string
+      description: Information about the error.
     Message:
       required:
       - messageCode
@@ -335,40 +380,16 @@ components:
           type: string
         messageDescription:
           type: string
-    ErrorResponse:
-      required:
-      - code
-      - details
-      - message
-      - proxyCorrelationId
+    ImageStorageLocation:
       type: object
       properties:
-        proxyCorrelationId:
+        imageId:
           type: string
-          description: PDR API assigned control number for the request.
-        code:
+          example: bcde070d-8c4c-4f0d-9d8a-162843c10334
+        imageMeta:
+          $ref: '#/components/schemas/ImageMetaData'
+        uploadUrl:
           type: string
-          description: Error Code
-        message:
-          type: string
-          description: Error Description
-        details:
-          type: array
-          description: A collection of error details. Details container will contain error format.
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/Error'
-            - $ref: '#/components/schemas/Message'
-      description: Information about the errors.
-    ImageMetaDataList:
-      required:
-      - metadataList
-      type: object
-      properties:
-        metadataList:
-          type: array
-          items:
-            $ref: '#/components/schemas/ImageStorageLocation'
     ImageMetaData:
       required:
       - description
@@ -528,61 +549,40 @@ components:
           description: true/false (This field will be true for images that are required for the Inspection to be considered Complete).
         parentObjectJsonPath:
           type: string
-    Error:
+    ErrorResponse:
       required:
-      - error
+      - code
+      - details
+      - message
+      - proxyCorrelationId
       type: object
       properties:
-        error:
+        proxyCorrelationId:
           type: string
-      description: Information about the error.
-  examples:
-    GETImageMetaNotFoundResponse:
-      summary: Imagemetadata not found response
-      description: This typically can happen when the image is not submitted.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 404.001
-        message: No resource for GET/POST
+          description: PDR API assigned control number for the request.
+        code:
+          type: string
+          description: Error Code
+        message:
+          type: string
+          description: Error Description
         details:
-        - error: propertyDataId {propertyDataId} provided for getting Image metaData not found.
-    BACEAPIInternalErrorResponse:
-      summary: Internal Server error
-      description: An 0005 error that indicates that the request could not be processed. Please reach out to Customer Support.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 500
-        message: Internal Server Error
-        details:
-        - MessageCode: '0005'
-          MessageDescription: API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
-    BACEAPIUnauthorizedResponse:
-      summary: Unauthorized Response
-      description: The user is not authorized to access the application.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 401
-        message: Unable to authorize the request.
-        details:
-        - error: The user profile is not authorized to access the system.
-    BACEAPINotFoundResponse:
-      summary: Resource not found
-      description: This typically can happen if the resource URL is not correct.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 404.001
-        message: No resource for GET/POST
-        details:
-        - error: No resource for GET/POST
-    BACEAPILimitExceededResponse:
-      summary: Quota or Resource Limit Exceeded
-      description: The number of requests made exceed the threshold. Reduce the number of requests.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 429.002
-        message: Quota limit exceeded
-        details:
-        - error: Quota limit exceeded, decrease the number of requests per minute been sent.
+          type: array
+          description: A collection of error details. Details container will contain error format.
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Error'
+            - $ref: '#/components/schemas/Message'
+      description: Information about the errors.
+    ImageMetaDataList:
+      required:
+      - metadataList
+      type: object
+      properties:
+        metadataList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageStorageLocation'
   securitySchemes:
     bearerAuth:
       type: http

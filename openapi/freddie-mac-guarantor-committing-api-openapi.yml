@@ -447,6 +447,115 @@ paths:
                     ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
 components:
   schemas:
+    PriceErrorResponse403:
+      required:
+      - ErrorCode
+      - ErrorMessage
+      properties:
+        ErrorCode:
+          type: string
+          example: '403'
+        ErrorMessage:
+          type: string
+          example: Rejected by Policy.
+    CommitmentRequestErrors:
+      type: array
+      example:
+      - ErrorCode: DATA7219
+        ErrorMessage: Invalid value for Pool Type. Valid values are [Single Issue, Multi-Lender].
+      items:
+        anyOf:
+        - type: object
+          example:
+            ErrorCode: DATA7219
+            ErrorMessage: Invalid value for Pool Type. Valid values are [Single Issue, Multi-Lender].
+          required:
+          - ErrorMessage
+          properties:
+            ErrorCode:
+              type: string
+              example: DATA7219
+            ErrorMessage:
+              type: string
+              example: Invalid value for Pool Type. Valid values are [Single Issue, Multi-Lender].
+          additionalProperties: true
+    GuarantorContractModifyDecisionResponse:
+      required:
+      - CorrelationIdentifier
+      properties:
+        CorrelationIdentifier:
+          type: string
+          example: 533a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime:
+          type: string
+          example: 12/02/2025 16:56:32
+        CommitmentDecisionErrors:
+          $ref: '#/components/schemas/CommitmentRequestErrors'
+        CommitmentPriceDecisionResponses:
+          type: array
+          example:
+          - SellerIdentifier: '999999'
+            ContractIdentifier: '999999999'
+            ContractStatus: Accepted
+            AcceptedDateTime: 12/02/2025 16:55:42
+            DecisionStatus: Accept
+            PoolNumber: QD1810
+            CUSIP: 3133AYAK6
+            MBSPoolPrefixCode: CL
+            AllocatedLoanUPB: '0.00'
+            RemainingBalance: '1000000.00'
+          items:
+            anyOf:
+            - type: object
+              example:
+                SellerIdentifier: '999999'
+                ContractIdentifier: '999999999'
+                ContractStatus: Accepted
+                AcceptedDateTime: 12/02/2025 16:55:42
+                DecisionStatus: Accept
+                PoolNumber: QD1810
+                CUSIP: 3133AYAK6
+                MBSPoolPrefixCode: CL
+                AllocatedLoanUPB: '0.00'
+                RemainingBalance: '1000000.00'
+              required:
+              - ContractIdentifier
+              properties:
+                SellerIdentifier:
+                  type: string
+                  example: '999999'
+                ContractIdentifier:
+                  type: string
+                  example: '999999999'
+                ContractStatus:
+                  type: string
+                  example: Accepted
+                AcceptedDateTime:
+                  type: string
+                  example: 12/02/2025 16:55:42
+                DecisionStatus:
+                  type: string
+                  example: Accept
+                PoolNumber:
+                  type: string
+                  example: QD1810
+                CUSIP:
+                  type: string
+                  example: 3133AYAK6
+                MBSPoolPrefixCode:
+                  type: string
+                  example: CL
+                AllocatedLoanUPB:
+                  type: string
+                  example: '0.00'
+                RemainingBalance:
+                  type: string
+                  example: '1000000.00'
+                CommitmentRequestErrors:
+                  $ref: '#/components/schemas/CommitmentRequestErrors'
+                CommitmentErrors:
+                  $ref: '#/components/schemas/CommitmentRequestErrors'
+              additionalProperties: true
     GuarantorCommitmentRequest:
       required:
       - CommitmentRequestMetaData
@@ -713,62 +822,72 @@ components:
             - CorrelationIdentifier
             - ContractIdentifier
             additionalProperties: false
-    PriceErrorResponse500:
+    GuarantorContractPriceDecisionResponse:
       required:
       - CorrelationIdentifier
-      - ResponseTime
-      - CommitmentPriceResponses
       properties:
         CorrelationIdentifier:
           type: string
-          example: e2b7048e-6307-48a5-b8a1-29235a91183a
+          example: 533a425b-5823-4b43-9054-73490b7dbde9
         ResponseTime:
           type: string
-          example: 09/15/2025 16:37:23
-        CommitmentPriceResponses:
+          example: 09/15/2025 16:56:32
+        CommitmentPriceErrors:
+          $ref: '#/components/schemas/CommitmentRequestErrors'
+        CommitmentDecisionErrors:
+          $ref: '#/components/schemas/CommitmentRequestErrors'
+        CommitmentPriceDecisionResponses:
           type: array
           example:
-          - CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
-            CommitmentRequestErrors:
-            - ErrorCode: '500'
-              ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+          - SellerIdentifier: '999999'
+            ContractIdentifier: '999999999'
+            ContractStatus: Accepted
+            AcceptedDateTime: 09/15/2025 16:55:42
+            DecisionStatus: Accept
+            PoolNumber: QD1810
+            CUSIP: 3133AYAK6
+            MBSPoolPrefixCode: CL
           items:
             anyOf:
             - type: object
               example:
-                CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
-                CommitmentRequestErrors:
-                - ErrorCode: '500'
-                  ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                SellerIdentifier: '999999'
+                ContractIdentifier: '999999999'
+                ContractStatus: Accepted
+                AcceptedDateTime: 09/15/2025 16:55:42
+                DecisionStatus: Accept
+                PoolNumber: QD1810
+                CUSIP: 3133AYAK6
+                MBSPoolPrefixCode: CL
               required:
-              - CorrelationIdentifier
-              - CommitmentRequestErrors
+              - ContractIdentifier
               properties:
-                CorrelationIdentifier:
+                SellerIdentifier:
                   type: string
-                  example: e2b7048e-6307-48a5-b8a1-29235a91183a
-                CommitmentRequestErrors:
-                  type: array
-                  example:
-                  - ErrorCode: '500'
-                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
-                  items:
-                    anyOf:
-                    - type: object
-                      example:
-                        ErrorCode: '500'
-                        ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
-                      required:
-                      - ErrorCode
-                      - ErrorMessage
-                      properties:
-                        ErrorCode:
-                          type: string
-                          example: '500'
-                        ErrorMessage:
-                          type: string
-                          example: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
-                      additionalProperties: true
+                  example: '999999'
+                ContractIdentifier:
+                  type: string
+                  example: '999999999'
+                ContractStatus:
+                  type: string
+                  example: Accepted
+                AcceptedDateTime:
+                  type: string
+                  example: 09/15/2025 16:55:42
+                DecisionStatus:
+                  type: string
+                  example: Accept
+                PoolNumber:
+                  type: string
+                  example: QD1810
+                CUSIP:
+                  type: string
+                  example: 3133AYAK6
+                MBSPoolPrefixCode:
+                  type: string
+                  example: CL
+                CommitmentErrors:
+                  $ref: '#/components/schemas/CommitmentRequestErrors'
               additionalProperties: true
     GuarantorContractPriceResponse:
       required:
@@ -1047,77 +1166,6 @@ components:
                 CommitmentRequestErrors:
                   $ref: '#/components/schemas/CommitmentRequestErrors'
               additionalProperties: true
-    GuarantorContractPairOffDecisionResponse:
-      required:
-      - CorrelationIdentifier
-      properties:
-        CorrelationIdentifier:
-          type: string
-          example: 533a425b-5823-4b43-9054-73490b7dbde9
-        ResponseTime:
-          type: string
-          example: 12/02/2025 16:56:32
-        CommitmentPairOffDecisionResponses:
-          type: array
-          example:
-          - ContractIdentifier: '999999999'
-            DecisionType: Accept
-            ContractStatus: Accepted
-            AcceptedDateTime: 09/15/2025 15:26:17
-            SecurityAmount: '999000.00'
-            TotalPairOffAmount: '1000.00'
-            RemainingBalance: '999000.00'
-            AllocatedLoanUPB: '0.00'
-          items:
-            anyOf:
-            - type: object
-              example:
-                ContractIdentifier: '999999999'
-                DecisionType: Accept
-                ContractStatus: Accepted
-                AcceptedDateTime: 09/15/2025 15:26:17
-                SecurityAmount: '999000.00'
-                TotalPairOffAmount: '1000.00'
-                RemainingBalance: '999000.00'
-                AllocatedLoanUPB: '0.00'
-              required:
-              - ContractIdentifier
-              properties:
-                ContractIdentifier:
-                  type: string
-                  example: '999999999'
-                DecisionType:
-                  type: string
-                  example: Accept
-                ContractStatus:
-                  type: string
-                  example: Accepted
-                AcceptedDateTime:
-                  type: string
-                  example: 09/15/2025 15:26:17
-                SecurityAmount:
-                  type: number
-                  example: '999000.00'
-                TotalPairOffAmount:
-                  type: number
-                  example: '1000.00'
-                RemainingBalance:
-                  type: number
-                  example: '999000.00'
-                AllocatedLoanUPB:
-                  type: number
-                  example: '0.00'
-                Warnings:
-                  type: string
-                CommitmentErrors:
-                  $ref: '#/components/schemas/CommitmentRequestErrors'
-                CommitmentPairOffErrors:
-                  $ref: '#/components/schemas/CommitmentRequestErrors'
-              additionalProperties: true
-        CommitmentDecisionErrors:
-          $ref: '#/components/schemas/CommitmentRequestErrors'
-        CommitmentRequestErrors:
-          $ref: '#/components/schemas/CommitmentRequestErrors'
     PriceErrorResponse401:
       required:
       - error
@@ -1233,106 +1281,64 @@ components:
           $ref: '#/components/schemas/CommitmentRequestErrors'
         CommitmentRequestErrors:
           $ref: '#/components/schemas/CommitmentRequestErrors'
-    PriceErrorResponse403:
-      required:
-      - ErrorCode
-      - ErrorMessage
-      properties:
-        ErrorCode:
-          type: string
-          example: '403'
-        ErrorMessage:
-          type: string
-          example: Rejected by Policy.
-    CommitmentRequestErrors:
-      type: array
-      example:
-      - ErrorCode: DATA7219
-        ErrorMessage: Invalid value for Pool Type. Valid values are [Single Issue, Multi-Lender].
-      items:
-        anyOf:
-        - type: object
-          example:
-            ErrorCode: DATA7219
-            ErrorMessage: Invalid value for Pool Type. Valid values are [Single Issue, Multi-Lender].
-          required:
-          - ErrorMessage
-          properties:
-            ErrorCode:
-              type: string
-              example: DATA7219
-            ErrorMessage:
-              type: string
-              example: Invalid value for Pool Type. Valid values are [Single Issue, Multi-Lender].
-          additionalProperties: true
-    GuarantorContractPriceDecisionResponse:
+    PriceErrorResponse500:
       required:
       - CorrelationIdentifier
+      - ResponseTime
+      - CommitmentPriceResponses
       properties:
         CorrelationIdentifier:
           type: string
-          example: 533a425b-5823-4b43-9054-73490b7dbde9
+          example: e2b7048e-6307-48a5-b8a1-29235a91183a
         ResponseTime:
           type: string
-          example: 09/15/2025 16:56:32
-        CommitmentPriceErrors:
-          $ref: '#/components/schemas/CommitmentRequestErrors'
-        CommitmentDecisionErrors:
-          $ref: '#/components/schemas/CommitmentRequestErrors'
-        CommitmentPriceDecisionResponses:
+          example: 09/15/2025 16:37:23
+        CommitmentPriceResponses:
           type: array
           example:
-          - SellerIdentifier: '999999'
-            ContractIdentifier: '999999999'
-            ContractStatus: Accepted
-            AcceptedDateTime: 09/15/2025 16:55:42
-            DecisionStatus: Accept
-            PoolNumber: QD1810
-            CUSIP: 3133AYAK6
-            MBSPoolPrefixCode: CL
+          - CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
+            CommitmentRequestErrors:
+            - ErrorCode: '500'
+              ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
           items:
             anyOf:
             - type: object
               example:
-                SellerIdentifier: '999999'
-                ContractIdentifier: '999999999'
-                ContractStatus: Accepted
-                AcceptedDateTime: 09/15/2025 16:55:42
-                DecisionStatus: Accept
-                PoolNumber: QD1810
-                CUSIP: 3133AYAK6
-                MBSPoolPrefixCode: CL
+                CorrelationIdentifier: e2b7048e-6307-48a5-b8a1-29235a91183a
+                CommitmentRequestErrors:
+                - ErrorCode: '500'
+                  ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
               required:
-              - ContractIdentifier
+              - CorrelationIdentifier
+              - CommitmentRequestErrors
               properties:
-                SellerIdentifier:
+                CorrelationIdentifier:
                   type: string
-                  example: '999999'
-                ContractIdentifier:
-                  type: string
-                  example: '999999999'
-                ContractStatus:
-                  type: string
-                  example: Accepted
-                AcceptedDateTime:
-                  type: string
-                  example: 09/15/2025 16:55:42
-                DecisionStatus:
-                  type: string
-                  example: Accept
-                PoolNumber:
-                  type: string
-                  example: QD1810
-                CUSIP:
-                  type: string
-                  example: 3133AYAK6
-                MBSPoolPrefixCode:
-                  type: string
-                  example: CL
-                CommitmentErrors:
-                  $ref: '#/components/schemas/CommitmentRequestErrors'
+                  example: e2b7048e-6307-48a5-b8a1-29235a91183a
+                CommitmentRequestErrors:
+                  type: array
+                  example:
+                  - ErrorCode: '500'
+                    ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                  items:
+                    anyOf:
+                    - type: object
+                      example:
+                        ErrorCode: '500'
+                        ErrorMessage: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      required:
+                      - ErrorCode
+                      - ErrorMessage
+                      properties:
+                        ErrorCode:
+                          type: string
+                          example: '500'
+                        ErrorMessage:
+                          type: string
+                          example: The Loan Selling Advisor API being requested is currently unavailable. Please try again. If the problem persists, please call 1-800-FREDDIE for assistance.
+                      additionalProperties: true
               additionalProperties: true
-    GuarantorContractModifyDecisionResponse:
+    GuarantorContractPairOffDecisionResponse:
       required:
       - CorrelationIdentifier
       properties:
@@ -1342,300 +1348,68 @@ components:
         ResponseTime:
           type: string
           example: 12/02/2025 16:56:32
-        CommitmentDecisionErrors:
-          $ref: '#/components/schemas/CommitmentRequestErrors'
-        CommitmentPriceDecisionResponses:
+        CommitmentPairOffDecisionResponses:
           type: array
           example:
-          - SellerIdentifier: '999999'
-            ContractIdentifier: '999999999'
+          - ContractIdentifier: '999999999'
+            DecisionType: Accept
             ContractStatus: Accepted
-            AcceptedDateTime: 12/02/2025 16:55:42
-            DecisionStatus: Accept
-            PoolNumber: QD1810
-            CUSIP: 3133AYAK6
-            MBSPoolPrefixCode: CL
+            AcceptedDateTime: 09/15/2025 15:26:17
+            SecurityAmount: '999000.00'
+            TotalPairOffAmount: '1000.00'
+            RemainingBalance: '999000.00'
             AllocatedLoanUPB: '0.00'
-            RemainingBalance: '1000000.00'
           items:
             anyOf:
             - type: object
               example:
-                SellerIdentifier: '999999'
                 ContractIdentifier: '999999999'
+                DecisionType: Accept
                 ContractStatus: Accepted
-                AcceptedDateTime: 12/02/2025 16:55:42
-                DecisionStatus: Accept
-                PoolNumber: QD1810
-                CUSIP: 3133AYAK6
-                MBSPoolPrefixCode: CL
+                AcceptedDateTime: 09/15/2025 15:26:17
+                SecurityAmount: '999000.00'
+                TotalPairOffAmount: '1000.00'
+                RemainingBalance: '999000.00'
                 AllocatedLoanUPB: '0.00'
-                RemainingBalance: '1000000.00'
               required:
               - ContractIdentifier
               properties:
-                SellerIdentifier:
-                  type: string
-                  example: '999999'
                 ContractIdentifier:
                   type: string
                   example: '999999999'
+                DecisionType:
+                  type: string
+                  example: Accept
                 ContractStatus:
                   type: string
                   example: Accepted
                 AcceptedDateTime:
                   type: string
-                  example: 12/02/2025 16:55:42
-                DecisionStatus:
-                  type: string
-                  example: Accept
-                PoolNumber:
-                  type: string
-                  example: QD1810
-                CUSIP:
-                  type: string
-                  example: 3133AYAK6
-                MBSPoolPrefixCode:
-                  type: string
-                  example: CL
-                AllocatedLoanUPB:
-                  type: string
-                  example: '0.00'
+                  example: 09/15/2025 15:26:17
+                SecurityAmount:
+                  type: number
+                  example: '999000.00'
+                TotalPairOffAmount:
+                  type: number
+                  example: '1000.00'
                 RemainingBalance:
+                  type: number
+                  example: '999000.00'
+                AllocatedLoanUPB:
+                  type: number
+                  example: '0.00'
+                Warnings:
                   type: string
-                  example: '1000000.00'
-                CommitmentRequestErrors:
-                  $ref: '#/components/schemas/CommitmentRequestErrors'
                 CommitmentErrors:
                   $ref: '#/components/schemas/CommitmentRequestErrors'
+                CommitmentPairOffErrors:
+                  $ref: '#/components/schemas/CommitmentRequestErrors'
               additionalProperties: true
+        CommitmentDecisionErrors:
+          $ref: '#/components/schemas/CommitmentRequestErrors'
+        CommitmentRequestErrors:
+          $ref: '#/components/schemas/CommitmentRequestErrors'
   examples:
-    GuarantorContractModifyResponse:
-      value:
-        CorrelationIdentifier: 444a425b-5823-4b43-9054-73490b7dbde9
-        ResponseTime: 09/15/2025 14:19:56
-        ResponseToken: TGQcc/LhrglxOm9GACs2f0pEfIb/gLnwrfDXAYRZI1Uk900AJPaMLxeK52ax9FQC9yQ/60cR9fnYfj1p4pYE7Q==
-        CommitmentPriceResponses:
-        - CorrelationIdentifier: 544a425b-5823-4b43-9054-73490b7dbdg9
-          ContractIdentifier: '999999999'
-          PricingIdentifier: M99999999
-          SellerIdentifier: '999999'
-          ProductOption:
-            ContractName: Modify Contract
-            PriceResultRefreshType: Periodic
-            PurchaseContractStatusType: Accepted
-            UserEnteredSecurityProductIdentifier: '2204'
-            PoolNumber: QS0238
-            UserEnteredSecurityAmount: '1000000.00'
-            FinalDeliveryDate: 09/18/2025 20:00
-            SecurityCoupon: '3.500'
-            EarlyFundingIndicator: 'true'
-            EarlyFundingTargetDate: 09/17/2025
-            SettlementDate: 09/23/2025
-            PoolNumberRange: QS0239 - QT9999
-          BUBDOption:
-            BuyUpBuyDownProgram: Note Level
-            ContractBUBDOption: Buy down
-            NoteLevelBuyDownMaximum: '25.00'
-          PricingDetails:
-            SystemUPBGridForSecurityCouponLevel:
-              SecurityCouponValues:
-              - CreditFees:
-                - CreditFeeName: Gold Rush
-                  CreditFeePrice: '0.000'
-                - CreditFeeName: CFY 10yr FRM
-                  CreditFeeYield: '30.000'
-                TotalCreditFees:
-                  TotalCreditFeeYield: '30.000'
-                  TotalCreditFeePrice: '0.000'
-    GuarantorContractModifyDecisionRequest:
-      value:
-        CommitmentRequestMetaData:
-          CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
-          RequestTime: 09/15/2025 11:22:05
-          CounterPartyType: Seller
-          RequestingPartyAccountIdentifier: '999999'
-          ResponseToken: TGQcc/LhrglxOm9GACs2f0pEfIb/gLnwrfDXAYRZI1Uk900AJPaMLxeK52ax9FQC9yQ/60cR9fnYfj1p4pYE7Q==
-          VendorIdentifier: ''
-          VendorName: ''
-          VendorSoftware: ''
-          VendorSoftwareVersion: ''
-          TemplateVersion: 1.0
-        Decisions:
-        - SellerIdentifier: '999999'
-          ContractIdentifier: '999999999'
-          DecisionType: Accept
-    OptionalARMRetainedSellerSingleIssueSecurityCouponLevelContractResponse:
-      value:
-        CorrelationIdentifier: c31251a3-2fca-4809-a1d2-a806abcd7f68
-        ResponseTime: 09/15/2025 16:16:34
-        ResponseToken: fCnkbYbGVSMRafIegVBrGTltPB3IVfxWzeTrGw5z2ihp258XygobIrc01CXwHOrhOsHSsiTIZaWnaZ2vTK4Xk6HB/7M3irzEn0AUjZp0vAQ=
-        CommitmentPriceResponses:
-        - CorrelationIdentifier: 905dd5df-3352-47a5-aab1-21c99c619239
-          ContractIdentifier: '999999999'
-          PricingIdentifier: M99999999
-          SellerIdentifier: '999999'
-          ProductOption:
-            PriceResultRefreshType: Periodic
-            PurchaseContractStatusType: Open
-            UserEnteredSecurityProductIdentifier: '2065'
-            UserEnteredSecurityAmount: '1000000.00'
-            FinalDeliveryDate: 09/15/2025 20:00
-            EarlyFundingIndicator: 'false'
-            SettlementDate: 09/18/2025
-          BUBDOption:
-            BuyUpBuyDownProgram: Contract Level
-            ContractBUBDOption: Neither Buy up nor Buy down
-          PricingDetails:
-            SystemUPBGridForSecurityCouponLevel:
-              SecurityCouponValues:
-              - CreditFees:
-                - CreditFeeName: Gold Rush
-                  CreditFeePrice: '0.000'
-                - CreditFeeName: 'ARMS CFY SOFR '
-                  CreditFeeYield: '37.000'
-                TotalCreditFees:
-                  TotalCreditFeeYield: '37.000'
-                  TotalCreditFeePrice: '0.000'
-    OptionalARMRetainedSellerSingleIssueSecurityCouponLevelContractRequest:
-      value:
-        CommitmentRequestMetaData:
-          CorrelationIdentifier: c31251a3-2fca-4809-a1d2-a806abcd7f68
-          RequestTime: 09/15/2025 10:10:10
-          RequestingPartyAccountIdentifier: '999999'
-          CounterPartyType: Seller
-          VendorIdentifier: ''
-          VendorName: ''
-          VendorSoftware: ''
-          VendorSoftwareVersion: ''
-          TemplateVersion: 1.0
-        Commitments:
-        - GuarantorContract:
-            CorrelationIdentifier: 905dd5df-3352-47a5-aab1-21c99c619239
-            PricingIdentifier: M99999999
-            SellerIdentifier: '999999'
-            ProductOption:
-              DeliveryType: Optional
-              PoolType: Single Issue
-              BaseOfferingProduct: 7/6 SOFR ARM
-              IndexSourceType: 30 Day Average SOFR
-              UserEnteredSecurityProductIdentifier: 2065
-              LTVRatioPercentRangeType: Standard
-              PrepaymentPenaltyIndicator: 'False'
-              InterestandPaymentAdjustmentIndexLeadDaysCount: 45
-              SpecifiedPool: 'No'
-              SettlementDate: 09/18/2025
-              SettlementCycleDays: 3
-              UPBLevel: Security Coupon Level
-              UserEnteredSecurityAmount: 1000000
-              RiskTransfer: 'No'
-            ServicingOption:
-              ServicingOptionType: Retained
-              CounterPartyAccountIdentifier: '999999'
-              MinimumContractServicingLifetimeCeiling: 0.25
-              MinimumContractServicingNetMargin: 0.25
-              MinimumContractServicingCoupon: 0.25
-              ContractRemittanceScheduleType: Standard
-              InterestAccountingMethodType: Scheduled/Actual
-              PayoffRemittanceDayCount: 5
-            BUBDOption:
-              BuyUpBuyDownProgram: Contract Level
-              ContractBUBDOption: Neither Buy up nor Buy down
-    GuarantorContractPriceDecisionResponse:
-      value:
-        CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
-        ResponseTime: 09/15/2025 15:22:26
-        CommitmentPriceDecisionResponses:
-        - SellerIdentifier: '999999'
-          ContractIdentifier: '999999999'
-          ContractStatus: Accepted
-          AcceptedDateTime: 09/15/2025 15:21:51
-          DecisionStatus: Accept
-          PoolNumber: QS0001
-          CUSIP: 3133HMAA7
-          MBSPoolPrefixCode: CN
-    OptionalFixedRetainedSellerMultiIssueContractResponse:
-      value:
-        CorrelationIdentifier: c31251a3-2fca-4809-a1d2-a806abcd7f68
-        ResponseTime: 09/15/2025 08:48:26
-        ResponseToken: EzKGzJl4ySdtKtqY7y9jjymJozmsl+a4u7kvS+UjpPRFr9CsfZvcRhdqNEMMUhkSs7oTBxrsDUJaeI2TeF8rAOJAkHuTl5GNBPtHf0ivwNE=
-        CommitmentPriceResponses:
-        - CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbd11
-          ContractIdentifier: '999999999'
-          PricingIdentifier: M99999999
-          SellerIdentifier: '999999'
-          ProductOption:
-            ContractName: ContractName
-            PriceResultRefreshType: Periodic
-            PurchaseContractStatusType: Open
-            UserEnteredSecurityProductIdentifier: '2201'
-            PoolNumber: RA0203
-            UserEnteredSecurityAmount: '1000000.00'
-            FinalDeliveryDate: 09/15/2025 20:00
-            SecurityCoupon: '6.500'
-            EarlyFundingIndicator: 'false'
-            SettlementDate: 09/16/2025
-          BUBDOption:
-            BuyUpBuyDownProgram: Note Level
-            ContractBUBDOption: Buy up and Buy down
-            NoteLevelBuyUpMaximum: '25.00'
-            NoteLevelBuyDownMaximum: '44.00'
-          PricingDetails:
-            SystemUPBGridForSecurityCouponLevel:
-              SecurityCouponValues:
-              - CreditFees:
-                - CreditFeeName: Gold Rush
-                  CreditFeePrice: '0.000'
-                - CreditFeeName: CFY 30yr Conf FRM
-                  CreditFeeYield: '45.000'
-                TotalCreditFees:
-                  TotalCreditFeeYield: '45.000'
-                  TotalCreditFeePrice: '0.000'
-    GuarantorContractModifyDecisionResponse:
-      value:
-        CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
-        ResponseTime: 09/15/2025 14:20:16
-        CommitmentPriceDecisionResponses:
-        - SellerIdentifier: '147357'
-          ContractIdentifier: '808921511'
-          ContractStatus: Accepted
-          AcceptedDateTime: 09/15/2025 14:19:56
-          DecisionStatus: Accept
-          PoolNumber: QS0238
-          CUSIP: 3133HMHP7
-          MBSPoolPrefixCode: CN
-          AllocatedLoanUPB: '0.00'
-          RemainingBalance: '1000000.00'
-    GuarantorContractPairOffSecurityCouponRequest:
-      value:
-        CommitmentRequestMetaData:
-          CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7ddfgh
-          RequestTime: 09/15/2025 15:23:51
-          RequestingPartyAccountIdentifier: '999999'
-          CounterPartyType: Seller
-          VendorIdentifier: ''
-          VendorName: ''
-          VendorSoftware: ''
-          VendorSoftwareVersion: ''
-          TemplateVersion: 1.0
-        CommitmentPairOffs:
-        - CorrelationIdentifier: 1234-25b-5823-4b43-9054-73490b7dbd11
-          SellerIdentifier: '999999'
-          ContractIdentifier: '999999999'
-          PairOffUPBAmount: 1000
-    GuarantorContractPairOffDecisionResponse:
-      value:
-        CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
-        ResponseTime: 09/15/2025 15:26:18
-        CommitmentPairOffDecisionResponses:
-        - ContractIdentifier: '999999999'
-          DecisionType: Accept
-          ContractStatus: Accepted
-          AcceptedDateTime: 09/15/2025 15:26:17
-          SecurityAmount: '999000.00'
-          TotalPairOffAmount: '1000.00'
-          RemainingBalance: '999000.00'
-          AllocatedLoanUPB: '0.00'
     OptionalFixedRetainedSellerMultiIssueContractRequest:
       value:
         CommitmentRequestMetaData:
@@ -1680,6 +1454,125 @@ components:
               ContractBUBDOption: Buy up and Buy down
               NoteLevelBuyUpMaximum: 25
               NoteLevelBuyDownMaximum: 44
+    GuarantorContractPriceDecisionRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+          RequestTime: 09/15/2025 10:10:10
+          CounterPartyType: Seller
+          RequestingPartyAccountIdentifier: '999999'
+          ResponseToken: UOf+9goVPigd2YRUITxH1wxrdQbBdIGX6WtKoJ2mxGIqjZGZjG3YXnU0wQu8ng3UK1l375Jrk1flW+vyH6l4XO6NKHURCLHJDiNMj5r+k2o=
+          VendorIdentifier: ''
+          VendorName: ''
+          VendorSoftware: ''
+          VendorSoftwareVersion: ''
+          TemplateVersion: 1.0
+        Decisions:
+        - SellerIdentifier: '999999'
+          ContractIdentifier: '999999999'
+          DecisionType: Accept
+    GuarantorContractPairOffSecurityCouponRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7ddfgh
+          RequestTime: 09/15/2025 15:23:51
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          VendorIdentifier: ''
+          VendorName: ''
+          VendorSoftware: ''
+          VendorSoftwareVersion: ''
+          TemplateVersion: 1.0
+        CommitmentPairOffs:
+        - CorrelationIdentifier: 1234-25b-5823-4b43-9054-73490b7dbd11
+          SellerIdentifier: '999999'
+          ContractIdentifier: '999999999'
+          PairOffUPBAmount: 1000
+    GuarantorContractPairOffDecisionResponse:
+      value:
+        CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime: 09/15/2025 15:26:18
+        CommitmentPairOffDecisionResponses:
+        - ContractIdentifier: '999999999'
+          DecisionType: Accept
+          ContractStatus: Accepted
+          AcceptedDateTime: 09/15/2025 15:26:17
+          SecurityAmount: '999000.00'
+          TotalPairOffAmount: '1000.00'
+          RemainingBalance: '999000.00'
+          AllocatedLoanUPB: '0.00'
+    GuarantorContractPriceDecisionResponse:
+      value:
+        CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime: 09/15/2025 15:22:26
+        CommitmentPriceDecisionResponses:
+        - SellerIdentifier: '999999'
+          ContractIdentifier: '999999999'
+          ContractStatus: Accepted
+          AcceptedDateTime: 09/15/2025 15:21:51
+          DecisionStatus: Accept
+          PoolNumber: QS0001
+          CUSIP: 3133HMAA7
+          MBSPoolPrefixCode: CN
+    OptionalARMRetainedSellerSingleIssueSecurityCouponLevelContractRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: c31251a3-2fca-4809-a1d2-a806abcd7f68
+          RequestTime: 09/15/2025 10:10:10
+          RequestingPartyAccountIdentifier: '999999'
+          CounterPartyType: Seller
+          VendorIdentifier: ''
+          VendorName: ''
+          VendorSoftware: ''
+          VendorSoftwareVersion: ''
+          TemplateVersion: 1.0
+        Commitments:
+        - GuarantorContract:
+            CorrelationIdentifier: 905dd5df-3352-47a5-aab1-21c99c619239
+            PricingIdentifier: M99999999
+            SellerIdentifier: '999999'
+            ProductOption:
+              DeliveryType: Optional
+              PoolType: Single Issue
+              BaseOfferingProduct: 7/6 SOFR ARM
+              IndexSourceType: 30 Day Average SOFR
+              UserEnteredSecurityProductIdentifier: 2065
+              LTVRatioPercentRangeType: Standard
+              PrepaymentPenaltyIndicator: 'False'
+              InterestandPaymentAdjustmentIndexLeadDaysCount: 45
+              SpecifiedPool: 'No'
+              SettlementDate: 09/18/2025
+              SettlementCycleDays: 3
+              UPBLevel: Security Coupon Level
+              UserEnteredSecurityAmount: 1000000
+              RiskTransfer: 'No'
+            ServicingOption:
+              ServicingOptionType: Retained
+              CounterPartyAccountIdentifier: '999999'
+              MinimumContractServicingLifetimeCeiling: 0.25
+              MinimumContractServicingNetMargin: 0.25
+              MinimumContractServicingCoupon: 0.25
+              ContractRemittanceScheduleType: Standard
+              InterestAccountingMethodType: Scheduled/Actual
+              PayoffRemittanceDayCount: 5
+            BUBDOption:
+              BuyUpBuyDownProgram: Contract Level
+              ContractBUBDOption: Neither Buy up nor Buy down
+    GuarantorContractModifyDecisionResponse:
+      value:
+        CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime: 09/15/2025 14:20:16
+        CommitmentPriceDecisionResponses:
+        - SellerIdentifier: '147357'
+          ContractIdentifier: '808921511'
+          ContractStatus: Accepted
+          AcceptedDateTime: 09/15/2025 14:19:56
+          DecisionStatus: Accept
+          PoolNumber: QS0238
+          CUSIP: 3133HMHP7
+          MBSPoolPrefixCode: CN
+          AllocatedLoanUPB: '0.00'
+          RemainingBalance: '1000000.00'
     GuarantorContractPairOffSecurityCouponResponse:
       value:
         CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7ddfgh
@@ -1727,23 +1620,81 @@ components:
                 TotalCreditFees:
                   TotalCreditFeeYield: '30.000'
                   TotalCreditFeePrice: '0.000'
-    GuarantorContractPriceDecisionRequest:
+    OptionalFixedRetainedSellerMultiIssueContractResponse:
       value:
-        CommitmentRequestMetaData:
-          CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
-          RequestTime: 09/15/2025 10:10:10
-          CounterPartyType: Seller
-          RequestingPartyAccountIdentifier: '999999'
-          ResponseToken: UOf+9goVPigd2YRUITxH1wxrdQbBdIGX6WtKoJ2mxGIqjZGZjG3YXnU0wQu8ng3UK1l375Jrk1flW+vyH6l4XO6NKHURCLHJDiNMj5r+k2o=
-          VendorIdentifier: ''
-          VendorName: ''
-          VendorSoftware: ''
-          VendorSoftwareVersion: ''
-          TemplateVersion: 1.0
-        Decisions:
-        - SellerIdentifier: '999999'
+        CorrelationIdentifier: c31251a3-2fca-4809-a1d2-a806abcd7f68
+        ResponseTime: 09/15/2025 08:48:26
+        ResponseToken: EzKGzJl4ySdtKtqY7y9jjymJozmsl+a4u7kvS+UjpPRFr9CsfZvcRhdqNEMMUhkSs7oTBxrsDUJaeI2TeF8rAOJAkHuTl5GNBPtHf0ivwNE=
+        CommitmentPriceResponses:
+        - CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbd11
           ContractIdentifier: '999999999'
-          DecisionType: Accept
+          PricingIdentifier: M99999999
+          SellerIdentifier: '999999'
+          ProductOption:
+            ContractName: ContractName
+            PriceResultRefreshType: Periodic
+            PurchaseContractStatusType: Open
+            UserEnteredSecurityProductIdentifier: '2201'
+            PoolNumber: RA0203
+            UserEnteredSecurityAmount: '1000000.00'
+            FinalDeliveryDate: 09/15/2025 20:00
+            SecurityCoupon: '6.500'
+            EarlyFundingIndicator: 'false'
+            SettlementDate: 09/16/2025
+          BUBDOption:
+            BuyUpBuyDownProgram: Note Level
+            ContractBUBDOption: Buy up and Buy down
+            NoteLevelBuyUpMaximum: '25.00'
+            NoteLevelBuyDownMaximum: '44.00'
+          PricingDetails:
+            SystemUPBGridForSecurityCouponLevel:
+              SecurityCouponValues:
+              - CreditFees:
+                - CreditFeeName: Gold Rush
+                  CreditFeePrice: '0.000'
+                - CreditFeeName: CFY 30yr Conf FRM
+                  CreditFeeYield: '45.000'
+                TotalCreditFees:
+                  TotalCreditFeeYield: '45.000'
+                  TotalCreditFeePrice: '0.000'
+    GuarantorContractModifyResponse:
+      value:
+        CorrelationIdentifier: 444a425b-5823-4b43-9054-73490b7dbde9
+        ResponseTime: 09/15/2025 14:19:56
+        ResponseToken: TGQcc/LhrglxOm9GACs2f0pEfIb/gLnwrfDXAYRZI1Uk900AJPaMLxeK52ax9FQC9yQ/60cR9fnYfj1p4pYE7Q==
+        CommitmentPriceResponses:
+        - CorrelationIdentifier: 544a425b-5823-4b43-9054-73490b7dbdg9
+          ContractIdentifier: '999999999'
+          PricingIdentifier: M99999999
+          SellerIdentifier: '999999'
+          ProductOption:
+            ContractName: Modify Contract
+            PriceResultRefreshType: Periodic
+            PurchaseContractStatusType: Accepted
+            UserEnteredSecurityProductIdentifier: '2204'
+            PoolNumber: QS0238
+            UserEnteredSecurityAmount: '1000000.00'
+            FinalDeliveryDate: 09/18/2025 20:00
+            SecurityCoupon: '3.500'
+            EarlyFundingIndicator: 'true'
+            EarlyFundingTargetDate: 09/17/2025
+            SettlementDate: 09/23/2025
+            PoolNumberRange: QS0239 - QT9999
+          BUBDOption:
+            BuyUpBuyDownProgram: Note Level
+            ContractBUBDOption: Buy down
+            NoteLevelBuyDownMaximum: '25.00'
+          PricingDetails:
+            SystemUPBGridForSecurityCouponLevel:
+              SecurityCouponValues:
+              - CreditFees:
+                - CreditFeeName: Gold Rush
+                  CreditFeePrice: '0.000'
+                - CreditFeeName: CFY 10yr FRM
+                  CreditFeeYield: '30.000'
+                TotalCreditFees:
+                  TotalCreditFeeYield: '30.000'
+                  TotalCreditFeePrice: '0.000'
     GuarantorContractPairOffDecisionRequest:
       value:
         CommitmentRequestMetaData:
@@ -1782,6 +1733,38 @@ components:
               ContractName: Modify Contract
               SettlementDate: 09/26/2025
               SettlementCycleDays: 3
+    OptionalARMRetainedSellerSingleIssueSecurityCouponLevelContractResponse:
+      value:
+        CorrelationIdentifier: c31251a3-2fca-4809-a1d2-a806abcd7f68
+        ResponseTime: 09/15/2025 16:16:34
+        ResponseToken: fCnkbYbGVSMRafIegVBrGTltPB3IVfxWzeTrGw5z2ihp258XygobIrc01CXwHOrhOsHSsiTIZaWnaZ2vTK4Xk6HB/7M3irzEn0AUjZp0vAQ=
+        CommitmentPriceResponses:
+        - CorrelationIdentifier: 905dd5df-3352-47a5-aab1-21c99c619239
+          ContractIdentifier: '999999999'
+          PricingIdentifier: M99999999
+          SellerIdentifier: '999999'
+          ProductOption:
+            PriceResultRefreshType: Periodic
+            PurchaseContractStatusType: Open
+            UserEnteredSecurityProductIdentifier: '2065'
+            UserEnteredSecurityAmount: '1000000.00'
+            FinalDeliveryDate: 09/15/2025 20:00
+            EarlyFundingIndicator: 'false'
+            SettlementDate: 09/18/2025
+          BUBDOption:
+            BuyUpBuyDownProgram: Contract Level
+            ContractBUBDOption: Neither Buy up nor Buy down
+          PricingDetails:
+            SystemUPBGridForSecurityCouponLevel:
+              SecurityCouponValues:
+              - CreditFees:
+                - CreditFeeName: Gold Rush
+                  CreditFeePrice: '0.000'
+                - CreditFeeName: 'ARMS CFY SOFR '
+                  CreditFeeYield: '37.000'
+                TotalCreditFees:
+                  TotalCreditFeeYield: '37.000'
+                  TotalCreditFeePrice: '0.000'
     OptionalFixedRetainedSellerSingleIssueSecurityCouponLevelContractRequest:
       value:
         CommitmentRequestMetaData:
@@ -1826,6 +1809,23 @@ components:
               BuyUpBuyDownProgram: Note Level
               ContractBUBDOption: Buy down
               NoteLevelBuyDownMaximum: 25
+    GuarantorContractModifyDecisionRequest:
+      value:
+        CommitmentRequestMetaData:
+          CorrelationIdentifier: 533a425b-5823-4b43-9054-73490b7dbde9
+          RequestTime: 09/15/2025 11:22:05
+          CounterPartyType: Seller
+          RequestingPartyAccountIdentifier: '999999'
+          ResponseToken: TGQcc/LhrglxOm9GACs2f0pEfIb/gLnwrfDXAYRZI1Uk900AJPaMLxeK52ax9FQC9yQ/60cR9fnYfj1p4pYE7Q==
+          VendorIdentifier: ''
+          VendorName: ''
+          VendorSoftware: ''
+          VendorSoftwareVersion: ''
+          TemplateVersion: 1.0
+        Decisions:
+        - SellerIdentifier: '999999'
+          ContractIdentifier: '999999999'
+          DecisionType: Accept
   securitySchemes:
     basicAuth:
       type: http

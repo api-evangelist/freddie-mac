@@ -106,6 +106,172 @@ paths:
       deprecated: false
 components:
   schemas:
+    LoanLookupRequest:
+      required:
+      - address
+      - borrowerInformation
+      - partyRoleIdentifier
+      - partyRoleType
+      - requestTransactionIdentifier
+      type: object
+      properties:
+        requestType:
+          type: string
+          description: The search method being requested. Valid Value is LoanLookUp.
+          example: LoanLookUp
+          enum:
+          - LoanLookUp
+        requestTransactionIdentifier:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: 128-bit Globally unique identifier (GUID) assigned to each request.
+          example: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        closedLoanIndicator:
+          type: boolean
+          description: An Boolean indicator, which will include loans which have been paid off recently in the search when set to true. Valid Values are True/False and is set to false by default.
+          example: false
+          enum:
+          - true
+          - false
+        partyRoleIdentifier:
+          maxLength: 10
+          minLength: 1
+          type: string
+          description: The unique identifier assigned to the party role.
+          example: '123456'
+        partyRoleType:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: A value from a MISMO defined list that identifies the role that the party plays in the transaction. Parties may be either a person or legal entity. A party may play multiple roles in a transaction.
+          example: Seller
+          enum:
+          - Broker
+          - Seller
+          - Servicer
+          - Correspondent
+          - Lender
+        address:
+          $ref: '#/components/schemas/LoanLookupRequest_address'
+        borrowerInformation:
+          $ref: '#/components/schemas/LoanLookupRequest_borrowerInformation'
+      additionalProperties: false
+    LoanLookupResponse:
+      required:
+      - loanMatchIndicator
+      - loanMatchMessage
+      - loans
+      - requestTransactionIdentifier
+      - transactionDateTime
+      type: object
+      properties:
+        loanMatchIndicator:
+          type: boolean
+          example: true
+          enum:
+          - true
+          - false
+        loanMatchMessage:
+          type: string
+          example: Freddie Mac has identified one (or more) loans matching the submitted borrower information.
+        requestTransactionIdentifier:
+          type: string
+          description: The unique identifier assigned to each request.
+          example: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        transactionDateTime:
+          type: string
+          example: '2020-04-08T22:05:37.184Z'
+        loans:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoanLookupResponse_loans'
+      additionalProperties: false
+    LoanLookupRequest_borrowerInformation:
+      required:
+      - taxpayerIdentifierType
+      - taxpayerIdentifierValue
+      type: object
+      properties:
+        taxpayerIdentifierType:
+          type: string
+          description: Specifies the type of identification number used by the Internal Revenue Service (IRS) in the administration of tax laws. It is issued either by the Social Security Administration (SSA) or the IRS. A Social Security number (SSN) is issued by the SSA; all other taxpayer identification numbers are issued by the IRS.
+          example: SocialSecurityNumber
+          enum:
+          - SocialSecurityNumber
+        taxpayerIdentifierValue:
+          maxLength: 9
+          minLength: 9
+          pattern: ^[0-9]{9}$
+          type: string
+          description: The value of the taxpayer identifier as assigned by the IRS to the individual or legal entity.
+          example: '114455778'
+      additionalProperties: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        errorCode:
+          type: string
+        errorDescription:
+          type: string
+    LoanLookupResponse_address:
+      required:
+      - PostalCode
+      - addressLineText
+      - cityName
+      - stateCode
+      type: object
+      properties:
+        addressLineText:
+          type: string
+          description: The address with the address number, pre-directional, street name, post-directional, address unit designators and address unit value.
+          example: 8200 jones branch drive
+        cityName:
+          type: string
+          description: The name of the city.
+          example: Mclean
+        postalCode:
+          type: string
+          description: The 5-digit or full 9-digit (xxxxx-xxxx) zip code of the mortgaged property.
+          example: '22102'
+        stateCode:
+          type: string
+          description: The two-character representation of the US state, US Territory, Canadian Province, Military APO FPO, or Territory.
+          example: VA
+      additionalProperties: false
+      description: The street address of a property.
+    LoanLookupResponse_loans:
+      required:
+      - address
+      - investorLoanIdentifier
+      - mortgageType
+      - noteDate
+      type: object
+      properties:
+        noteDate:
+          type: string
+          description: The date of the mortgage note document. This is the date on which the loan was originated.
+          example: '2015-02-16'
+        mortgageType:
+          type: string
+          description: Types Of Mortgages
+          example: Conventional
+        investorLoanIdentifier:
+          type: string
+          description: A unique identifier for a loan, assigned by the investor, used to track or refer to the loan in the investor’s systems.
+          example: '620149418'
+        loanStatusType:
+          type: string
+          description: A collection of values that summarize the payment status of a loan.
+          example: Closed
+        loanPayoffDate:
+          type: string
+          description: The date when the loan is paid off and liquidated.
+          example: '2020-04-13'
+        address:
+          $ref: '#/components/schemas/LoanLookupResponse_address'
+      additionalProperties: false
     LoanLookupRequest_address:
       required:
       - addressLineText
@@ -200,57 +366,6 @@ components:
           - WV
           - WY
       additionalProperties: false
-    LoanLookupResponse_loans:
-      required:
-      - address
-      - investorLoanIdentifier
-      - mortgageType
-      - noteDate
-      type: object
-      properties:
-        noteDate:
-          type: string
-          description: The date of the mortgage note document. This is the date on which the loan was originated.
-          example: '2015-02-16'
-        mortgageType:
-          type: string
-          description: Types Of Mortgages
-          example: Conventional
-        investorLoanIdentifier:
-          type: string
-          description: A unique identifier for a loan, assigned by the investor, used to track or refer to the loan in the investor’s systems.
-          example: '620149418'
-        loanStatusType:
-          type: string
-          description: A collection of values that summarize the payment status of a loan.
-          example: Closed
-        loanPayoffDate:
-          type: string
-          description: The date when the loan is paid off and liquidated.
-          example: '2020-04-13'
-        address:
-          $ref: '#/components/schemas/LoanLookupResponse_address'
-      additionalProperties: false
-    LoanLookupRequest_borrowerInformation:
-      required:
-      - taxpayerIdentifierType
-      - taxpayerIdentifierValue
-      type: object
-      properties:
-        taxpayerIdentifierType:
-          type: string
-          description: Specifies the type of identification number used by the Internal Revenue Service (IRS) in the administration of tax laws. It is issued either by the Social Security Administration (SSA) or the IRS. A Social Security number (SSN) is issued by the SSA; all other taxpayer identification numbers are issued by the IRS.
-          example: SocialSecurityNumber
-          enum:
-          - SocialSecurityNumber
-        taxpayerIdentifierValue:
-          maxLength: 9
-          minLength: 9
-          pattern: ^[0-9]{9}$
-          type: string
-          description: The value of the taxpayer identifier as assigned by the IRS to the individual or legal entity.
-          example: '114455778'
-      additionalProperties: false
     Errors:
       title: Errors
       type: object
@@ -259,149 +374,42 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
-    LoanLookupRequest:
-      required:
-      - address
-      - borrowerInformation
-      - partyRoleIdentifier
-      - partyRoleType
-      - requestTransactionIdentifier
-      type: object
-      properties:
-        requestType:
-          type: string
-          description: The search method being requested. Valid Value is LoanLookUp.
-          example: LoanLookUp
-          enum:
-          - LoanLookUp
-        requestTransactionIdentifier:
-          maxLength: 50
-          minLength: 1
-          type: string
-          description: 128-bit Globally unique identifier (GUID) assigned to each request.
-          example: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        closedLoanIndicator:
-          type: boolean
-          description: An Boolean indicator, which will include loans which have been paid off recently in the search when set to true. Valid Values are True/False and is set to false by default.
-          example: false
-          enum:
-          - true
-          - false
-        partyRoleIdentifier:
-          maxLength: 10
-          minLength: 1
-          type: string
-          description: The unique identifier assigned to the party role.
-          example: '123456'
-        partyRoleType:
-          maxLength: 50
-          minLength: 1
-          type: string
-          description: A value from a MISMO defined list that identifies the role that the party plays in the transaction. Parties may be either a person or legal entity. A party may play multiple roles in a transaction.
-          example: Seller
-          enum:
-          - Broker
-          - Seller
-          - Servicer
-          - Correspondent
-          - Lender
-        address:
-          $ref: '#/components/schemas/LoanLookupRequest_address'
-        borrowerInformation:
-          $ref: '#/components/schemas/LoanLookupRequest_borrowerInformation'
-      additionalProperties: false
-    ErrorEnvelope:
-      title: ErrorEnvelope
-      type: object
-      properties:
-        errors:
-          $ref: '#/components/schemas/Errors'
     LoanLookupErrorResponse:
       title: LoanLookupErrorResponse
       type: object
       properties:
         errorEnvelope:
           $ref: '#/components/schemas/ErrorEnvelope'
-    LoanLookupResponse_address:
-      required:
-      - PostalCode
-      - addressLineText
-      - cityName
-      - stateCode
+    ErrorEnvelope:
+      title: ErrorEnvelope
       type: object
       properties:
-        addressLineText:
-          type: string
-          description: The address with the address number, pre-directional, street name, post-directional, address unit designators and address unit value.
-          example: 8200 jones branch drive
-        cityName:
-          type: string
-          description: The name of the city.
-          example: Mclean
-        postalCode:
-          type: string
-          description: The 5-digit or full 9-digit (xxxxx-xxxx) zip code of the mortgaged property.
-          example: '22102'
-        stateCode:
-          type: string
-          description: The two-character representation of the US state, US Territory, Canadian Province, Military APO FPO, or Territory.
-          example: VA
-      additionalProperties: false
-      description: The street address of a property.
-    LoanLookupResponse:
-      required:
-      - loanMatchIndicator
-      - loanMatchMessage
-      - loans
-      - requestTransactionIdentifier
-      - transactionDateTime
-      type: object
-      properties:
-        loanMatchIndicator:
-          type: boolean
-          example: true
-          enum:
-          - true
-          - false
-        loanMatchMessage:
-          type: string
-          example: Freddie Mac has identified one (or more) loans matching the submitted borrower information.
-        requestTransactionIdentifier:
-          type: string
-          description: The unique identifier assigned to each request.
-          example: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        transactionDateTime:
-          type: string
-          example: '2020-04-08T22:05:37.184Z'
-        loans:
-          type: array
-          items:
-            $ref: '#/components/schemas/LoanLookupResponse_loans'
-      additionalProperties: false
-    Error:
-      title: Error
-      type: object
-      properties:
-        errorCode:
-          type: string
-        errorDescription:
-          type: string
+        errors:
+          $ref: '#/components/schemas/Errors'
   examples:
-    SingleMatchResponse:
+    ClosedLoanRequest:
       value:
-        loanMatchIndicator: true
-        loanMatchMessage: Freddie Mac has identified one (or more) loans matching the submitted borrower information.
+        requestType: LoanLookUp
         requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        transactionDateTime: '2026-03-21T22:07:20.289Z'
+        closedLoanIndicator: true
+        partyRoleIdentifier: '12345'
+        partyRoleType: Servicer
+        address:
+          addressLineText: 817 W Main St
+          cityName: Waterford
+          postalCode: '53185'
+          stateCode: WI
+        borrowerInformation:
+          taxpayerIdentifierType: SocialSecurityNumber
+          taxpayerIdentifierValue: '888800015'
+    NoMatchResponse:
+      value:
+        loanMatchIndicator: false
+        loanMatchMessage: Freddie Mac did not find any loans matching the given borrower information.
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        transactionDateTime: '2020-04-09T14:05:19.565Z'
         loans:
-        - noteDate: '2024-12-27'
-          mortgageType: Conventional
-          investorLoanIdentifier: 000000009
-          address:
-            addressLineText: 22 Spencer St
-            cityName: Edison
-            postalCode: 08817
-            stateCode: NJ
+        - {}
     ClosedLoanResponse:
       value:
         loanMatchIndicator: true
@@ -419,14 +427,6 @@ components:
             cityName: Waterford
             postalCode: '53185'
             stateCode: WI
-    NoMatchResponse:
-      value:
-        loanMatchIndicator: false
-        loanMatchMessage: Freddie Mac did not find any loans matching the given borrower information.
-        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        transactionDateTime: '2020-04-09T14:05:19.565Z'
-        loans:
-        - {}
     NoMatchRequest:
       value:
         requestType: LoanLookUp
@@ -442,21 +442,6 @@ components:
         borrowerInformation:
           taxpayerIdentifierType: SocialSecurityNumber
           taxpayerIdentifierValue: '148239146'
-    ClosedLoanRequest:
-      value:
-        requestType: LoanLookUp
-        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        closedLoanIndicator: true
-        partyRoleIdentifier: '12345'
-        partyRoleType: Servicer
-        address:
-          addressLineText: 817 W Main St
-          cityName: Waterford
-          postalCode: '53185'
-          stateCode: WI
-        borrowerInformation:
-          taxpayerIdentifierType: SocialSecurityNumber
-          taxpayerIdentifierValue: '888800015'
     MultipleMatchRequest:
       value:
         requestType: LoanLookUp
@@ -472,6 +457,36 @@ components:
         borrowerInformation:
           taxpayerIdentifierType: SocialSecurityNumber
           taxpayerIdentifierValue: '888800000'
+    SingleMatchRequest:
+      value:
+        requestType: LoanLookUp
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        closedLoanIndicator: false
+        partyRoleIdentifier: '12345'
+        partyRoleType: Seller
+        address:
+          addressLineText: 22 SPENCER ST
+          cityName: EDISON
+          postalCode: 08817
+          stateCode: NJ
+        borrowerInformation:
+          taxpayerIdentifierType: SocialSecurityNumber
+          taxpayerIdentifierValue: '888800001'
+    SingleMatchResponse:
+      value:
+        loanMatchIndicator: true
+        loanMatchMessage: Freddie Mac has identified one (or more) loans matching the submitted borrower information.
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        transactionDateTime: '2026-03-21T22:07:20.289Z'
+        loans:
+        - noteDate: '2024-12-27'
+          mortgageType: Conventional
+          investorLoanIdentifier: 000000009
+          address:
+            addressLineText: 22 Spencer St
+            cityName: Edison
+            postalCode: 08817
+            stateCode: NJ
     MultipleMatchResponse:
       value:
         loanMatchIndicator: true
@@ -495,21 +510,6 @@ components:
             cityName: Edgewater
             postalCode: '07020'
             stateCode: NJ
-    SingleMatchRequest:
-      value:
-        requestType: LoanLookUp
-        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        closedLoanIndicator: false
-        partyRoleIdentifier: '12345'
-        partyRoleType: Seller
-        address:
-          addressLineText: 22 SPENCER ST
-          cityName: EDISON
-          postalCode: 08817
-          stateCode: NJ
-        borrowerInformation:
-          taxpayerIdentifierType: SocialSecurityNumber
-          taxpayerIdentifierValue: '888800001'
   securitySchemes:
     bearerAuth:
       type: http

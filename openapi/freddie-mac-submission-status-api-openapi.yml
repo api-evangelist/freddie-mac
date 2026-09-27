@@ -98,75 +98,6 @@ paths:
       - bearerAuth: []
 components:
   schemas:
-    ImageStorageLocation:
-      type: object
-      properties:
-        imageId:
-          type: string
-          example: bcde070d-8c4c-4f0d-9d8a-162843c10334
-        imageMeta:
-          $ref: '#/components/schemas/ImageMetaData'
-        uploadUrl:
-          type: string
-    GPSCoordinates:
-      required:
-      - latitude
-      - longitude
-      type: object
-      properties:
-        latitude:
-          type: number
-          description: Waterfall Subject Latitude as centroid of latitude of all images, OR a specific image likely to be present in all dwellings, such as the kitchen OR a photo of the main entrance of the dwelling. If latitude from images is unavailable, use geocoder from subject address.
-          format: float
-          example: 38.889248
-        longitude:
-          type: number
-          description: Waterfall Subject Longitude as centroid of longitude of all images, OR a specific image likely to be present in all dwellings, such as the kitchen OR a photo of the main entrance of the dwelling. If latitude/longitude from images is unavailable, use geocoder from subject address.
-          format: float
-          example: -77.050636
-      additionalProperties: false
-    Message:
-      required:
-      - messageCode
-      - messageDescription
-      type: object
-      properties:
-        messageCode:
-          type: string
-        messageDescription:
-          type: string
-    ErrorResponse:
-      required:
-      - code
-      - details
-      - message
-      - proxyCorrelationId
-      type: object
-      properties:
-        proxyCorrelationId:
-          type: string
-          description: PDR API assigned control number for the request.
-        code:
-          type: string
-          description: Error Code
-        message:
-          type: string
-          description: Error Description
-        details:
-          type: array
-          description: A collection of error details. Details container will contain error format.
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/Error'
-            - $ref: '#/components/schemas/Message'
-      description: Information about the errors.
-    ValidationError:
-      type: object
-      properties:
-        jsonPath:
-          type: string
-        validationErrorMessage:
-          type: string
     PropertyDataReportStatus:
       type: object
       properties:
@@ -209,6 +140,43 @@ components:
         error:
           type: string
       description: Information about the error.
+    Message:
+      required:
+      - messageCode
+      - messageDescription
+      type: object
+      properties:
+        messageCode:
+          type: string
+        messageDescription:
+          type: string
+    GPSCoordinates:
+      required:
+      - latitude
+      - longitude
+      type: object
+      properties:
+        latitude:
+          type: number
+          description: Waterfall Subject Latitude as centroid of latitude of all images, OR a specific image likely to be present in all dwellings, such as the kitchen OR a photo of the main entrance of the dwelling. If latitude from images is unavailable, use geocoder from subject address.
+          format: float
+          example: 38.889248
+        longitude:
+          type: number
+          description: Waterfall Subject Longitude as centroid of longitude of all images, OR a specific image likely to be present in all dwellings, such as the kitchen OR a photo of the main entrance of the dwelling. If latitude/longitude from images is unavailable, use geocoder from subject address.
+          format: float
+          example: -77.050636
+      additionalProperties: false
+    ImageStorageLocation:
+      type: object
+      properties:
+        imageId:
+          type: string
+          example: bcde070d-8c4c-4f0d-9d8a-162843c10334
+        imageMeta:
+          $ref: '#/components/schemas/ImageMetaData'
+        uploadUrl:
+          type: string
     ImageMetaData:
       required:
       - description
@@ -368,35 +336,39 @@ components:
           description: true/false (This field will be true for images that are required for the Inspection to be considered Complete).
         parentObjectJsonPath:
           type: string
+    ValidationError:
+      type: object
+      properties:
+        jsonPath:
+          type: string
+        validationErrorMessage:
+          type: string
+    ErrorResponse:
+      required:
+      - code
+      - details
+      - message
+      - proxyCorrelationId
+      type: object
+      properties:
+        proxyCorrelationId:
+          type: string
+          description: PDR API assigned control number for the request.
+        code:
+          type: string
+          description: Error Code
+        message:
+          type: string
+          description: Error Description
+        details:
+          type: array
+          description: A collection of error details. Details container will contain error format.
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Error'
+            - $ref: '#/components/schemas/Message'
+      description: Information about the errors.
   examples:
-    BACEAPIInternalErrorResponse:
-      summary: Internal Server error
-      description: An 0005 error that indicates that the request could not be processed. Please reach out to Customer Support.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 500
-        message: Internal Server Error
-        details:
-        - MessageCode: '0005'
-          MessageDescription: API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
-    BACEAPIUnauthorizedResponse:
-      summary: Unauthorized Response
-      description: The user is not authorized to access the application.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 401
-        message: Unable to authorize the request.
-        details:
-        - error: The user profile is not authorized to access the system.
-    BACEAPINotFoundResponse:
-      summary: Resource not found
-      description: This typically can happen if the resource URL is not correct.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 404.001
-        message: No resource for GET/POST
-        details:
-        - error: No resource for GET/POST
     BACEAPILimitExceededResponse:
       summary: Quota or Resource Limit Exceeded
       description: The number of requests made exceed the threshold. Reduce the number of requests.
@@ -415,6 +387,34 @@ components:
         message: No resource for GET/POST
         details:
         - error: propertyDataId {propertyDataId} provided for getting property Status not found.
+    BACEAPINotFoundResponse:
+      summary: Resource not found
+      description: This typically can happen if the resource URL is not correct.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 404.001
+        message: No resource for GET/POST
+        details:
+        - error: No resource for GET/POST
+    BACEAPIUnauthorizedResponse:
+      summary: Unauthorized Response
+      description: The user is not authorized to access the application.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 401
+        message: Unable to authorize the request.
+        details:
+        - error: The user profile is not authorized to access the system.
+    BACEAPIInternalErrorResponse:
+      summary: Internal Server error
+      description: An 0005 error that indicates that the request could not be processed. Please reach out to Customer Support.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 500
+        message: Internal Server Error
+        details:
+        - MessageCode: '0005'
+          MessageDescription: API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
   securitySchemes:
     bearerAuth:
       type: http
