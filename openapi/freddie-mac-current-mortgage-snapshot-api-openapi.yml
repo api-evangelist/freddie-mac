@@ -104,6 +104,12 @@ paths:
       deprecated: false
 components:
   schemas:
+    CurrentMortgageSnapshotErrorResponse:
+      title: CurrentMortgageSnapshotErrorResponse
+      type: object
+      properties:
+        errorEnvelope:
+          $ref: '#/components/schemas/ErrorEnvelope'
     CurrentMortgageSnapshotRequest_borrowerInformation:
       required:
       - automatedUnderwritingCaseIdentifier
@@ -147,6 +153,44 @@ components:
           description: A unique identifier assigned by the underwriting system to the underwriting case for a specific loan application.
           example: C1234567
       additionalProperties: false
+    CurrentMortgageSnapshotRequest:
+      required:
+      - address
+      - borrowerInformation
+      - partyRoleIdentifier
+      - partyRoleType
+      - requestTransactionIdentifier
+      type: object
+      properties:
+        requestTransactionIdentifier:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: 128-bit Globally unique identifier (GUID) assigned to each request.
+          example: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        partyRoleType:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Identifies the role that the party plays in the transaction. Parties may be either a person or legal entity. A party may play multiple roles in a transaction.
+          example: Seller
+          enum:
+          - Broker
+          - Correspondent
+          - Lender
+          - Seller
+          - Servicer
+        partyRoleIdentifier:
+          maxLength: 10
+          minLength: 1
+          type: string
+          description: The unique identifier assigned to the party role.
+          example: '123456'
+        address:
+          $ref: '#/components/schemas/CurrentMortgageSnapshotRequest_address'
+        borrowerInformation:
+          $ref: '#/components/schemas/CurrentMortgageSnapshotRequest_borrowerInformation'
+      additionalProperties: false
     CurrentMortgageSnapshotResponse:
       required:
       - address
@@ -176,14 +220,6 @@ components:
           type: string
           example: Freddie Mac did not find any loans matching the given borrower information.
       additionalProperties: false
-    Error:
-      title: Error
-      type: object
-      properties:
-        errorCode:
-          type: string
-        errorDescription:
-          type: string
     CurrentMortgageSnapshotResponse_priorLoanTerms:
       type: object
       properties:
@@ -260,6 +296,12 @@ components:
           description: The date of the first scheduled mortgage payment to be made by the borrower under the terms of the mortgage.
           example: 11/1/2020
       additionalProperties: false
+    ErrorEnvelope:
+      title: ErrorEnvelope
+      type: object
+      properties:
+        errors:
+          $ref: '#/components/schemas/Errors'
     CurrentMortgageSnapshotRequest_address:
       required:
       - addressLineText
@@ -405,6 +447,14 @@ components:
           description: The HUD estimated 80% median family incomes to determine borrower eligibility for all applications related to affordable lending products.
           example: '47760.0'
       additionalProperties: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        errorCode:
+          type: string
+        errorDescription:
+          type: string
     Errors:
       title: Errors
       type: object
@@ -413,91 +463,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
-    CurrentMortgageSnapshotRequest:
-      required:
-      - address
-      - borrowerInformation
-      - partyRoleIdentifier
-      - partyRoleType
-      - requestTransactionIdentifier
-      type: object
-      properties:
-        requestTransactionIdentifier:
-          maxLength: 50
-          minLength: 1
-          type: string
-          description: 128-bit Globally unique identifier (GUID) assigned to each request.
-          example: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        partyRoleType:
-          maxLength: 50
-          minLength: 1
-          type: string
-          description: Identifies the role that the party plays in the transaction. Parties may be either a person or legal entity. A party may play multiple roles in a transaction.
-          example: Seller
-          enum:
-          - Broker
-          - Correspondent
-          - Lender
-          - Seller
-          - Servicer
-        partyRoleIdentifier:
-          maxLength: 10
-          minLength: 1
-          type: string
-          description: The unique identifier assigned to the party role.
-          example: '123456'
-        address:
-          $ref: '#/components/schemas/CurrentMortgageSnapshotRequest_address'
-        borrowerInformation:
-          $ref: '#/components/schemas/CurrentMortgageSnapshotRequest_borrowerInformation'
-      additionalProperties: false
-    CurrentMortgageSnapshotErrorResponse:
-      title: CurrentMortgageSnapshotErrorResponse
-      type: object
-      properties:
-        errorEnvelope:
-          $ref: '#/components/schemas/ErrorEnvelope'
-    ErrorEnvelope:
-      title: ErrorEnvelope
-      type: object
-      properties:
-        errors:
-          $ref: '#/components/schemas/Errors'
   examples:
-    RequestExample3:
-      summary: Scenario 3 - No matching SS# therefore no loan data found
-      value:
-        requestTransactionIdentifier: 6e6da9da-6b10-4995-89a0-b793b6f2b1b9
-        partyRoleType: Seller
-        partyRoleIdentifier: '123456'
-        address:
-          addressLineText: 8200 JONES BRANCH DR
-          cityName: MCLEAN
-          postalCode: '22102'
-          stateCode: VA
-        borrowerInformation:
-          partyRoleType: Borrower
-          lastName: NOWELL
-          taxpayerIdentifierType: SocialSecurityNumber
-          taxpayerIdentifierValue: '555555547'
-          automatedUnderwritingCaseIdentifier: A6429129
-    RequestExample1:
-      summary: Scenario 1 - Get original and current loan data
-      value:
-        requestTransactionIdentifier: 5d6cf7e9-8b40-9ff3-85e0-03f6f260dd89
-        partyRoleType: Seller
-        partyRoleIdentifier: '123456'
-        address:
-          addressLineText: 1106 N FLAMINGO RD
-          cityName: ROGERS
-          postalCode: '72756'
-          stateCode: AR
-        borrowerInformation:
-          partyRoleType: Borrower
-          lastName: BLEDSOE
-          taxpayerIdentifierType: SocialSecurityNumber
-          taxpayerIdentifierValue: '555555543'
-          automatedUnderwritingCaseIdentifier: A9734128
     RequestExample2:
       summary: Scenario 2 - Get original and current loan data
       value:
@@ -516,29 +482,6 @@ components:
           taxpayerIdentifierType: SocialSecurityNumber
           taxpayerIdentifierValue: '555555545'
           automatedUnderwritingCaseIdentifier: '1421409300'
-    ResponseExample2:
-      summary: Response 2 - No matching loan data
-      value:
-        requestTransactionIdentifier: 6e6da9da-6b10-4995-89a0-b793b6f2b1b9
-        transactionDateTime: '2021-02-04T20:33:53.688Z'
-        inputAddress:
-          addressLineText: 8200 Jones Branch Drive
-          cityName: Mclean
-          postalCode: '22102'
-          stateCode: VA
-        address:
-          addressLineText: 8200 JONES BRANCH DR
-          cityName: MCLEAN
-          postalCode: '22102'
-          stateCode: VA
-        loanMatchMessage: Freddie Mac did not find any loans matching the given borrower information.
-    ResponseExample3:
-      summary: Response 3 - Invalid request schema
-      value:
-        code: '400.002'
-        message: Request data does not match the application schema, please validate the request data.
-        details:
-        - error: 'address.stateCode: does not have a value in the enumeration [AK, AL, AR, AZ, CA, CO, CT, DC, DE, FL, GA, GU, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, MT, NC, ND, NE, NH, NJ, NM, NV, NY, OH, OK, OR, PA, PR, RI, SC, SD, TN, TX, UT, VI, VA, VT, WA, WI, WV, WY]'
     RequestExample4:
       summary: Scenario 4 - Invalid request schema
       value:
@@ -557,6 +500,23 @@ components:
           taxpayerIdentifierType: SocialSecurityNumber
           taxpayerIdentifierValue: '114455778'
           automatedUnderwritingCaseIdentifier: C1234567
+    RequestExample3:
+      summary: Scenario 3 - No matching SS# therefore no loan data found
+      value:
+        requestTransactionIdentifier: 6e6da9da-6b10-4995-89a0-b793b6f2b1b9
+        partyRoleType: Seller
+        partyRoleIdentifier: '123456'
+        address:
+          addressLineText: 8200 JONES BRANCH DR
+          cityName: MCLEAN
+          postalCode: '22102'
+          stateCode: VA
+        borrowerInformation:
+          partyRoleType: Borrower
+          lastName: NOWELL
+          taxpayerIdentifierType: SocialSecurityNumber
+          taxpayerIdentifierValue: '555555547'
+          automatedUnderwritingCaseIdentifier: A6429129
     ResponseExample1:
       summary: Response 1 - Get original and current loan data
       value:
@@ -601,6 +561,46 @@ components:
           lienPriorityType: FirstLien
           loanMortgageType: Conventional
           eightyPercentHUDMedianIncomeAmount: '81440.00'
+    ResponseExample2:
+      summary: Response 2 - No matching loan data
+      value:
+        requestTransactionIdentifier: 6e6da9da-6b10-4995-89a0-b793b6f2b1b9
+        transactionDateTime: '2021-02-04T20:33:53.688Z'
+        inputAddress:
+          addressLineText: 8200 Jones Branch Drive
+          cityName: Mclean
+          postalCode: '22102'
+          stateCode: VA
+        address:
+          addressLineText: 8200 JONES BRANCH DR
+          cityName: MCLEAN
+          postalCode: '22102'
+          stateCode: VA
+        loanMatchMessage: Freddie Mac did not find any loans matching the given borrower information.
+    RequestExample1:
+      summary: Scenario 1 - Get original and current loan data
+      value:
+        requestTransactionIdentifier: 5d6cf7e9-8b40-9ff3-85e0-03f6f260dd89
+        partyRoleType: Seller
+        partyRoleIdentifier: '123456'
+        address:
+          addressLineText: 1106 N FLAMINGO RD
+          cityName: ROGERS
+          postalCode: '72756'
+          stateCode: AR
+        borrowerInformation:
+          partyRoleType: Borrower
+          lastName: BLEDSOE
+          taxpayerIdentifierType: SocialSecurityNumber
+          taxpayerIdentifierValue: '555555543'
+          automatedUnderwritingCaseIdentifier: A9734128
+    ResponseExample3:
+      summary: Response 3 - Invalid request schema
+      value:
+        code: '400.002'
+        message: Request data does not match the application schema, please validate the request data.
+        details:
+        - error: 'address.stateCode: does not have a value in the enumeration [AK, AL, AR, AZ, CA, CO, CT, DC, DE, FL, GA, GU, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, MT, NC, ND, NE, NH, NJ, NM, NV, NY, OH, OK, OR, PA, PR, RI, SC, SD, TN, TX, UT, VI, VA, VT, WA, WI, WV, WY]'
   securitySchemes:
     bearerAuth:
       type: http

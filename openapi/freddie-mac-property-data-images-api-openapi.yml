@@ -262,14 +262,6 @@ paths:
       - bearerAuth: []
 components:
   schemas:
-    Error:
-      required:
-      - error
-      type: object
-      properties:
-        error:
-          type: string
-      description: Information about the error.
     Message:
       required:
       - messageCode
@@ -305,6 +297,14 @@ components:
             - $ref: '#/components/schemas/Error'
             - $ref: '#/components/schemas/Message'
       description: Information about the errors.
+    Error:
+      required:
+      - error
+      type: object
+      properties:
+        error:
+          type: string
+      description: Information about the error.
   requestBodies:
     insertDaImage:
       content:
@@ -317,6 +317,25 @@ components:
                 format: binary
             description: Image size must be within 1 MB to 50 MB.Image must be submitted in a valid format of JPG/PNG/JPEG.
   examples:
+    BACEAPIInternalErrorResponse:
+      summary: Internal Server error
+      description: An 0005 error that indicates that the request could not be processed. Please reach out to Customer Support.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 500
+        message: Internal Server Error
+        details:
+        - MessageCode: '0005'
+          MessageDescription: API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
+    BACEAPIUnauthorizedResponse:
+      summary: Unauthorized Response
+      description: The user is not authorized to access the application.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 401
+        message: Unable to authorize the request.
+        details:
+        - error: The user profile is not authorized to access the system.
     BACEAPILimitExceededResponse:
       summary: Quota or Resource Limit Exceeded
       description: The number of requests made exceed the threshold. Reduce the number of requests.
@@ -344,25 +363,6 @@ components:
         message: No resource for GET/POST
         details:
         - error: imageId {imageId} provided not found.
-    BACEAPIUnauthorizedResponse:
-      summary: Unauthorized Response
-      description: The user is not authorized to access the application.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 401
-        message: Unable to authorize the request.
-        details:
-        - error: The user profile is not authorized to access the system.
-    BACEAPIInternalErrorResponse:
-      summary: Internal Server error
-      description: An 0005 error that indicates that the request could not be processed. Please reach out to Customer Support.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 500
-        message: Internal Server Error
-        details:
-        - MessageCode: '0005'
-          MessageDescription: API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
   securitySchemes:
     bearerAuth:
       type: http
