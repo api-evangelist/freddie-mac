@@ -420,6 +420,14 @@ paths:
                   $ref: '#/components/examples/FileImportStatusInternalErrorResponse'
 components:
   examples:
+    SellerIdentifierInvalidRequestTypeResponse:
+      summary: SellerIdentifier Invalid Request Type
+      description: The Server can not process the request
+      value:
+        fileStatus: Error
+        errors:
+        - errorCode: LIS0002
+          errorMessage: 'SellerIdentifier: expected type: String, found: Integer.'
     CorrelationIdentifierInvalidDataTypeResponse:
       summary: CorrelationIdentifier Invalid Data Type
       description: The Server can not process the request
@@ -428,6 +436,38 @@ components:
         errors:
         - errorCode: LIS0002
           errorMessage: 'CorrelationIdentifier: expected type: String, found: Integer.'
+    LoanImportFileStatusRequestForSeller:
+      value:
+        correlationIdentifier: '9999'
+        sellerIdentifier: '999999'
+        sellerOrganizationBranchIdentifier: 999999
+        counterPartyType: Seller
+        fileIdentifier: 99999
+    SellerIdentifierRequiredResponse:
+      summary: SellerIdentifier Required
+      value:
+        fileStatus: Error
+        errors:
+        - errorCode: LIS0001
+          errorMessage: Required key [sellerIdentifier] not found.
+    SellerOrganizationBranchIdentifierRequiredResponse:
+      summary: SellerOrganizationBranchIdentifier Required
+      description: The Server can not process the request
+      value:
+        fileStatus: Error
+        errors:
+        - errorCode: LIS0001
+          errorMessage: Required key [sellerOrganizationBranchIdentifier] not found.
+    ImportLoanResponse:
+      summary: ImportResponse
+      description: The Import loan file status results details
+      value:
+        responseDetails:
+          fileStatus: InProgress
+          fileIdentifier: 99999
+          sellerIdentifier: '999999'
+          fileName: SampleH49Loan_1Loan_2025-09-22 134708_000278_147357.xml
+          estimatedTimeToRetrieveImportResultsInSecs: 15
     LoanImportFileStatusIntermediateResponse:
       value:
         fileStatusResultsResponse:
@@ -467,32 +507,52 @@ components:
           - errorCode: LI0012
             errorMessage: The Pool Number provided is not valid.
             errorType: ImportError
-    ImportLoanResponse:
-      summary: ImportResponse
-      description: The Import loan file status results details
+    PoolNumberInvalidRequestTypeResponse:
       value:
         responseDetails:
-          fileStatus: InProgress
-          fileIdentifier: 99999
-          sellerIdentifier: '999999'
-          fileName: SampleH49Loan_1Loan_2025-09-22 134708_000278_147357.xml
-          estimatedTimeToRetrieveImportResultsInSecs: 15
-    SellerOrganizationBranchIdentifierRequiredResponse:
-      summary: SellerOrganizationBranchIdentifier Required
+          fileStatus: Error
+          errors:
+          - errorCode: LIS0002
+            errorMessage: 'PoolNumber: expected type: String, found: Integer.'
+    FileIdentifierInvalidRequestTypeResponse:
+      summary: FileIdentifier Invalid Request Type
+      description: The Server can not process the request
+      value:
+        fileStatus: Error
+        errors:
+        - errorCode: LIS0002
+          errorMessage: 'FileIdentifier: expected type: Number, found: String.'
+    FileImportStatusInternalErrorResponse:
+      summary: Internal Server error
+      value:
+        responseDetails:
+          fileStatus: Error
+          errors:
+          - errorCode: SYST0001
+            errorMessage: An application error has occurred. Please call 1-800-FREDDIE to report this problem.
+            errorType: ImportError
+    ImportErrorResponse403:
+      value:
+        code:
+          type: string
+          reqruire: true
+          example: '403'
+        message:
+          type: string
+          reqruire: true
+          example: Access Forbidden
+        details:
+          type: string
+          reqruire: true
+          example: Accessing the resource you were trying to reach is forbidden
+    FileIdentifierRequiredResponse:
+      summary: FileIdentifier Required
       description: The Server can not process the request
       value:
         fileStatus: Error
         errors:
         - errorCode: LIS0001
-          errorMessage: Required key [sellerOrganizationBranchIdentifier] not found.
-    LoanImportFileStatusRequestForSMA:
-      value:
-        correlationIdentifier: '9999'
-        sellerIdentifier: '999999'
-        sellerOrganizationBranchIdentifier: 999999
-        requestingPartyAccountIdentifier: SMA999
-        counterPartyType: SecondaryMarketAdvisor
-        fileIdentifier: 99999
+          errorMessage: Required key [fileIdentifier] not found.
     ImportErrorResponse401:
       value:
         error:
@@ -547,6 +607,14 @@ components:
                   type: string
                   example: '2025-07-11T19:19:39.906Z'
               additionalProperties: true
+    LoanImportFileStatusRequestForSMA:
+      value:
+        correlationIdentifier: '9999'
+        sellerIdentifier: '999999'
+        sellerOrganizationBranchIdentifier: 999999
+        requestingPartyAccountIdentifier: SMA999
+        counterPartyType: SecondaryMarketAdvisor
+        fileIdentifier: 99999
     ContractUPBLimitIndicatorRequiredResponse:
       value:
         responseDetails:
@@ -554,86 +622,6 @@ components:
           errors:
           - errorCode: LIS0001
             errorMessage: Required key [contractUPBLimitIndicator] not found.
-    FileIdentifierInvalidRequestTypeResponse:
-      summary: FileIdentifier Invalid Request Type
-      description: The Server can not process the request
-      value:
-        fileStatus: Error
-        errors:
-        - errorCode: LIS0002
-          errorMessage: 'FileIdentifier: expected type: Number, found: String.'
-    LoanImportFileStatusRequestForSeller:
-      value:
-        correlationIdentifier: '9999'
-        sellerIdentifier: '999999'
-        sellerOrganizationBranchIdentifier: 999999
-        counterPartyType: Seller
-        fileIdentifier: 99999
-    FileImportStatusInternalErrorResponse:
-      summary: Internal Server error
-      value:
-        responseDetails:
-          fileStatus: Error
-          errors:
-          - errorCode: SYST0001
-            errorMessage: An application error has occurred. Please call 1-800-FREDDIE to report this problem.
-            errorType: ImportError
-    FileIdentifierRequiredResponse:
-      summary: FileIdentifier Required
-      description: The Server can not process the request
-      value:
-        fileStatus: Error
-        errors:
-        - errorCode: LIS0001
-          errorMessage: Required key [fileIdentifier] not found.
-    LoanImportFileStatusReponseWithoutErrors:
-      value:
-        fileStatusResultsResponse:
-        - fileIdentifier: 99999
-          userIdentifier: FREDDIE_ALLROLE10
-          fileName: SampleH49Loan_1Loan_2025-09-19 104007_000152_147357.xml
-          fileStatus: Completed
-          fileCreationTime: 2025-09-19 10:40 AM
-          sellerIdentifier: '999999'
-          organizationBranchIdentifier: 999999
-          totalLoans: 1
-          totalLoansProcessed: 1
-          totalCurrentUPB: 268000
-          totalLoansWithErrors: 0
-          totalLoansWithProductErrors: 0
-          totalLoansWithProductLabelled: 1
-          totalLoansWithImportWarnings: 0
-          totalLoansWithProductAndImportWarnings: 0
-          totalLoansWithEvaluationErrors: 0
-          totalLoansWithEvaluationWarnings: 0
-          totalLoansNotEligibleForRNWAssetRelief: 1
-          totalLoansNotEligibleForRNWCollateralRelief: 1
-          totalLoansNotEligibleForRNWIncomeRelief: 1
-          totalLoansWithAllocationErrors: 0
-          totalLoansAllocated: 0
-          requestToEvaluateLoans: true
-    ImportErrorResponse403:
-      value:
-        code:
-          type: string
-          reqruire: true
-          example: '403'
-        message:
-          type: string
-          reqruire: true
-          example: Access Forbidden
-        details:
-          type: string
-          reqruire: true
-          example: Accessing the resource you were trying to reach is forbidden
-    CorrelationIdentifierRequiredResponse:
-      summary: CorrelationIdentifier Required
-      description: The Server can not process the request
-      value:
-        fileStatus: Error
-        errors:
-        - errorCode: LIS0001
-          errorMessage: Required key [correlationIdentifier] not found.
     LoanImportFileStatusReponseWithErrors:
       value:
         fileStatusResultsResponse:
@@ -713,28 +701,40 @@ components:
             - errorCode: LI0074
               errorMessage: Automated Underwriting Case Identifier AUWCI_Test_unique_1 with the Automated Underwriting System Type of Loan Product Advisor already exists and cannot be added to this loan.
               errorType: ImportError
-    PoolNumberInvalidRequestTypeResponse:
+    LoanImportFileStatusReponseWithoutErrors:
       value:
-        responseDetails:
-          fileStatus: Error
-          errors:
-          - errorCode: LIS0002
-            errorMessage: 'PoolNumber: expected type: String, found: Integer.'
-    SellerIdentifierInvalidRequestTypeResponse:
-      summary: SellerIdentifier Invalid Request Type
+        fileStatusResultsResponse:
+        - fileIdentifier: 99999
+          userIdentifier: FREDDIE_ALLROLE10
+          fileName: SampleH49Loan_1Loan_2025-09-19 104007_000152_147357.xml
+          fileStatus: Completed
+          fileCreationTime: 2025-09-19 10:40 AM
+          sellerIdentifier: '999999'
+          organizationBranchIdentifier: 999999
+          totalLoans: 1
+          totalLoansProcessed: 1
+          totalCurrentUPB: 268000
+          totalLoansWithErrors: 0
+          totalLoansWithProductErrors: 0
+          totalLoansWithProductLabelled: 1
+          totalLoansWithImportWarnings: 0
+          totalLoansWithProductAndImportWarnings: 0
+          totalLoansWithEvaluationErrors: 0
+          totalLoansWithEvaluationWarnings: 0
+          totalLoansNotEligibleForRNWAssetRelief: 1
+          totalLoansNotEligibleForRNWCollateralRelief: 1
+          totalLoansNotEligibleForRNWIncomeRelief: 1
+          totalLoansWithAllocationErrors: 0
+          totalLoansAllocated: 0
+          requestToEvaluateLoans: true
+    CorrelationIdentifierRequiredResponse:
+      summary: CorrelationIdentifier Required
       description: The Server can not process the request
       value:
         fileStatus: Error
         errors:
-        - errorCode: LIS0002
-          errorMessage: 'SellerIdentifier: expected type: String, found: Integer.'
-    SellerIdentifierRequiredResponse:
-      summary: SellerIdentifier Required
-      value:
-        fileStatus: Error
-        errors:
         - errorCode: LIS0001
-          errorMessage: Required key [sellerIdentifier] not found.
+          errorMessage: Required key [correlationIdentifier] not found.
   schemas:
     LoanImportFileStatusRequest:
       description: This is the request metadata for Loan Import Status processing.

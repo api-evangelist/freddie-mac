@@ -100,6 +100,38 @@ paths:
       x-codegen-request-body-name: shortSaleMNPServiceRequest
 components:
   examples:
+    ResponseOrderMNP:
+      summary: Scenario 2 - Response when a new MNP Order is Placed
+      description: A new submission response
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              createdDatetime: '2021-05-05T15:36:38.371Z'
+          responseData:
+            isRVPRequestValid: true
+            errorList: []
+            responseRVPList:
+            - loanIdentifier: '888888888'
+              servicerLoanIdentifier: ab00123456789
+              servicerAccountIdentifier: '888888'
+              requestType: MNP
+              serviceType: Interior/Exterior BPO w/Photos
+              orderSource: Servicer
+              isValid: true
+              isMNPObtained: false
+              errorWorkoutList:
+              - workoutErrorCode: RVP00027
+                workoutErrorDescription: No current MNP found for loan requested. MNP request has been filed. Please monitor MNP Request Status on a daily basis.
+                workoutErrorType: Informational
+              valuationData:
+                mnpStatus: Pending
+                mnpRequestIdentifier: '123456'
+              servicerContactDetails:
+                servicerContactFirstName: JIM
+                servicerContactLastName: JONES
+                servicerContactPhone: '1234567890'
+                servicerContactEmail: JIM@emailserver.com
     RequestOrderMNP:
       summary: Scenario 2 - Request when a new MNP Order is Placed.
       description: A new submission
@@ -141,54 +173,6 @@ components:
                     value: '1234'
                   - category: SpecialInteriorAccess
                     value: Watch out for a dog
-    RequestCompletedMNPWithFutureGTD:
-      summary: Scenario 1 - Retrieve a completed short sale MNP with future good thru date
-      description: A new submission
-      value:
-        message:
-          aboutVersions:
-            aboutVersion:
-              aboutVersionIdentifier: S1.0.01
-              createdDatetime: '2018-12-10T13:45:00.000Z'
-          requestData:
-            workoutList:
-            - externalData:
-                servicerAccountIdentifier: '999999'
-                loanIdentifier: '999999999'
-                requestType: MNP
-                servicerLoanIdentifier: ab00123456789
-    ResponseOrderMNP:
-      summary: Scenario 2 - Response when a new MNP Order is Placed
-      description: A new submission response
-      value:
-        message:
-          aboutVersions:
-            aboutVersion:
-              createdDatetime: '2021-05-05T15:36:38.371Z'
-          responseData:
-            isRVPRequestValid: true
-            errorList: []
-            responseRVPList:
-            - loanIdentifier: '888888888'
-              servicerLoanIdentifier: ab00123456789
-              servicerAccountIdentifier: '888888'
-              requestType: MNP
-              serviceType: Interior/Exterior BPO w/Photos
-              orderSource: Servicer
-              isValid: true
-              isMNPObtained: false
-              errorWorkoutList:
-              - workoutErrorCode: RVP00027
-                workoutErrorDescription: No current MNP found for loan requested. MNP request has been filed. Please monitor MNP Request Status on a daily basis.
-                workoutErrorType: Informational
-              valuationData:
-                mnpStatus: Pending
-                mnpRequestIdentifier: '123456'
-              servicerContactDetails:
-                servicerContactFirstName: JIM
-                servicerContactLastName: JONES
-                servicerContactPhone: '1234567890'
-                servicerContactEmail: JIM@emailserver.com
     ResponseCompletedMNPWithFutureGTD:
       summary: Scenario 1 - Response when there is a completed and valid short sale MNP
       description: A new submission response
@@ -223,6 +207,22 @@ components:
                 servicerContactLastName: Jones
                 servicerContactPhone: '1234567890'
                 servicerContactEmail: JIM@EMAILSERVER.COM
+    RequestCompletedMNPWithFutureGTD:
+      summary: Scenario 1 - Retrieve a completed short sale MNP with future good thru date
+      description: A new submission
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2018-12-10T13:45:00.000Z'
+          requestData:
+            workoutList:
+            - externalData:
+                servicerAccountIdentifier: '999999'
+                loanIdentifier: '999999999'
+                requestType: MNP
+                servicerLoanIdentifier: ab00123456789
   schemas:
     ShortSaleMNPServiceRequest:
       title: ShortSaleMNPServiceRequest

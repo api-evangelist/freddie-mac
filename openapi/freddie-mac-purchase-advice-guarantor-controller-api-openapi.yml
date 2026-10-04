@@ -193,6 +193,93 @@ paths:
                 details: Unable to retrieve data for the submitted request at this time due to invalid response from the gateway. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance
 components:
   schemas:
+    Gfee:
+      type: object
+      properties:
+        feeName:
+          type: string
+          description: Name of the Fee
+        feeRate:
+          type: number
+          description: A fee charged to deliver a loan as percent Values
+        feeAmount:
+          type: number
+          description: The value of the delivery fee in dollars
+    SecurityTransferInstruction:
+      type: object
+      properties:
+        fedwireShortName:
+          type: string
+          description: Full legal name and location (city, state, and zip code) of the bank receiving the funds for the beneficiary.
+        furtherInstructions:
+          type: string
+          description: Descriptive text of further credit information about the Third Party/FRB Subaccount.
+        subAccountIdentifier:
+          type: string
+          description: The sub account number of the 3rd party.
+        ABA:
+          type: string
+          description: The ABA routing number of the bank that Freddie Mac will send wire funds to or ACH draft funds from.
+      description: Wire Instructions for Each Contract
+    Loan:
+      type: object
+      properties:
+        sellerLoanIdentifier:
+          type: string
+          description: A unique identifier assigned by the seller to the loan.
+        freddieMacLoanNumber:
+          type: string
+          description: A Freddie Mac supplied number assigned to the Mortgage by the Seller/Servicer
+        piPaymentFREAmount:
+          type: number
+          description: The dollar amount of the principal and interest payment as stated on the Note. The principal and interest payment is usually obtained using  the loan amount and interest rate to arrive at full amortization during the loan term.
+        lastPaidInstallmentDueDate:
+          type: string
+          description: The due date of last paid installment that had been collected for the mortgage.
+        principalPurchased:
+          type: number
+          description: The dollar amount of this proceed portion.
+        interestRate:
+          type: number
+          description: The minimum interest rate for all the loans eligible for allocation to the contract.
+        firstRateAdj:
+          type: string
+          description: The date, as established in the Note, on which the first adjustment in the Note Rate is effective. The related ULDD Data Point name is First Rate Change Payment Effective Date, and it is also known as the Payment Change Date.
+        accountNetYield:
+          type: number
+          description: The rate that the Servicer uses to report and remit interest to Freddie Mac each month, defined as the Note Rate minus the Servicing Fee.
+        accruedInterest:
+          type: number
+          description: The dollar amount of this proceed portion.
+        loanNetMarginRate:
+          type: number
+          description: The net margin is the gross margin minus the minimum contract servicing spread. It is used to calculate the new ANY for ARMs sold under the Cash program.
+        accountingNetLifeCapRate:
+          type: number
+          description: Lifetime Ceiling minus the Required Spread and the Minimum Contract Servicing Spread. The related ULDD Data Point name is Ceiling Rate Percent.
+        remainingMtyperiod:
+          type: integer
+          description: The number of moths remaining until the maturity date of the loan.
+          format: int32
+        basisPoints:
+          type: number
+          description: 1/32nd of a percent that has been credited or discounted to the Seller of a loan.
+        bubdRatio:
+          type: number
+          description: A Freddie Mac defined ratio by note rate.
+        bubdProceeds:
+          type: number
+          description: The amount of credit or discount based per loan based on bu/bd options selected.
+        deliveryFeesList:
+          type: array
+          description: A fee charged to deliver a loan
+          items:
+            $ref: '#/components/schemas/DeliveryFees'
+        gfeeList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Gfee'
+      description: Loan Data for Each Loan
     DeliveryFees:
       type: object
       properties:
@@ -232,18 +319,6 @@ components:
           format: uuid
           example: 11cfc0f4-4544-43de-b9f6-f3b419b82e19
       description: This provides details on request parameter for the Purchase Statement API
-    Gfee:
-      type: object
-      properties:
-        feeName:
-          type: string
-          description: Name of the Fee
-        feeRate:
-          type: number
-          description: A fee charged to deliver a loan as percent Values
-        feeAmount:
-          type: number
-          description: The value of the delivery fee in dollars
     Contract:
       type: object
       properties:
@@ -345,81 +420,6 @@ components:
           type: number
           description: 'The amount of credit or discount based per loan based on bu/bd options selected for all loans  allocated to the guarantor loan purchase contract. '
       description: Contract Data.
-    Loan:
-      type: object
-      properties:
-        sellerLoanIdentifier:
-          type: string
-          description: A unique identifier assigned by the seller to the loan.
-        freddieMacLoanNumber:
-          type: string
-          description: A Freddie Mac supplied number assigned to the Mortgage by the Seller/Servicer
-        piPaymentFREAmount:
-          type: number
-          description: The dollar amount of the principal and interest payment as stated on the Note. The principal and interest payment is usually obtained using  the loan amount and interest rate to arrive at full amortization during the loan term.
-        lastPaidInstallmentDueDate:
-          type: string
-          description: The due date of last paid installment that had been collected for the mortgage.
-        principalPurchased:
-          type: number
-          description: The dollar amount of this proceed portion.
-        interestRate:
-          type: number
-          description: The minimum interest rate for all the loans eligible for allocation to the contract.
-        firstRateAdj:
-          type: string
-          description: The date, as established in the Note, on which the first adjustment in the Note Rate is effective. The related ULDD Data Point name is First Rate Change Payment Effective Date, and it is also known as the Payment Change Date.
-        accountNetYield:
-          type: number
-          description: The rate that the Servicer uses to report and remit interest to Freddie Mac each month, defined as the Note Rate minus the Servicing Fee.
-        accruedInterest:
-          type: number
-          description: The dollar amount of this proceed portion.
-        loanNetMarginRate:
-          type: number
-          description: The net margin is the gross margin minus the minimum contract servicing spread. It is used to calculate the new ANY for ARMs sold under the Cash program.
-        accountingNetLifeCapRate:
-          type: number
-          description: Lifetime Ceiling minus the Required Spread and the Minimum Contract Servicing Spread. The related ULDD Data Point name is Ceiling Rate Percent.
-        remainingMtyperiod:
-          type: integer
-          description: The number of moths remaining until the maturity date of the loan.
-          format: int32
-        basisPoints:
-          type: number
-          description: 1/32nd of a percent that has been credited or discounted to the Seller of a loan.
-        bubdRatio:
-          type: number
-          description: A Freddie Mac defined ratio by note rate.
-        bubdProceeds:
-          type: number
-          description: The amount of credit or discount based per loan based on bu/bd options selected.
-        deliveryFeesList:
-          type: array
-          description: A fee charged to deliver a loan
-          items:
-            $ref: '#/components/schemas/DeliveryFees'
-        gfeeList:
-          type: array
-          items:
-            $ref: '#/components/schemas/Gfee'
-      description: Loan Data for Each Loan
-    SecurityTransferInstruction:
-      type: object
-      properties:
-        fedwireShortName:
-          type: string
-          description: Full legal name and location (city, state, and zip code) of the bank receiving the funds for the beneficiary.
-        furtherInstructions:
-          type: string
-          description: Descriptive text of further credit information about the Third Party/FRB Subaccount.
-        subAccountIdentifier:
-          type: string
-          description: The sub account number of the 3rd party.
-        ABA:
-          type: string
-          description: The ABA routing number of the bank that Freddie Mac will send wire funds to or ACH draft funds from.
-      description: Wire Instructions for Each Contract
     PurchaseStatement:
       type: object
       properties:
