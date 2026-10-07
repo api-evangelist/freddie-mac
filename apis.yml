@@ -1254,6 +1254,8 @@ apis:
   - type: Documentation
     url: https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176
 common:
+- type: Pricing
+  url: https://sf.freddiemac.com/tools-learning/apis/getting-started-with-apis
 - type: Overlay
   url: overlays/freddie-mac-affordable-check-overlay.yaml
 - type: Overlay
