@@ -193,7 +193,7 @@ paths:
                 details: Unable to retrieve data for the submitted request at this time due to invalid response from the gateway. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance
 components:
   schemas:
-    Gfee:
+    DeliveryFees:
       type: object
       properties:
         feeName:
@@ -205,22 +205,7 @@ components:
         feeAmount:
           type: number
           description: The value of the delivery fee in dollars
-    SecurityTransferInstruction:
-      type: object
-      properties:
-        fedwireShortName:
-          type: string
-          description: Full legal name and location (city, state, and zip code) of the bank receiving the funds for the beneficiary.
-        furtherInstructions:
-          type: string
-          description: Descriptive text of further credit information about the Third Party/FRB Subaccount.
-        subAccountIdentifier:
-          type: string
-          description: The sub account number of the 3rd party.
-        ABA:
-          type: string
-          description: The ABA routing number of the bank that Freddie Mac will send wire funds to or ACH draft funds from.
-      description: Wire Instructions for Each Contract
+      description: A fee charged to deliver a loan
     Loan:
       type: object
       properties:
@@ -280,45 +265,6 @@ components:
           items:
             $ref: '#/components/schemas/Gfee'
       description: Loan Data for Each Loan
-    DeliveryFees:
-      type: object
-      properties:
-        feeName:
-          type: string
-          description: Name of the Fee
-        feeRate:
-          type: number
-          description: A fee charged to deliver a loan as percent Values
-        feeAmount:
-          type: number
-          description: The value of the delivery fee in dollars
-      description: A fee charged to deliver a loan
-    Request:
-      title: Purchase Statement Request Parameters
-      required:
-      - date
-      - sellerId
-      type: object
-      properties:
-        date:
-          title: Purchase Statement, Loan Settlement Date
-          type: string
-          description: Requested Date for the Purchase Statement API must be Current Date Or in the Past upto 61 Days
-          format: date
-          example: '2022-07-22'
-        sellerId:
-          pattern: '[\d]{6}'
-          type: string
-          description: ID of the Seller for who purchase statement is requested
-          example: '999999'
-        correlationID:
-          type:
-          - string
-          - 'null'
-          description: Randomly generated identifier value that is added to every request and response.In a microservice architecture, the initial Correlation ID is passed to your sub-processes.If a sub-system also makes sub-requests, it will also pass the Correlation ID to those systems
-          format: uuid
-          example: 11cfc0f4-4544-43de-b9f6-f3b419b82e19
-      description: This provides details on request parameter for the Purchase Statement API
     Contract:
       type: object
       properties:
@@ -472,6 +418,60 @@ components:
           description: Contract Data.
           items:
             $ref: '#/components/schemas/Contract'
+    SecurityTransferInstruction:
+      type: object
+      properties:
+        fedwireShortName:
+          type: string
+          description: Full legal name and location (city, state, and zip code) of the bank receiving the funds for the beneficiary.
+        furtherInstructions:
+          type: string
+          description: Descriptive text of further credit information about the Third Party/FRB Subaccount.
+        subAccountIdentifier:
+          type: string
+          description: The sub account number of the 3rd party.
+        ABA:
+          type: string
+          description: The ABA routing number of the bank that Freddie Mac will send wire funds to or ACH draft funds from.
+      description: Wire Instructions for Each Contract
+    Gfee:
+      type: object
+      properties:
+        feeName:
+          type: string
+          description: Name of the Fee
+        feeRate:
+          type: number
+          description: A fee charged to deliver a loan as percent Values
+        feeAmount:
+          type: number
+          description: The value of the delivery fee in dollars
+    Request:
+      title: Purchase Statement Request Parameters
+      required:
+      - date
+      - sellerId
+      type: object
+      properties:
+        date:
+          title: Purchase Statement, Loan Settlement Date
+          type: string
+          description: Requested Date for the Purchase Statement API must be Current Date Or in the Past upto 61 Days
+          format: date
+          example: '2022-07-22'
+        sellerId:
+          pattern: '[\d]{6}'
+          type: string
+          description: ID of the Seller for who purchase statement is requested
+          example: '999999'
+        correlationID:
+          type:
+          - string
+          - 'null'
+          description: Randomly generated identifier value that is added to every request and response.In a microservice architecture, the initial Correlation ID is passed to your sub-processes.If a sub-system also makes sub-requests, it will also pass the Correlation ID to those systems
+          format: uuid
+          example: 11cfc0f4-4544-43de-b9f6-f3b419b82e19
+      description: This provides details on request parameter for the Purchase Statement API
   securitySchemes:
     bearerAuth:
       type: http

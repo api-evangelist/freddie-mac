@@ -180,6 +180,24 @@ paths:
       - bearerAuth: []
 components:
   examples:
+    BACEAPILimitExceededResponse:
+      summary: Quota or Resource Limit Exceeded
+      description: The number of requests made exceed the threshold. Reduce the number of requests.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 429.002
+        message: Quota limit exceeded
+        details:
+        - error: Quota limit exceeded, decrease the number of requests per minute been sent.
+    BACEAPINotFoundResponse:
+      summary: Resource not found
+      description: This typically can happen if the resource URL is not correct.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 404.001
+        message: No resource for GET/POST
+        details:
+        - error: No resource for GET/POST
     BACEAPIInternalErrorResponse:
       summary: Internal Server error
       description: An 0005 error that indicates that the request could not be processed. Please reach out to Customer Support.
@@ -190,24 +208,6 @@ components:
         details:
         - MessageCode: '0005'
           MessageDescription: API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
-    BACEAPILimitExceededResponse:
-      summary: Quota or Resource Limit Exceeded
-      description: The number of requests made exceed the threshold. Reduce the number of requests.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 429.002
-        message: Quota limit exceeded
-        details:
-        - error: Quota limit exceeded, decrease the number of requests per minute been sent.
-    BACEAPIUnauthorizedResponse:
-      summary: Unauthorized Response
-      description: The user is not authorized to access the application.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 401
-        message: Unable to authorize the request.
-        details:
-        - error: The user profile is not authorized to access the system.
     PDFNotFoundResponse:
       summary: PDF not found response
       description: This typically can happen when the PDF is not submitted.
@@ -217,26 +217,15 @@ components:
         message: No resource for GET/POST
         details:
         - error: propertyDataId {propertyDataId} provided for PDF not found.
-    BACEAPINotFoundResponse:
-      summary: Resource not found
-      description: This typically can happen if the resource URL is not correct.
+    BACEAPIUnauthorizedResponse:
+      summary: Unauthorized Response
+      description: The user is not authorized to access the application.
       value:
         proxyCorrelationId: '12345678'
-        code: 404.001
-        message: No resource for GET/POST
+        code: 401
+        message: Unable to authorize the request.
         details:
-        - error: No resource for GET/POST
-  requestBodies:
-    insertDaImage:
-      content:
-        multipart/form-data:
-          schema:
-            type: object
-            properties:
-              file:
-                type: string
-                format: binary
-            description: Image size must be within 1 MB to 50 MB.Image must be submitted in a valid format of JPG/PNG/JPEG.
+        - error: The user profile is not authorized to access the system.
   schemas:
     Message:
       required:
@@ -248,14 +237,6 @@ components:
           type: string
         messageDescription:
           type: string
-    Error:
-      required:
-      - error
-      type: object
-      properties:
-        error:
-          type: string
-      description: Information about the error.
     ErrorResponse:
       required:
       - code
@@ -281,6 +262,25 @@ components:
             - $ref: '#/components/schemas/Error'
             - $ref: '#/components/schemas/Message'
       description: Information about the errors.
+    Error:
+      required:
+      - error
+      type: object
+      properties:
+        error:
+          type: string
+      description: Information about the error.
+  requestBodies:
+    insertDaImage:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+            description: Image size must be within 1 MB to 50 MB.Image must be submitted in a valid format of JPG/PNG/JPEG.
   securitySchemes:
     bearerAuth:
       type: http

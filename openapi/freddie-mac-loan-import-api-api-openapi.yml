@@ -420,29 +420,47 @@ paths:
                   $ref: '#/components/examples/FileImportStatusInternalErrorResponse'
 components:
   examples:
-    SellerIdentifierInvalidRequestTypeResponse:
-      summary: SellerIdentifier Invalid Request Type
+    LoanImportFileStatusReponseWithoutErrors:
+      value:
+        fileStatusResultsResponse:
+        - fileIdentifier: 99999
+          userIdentifier: FREDDIE_ALLROLE10
+          fileName: SampleH49Loan_1Loan_2025-09-19 104007_000152_147357.xml
+          fileStatus: Completed
+          fileCreationTime: 2025-09-19 10:40 AM
+          sellerIdentifier: '999999'
+          organizationBranchIdentifier: 999999
+          totalLoans: 1
+          totalLoansProcessed: 1
+          totalCurrentUPB: 268000
+          totalLoansWithErrors: 0
+          totalLoansWithProductErrors: 0
+          totalLoansWithProductLabelled: 1
+          totalLoansWithImportWarnings: 0
+          totalLoansWithProductAndImportWarnings: 0
+          totalLoansWithEvaluationErrors: 0
+          totalLoansWithEvaluationWarnings: 0
+          totalLoansNotEligibleForRNWAssetRelief: 1
+          totalLoansNotEligibleForRNWCollateralRelief: 1
+          totalLoansNotEligibleForRNWIncomeRelief: 1
+          totalLoansWithAllocationErrors: 0
+          totalLoansAllocated: 0
+          requestToEvaluateLoans: true
+    ContractUPBLimitIndicatorRequiredResponse:
+      value:
+        responseDetails:
+          fileStatus: Error
+          errors:
+          - errorCode: LIS0001
+            errorMessage: Required key [contractUPBLimitIndicator] not found.
+    FileIdentifierRequiredResponse:
+      summary: FileIdentifier Required
       description: The Server can not process the request
       value:
         fileStatus: Error
         errors:
-        - errorCode: LIS0002
-          errorMessage: 'SellerIdentifier: expected type: String, found: Integer.'
-    CorrelationIdentifierInvalidDataTypeResponse:
-      summary: CorrelationIdentifier Invalid Data Type
-      description: The Server can not process the request
-      value:
-        fileStatus: Error
-        errors:
-        - errorCode: LIS0002
-          errorMessage: 'CorrelationIdentifier: expected type: String, found: Integer.'
-    LoanImportFileStatusRequestForSeller:
-      value:
-        correlationIdentifier: '9999'
-        sellerIdentifier: '999999'
-        sellerOrganizationBranchIdentifier: 999999
-        counterPartyType: Seller
-        fileIdentifier: 99999
+        - errorCode: LIS0001
+          errorMessage: Required key [fileIdentifier] not found.
     SellerIdentifierRequiredResponse:
       summary: SellerIdentifier Required
       value:
@@ -450,24 +468,6 @@ components:
         errors:
         - errorCode: LIS0001
           errorMessage: Required key [sellerIdentifier] not found.
-    SellerOrganizationBranchIdentifierRequiredResponse:
-      summary: SellerOrganizationBranchIdentifier Required
-      description: The Server can not process the request
-      value:
-        fileStatus: Error
-        errors:
-        - errorCode: LIS0001
-          errorMessage: Required key [sellerOrganizationBranchIdentifier] not found.
-    ImportLoanResponse:
-      summary: ImportResponse
-      description: The Import loan file status results details
-      value:
-        responseDetails:
-          fileStatus: InProgress
-          fileIdentifier: 99999
-          sellerIdentifier: '999999'
-          fileName: SampleH49Loan_1Loan_2025-09-22 134708_000278_147357.xml
-          estimatedTimeToRetrieveImportResultsInSecs: 15
     LoanImportFileStatusIntermediateResponse:
       value:
         fileStatusResultsResponse:
@@ -507,30 +507,6 @@ components:
           - errorCode: LI0012
             errorMessage: The Pool Number provided is not valid.
             errorType: ImportError
-    PoolNumberInvalidRequestTypeResponse:
-      value:
-        responseDetails:
-          fileStatus: Error
-          errors:
-          - errorCode: LIS0002
-            errorMessage: 'PoolNumber: expected type: String, found: Integer.'
-    FileIdentifierInvalidRequestTypeResponse:
-      summary: FileIdentifier Invalid Request Type
-      description: The Server can not process the request
-      value:
-        fileStatus: Error
-        errors:
-        - errorCode: LIS0002
-          errorMessage: 'FileIdentifier: expected type: Number, found: String.'
-    FileImportStatusInternalErrorResponse:
-      summary: Internal Server error
-      value:
-        responseDetails:
-          fileStatus: Error
-          errors:
-          - errorCode: SYST0001
-            errorMessage: An application error has occurred. Please call 1-800-FREDDIE to report this problem.
-            errorType: ImportError
     ImportErrorResponse403:
       value:
         code:
@@ -545,14 +521,6 @@ components:
           type: string
           reqruire: true
           example: Accessing the resource you were trying to reach is forbidden
-    FileIdentifierRequiredResponse:
-      summary: FileIdentifier Required
-      description: The Server can not process the request
-      value:
-        fileStatus: Error
-        errors:
-        - errorCode: LIS0001
-          errorMessage: Required key [fileIdentifier] not found.
     ImportErrorResponse401:
       value:
         error:
@@ -607,21 +575,62 @@ components:
                   type: string
                   example: '2025-07-11T19:19:39.906Z'
               additionalProperties: true
-    LoanImportFileStatusRequestForSMA:
-      value:
-        correlationIdentifier: '9999'
-        sellerIdentifier: '999999'
-        sellerOrganizationBranchIdentifier: 999999
-        requestingPartyAccountIdentifier: SMA999
-        counterPartyType: SecondaryMarketAdvisor
-        fileIdentifier: 99999
-    ContractUPBLimitIndicatorRequiredResponse:
+    PoolNumberInvalidRequestTypeResponse:
       value:
         responseDetails:
           fileStatus: Error
           errors:
-          - errorCode: LIS0001
-            errorMessage: Required key [contractUPBLimitIndicator] not found.
+          - errorCode: LIS0002
+            errorMessage: 'PoolNumber: expected type: String, found: Integer.'
+    SellerIdentifierInvalidRequestTypeResponse:
+      summary: SellerIdentifier Invalid Request Type
+      description: The Server can not process the request
+      value:
+        fileStatus: Error
+        errors:
+        - errorCode: LIS0002
+          errorMessage: 'SellerIdentifier: expected type: String, found: Integer.'
+    LoanImportFileStatusRequestForSeller:
+      value:
+        correlationIdentifier: '9999'
+        sellerIdentifier: '999999'
+        sellerOrganizationBranchIdentifier: 999999
+        counterPartyType: Seller
+        fileIdentifier: 99999
+    CorrelationIdentifierRequiredResponse:
+      summary: CorrelationIdentifier Required
+      description: The Server can not process the request
+      value:
+        fileStatus: Error
+        errors:
+        - errorCode: LIS0001
+          errorMessage: Required key [correlationIdentifier] not found.
+    ImportLoanResponse:
+      summary: ImportResponse
+      description: The Import loan file status results details
+      value:
+        responseDetails:
+          fileStatus: InProgress
+          fileIdentifier: 99999
+          sellerIdentifier: '999999'
+          fileName: SampleH49Loan_1Loan_2025-09-22 134708_000278_147357.xml
+          estimatedTimeToRetrieveImportResultsInSecs: 15
+    FileIdentifierInvalidRequestTypeResponse:
+      summary: FileIdentifier Invalid Request Type
+      description: The Server can not process the request
+      value:
+        fileStatus: Error
+        errors:
+        - errorCode: LIS0002
+          errorMessage: 'FileIdentifier: expected type: Number, found: String.'
+    SellerOrganizationBranchIdentifierRequiredResponse:
+      summary: SellerOrganizationBranchIdentifier Required
+      description: The Server can not process the request
+      value:
+        fileStatus: Error
+        errors:
+        - errorCode: LIS0001
+          errorMessage: Required key [sellerOrganizationBranchIdentifier] not found.
     LoanImportFileStatusReponseWithErrors:
       value:
         fileStatusResultsResponse:
@@ -701,41 +710,145 @@ components:
             - errorCode: LI0074
               errorMessage: Automated Underwriting Case Identifier AUWCI_Test_unique_1 with the Automated Underwriting System Type of Loan Product Advisor already exists and cannot be added to this loan.
               errorType: ImportError
-    LoanImportFileStatusReponseWithoutErrors:
-      value:
-        fileStatusResultsResponse:
-        - fileIdentifier: 99999
-          userIdentifier: FREDDIE_ALLROLE10
-          fileName: SampleH49Loan_1Loan_2025-09-19 104007_000152_147357.xml
-          fileStatus: Completed
-          fileCreationTime: 2025-09-19 10:40 AM
-          sellerIdentifier: '999999'
-          organizationBranchIdentifier: 999999
-          totalLoans: 1
-          totalLoansProcessed: 1
-          totalCurrentUPB: 268000
-          totalLoansWithErrors: 0
-          totalLoansWithProductErrors: 0
-          totalLoansWithProductLabelled: 1
-          totalLoansWithImportWarnings: 0
-          totalLoansWithProductAndImportWarnings: 0
-          totalLoansWithEvaluationErrors: 0
-          totalLoansWithEvaluationWarnings: 0
-          totalLoansNotEligibleForRNWAssetRelief: 1
-          totalLoansNotEligibleForRNWCollateralRelief: 1
-          totalLoansNotEligibleForRNWIncomeRelief: 1
-          totalLoansWithAllocationErrors: 0
-          totalLoansAllocated: 0
-          requestToEvaluateLoans: true
-    CorrelationIdentifierRequiredResponse:
-      summary: CorrelationIdentifier Required
+    CorrelationIdentifierInvalidDataTypeResponse:
+      summary: CorrelationIdentifier Invalid Data Type
       description: The Server can not process the request
       value:
         fileStatus: Error
         errors:
-        - errorCode: LIS0001
-          errorMessage: Required key [correlationIdentifier] not found.
+        - errorCode: LIS0002
+          errorMessage: 'CorrelationIdentifier: expected type: String, found: Integer.'
+    LoanImportFileStatusRequestForSMA:
+      value:
+        correlationIdentifier: '9999'
+        sellerIdentifier: '999999'
+        sellerOrganizationBranchIdentifier: 999999
+        requestingPartyAccountIdentifier: SMA999
+        counterPartyType: SecondaryMarketAdvisor
+        fileIdentifier: 99999
+    FileImportStatusInternalErrorResponse:
+      summary: Internal Server error
+      value:
+        responseDetails:
+          fileStatus: Error
+          errors:
+          - errorCode: SYST0001
+            errorMessage: An application error has occurred. Please call 1-800-FREDDIE to report this problem.
+            errorType: ImportError
   schemas:
+    LoanImportRequest:
+      description: This is the metadata for Loan Import processing.
+      required:
+      - correlationIdentifier
+      - sellerIdentifier
+      - sellerOrganizationBranchIdentifier
+      - counterPartyType
+      - overwriteExistingLoan
+      - contractUPBLimitIndicator
+      - useSellerLoanIdOnly
+      type: object
+      properties:
+        correlationIdentifier:
+          type: string
+          description: The unique identifier that is provided by the Seller or Secondary Market Advisor for each request.
+          example: '9999'
+        sellerIdentifier:
+          maxLength: 6
+          type: string
+          description: The unique identifier assigned to a party, which may be an individual, a counterparty, or a related organization.
+          example: '999999'
+        sellerOrganizationBranchIdentifier:
+          type: integer
+          description: The unique identifier assigned for an organization unit.
+          example: 999999
+        requestingPartyAccountIdentifier:
+          type: string
+          description: The unique identifier assigned to a party, which may be an individual or a counterparty.
+          example: SMA999
+        counterPartyType:
+          type: string
+          description: A discrete set of values that specifies the different roles that a counterparty will perform in relationship with Freddie Mac.
+          example: SecondaryMarketAdvisor
+        overwriteExistingLoan:
+          type: boolean
+          description: Indicator to allow loans to be overwritten during modification.
+          example: true
+        contractUPBLimitIndicator:
+          type: boolean
+          description: Indicator to provide an error message when the total Unpaid Principal Balance Amount of the loans being allocated to a Cash Contract exceeds the Contract Amount.
+          example: false
+        useSellerLoanIdOnly:
+          type: boolean
+          description: Indicator to use seller loan identifier as the loan identifier to determine loan's uniqueness during creation or modification of a loan.
+          example: false
+        requestToEvaluateLoans:
+          description: Indicator to request to evaluate loans during creation or modification of a loan.
+          type: boolean
+          example: false
+        pricingIdentifier:
+          type: string
+          description: A unique identification assigned to an entity (e.g., Seller, Seller Family) or contracting vehicle (e.g., MA, MC).
+          example: M99999999
+        investorContractIdentifier:
+          type: integer
+          description: A unique identifier for a group of loans identified as part of a cash pool or a security pool.
+          example: 99999999
+        poolNumber:
+          type: string
+          description: The unique designation assigned to the security by the issuer.
+          example: SA9999
+    LoanImportResponse:
+      description: The Import loan file status results details.
+      required:
+      - estimatedTimeToRetrieveImportResultsInSecs
+      - fileIdentifier
+      - fileName
+      - fileStatus
+      - sellerIdentifier
+      type: object
+      properties:
+        responseDetails:
+          type: object
+          properties:
+            fileStatus:
+              maxLength: 30
+              type: string
+              description: The status of the import loan file.
+              example: InProgress
+            fileIdentifier:
+              type: integer
+              description: The file identifier for the import loan file.
+              example: 38587
+            sellerIdentifier:
+              maxLength: 6
+              type: string
+              description: The unique identifier assigned to a party, which may be an individual, a counterparty, or a related organization.
+              example: '999999'
+            fileName:
+              maxLength: 130
+              type: string
+              description: The name of the import loan file.
+              example: 3H49Loans_ImpErr_ProdErr_ImpWrng 3Loans.xml
+            estimatedTimeToRetrieveImportResultsInSecs:
+              type: integer
+              description: The estimated time, in seconds, to retrieve the import results.
+              example: 15
+            errors:
+              type: array
+              items:
+                properties:
+                  errorCode:
+                    type: string
+                    description: A unique code value associated with the error message.
+                    example: LI0019
+                  errorMessage:
+                    type: string
+                    description: The error message corresponding to the error code sent.
+                    example: The value entered for the Financed Unit Count is not a valid value. Please correct the value to a number between 1 and 4 and resubmit the loan.
+                  errorType:
+                    type: string
+                    description: The type of error triggered such as Import, Product, Allocation, Evaluation and Representation and Warranty Relief.
+                    example: ImportError
     LoanImportFileStatusRequest:
       description: This is the request metadata for Loan Import Status processing.
       required:
@@ -973,119 +1086,6 @@ components:
                             description: The compliance type for the evaluation error or warning returned when the loan is evaluated.
                             type: string
                             example: Collateral, DataReasonableness, AppraisalEligibility, Collateral, Income, Asset
-    LoanImportResponse:
-      description: The Import loan file status results details.
-      required:
-      - estimatedTimeToRetrieveImportResultsInSecs
-      - fileIdentifier
-      - fileName
-      - fileStatus
-      - sellerIdentifier
-      type: object
-      properties:
-        responseDetails:
-          type: object
-          properties:
-            fileStatus:
-              maxLength: 30
-              type: string
-              description: The status of the import loan file.
-              example: InProgress
-            fileIdentifier:
-              type: integer
-              description: The file identifier for the import loan file.
-              example: 38587
-            sellerIdentifier:
-              maxLength: 6
-              type: string
-              description: The unique identifier assigned to a party, which may be an individual, a counterparty, or a related organization.
-              example: '999999'
-            fileName:
-              maxLength: 130
-              type: string
-              description: The name of the import loan file.
-              example: 3H49Loans_ImpErr_ProdErr_ImpWrng 3Loans.xml
-            estimatedTimeToRetrieveImportResultsInSecs:
-              type: integer
-              description: The estimated time, in seconds, to retrieve the import results.
-              example: 15
-            errors:
-              type: array
-              items:
-                properties:
-                  errorCode:
-                    type: string
-                    description: A unique code value associated with the error message.
-                    example: LI0019
-                  errorMessage:
-                    type: string
-                    description: The error message corresponding to the error code sent.
-                    example: The value entered for the Financed Unit Count is not a valid value. Please correct the value to a number between 1 and 4 and resubmit the loan.
-                  errorType:
-                    type: string
-                    description: The type of error triggered such as Import, Product, Allocation, Evaluation and Representation and Warranty Relief.
-                    example: ImportError
-    LoanImportRequest:
-      description: This is the metadata for Loan Import processing.
-      required:
-      - correlationIdentifier
-      - sellerIdentifier
-      - sellerOrganizationBranchIdentifier
-      - counterPartyType
-      - overwriteExistingLoan
-      - contractUPBLimitIndicator
-      - useSellerLoanIdOnly
-      type: object
-      properties:
-        correlationIdentifier:
-          type: string
-          description: The unique identifier that is provided by the Seller or Secondary Market Advisor for each request.
-          example: '9999'
-        sellerIdentifier:
-          maxLength: 6
-          type: string
-          description: The unique identifier assigned to a party, which may be an individual, a counterparty, or a related organization.
-          example: '999999'
-        sellerOrganizationBranchIdentifier:
-          type: integer
-          description: The unique identifier assigned for an organization unit.
-          example: 999999
-        requestingPartyAccountIdentifier:
-          type: string
-          description: The unique identifier assigned to a party, which may be an individual or a counterparty.
-          example: SMA999
-        counterPartyType:
-          type: string
-          description: A discrete set of values that specifies the different roles that a counterparty will perform in relationship with Freddie Mac.
-          example: SecondaryMarketAdvisor
-        overwriteExistingLoan:
-          type: boolean
-          description: Indicator to allow loans to be overwritten during modification.
-          example: true
-        contractUPBLimitIndicator:
-          type: boolean
-          description: Indicator to provide an error message when the total Unpaid Principal Balance Amount of the loans being allocated to a Cash Contract exceeds the Contract Amount.
-          example: false
-        useSellerLoanIdOnly:
-          type: boolean
-          description: Indicator to use seller loan identifier as the loan identifier to determine loan's uniqueness during creation or modification of a loan.
-          example: false
-        requestToEvaluateLoans:
-          description: Indicator to request to evaluate loans during creation or modification of a loan.
-          type: boolean
-          example: false
-        pricingIdentifier:
-          type: string
-          description: A unique identification assigned to an entity (e.g., Seller, Seller Family) or contracting vehicle (e.g., MA, MC).
-          example: M99999999
-        investorContractIdentifier:
-          type: integer
-          description: A unique identifier for a group of loans identified as part of a cash pool or a security pool.
-          example: 99999999
-        poolNumber:
-          type: string
-          description: The unique designation assigned to the security by the issuer.
-          example: SA9999
   securitySchemes:
     bearerAuth:
       type: http

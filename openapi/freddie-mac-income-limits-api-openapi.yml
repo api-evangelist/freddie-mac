@@ -121,47 +121,6 @@ paths:
                 - error: Income Limits API is unable to retrieve data for the submitted request at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
 components:
   schemas:
-    IncomeLimitsResponse:
-      required:
-      - address
-      - incomeLimitsData
-      - inputAddress
-      - requestTransactionIdentifier
-      - transactionDateTime
-      type: object
-      properties:
-        requestTransactionIdentifier:
-          maxLength: 50
-          minLength: 1
-          type: string
-          description: 128-bit Globally unique identifier (GUID) assigned to each request.
-          example: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        transactionDateTime:
-          type: string
-          example: '2020-09-10T22:05:37.184Z'
-        inputAddress:
-          $ref: '#/components/schemas/address'
-        address:
-          $ref: '#/components/schemas/IncomeLimitsResponse_address'
-        incomeLimitsData:
-          type: array
-          items:
-            $ref: '#/components/schemas/IncomeLimitsResponse_incomeLimitsData'
-        loanLimitsData:
-          $ref: '#/components/schemas/IncomeLimitsResponse_loanLimitsData'
-        borrowerEstimatedPovertyData:
-          type: array
-          items:
-            $ref: '#/components/schemas/borrowerEstimatedPovertyData'
-        loanScores:
-          type: array
-          items:
-            $ref: '#/components/schemas/loanScores'
-    ErrorEnvelope:
-      type: object
-      properties:
-        errors:
-          $ref: '#/components/schemas/Errors'
     IncomeLimitsRequest_borrowerInformation:
       type: object
       properties:
@@ -184,123 +143,99 @@ components:
           items:
             $ref: '#/components/schemas/IncomeLimitsRequest_borrowerInformation_borrower'
       additionalProperties: false
-    IncomeLimitsRequest_subjectPropertyData:
+    ErrorEnvelope:
       type: object
       properties:
-        financedUnitCount:
-          type: string
-          description: The number of individual family dwelling units being financed in the subject property. FinancedUnitCount is conditionally required when baseLoanAmount is present
-          example: '1'
-          enum:
-          - '1'
-          - '2'
-          - '3'
-          - '4'
-        constructionMethodType:
-          type: string
-          description: Describes the construction process for the main dwelling unit of the subject property as "Manufactured" for a factory-built dwelling or "SiteBuilt" when most elements are created at the home's permanent site.
-          example: Manufactured
-          enum:
-          - Manufactured
-          - SiteBuilt
-        propertyUsageType:
-          type: string
-          description: A value that specifies the intended usage of the property by the borrower as "Investment" when the home will be owned for the purpose of generating income by renting the property; "PrimaryResidence" when the owner will physically occupy the home and use it for their principal residence; or "SecondHome" when the home will be occupied by the owner for a portion of the year and is not the primary residence.<br> This field is optional unless missionIndexScoreIndicator is true, when true this field is a required field to receive the score.
-          example: PrimaryResidence
-          enum:
-          - Investment
-          - PrimaryResidence
-          - SecondHome
-        loanPurposeType:
-          type: string
-          description: 'Specifies the purpose for which the loan proceeds will be used. Purchase: A loan made in association with the original purchase of a piece of property. Refinance: The repayment of a debt from proceeds of a new loan using the same property as security or a mortgage secured by a property previously owned free and clear by the Borrower.'
-          example: Purchase
-          enum:
-          - Purchase
-          - Refinance
-        propertyInformation:
-          type: array
-          items:
-            $ref: '#/components/schemas/propertyInformation'
+        errors:
+          $ref: '#/components/schemas/Errors'
     ErrorResponse:
       title: ErrorResponse
       type: object
       properties:
         errorEnvelope:
           $ref: '#/components/schemas/ErrorEnvelope'
-    borrowerEstimatedPovertyData:
+    IncomeLimitsRequest_borrowerInformation_borrower:
       type: object
       properties:
-        borrowerId:
+        borrowerID:
+          pattern: ^((?![nN][uU][lL])|([a-zA-Z0-9-]{1,64}))$
           type: string
-          description: The unique identifier assigned to the borrower.
-          example: '879568259'
-        addressMatchLevel:
+          description: The unique identifier assigned to the borrower.<br> This field is optional unless missionIndexScoreIndicator is true, and borrowerInformation container is provided for each borrower, when incomeFrequencyType and loanLevelQualifyingIncomeAmount are being provided Borrower ID must be provided.
+          example: '457653980'
+        borrowerFirstTimeHomebuyerIndicator:
           type: string
-          description: The address scrubber will return the confidence of the attempted address match based on how similar the input address is to the matched adress. Vendor software codes(E=Exact Match,T=Tight Match,M=Medium Match,N=No Match) will be used to determine the appropriate "Address Match Level."
-          example: E
+          description: Indicates that the borrower qualifies as a first time homebuyer as determined by the lender and/or investor.
+          example: Y
           enum:
-          - E
-          - T
-          - M
+          - Y
           - N
-        estimatedPovertyPercent:
-          type: string
-          description: Percent below poverty level for whom the poverty status is determined as per the 5-year estimates from the American Community Survey (ACS) file.
-          example: '97.90'
-        borrowerAddressExclusionCode:
-          type: string
-          description: This code indicates whether the identified address was a ‘Post Office Box’ (POB), ‘Private Mail Box’ (PMB), ‘Military Addresses’ (MIL). The valid values are POB, PMB, and MIL. The absence of a value/NULL indicates that the address was not identified as a Post Office Box, Private Mail Box, or Military Address.
-          example: POB
-          enum:
-          - POB
-          - PMB
-          - MIL
-        Errors:
-          $ref: '#/components/schemas/Errors'
-    loanScores:
+        address:
+          $ref: '#/components/schemas/address'
+    IncomeLimitsResponse_loanLimitsData:
       type: object
       properties:
-        loanIdentifier:
+        loanConformityType:
           type: string
-          description: The value of the unique identifier (GUID) assigned to a mortgage loan.
-          example: 7r5da9da-6b10-4995-89a0-b793b6f2f6a3
-        missionScoreEvaluationDate:
+          description: A value from a Freddie Mac-defined list that provides an early indication of whether a loan is conforming, super-conforming, non-conforming.
+          example: Conforming
+          enum:
+          - Conforming
+          - SuperConforming
+          - NonConforming
+        oneUnitLimitAmount:
           type: string
-          description: Date that the referenced score was produced.
-          example: '2020-09-10'
-        missionIndicationScore:
+          description: National conforming loan limit for a single-family one-unit property for the provided property address.
+          example: '970800.00'
+        twoUnitLimitAmount:
           type: string
-          description: A numeric score that is determined by the eight social criteria that were evaluated when generating the Social Criteria Share (SCS). Those eight criteria are grouped into three dimensions (Income, Borrower, Property). If any single criteria within a dimension is met, then that dimension receives a score of “1". If the criteria for two dimensions are met then score will be "2" and so on.
-          example: '2'
-        incomeDimensionScoreNumber:
+          description: National conforming loan limit for a single-family two-unit property for the provided property address.
+          example: '1243050.00'
+        threeUnitLimitAmount:
           type: string
-          description: The income dimension score calculated for the record provided. It is one of the dimensions in determining social criteria evaluated when generating the Social Criteria Share.
-          example: '1'
-        borrowerDimensionScoreNumber:
+          description: National conforming loan limit for a single-family three-unit property for the provided property address.
+          example: '1502475.00'
+        fourUnitLimitAmount:
           type: string
-          description: The borrower dimension score calculated for the record provided. It is one of the dimensions in determining social criteria evaluated when generating the Social Criteria Share.
-          example: '1'
-        propertyDimensionScoreNumber:
+          description: National conforming loan limit for a single-family four-unit property for the provided property address.
+          example: '1867275.00'
+    IncomeLimitsResponse_incomeLimitsData:
+      type: object
+      properties:
+        amiEffectiveDate:
           type: string
-          description: The property dimension score calculated for the record provided. It is one of the dimensions in determining social criteria evaluated when generating the Social Criteria Share. .
-          example: '1'
-        affordableRentalIndicator:
+          description: The date that new Area Median Income (AMI) limits will go into effect.
+        incometoAMIRatioPercent:
           type: string
-          description: When true (indicator is 1), indicates that the loan meets the Mission Index Affordable Rental Criteria for making housing units affordable to low-income renters.
-          example: '1'
-        borrowerResidenceInUnderservedMarketIndicator:
+          description: A portion of 100 that represents the loan level qualifying income amount to the area median income (AMI) amounts. ((Income / AMI) * 100)
+          example: '97.90'
+        refiPossibleIncomeLimitAmount:
           type: string
-          description: When true (indicator is 1), indicates that the borrower currently lives in in an area providing limited opportunities to access quality affordable housing.
-          example: '1'
-        amiRatio:
+          description: The maximum loan level borrower income for the specific census tract, allowed to qualify for Refi Possible.
+          example: '124900.00'
+        homePossibleIncomeLimitAmount:
           type: string
-          description: The borrower(s) qualifying annual income divided by the area median income amount for the Metropolitan Statistical Area (MSA) location of the subject property, at the time of loan origination.
-          example: '0.7313'
-        amiAmount:
+          description: For the specific census tract, this is the maximum borrower income allowed to qualify for Home Possible.
+          example: '99920.00'
+        hundredAndFortyPercentHUDMedianIncomeAmount:
           type: string
-          description: The dollar amount representing the Area Median Income (AMI) for the subject property address.
-          example: '164100.0'
+          description: The HUD estimated 140% median family incomes to determine borrower eligibility for all applications related to affordable lending products.
+          example: '174860.00'
+        hundredAndTwentyPercentHUDMedianIncomeAmount:
+          type: string
+          description: A household whose aggregate gross income equals 120% or less of Area Median Income (AMI), as adjusted for family size.
+          example: '149880.00'
+        hundredPercentHUDMedianIncomeAmount:
+          type: string
+          description: The HUD estimated 100% median family incomes to determine borrower eligibility for all applications related to affordable lending products.
+          example: '124900.00'
+        eightyPercentHUDMedianIncomeAmount:
+          type: string
+          description: The HUD estimated 80% median family incomes to determine borrower eligibility for all applications related to affordable lending products.
+          example: '99920.00'
+        fiftyPercentHUDMedianIncomeAmount:
+          type: string
+          description: The HUD estimated 50% median family incomes to determine borrower eligibility for all applications related to affordable lending products.
+          example: '62450.00'
     IncomeLimitsResponse_address:
       required:
       - addressLineText
@@ -447,99 +382,6 @@ components:
           type: string
           description: The percent of minorities living in the census tract based on data provided by the Secondary Mortgage Market Regulator.
       description: standardized address of a property.
-    IncomeLimitsResponse_incomeLimitsData:
-      type: object
-      properties:
-        amiEffectiveDate:
-          type: string
-          description: The date that new Area Median Income (AMI) limits will go into effect.
-        incometoAMIRatioPercent:
-          type: string
-          description: A portion of 100 that represents the loan level qualifying income amount to the area median income (AMI) amounts. ((Income / AMI) * 100)
-          example: '97.90'
-        refiPossibleIncomeLimitAmount:
-          type: string
-          description: The maximum loan level borrower income for the specific census tract, allowed to qualify for Refi Possible.
-          example: '124900.00'
-        homePossibleIncomeLimitAmount:
-          type: string
-          description: For the specific census tract, this is the maximum borrower income allowed to qualify for Home Possible.
-          example: '99920.00'
-        hundredAndFortyPercentHUDMedianIncomeAmount:
-          type: string
-          description: The HUD estimated 140% median family incomes to determine borrower eligibility for all applications related to affordable lending products.
-          example: '174860.00'
-        hundredAndTwentyPercentHUDMedianIncomeAmount:
-          type: string
-          description: A household whose aggregate gross income equals 120% or less of Area Median Income (AMI), as adjusted for family size.
-          example: '149880.00'
-        hundredPercentHUDMedianIncomeAmount:
-          type: string
-          description: The HUD estimated 100% median family incomes to determine borrower eligibility for all applications related to affordable lending products.
-          example: '124900.00'
-        eightyPercentHUDMedianIncomeAmount:
-          type: string
-          description: The HUD estimated 80% median family incomes to determine borrower eligibility for all applications related to affordable lending products.
-          example: '99920.00'
-        fiftyPercentHUDMedianIncomeAmount:
-          type: string
-          description: The HUD estimated 50% median family incomes to determine borrower eligibility for all applications related to affordable lending products.
-          example: '62450.00'
-    propertyInformation:
-      type: object
-      properties:
-        unitID:
-          maxLength: 1
-          type: string
-          description: A unique identifier assigned to the Unit.<br> This field is optional unless missionIndexScoreIndicator is true, and propertyInformation container is provided for each financed unit on the loan, when totalBedRoomCount and rentalEstimatedGrossMonthlyRentAmount are being provided Unit ID must be provided.
-          enum:
-          - '1'
-          - '2'
-          - '3'
-          - '4'
-        totalBedRoomCount:
-          type: string
-          description: Specifies the total number of bedrooms.
-          example: '1'
-        rentalEstimatedGrossMonthlyRentAmount:
-          pattern: ^[.]?[0-9]+(?:.[0-9]{2})?$
-          type: string
-          description: The estimated dollar value of the estimated gross monthly rental income derived from a single rental unit or property.
-          example: '400000.00'
-    IncomeLimitsResponse_loanLimitsData:
-      type: object
-      properties:
-        loanConformityType:
-          type: string
-          description: A value from a Freddie Mac-defined list that provides an early indication of whether a loan is conforming, super-conforming, non-conforming.
-          example: Conforming
-          enum:
-          - Conforming
-          - SuperConforming
-          - NonConforming
-        oneUnitLimitAmount:
-          type: string
-          description: National conforming loan limit for a single-family one-unit property for the provided property address.
-          example: '970800.00'
-        twoUnitLimitAmount:
-          type: string
-          description: National conforming loan limit for a single-family two-unit property for the provided property address.
-          example: '1243050.00'
-        threeUnitLimitAmount:
-          type: string
-          description: National conforming loan limit for a single-family three-unit property for the provided property address.
-          example: '1502475.00'
-        fourUnitLimitAmount:
-          type: string
-          description: National conforming loan limit for a single-family four-unit property for the provided property address.
-          example: '1867275.00'
-    Errors:
-      type: object
-      properties:
-        error:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     IncomeLimitsRequest:
       required:
       - address
@@ -615,47 +457,17 @@ components:
           format: date
           example: '2024-02-22'
       additionalProperties: false
-    IncomeLimitsRequest_borrowerInformation_borrower:
+    IncomeLimitsRequest_loanOriginationSystem:
       type: object
       properties:
-        borrowerID:
-          pattern: ^((?![nN][uU][lL])|([a-zA-Z0-9-]{1,64}))$
+        loanOriginationSystemVendorIdentifier:
           type: string
-          description: The unique identifier assigned to the borrower.<br> This field is optional unless missionIndexScoreIndicator is true, and borrowerInformation container is provided for each borrower, when incomeFrequencyType and loanLevelQualifyingIncomeAmount are being provided Borrower ID must be provided.
-          example: '457653980'
-        borrowerFirstTimeHomebuyerIndicator:
+          description: A unique identifier agreed upon by the parties to the transaction to identify the vendor of the loan origination system used to process the loan.
+          example: AccurateLOS
+        loanOriginationSystemVersionIdentifier:
           type: string
-          description: Indicates that the borrower qualifies as a first time homebuyer as determined by the lender and/or investor.
-          example: Y
-          enum:
-          - Y
-          - N
-        address:
-          $ref: '#/components/schemas/address'
-    IncomeLimitsRequest_subjectLoanData:
-      type: object
-      properties:
-        loanLimitRequestIndicator:
-          type: boolean
-          description: When true, indicates that the requestor wants to receive the conforming loan limits for the corresponding county in the API response.
-          example: true
-          enum:
-          - true
-          - false
-        baseLoanAmount:
-          pattern: ^[0-9]*(?:.[0-9]{2})?$
-          type: string
-          description: The base loan amount to be loaned to the borrower not including PMI, MIP, or Funding Fee.
-          example: '400000.00'
-        financedUnitCount:
-          type: string
-          description: The number of individual family dwelling units being financed in the subject property. FinancedUnitCount is conditionally required when baseLoanAmount is present
-          example: '1'
-          enum:
-          - '1'
-          - '2'
-          - '3'
-          - '4'
+          description: Specifies the version of the loan origination system used to process the loan.
+          example: '2.7'
       additionalProperties: false
     address:
       required:
@@ -741,6 +553,44 @@ components:
           - WV
           - WY
       additionalProperties: false
+    IncomeLimitsRequest_subjectPropertyData:
+      type: object
+      properties:
+        financedUnitCount:
+          type: string
+          description: The number of individual family dwelling units being financed in the subject property. FinancedUnitCount is conditionally required when baseLoanAmount is present
+          example: '1'
+          enum:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+        constructionMethodType:
+          type: string
+          description: Describes the construction process for the main dwelling unit of the subject property as "Manufactured" for a factory-built dwelling or "SiteBuilt" when most elements are created at the home's permanent site.
+          example: Manufactured
+          enum:
+          - Manufactured
+          - SiteBuilt
+        propertyUsageType:
+          type: string
+          description: A value that specifies the intended usage of the property by the borrower as "Investment" when the home will be owned for the purpose of generating income by renting the property; "PrimaryResidence" when the owner will physically occupy the home and use it for their principal residence; or "SecondHome" when the home will be occupied by the owner for a portion of the year and is not the primary residence.<br> This field is optional unless missionIndexScoreIndicator is true, when true this field is a required field to receive the score.
+          example: PrimaryResidence
+          enum:
+          - Investment
+          - PrimaryResidence
+          - SecondHome
+        loanPurposeType:
+          type: string
+          description: 'Specifies the purpose for which the loan proceeds will be used. Purchase: A loan made in association with the original purchase of a piece of property. Refinance: The repayment of a debt from proceeds of a new loan using the same property as security or a mortgage secured by a property previously owned free and clear by the Borrower.'
+          example: Purchase
+          enum:
+          - Purchase
+          - Refinance
+        propertyInformation:
+          type: array
+          items:
+            $ref: '#/components/schemas/propertyInformation'
     Error:
       type: object
       properties:
@@ -748,19 +598,207 @@ components:
           type: string
         errorDescription:
           type: string
-    IncomeLimitsRequest_loanOriginationSystem:
+    propertyInformation:
       type: object
       properties:
-        loanOriginationSystemVendorIdentifier:
+        unitID:
+          maxLength: 1
           type: string
-          description: A unique identifier agreed upon by the parties to the transaction to identify the vendor of the loan origination system used to process the loan.
-          example: AccurateLOS
-        loanOriginationSystemVersionIdentifier:
+          description: A unique identifier assigned to the Unit.<br> This field is optional unless missionIndexScoreIndicator is true, and propertyInformation container is provided for each financed unit on the loan, when totalBedRoomCount and rentalEstimatedGrossMonthlyRentAmount are being provided Unit ID must be provided.
+          enum:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+        totalBedRoomCount:
           type: string
-          description: Specifies the version of the loan origination system used to process the loan.
-          example: '2.7'
+          description: Specifies the total number of bedrooms.
+          example: '1'
+        rentalEstimatedGrossMonthlyRentAmount:
+          pattern: ^[.]?[0-9]+(?:.[0-9]{2})?$
+          type: string
+          description: The estimated dollar value of the estimated gross monthly rental income derived from a single rental unit or property.
+          example: '400000.00'
+    borrowerEstimatedPovertyData:
+      type: object
+      properties:
+        borrowerId:
+          type: string
+          description: The unique identifier assigned to the borrower.
+          example: '879568259'
+        addressMatchLevel:
+          type: string
+          description: The address scrubber will return the confidence of the attempted address match based on how similar the input address is to the matched adress. Vendor software codes(E=Exact Match,T=Tight Match,M=Medium Match,N=No Match) will be used to determine the appropriate "Address Match Level."
+          example: E
+          enum:
+          - E
+          - T
+          - M
+          - N
+        estimatedPovertyPercent:
+          type: string
+          description: Percent below poverty level for whom the poverty status is determined as per the 5-year estimates from the American Community Survey (ACS) file.
+          example: '97.90'
+        borrowerAddressExclusionCode:
+          type: string
+          description: This code indicates whether the identified address was a ‘Post Office Box’ (POB), ‘Private Mail Box’ (PMB), ‘Military Addresses’ (MIL). The valid values are POB, PMB, and MIL. The absence of a value/NULL indicates that the address was not identified as a Post Office Box, Private Mail Box, or Military Address.
+          example: POB
+          enum:
+          - POB
+          - PMB
+          - MIL
+        Errors:
+          $ref: '#/components/schemas/Errors'
+    IncomeLimitsRequest_subjectLoanData:
+      type: object
+      properties:
+        loanLimitRequestIndicator:
+          type: boolean
+          description: When true, indicates that the requestor wants to receive the conforming loan limits for the corresponding county in the API response.
+          example: true
+          enum:
+          - true
+          - false
+        baseLoanAmount:
+          pattern: ^[0-9]*(?:.[0-9]{2})?$
+          type: string
+          description: The base loan amount to be loaned to the borrower not including PMI, MIP, or Funding Fee.
+          example: '400000.00'
+        financedUnitCount:
+          type: string
+          description: The number of individual family dwelling units being financed in the subject property. FinancedUnitCount is conditionally required when baseLoanAmount is present
+          example: '1'
+          enum:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
       additionalProperties: false
+    IncomeLimitsResponse:
+      required:
+      - address
+      - incomeLimitsData
+      - inputAddress
+      - requestTransactionIdentifier
+      - transactionDateTime
+      type: object
+      properties:
+        requestTransactionIdentifier:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: 128-bit Globally unique identifier (GUID) assigned to each request.
+          example: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        transactionDateTime:
+          type: string
+          example: '2020-09-10T22:05:37.184Z'
+        inputAddress:
+          $ref: '#/components/schemas/address'
+        address:
+          $ref: '#/components/schemas/IncomeLimitsResponse_address'
+        incomeLimitsData:
+          type: array
+          items:
+            $ref: '#/components/schemas/IncomeLimitsResponse_incomeLimitsData'
+        loanLimitsData:
+          $ref: '#/components/schemas/IncomeLimitsResponse_loanLimitsData'
+        borrowerEstimatedPovertyData:
+          type: array
+          items:
+            $ref: '#/components/schemas/borrowerEstimatedPovertyData'
+        loanScores:
+          type: array
+          items:
+            $ref: '#/components/schemas/loanScores'
+    loanScores:
+      type: object
+      properties:
+        loanIdentifier:
+          type: string
+          description: The value of the unique identifier (GUID) assigned to a mortgage loan.
+          example: 7r5da9da-6b10-4995-89a0-b793b6f2f6a3
+        missionScoreEvaluationDate:
+          type: string
+          description: Date that the referenced score was produced.
+          example: '2020-09-10'
+        missionIndicationScore:
+          type: string
+          description: A numeric score that is determined by the eight social criteria that were evaluated when generating the Social Criteria Share (SCS). Those eight criteria are grouped into three dimensions (Income, Borrower, Property). If any single criteria within a dimension is met, then that dimension receives a score of “1". If the criteria for two dimensions are met then score will be "2" and so on.
+          example: '2'
+        incomeDimensionScoreNumber:
+          type: string
+          description: The income dimension score calculated for the record provided. It is one of the dimensions in determining social criteria evaluated when generating the Social Criteria Share.
+          example: '1'
+        borrowerDimensionScoreNumber:
+          type: string
+          description: The borrower dimension score calculated for the record provided. It is one of the dimensions in determining social criteria evaluated when generating the Social Criteria Share.
+          example: '1'
+        propertyDimensionScoreNumber:
+          type: string
+          description: The property dimension score calculated for the record provided. It is one of the dimensions in determining social criteria evaluated when generating the Social Criteria Share. .
+          example: '1'
+        affordableRentalIndicator:
+          type: string
+          description: When true (indicator is 1), indicates that the loan meets the Mission Index Affordable Rental Criteria for making housing units affordable to low-income renters.
+          example: '1'
+        borrowerResidenceInUnderservedMarketIndicator:
+          type: string
+          description: When true (indicator is 1), indicates that the borrower currently lives in in an area providing limited opportunities to access quality affordable housing.
+          example: '1'
+        amiRatio:
+          type: string
+          description: The borrower(s) qualifying annual income divided by the area median income amount for the Metropolitan Statistical Area (MSA) location of the subject property, at the time of loan origination.
+          example: '0.7313'
+        amiAmount:
+          type: string
+          description: The dollar amount representing the Area Median Income (AMI) for the subject property address.
+          example: '164100.0'
+    Errors:
+      type: object
+      properties:
+        error:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
   examples:
+    RequestExample1:
+      summary: Scenario 1 - Get property address and relevant income limits data
+      value:
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        partyRoleIdentifier: '123456'
+        partyRoleType: Seller
+        loanOriginationSystem:
+          loanOriginationSystemVendorIdentifier: AccurateLOS
+          loanOriginationSystemVersionIdentifier: '2.7'
+        address:
+          addressLineText: 8200 Jones Branch Drive
+          cityName: McLean
+          postalCode: '22102'
+          stateCode: VA
+        borrowerInformation:
+          incomeFrequencyType: Monthly
+          loanLevelQualifyingIncomeAmount: '6000.00'
+        previousYearAMIValue: false
+    RequestExample2:
+      summary: Scenario 2 - Get property address, relevant income limits and loan limits data
+      value:
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        partyRoleIdentifier: '123456'
+        partyRoleType: Seller
+        loanOriginationSystem:
+          loanOriginationSystemVendorIdentifier: AccurateLOS
+          loanOriginationSystemVersionIdentifier: '2.7'
+        address:
+          addressLineText: 8200 Jones Branch Drive
+          cityName: McLean
+          postalCode: '22102'
+          stateCode: VA
+        borrowerInformation:
+          incomeFrequencyType: Monthly
+          loanLevelQualifyingIncomeAmount: '6000.00'
+        subjectLoanData:
+          loanLimitRequestIndicator: true
+        previousYearAMIValue: false
     RequestExample7:
       summary: Scenario 7 - Get income limits data, borrower estimated poverty data & Mission Index Score
       value:
@@ -801,377 +839,6 @@ components:
           - unitID: '1'
             totalBedRoomCount: '3'
             rentalEstimatedGrossMonthlyRentAmount: '32300.12'
-        previousYearAMIValue: false
-    RequestExample4:
-      summary: Scenario 4 - Get income limits data - Unsuccessful request
-      value:
-        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        partyRoleIdentifier: '123456'
-        partyRoleType: Other
-        loanOriginationSystem:
-          loanOriginationSystemVendorIdentifier: AccurateLOS
-          loanOriginationSystemVersionIdentifier: '2.7'
-        address:
-          addressLineText: 8200 Jones Branch Drive
-          cityName: McLean
-          postalCode: '22102'
-          stateCode: VA
-        borrowerInformation:
-          incomeFrequencyType: Monthly
-        subjectLoanData:
-          loanLimitRequestIndicator: true
-          baseLoanAmount: '400000.00'
-        previousYearAMIValue: false
-    ResponseExample6:
-      summary: Scenario 6 - Response with standardized property address, relevant income limits and loan limit data for a specific financed unit count & multiple borrower poverty data
-      value:
-        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        transactionDateTime: '2020-09-10T22:05:37.184Z'
-        inputAddress:
-          addressLineText: 8200 Jones Branch Drive
-          cityName: McLean
-          postalCode: '22102'
-          stateCode: VA
-        address:
-          censusTractIdentifier: '480202'
-          fipsCountyCode: 059
-          countyName: Fairfax
-          addressLineText: 8200 JONES BRANCH DR
-          cityName: MCLEAN
-          postalCode: '22102'
-          stateCode: VA
-          addressMatchLevel: T
-          fipsStateNumericCode: '51'
-          highNeedsRuralRegionEligibilityAndQualifiedIndicator: false
-          ruralAreaIndicator: false
-          highCostAreaIndicator: true
-          lowIncomeCensusTractIndicator: false
-          minorityPopulationCensusTractIndicator: true
-          disasterAreaCensusTractIndicator: false
-          coreBasedStatisticalAreaCode: '47900'
-          minorityPopulationCensusTractPercent: '53.937'
-        incomeLimitsData:
-        - amiEffectiveDate: '2022-05-06'
-          incometoAMIRatioPercent: '51.25'
-          refiPossibleIncomeLimitAmount: '140500.00'
-          homePossibleIncomeLimitAmount: '112400.00'
-          hundredAndFortyPercentHUDMedianIncomeAmount: '196700.00'
-          hundredAndTwentyPercentHUDMedianIncomeAmount: '168600.00'
-          hundredPercentHUDMedianIncomeAmount: '140500.00'
-          eightyPercentHUDMedianIncomeAmount: '112400.00'
-          fiftyPercentHUDMedianIncomeAmount: '70250.00'
-        loanLimitsData:
-          loanConformityType: Conforming
-          oneUnitLimitAmount: '970800.00'
-        borrowerEstimatedPovertyData:
-        - borrowerId: '712698325'
-          addressMatchLevel: E
-          estimatedPovertyPercent: '20.56'
-          borrowerAddressExclusionCode: PMB
-        - borrowerId: '652698325'
-          Errors:
-          - errorCode: IL0005
-            errorDescription: Social Dimension Scores are not yet available through the Income Limits API. Once they are available, they will be provided in the response through the new fields available in version 2.2.0
-    ResponseExample4:
-      summary: Scenario 4 - Response for unsuccessful request, schema validation errors
-      value:
-        code: '400.002'
-        message: Request data does not match the application schema, please validate the request data.
-        details:
-        - error: /subjectLoanData should have conditionally required property 'financedUnitCount'
-        - error: ' should have conditionally required property ''partyRoleTypeOtherDescription'''
-        - error: /borrowerInformation should have conditionally required property 'loanLevelQualifyingIncomeAmount'
-    ResponseExample2:
-      summary: Scenario 2 - Response with standardized property address, relevant income limits and loan limits data
-      value:
-        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        transactionDateTime: '2020-09-10T22:05:37.184Z'
-        inputAddress:
-          addressLineText: 8200 Jones Branch Drive
-          cityName: McLean
-          postalCode: '22102'
-          stateCode: VA
-        address:
-          censusTractIdentifier: '480202'
-          fipsCountyCode: 059
-          countyName: Fairfax
-          addressLineText: 8200 JONES BRANCH DR
-          cityName: MCLEAN
-          postalCode: '22102'
-          stateCode: VA
-          addressMatchLevel: T
-          fipsStateNumericCode: '51'
-          highNeedsRuralRegionEligibilityAndQualifiedIndicator: false
-          ruralAreaIndicator: false
-          highCostAreaIndicator: true
-          lowIncomeCensusTractIndicator: false
-          minorityPopulationCensusTractIndicator: true
-          disasterAreaCensusTractIndicator: false
-          coreBasedStatisticalAreaCode: '47900'
-          minorityPopulationCensusTractPercent: '53.937'
-        incomeLimitsData:
-        - amiEffectiveDate: '2022-05-06'
-          incometoAMIRatioPercent: '51.25'
-          refiPossibleIncomeLimitAmount: '140500.00'
-          homePossibleIncomeLimitAmount: '112400.00'
-          hundredAndFortyPercentHUDMedianIncomeAmount: '196700.00'
-          hundredAndTwentyPercentHUDMedianIncomeAmount: '168600.00'
-          hundredPercentHUDMedianIncomeAmount: '140500.00'
-          eightyPercentHUDMedianIncomeAmount: '112400.00'
-          fiftyPercentHUDMedianIncomeAmount: '70250.00'
-        loanLimitsData:
-          oneUnitLimitAmount: '970800.00'
-          twoUnitLimitAmount: '1243050.00'
-          threeUnitLimitAmount: '1502475.00'
-          fourUnitLimitAmount: '1867275.00'
-    RequestExample6:
-      summary: Scenario 6 - Get income limits data and borrower estimated poverty data for multiple borrowers
-      value:
-        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        partyRoleIdentifier: '123456'
-        partyRoleType: Seller
-        loanOriginationSystem:
-          loanOriginationSystemVendorIdentifier: AccurateLOS
-          loanOriginationSystemVersionIdentifier: '2.7'
-        address:
-          addressLineText: 8200 Jones Branch Drive
-          cityName: McLean
-          postalCode: '22102'
-          stateCode: VA
-        borrowerInformation:
-          incomeFrequencyType: Monthly
-          loanLevelQualifyingIncomeAmount: '6000.00'
-          borrower:
-          - borrowerID: '897956867'
-            borrowerFirstTimeHomebuyerIndicator: Y
-            address:
-              addressLineText: 8200 Jones Branch Drive
-              cityName: McLean
-              postalCode: '22102'
-              stateCode: VA
-          - borrowerID: '302956259'
-            borrowerFirstTimeHomebuyerIndicator: Y
-            address:
-              addressLineText: 86 GRAND KEY DR
-              cityName: McLean
-              postalCode: '22102'
-              stateCode: VA
-        subjectLoanData:
-          loanLimitRequestIndicator: true
-        previousYearAMIValue: false
-    ResponseExample1:
-      summary: Scenario 1 - Response with standardized property address with relevant income limits
-      value:
-        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        transactionDateTime: '2020-09-10T22:05:37.184Z'
-        inputAddress:
-          addressLineText: 8200 Jones Branch Drive
-          cityName: McLean
-          postalCode: '22102'
-          stateCode: VA
-        address:
-          censusTractIdentifier: '480202'
-          fipsCountyCode: 059
-          countyName: Fairfax
-          addressLineText: 8200 JONES BRANCH DR
-          cityName: MCLEAN
-          postalCode: '22102'
-          stateCode: VA
-          addressMatchLevel: E
-          fipsStateNumericCode: '51'
-          highNeedsRuralRegionEligibilityAndQualifiedIndicator: false
-          ruralAreaIndicator: false
-          highCostAreaIndicator: true
-          lowIncomeCensusTractIndicator: false
-          minorityPopulationCensusTractIndicator: true
-          disasterAreaCensusTractIndicator: false
-          coreBasedStatisticalAreaCode: '47900'
-          minorityPopulationCensusTractPercent: '53.937'
-        incomeLimitsData:
-        - amiEffectiveDate: '2022-05-06'
-          incometoAMIRatioPercent: '51.25'
-          refiPossibleIncomeLimitAmount: '140500.00'
-          homePossibleIncomeLimitAmount: '112400.00'
-          hundredAndFortyPercentHUDMedianIncomeAmount: '196700.00'
-          hundredAndTwentyPercentHUDMedianIncomeAmount: '168600.00'
-          hundredPercentHUDMedianIncomeAmount: '140500.00'
-          eightyPercentHUDMedianIncomeAmount: '112400.00'
-          fiftyPercentHUDMedianIncomeAmount: '70250.00'
-    RequestExample8:
-      summary: Scenario 8 - Get income limits data, borrower estimated poverty data & Mission Index Score with applicationReceivedDate
-      value:
-        requestTransactionIdentifier: 28b81891-258f-41a8-ab95-c5eb4457fe26
-        partyRoleIdentifier: '123456'
-        loanIdentifier: 28b81891-258f-41a8-ab95-c5eb4457fe26
-        partyRoleType: Seller
-        loanOriginationSystem:
-          loanOriginationSystemVendorIdentifier: AccurateLOS
-          loanOriginationSystemVersionIdentifier: '2.7'
-        address:
-          addressLineText: 8200 Jones Branch Drive
-          cityName: McLean
-          postalCode: '22102'
-          stateCode: VA
-        borrowerInformation:
-          incomeFrequencyType: Monthly
-          loanLevelQualifyingIncomeAmount: '6000.00'
-          borrower:
-          - borrowerID: '897956867'
-            borrowerFirstTimeHomebuyerIndicator: Y
-            address:
-              addressLineText: 8200 Jones Branch Drive
-              cityName: McLean
-              postalCode: '22102'
-              stateCode: VA
-        subjectLoanData:
-          loanLimitRequestIndicator: true
-          financedUnitCount: '1'
-        missionIndexScoreIndicator: true
-        applicationReceivedDate: '2025-02-22'
-        specialPurposeCreditProgramIndicator: Y
-        subjectPropertyData:
-          constructionMethodType: SiteBuilt
-          loanPurposeType: Purchase
-          financedUnitCount: '1'
-          propertyUsageType: PrimaryResidence
-          propertyInformation:
-          - unitID: '1'
-            totalBedRoomCount: '3'
-            rentalEstimatedGrossMonthlyRentAmount: '32300.12'
-        previousYearAMIValue: false
-    RequestExample1:
-      summary: Scenario 1 - Get property address and relevant income limits data
-      value:
-        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        partyRoleIdentifier: '123456'
-        partyRoleType: Seller
-        loanOriginationSystem:
-          loanOriginationSystemVendorIdentifier: AccurateLOS
-          loanOriginationSystemVersionIdentifier: '2.7'
-        address:
-          addressLineText: 8200 Jones Branch Drive
-          cityName: McLean
-          postalCode: '22102'
-          stateCode: VA
-        borrowerInformation:
-          incomeFrequencyType: Monthly
-          loanLevelQualifyingIncomeAmount: '6000.00'
-        previousYearAMIValue: false
-    RequestExample2:
-      summary: Scenario 2 - Get property address, relevant income limits and loan limits data
-      value:
-        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        partyRoleIdentifier: '123456'
-        partyRoleType: Seller
-        loanOriginationSystem:
-          loanOriginationSystemVendorIdentifier: AccurateLOS
-          loanOriginationSystemVersionIdentifier: '2.7'
-        address:
-          addressLineText: 8200 Jones Branch Drive
-          cityName: McLean
-          postalCode: '22102'
-          stateCode: VA
-        borrowerInformation:
-          incomeFrequencyType: Monthly
-          loanLevelQualifyingIncomeAmount: '6000.00'
-        subjectLoanData:
-          loanLimitRequestIndicator: true
-        previousYearAMIValue: false
-    ResponseExample5:
-      summary: Scenario 5 - Response with standardized property address, relevant income limits and loan limit data for a specific financed unit count & borrower poverty data
-      value:
-        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        transactionDateTime: '2020-09-10T22:05:37.184Z'
-        inputAddress:
-          addressLineText: 8200 Jones Branch Drive
-          cityName: McLean
-          postalCode: '22102'
-          stateCode: VA
-        address:
-          censusTractIdentifier: '480202'
-          fipsCountyCode: 059
-          countyName: Fairfax
-          addressLineText: 8200 JONES BRANCH DR
-          cityName: MCLEAN
-          postalCode: '22102'
-          stateCode: VA
-          addressMatchLevel: M
-          fipsStateNumericCode: '51'
-          highNeedsRuralRegionEligibilityAndQualifiedIndicator: false
-          ruralAreaIndicator: false
-          highCostAreaIndicator: true
-          lowIncomeCensusTractIndicator: false
-          minorityPopulationCensusTractIndicator: true
-          disasterAreaCensusTractIndicator: false
-          coreBasedStatisticalAreaCode: '47900'
-          minorityPopulationCensusTractPercent: '53.937'
-        incomeLimitsData:
-        - amiEffectiveDate: '2022-05-06'
-          incometoAMIRatioPercent: '51.25'
-          refiPossibleIncomeLimitAmount: '140500.00'
-          homePossibleIncomeLimitAmount: '112400.00'
-          hundredAndFortyPercentHUDMedianIncomeAmount: '196700.00'
-          hundredAndTwentyPercentHUDMedianIncomeAmount: '168600.00'
-          hundredPercentHUDMedianIncomeAmount: '140500.00'
-          eightyPercentHUDMedianIncomeAmount: '112400.00'
-          fiftyPercentHUDMedianIncomeAmount: '70250.00'
-        loanLimitsData:
-          loanConformityType: Conforming
-          oneUnitLimitAmount: '970800.00'
-        borrowerEstimatedPovertyData:
-        - borrowerId: '712698325'
-          addressMatchLevel: E
-          estimatedPovertyPercent: '20.56'
-          borrowerAddressExclusionCode: PMB
-    RequestExample5:
-      summary: Scenario 5 - Get income limits data and borrower estimated poverty data
-      value:
-        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        partyRoleIdentifier: '123456'
-        partyRoleType: Seller
-        loanOriginationSystem:
-          loanOriginationSystemVendorIdentifier: AccurateLOS
-          loanOriginationSystemVersionIdentifier: '2.7'
-        address:
-          addressLineText: 8200 Jones Branch Drive
-          cityName: McLean
-          postalCode: '22102'
-          stateCode: VA
-        borrowerInformation:
-          incomeFrequencyType: Monthly
-          loanLevelQualifyingIncomeAmount: '6000.00'
-          borrower:
-          - borrowerID: '897956867'
-            borrowerFirstTimeHomebuyerIndicator: Y
-            address:
-              addressLineText: 8200 Jones Branch Drive
-              cityName: McLean
-              postalCode: '22102'
-              stateCode: VA
-        subjectLoanData:
-          loanLimitRequestIndicator: true
-        previousYearAMIValue: false
-    RequestExample3:
-      summary: Scenario 3 - Get property address, relevant income limits and loan limit data for a specific financed unit count
-      value:
-        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
-        partyRoleIdentifier: '123456'
-        partyRoleType: Seller
-        loanOriginationSystem:
-          loanOriginationSystemVendorIdentifier: AccurateLOS
-          loanOriginationSystemVersionIdentifier: '2.7'
-        address:
-          addressLineText: 8200 Jones Branch Drive
-          cityName: McLean
-          postalCode: '22102'
-          stateCode: VA
-        borrowerInformation:
-          incomeFrequencyType: Monthly
-          loanLevelQualifyingIncomeAmount: '6000.00'
-        subjectLoanData:
-          loanLimitRequestIndicator: true
-          baseLoanAmount: '400000.00'
-          financedUnitCount: '1'
         previousYearAMIValue: false
     ResponseExample8:
       summary: Scenario 8 - Response with standardized property address, relevant income limits and loan limit data for a specific financed unit count, borrower poverty data & mission index score along with applicationReceivedDate
@@ -1234,6 +901,136 @@ components:
           propertyDimensionScoreNumber: '1'
           borrowerResidenceInUnderservedMarketIndicator: '1'
           affordableRentalIndicator: '0'
+    ResponseExample4:
+      summary: Scenario 4 - Response for unsuccessful request, schema validation errors
+      value:
+        code: '400.002'
+        message: Request data does not match the application schema, please validate the request data.
+        details:
+        - error: /subjectLoanData should have conditionally required property 'financedUnitCount'
+        - error: ' should have conditionally required property ''partyRoleTypeOtherDescription'''
+        - error: /borrowerInformation should have conditionally required property 'loanLevelQualifyingIncomeAmount'
+    ResponseExample3:
+      summary: Scenario 3 - Response with standardized property address, relevant income limits and loan limit data for a specific financed unit count
+      value:
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        transactionDateTime: '2020-09-10T22:05:37.184Z'
+        inputAddress:
+          addressLineText: 8200 Jones Branch Drive
+          cityName: McLean
+          postalCode: '22102'
+          stateCode: VA
+        address:
+          censusTractIdentifier: '480202'
+          fipsCountyCode: 059
+          countyName: Fairfax
+          addressLineText: 8200 JONES BRANCH DR
+          cityName: MCLEAN
+          postalCode: '22102'
+          stateCode: VA
+          addressMatchLevel: N
+          fipsStateNumericCode: '51'
+          highNeedsRuralRegionEligibilityAndQualifiedIndicator: false
+          ruralAreaIndicator: false
+          highCostAreaIndicator: true
+          lowIncomeCensusTractIndicator: false
+          minorityPopulationCensusTractIndicator: true
+          disasterAreaCensusTractIndicator: false
+          coreBasedStatisticalAreaCode: '47900'
+          minorityPopulationCensusTractPercent: '53.937'
+        incomeLimitsData:
+        - amiEffectiveDate: '2022-05-06'
+          incometoAMIRatioPercent: '51.25'
+          refiPossibleIncomeLimitAmount: '140500.00'
+          homePossibleIncomeLimitAmount: '112400.00'
+          hundredAndFortyPercentHUDMedianIncomeAmount: '196700.00'
+          hundredAndTwentyPercentHUDMedianIncomeAmount: '168600.00'
+          hundredPercentHUDMedianIncomeAmount: '140500.00'
+          eightyPercentHUDMedianIncomeAmount: '112400.00'
+          fiftyPercentHUDMedianIncomeAmount: '70250.00'
+        loanLimitsData:
+          loanConformityType: Conforming
+          oneUnitLimitAmount: '970800.00'
+    RequestExample8:
+      summary: Scenario 8 - Get income limits data, borrower estimated poverty data & Mission Index Score with applicationReceivedDate
+      value:
+        requestTransactionIdentifier: 28b81891-258f-41a8-ab95-c5eb4457fe26
+        partyRoleIdentifier: '123456'
+        loanIdentifier: 28b81891-258f-41a8-ab95-c5eb4457fe26
+        partyRoleType: Seller
+        loanOriginationSystem:
+          loanOriginationSystemVendorIdentifier: AccurateLOS
+          loanOriginationSystemVersionIdentifier: '2.7'
+        address:
+          addressLineText: 8200 Jones Branch Drive
+          cityName: McLean
+          postalCode: '22102'
+          stateCode: VA
+        borrowerInformation:
+          incomeFrequencyType: Monthly
+          loanLevelQualifyingIncomeAmount: '6000.00'
+          borrower:
+          - borrowerID: '897956867'
+            borrowerFirstTimeHomebuyerIndicator: Y
+            address:
+              addressLineText: 8200 Jones Branch Drive
+              cityName: McLean
+              postalCode: '22102'
+              stateCode: VA
+        subjectLoanData:
+          loanLimitRequestIndicator: true
+          financedUnitCount: '1'
+        missionIndexScoreIndicator: true
+        applicationReceivedDate: '2025-02-22'
+        specialPurposeCreditProgramIndicator: Y
+        subjectPropertyData:
+          constructionMethodType: SiteBuilt
+          loanPurposeType: Purchase
+          financedUnitCount: '1'
+          propertyUsageType: PrimaryResidence
+          propertyInformation:
+          - unitID: '1'
+            totalBedRoomCount: '3'
+            rentalEstimatedGrossMonthlyRentAmount: '32300.12'
+        previousYearAMIValue: false
+    ResponseExample1:
+      summary: Scenario 1 - Response with standardized property address with relevant income limits
+      value:
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        transactionDateTime: '2020-09-10T22:05:37.184Z'
+        inputAddress:
+          addressLineText: 8200 Jones Branch Drive
+          cityName: McLean
+          postalCode: '22102'
+          stateCode: VA
+        address:
+          censusTractIdentifier: '480202'
+          fipsCountyCode: 059
+          countyName: Fairfax
+          addressLineText: 8200 JONES BRANCH DR
+          cityName: MCLEAN
+          postalCode: '22102'
+          stateCode: VA
+          addressMatchLevel: E
+          fipsStateNumericCode: '51'
+          highNeedsRuralRegionEligibilityAndQualifiedIndicator: false
+          ruralAreaIndicator: false
+          highCostAreaIndicator: true
+          lowIncomeCensusTractIndicator: false
+          minorityPopulationCensusTractIndicator: true
+          disasterAreaCensusTractIndicator: false
+          coreBasedStatisticalAreaCode: '47900'
+          minorityPopulationCensusTractPercent: '53.937'
+        incomeLimitsData:
+        - amiEffectiveDate: '2022-05-06'
+          incometoAMIRatioPercent: '51.25'
+          refiPossibleIncomeLimitAmount: '140500.00'
+          homePossibleIncomeLimitAmount: '112400.00'
+          hundredAndFortyPercentHUDMedianIncomeAmount: '196700.00'
+          hundredAndTwentyPercentHUDMedianIncomeAmount: '168600.00'
+          hundredPercentHUDMedianIncomeAmount: '140500.00'
+          eightyPercentHUDMedianIncomeAmount: '112400.00'
+          fiftyPercentHUDMedianIncomeAmount: '70250.00'
     ResponseExample7:
       summary: Scenario 7 - Response with standardized property address, relevant income limits and loan limit data for a specific financed unit count, borrower poverty data & mission index score
       value:
@@ -1293,8 +1090,36 @@ components:
           propertyDimensionScoreNumber: '1'
           borrowerResidenceInUnderservedMarketIndicator: '1'
           affordableRentalIndicator: '0'
-    ResponseExample3:
-      summary: Scenario 3 - Response with standardized property address, relevant income limits and loan limit data for a specific financed unit count
+    RequestExample5:
+      summary: Scenario 5 - Get income limits data and borrower estimated poverty data
+      value:
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        partyRoleIdentifier: '123456'
+        partyRoleType: Seller
+        loanOriginationSystem:
+          loanOriginationSystemVendorIdentifier: AccurateLOS
+          loanOriginationSystemVersionIdentifier: '2.7'
+        address:
+          addressLineText: 8200 Jones Branch Drive
+          cityName: McLean
+          postalCode: '22102'
+          stateCode: VA
+        borrowerInformation:
+          incomeFrequencyType: Monthly
+          loanLevelQualifyingIncomeAmount: '6000.00'
+          borrower:
+          - borrowerID: '897956867'
+            borrowerFirstTimeHomebuyerIndicator: Y
+            address:
+              addressLineText: 8200 Jones Branch Drive
+              cityName: McLean
+              postalCode: '22102'
+              stateCode: VA
+        subjectLoanData:
+          loanLimitRequestIndicator: true
+        previousYearAMIValue: false
+    ResponseExample2:
+      summary: Scenario 2 - Response with standardized property address, relevant income limits and loan limits data
       value:
         requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
         transactionDateTime: '2020-09-10T22:05:37.184Z'
@@ -1311,7 +1136,50 @@ components:
           cityName: MCLEAN
           postalCode: '22102'
           stateCode: VA
-          addressMatchLevel: N
+          addressMatchLevel: T
+          fipsStateNumericCode: '51'
+          highNeedsRuralRegionEligibilityAndQualifiedIndicator: false
+          ruralAreaIndicator: false
+          highCostAreaIndicator: true
+          lowIncomeCensusTractIndicator: false
+          minorityPopulationCensusTractIndicator: true
+          disasterAreaCensusTractIndicator: false
+          coreBasedStatisticalAreaCode: '47900'
+          minorityPopulationCensusTractPercent: '53.937'
+        incomeLimitsData:
+        - amiEffectiveDate: '2022-05-06'
+          incometoAMIRatioPercent: '51.25'
+          refiPossibleIncomeLimitAmount: '140500.00'
+          homePossibleIncomeLimitAmount: '112400.00'
+          hundredAndFortyPercentHUDMedianIncomeAmount: '196700.00'
+          hundredAndTwentyPercentHUDMedianIncomeAmount: '168600.00'
+          hundredPercentHUDMedianIncomeAmount: '140500.00'
+          eightyPercentHUDMedianIncomeAmount: '112400.00'
+          fiftyPercentHUDMedianIncomeAmount: '70250.00'
+        loanLimitsData:
+          oneUnitLimitAmount: '970800.00'
+          twoUnitLimitAmount: '1243050.00'
+          threeUnitLimitAmount: '1502475.00'
+          fourUnitLimitAmount: '1867275.00'
+    ResponseExample6:
+      summary: Scenario 6 - Response with standardized property address, relevant income limits and loan limit data for a specific financed unit count & multiple borrower poverty data
+      value:
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        transactionDateTime: '2020-09-10T22:05:37.184Z'
+        inputAddress:
+          addressLineText: 8200 Jones Branch Drive
+          cityName: McLean
+          postalCode: '22102'
+          stateCode: VA
+        address:
+          censusTractIdentifier: '480202'
+          fipsCountyCode: 059
+          countyName: Fairfax
+          addressLineText: 8200 JONES BRANCH DR
+          cityName: MCLEAN
+          postalCode: '22102'
+          stateCode: VA
+          addressMatchLevel: T
           fipsStateNumericCode: '51'
           highNeedsRuralRegionEligibilityAndQualifiedIndicator: false
           ruralAreaIndicator: false
@@ -1334,6 +1202,138 @@ components:
         loanLimitsData:
           loanConformityType: Conforming
           oneUnitLimitAmount: '970800.00'
+        borrowerEstimatedPovertyData:
+        - borrowerId: '712698325'
+          addressMatchLevel: E
+          estimatedPovertyPercent: '20.56'
+          borrowerAddressExclusionCode: PMB
+        - borrowerId: '652698325'
+          Errors:
+          - errorCode: IL0005
+            errorDescription: Social Dimension Scores are not yet available through the Income Limits API. Once they are available, they will be provided in the response through the new fields available in version 2.2.0
+    ResponseExample5:
+      summary: Scenario 5 - Response with standardized property address, relevant income limits and loan limit data for a specific financed unit count & borrower poverty data
+      value:
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        transactionDateTime: '2020-09-10T22:05:37.184Z'
+        inputAddress:
+          addressLineText: 8200 Jones Branch Drive
+          cityName: McLean
+          postalCode: '22102'
+          stateCode: VA
+        address:
+          censusTractIdentifier: '480202'
+          fipsCountyCode: 059
+          countyName: Fairfax
+          addressLineText: 8200 JONES BRANCH DR
+          cityName: MCLEAN
+          postalCode: '22102'
+          stateCode: VA
+          addressMatchLevel: M
+          fipsStateNumericCode: '51'
+          highNeedsRuralRegionEligibilityAndQualifiedIndicator: false
+          ruralAreaIndicator: false
+          highCostAreaIndicator: true
+          lowIncomeCensusTractIndicator: false
+          minorityPopulationCensusTractIndicator: true
+          disasterAreaCensusTractIndicator: false
+          coreBasedStatisticalAreaCode: '47900'
+          minorityPopulationCensusTractPercent: '53.937'
+        incomeLimitsData:
+        - amiEffectiveDate: '2022-05-06'
+          incometoAMIRatioPercent: '51.25'
+          refiPossibleIncomeLimitAmount: '140500.00'
+          homePossibleIncomeLimitAmount: '112400.00'
+          hundredAndFortyPercentHUDMedianIncomeAmount: '196700.00'
+          hundredAndTwentyPercentHUDMedianIncomeAmount: '168600.00'
+          hundredPercentHUDMedianIncomeAmount: '140500.00'
+          eightyPercentHUDMedianIncomeAmount: '112400.00'
+          fiftyPercentHUDMedianIncomeAmount: '70250.00'
+        loanLimitsData:
+          loanConformityType: Conforming
+          oneUnitLimitAmount: '970800.00'
+        borrowerEstimatedPovertyData:
+        - borrowerId: '712698325'
+          addressMatchLevel: E
+          estimatedPovertyPercent: '20.56'
+          borrowerAddressExclusionCode: PMB
+    RequestExample4:
+      summary: Scenario 4 - Get income limits data - Unsuccessful request
+      value:
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        partyRoleIdentifier: '123456'
+        partyRoleType: Other
+        loanOriginationSystem:
+          loanOriginationSystemVendorIdentifier: AccurateLOS
+          loanOriginationSystemVersionIdentifier: '2.7'
+        address:
+          addressLineText: 8200 Jones Branch Drive
+          cityName: McLean
+          postalCode: '22102'
+          stateCode: VA
+        borrowerInformation:
+          incomeFrequencyType: Monthly
+        subjectLoanData:
+          loanLimitRequestIndicator: true
+          baseLoanAmount: '400000.00'
+        previousYearAMIValue: false
+    RequestExample6:
+      summary: Scenario 6 - Get income limits data and borrower estimated poverty data for multiple borrowers
+      value:
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        partyRoleIdentifier: '123456'
+        partyRoleType: Seller
+        loanOriginationSystem:
+          loanOriginationSystemVendorIdentifier: AccurateLOS
+          loanOriginationSystemVersionIdentifier: '2.7'
+        address:
+          addressLineText: 8200 Jones Branch Drive
+          cityName: McLean
+          postalCode: '22102'
+          stateCode: VA
+        borrowerInformation:
+          incomeFrequencyType: Monthly
+          loanLevelQualifyingIncomeAmount: '6000.00'
+          borrower:
+          - borrowerID: '897956867'
+            borrowerFirstTimeHomebuyerIndicator: Y
+            address:
+              addressLineText: 8200 Jones Branch Drive
+              cityName: McLean
+              postalCode: '22102'
+              stateCode: VA
+          - borrowerID: '302956259'
+            borrowerFirstTimeHomebuyerIndicator: Y
+            address:
+              addressLineText: 86 GRAND KEY DR
+              cityName: McLean
+              postalCode: '22102'
+              stateCode: VA
+        subjectLoanData:
+          loanLimitRequestIndicator: true
+        previousYearAMIValue: false
+    RequestExample3:
+      summary: Scenario 3 - Get property address, relevant income limits and loan limit data for a specific financed unit count
+      value:
+        requestTransactionIdentifier: 4e6da9da-6b10-4995-89a0-b793b6f2b1b2
+        partyRoleIdentifier: '123456'
+        partyRoleType: Seller
+        loanOriginationSystem:
+          loanOriginationSystemVendorIdentifier: AccurateLOS
+          loanOriginationSystemVersionIdentifier: '2.7'
+        address:
+          addressLineText: 8200 Jones Branch Drive
+          cityName: McLean
+          postalCode: '22102'
+          stateCode: VA
+        borrowerInformation:
+          incomeFrequencyType: Monthly
+          loanLevelQualifyingIncomeAmount: '6000.00'
+        subjectLoanData:
+          loanLimitRequestIndicator: true
+          baseLoanAmount: '400000.00'
+          financedUnitCount: '1'
+        previousYearAMIValue: false
   securitySchemes:
     bearerAuth:
       type: http

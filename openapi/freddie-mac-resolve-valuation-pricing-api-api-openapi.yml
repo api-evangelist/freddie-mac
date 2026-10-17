@@ -100,38 +100,6 @@ paths:
       x-codegen-request-body-name: shortSaleMNPServiceRequest
 components:
   examples:
-    ResponseOrderMNP:
-      summary: Scenario 2 - Response when a new MNP Order is Placed
-      description: A new submission response
-      value:
-        message:
-          aboutVersions:
-            aboutVersion:
-              createdDatetime: '2021-05-05T15:36:38.371Z'
-          responseData:
-            isRVPRequestValid: true
-            errorList: []
-            responseRVPList:
-            - loanIdentifier: '888888888'
-              servicerLoanIdentifier: ab00123456789
-              servicerAccountIdentifier: '888888'
-              requestType: MNP
-              serviceType: Interior/Exterior BPO w/Photos
-              orderSource: Servicer
-              isValid: true
-              isMNPObtained: false
-              errorWorkoutList:
-              - workoutErrorCode: RVP00027
-                workoutErrorDescription: No current MNP found for loan requested. MNP request has been filed. Please monitor MNP Request Status on a daily basis.
-                workoutErrorType: Informational
-              valuationData:
-                mnpStatus: Pending
-                mnpRequestIdentifier: '123456'
-              servicerContactDetails:
-                servicerContactFirstName: JIM
-                servicerContactLastName: JONES
-                servicerContactPhone: '1234567890'
-                servicerContactEmail: JIM@emailserver.com
     RequestOrderMNP:
       summary: Scenario 2 - Request when a new MNP Order is Placed.
       description: A new submission
@@ -207,6 +175,38 @@ components:
                 servicerContactLastName: Jones
                 servicerContactPhone: '1234567890'
                 servicerContactEmail: JIM@EMAILSERVER.COM
+    ResponseOrderMNP:
+      summary: Scenario 2 - Response when a new MNP Order is Placed
+      description: A new submission response
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              createdDatetime: '2021-05-05T15:36:38.371Z'
+          responseData:
+            isRVPRequestValid: true
+            errorList: []
+            responseRVPList:
+            - loanIdentifier: '888888888'
+              servicerLoanIdentifier: ab00123456789
+              servicerAccountIdentifier: '888888'
+              requestType: MNP
+              serviceType: Interior/Exterior BPO w/Photos
+              orderSource: Servicer
+              isValid: true
+              isMNPObtained: false
+              errorWorkoutList:
+              - workoutErrorCode: RVP00027
+                workoutErrorDescription: No current MNP found for loan requested. MNP request has been filed. Please monitor MNP Request Status on a daily basis.
+                workoutErrorType: Informational
+              valuationData:
+                mnpStatus: Pending
+                mnpRequestIdentifier: '123456'
+              servicerContactDetails:
+                servicerContactFirstName: JIM
+                servicerContactLastName: JONES
+                servicerContactPhone: '1234567890'
+                servicerContactEmail: JIM@emailserver.com
     RequestCompletedMNPWithFutureGTD:
       summary: Scenario 1 - Retrieve a completed short sale MNP with future good thru date
       description: A new submission
@@ -224,141 +224,6 @@ components:
                 requestType: MNP
                 servicerLoanIdentifier: ab00123456789
   schemas:
-    ShortSaleMNPServiceRequest:
-      title: ShortSaleMNPServiceRequest
-      description: The root schema comprises the entire JSON document.
-      type: object
-      properties:
-        message:
-          title: The Message Schema
-          type: object
-          properties:
-            aboutVersions:
-              title: The Aboutversions Schema
-              description: Dataset to capture the header information
-              type: object
-              properties:
-                aboutVersion:
-                  title: The Aboutversion Schema
-                  description: Dataset to capture the header information
-                  type: object
-                  properties:
-                    aboutVersionIdentifier:
-                      title: The Aboutversionidentifier Schema
-                      description: This is the version number of the schema in use
-                      type: string
-                      example: S1.0.01
-                    createdDatetime:
-                      title: The Createddatetime Schema
-                      description: The date and time stamp of response schema creation
-                      type: string
-                      example: '2019-09-19T09:29:11Z'
-                  required:
-                  - aboutVersionIdentifier
-                  - createdDatetime
-                  default: {}
-              required:
-              - aboutVersion
-              default: {}
-            requestData:
-              title: The Requestdata Schema
-              description: An explanation about the purpose of this instance.
-              type: object
-              properties:
-                workoutList:
-                  title: The Workoutlist Schema
-                  description: An explanation about the purpose of this instance.
-                  type: array
-                  items:
-                    title: The Items Schema
-                    description: An explanation about the purpose of this instance.
-                    type: object
-                    properties:
-                      externalData:
-                        title: The Externaldata Schema
-                        description: An explanation about the purpose of this instance.
-                        type: object
-                        properties:
-                          servicerAccountIdentifier:
-                            title: The Sellerservicernumber Schema
-                            description: 'Unique identifier, issued by Freddie Mac, for the individual Seller or Servicer. '
-                            type: string
-                          loanIdentifier:
-                            title: The Loanidentifier Schema
-                            description: Unique Freddie Mac identifier assigned to a financial instrument within the system.
-                            type: string
-                          servicerLoanIdentifier:
-                            title: The Servicer Loan Identifier Schema
-                            description: A unique identifier assigned by the servicer to identify the loan.
-                            type: string
-                          requestType:
-                            type: string
-                          rEVP:
-                            type: object
-                            properties:
-                              valuationData:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    category:
-                                      type: string
-                                      enum:
-                                      - PropertyType
-                                      - ServicerContactFirstName
-                                      - ServicerContactLastName
-                                      - ServicerContactPhone
-                                      - ServicerContactEmail
-                                      - PropertyContactFirstName
-                                      - PropertyContactLastName
-                                      - PropertyContactPhone
-                                      - SpecialInteriorAccess
-                                      - ServicerContactPhoneExtension
-                                      - PropertyContactPhoneExtension
-                                    value:
-                                      type: string
-                                  required:
-                                  - category
-                                  - value
-                            required:
-                            - valuationData
-                        required:
-                        - servicerAccountIdentifier
-                        - loanIdentifier
-                        - servicerLoanIdentifier
-                        - requestType
-                        - rEVP
-                        default: {}
-                    required:
-                    - externalData
-                    default: {}
-                  default: []
-              required:
-              - workoutList
-              default: {}
-          required:
-          - aboutVersions
-          - requestData
-          default: {}
-      required:
-      - message
-      default: {}
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: array
-          items:
-            title: The Items Schema
-            type: object
-            properties:
-              error:
-                description: error messages
-                type: string
     ShortSaleMNPServiceResponse:
       title: ShortSaleMNPServiceResponse
       description: The root schema comprises the entire JSON document.
@@ -589,6 +454,141 @@ components:
           required:
           - aboutVersions
           - responseData
+          default: {}
+      required:
+      - message
+      default: {}
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            title: The Items Schema
+            type: object
+            properties:
+              error:
+                description: error messages
+                type: string
+    ShortSaleMNPServiceRequest:
+      title: ShortSaleMNPServiceRequest
+      description: The root schema comprises the entire JSON document.
+      type: object
+      properties:
+        message:
+          title: The Message Schema
+          type: object
+          properties:
+            aboutVersions:
+              title: The Aboutversions Schema
+              description: Dataset to capture the header information
+              type: object
+              properties:
+                aboutVersion:
+                  title: The Aboutversion Schema
+                  description: Dataset to capture the header information
+                  type: object
+                  properties:
+                    aboutVersionIdentifier:
+                      title: The Aboutversionidentifier Schema
+                      description: This is the version number of the schema in use
+                      type: string
+                      example: S1.0.01
+                    createdDatetime:
+                      title: The Createddatetime Schema
+                      description: The date and time stamp of response schema creation
+                      type: string
+                      example: '2019-09-19T09:29:11Z'
+                  required:
+                  - aboutVersionIdentifier
+                  - createdDatetime
+                  default: {}
+              required:
+              - aboutVersion
+              default: {}
+            requestData:
+              title: The Requestdata Schema
+              description: An explanation about the purpose of this instance.
+              type: object
+              properties:
+                workoutList:
+                  title: The Workoutlist Schema
+                  description: An explanation about the purpose of this instance.
+                  type: array
+                  items:
+                    title: The Items Schema
+                    description: An explanation about the purpose of this instance.
+                    type: object
+                    properties:
+                      externalData:
+                        title: The Externaldata Schema
+                        description: An explanation about the purpose of this instance.
+                        type: object
+                        properties:
+                          servicerAccountIdentifier:
+                            title: The Sellerservicernumber Schema
+                            description: 'Unique identifier, issued by Freddie Mac, for the individual Seller or Servicer. '
+                            type: string
+                          loanIdentifier:
+                            title: The Loanidentifier Schema
+                            description: Unique Freddie Mac identifier assigned to a financial instrument within the system.
+                            type: string
+                          servicerLoanIdentifier:
+                            title: The Servicer Loan Identifier Schema
+                            description: A unique identifier assigned by the servicer to identify the loan.
+                            type: string
+                          requestType:
+                            type: string
+                          rEVP:
+                            type: object
+                            properties:
+                              valuationData:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    category:
+                                      type: string
+                                      enum:
+                                      - PropertyType
+                                      - ServicerContactFirstName
+                                      - ServicerContactLastName
+                                      - ServicerContactPhone
+                                      - ServicerContactEmail
+                                      - PropertyContactFirstName
+                                      - PropertyContactLastName
+                                      - PropertyContactPhone
+                                      - SpecialInteriorAccess
+                                      - ServicerContactPhoneExtension
+                                      - PropertyContactPhoneExtension
+                                    value:
+                                      type: string
+                                  required:
+                                  - category
+                                  - value
+                            required:
+                            - valuationData
+                        required:
+                        - servicerAccountIdentifier
+                        - loanIdentifier
+                        - servicerLoanIdentifier
+                        - requestType
+                        - rEVP
+                        default: {}
+                    required:
+                    - externalData
+                    default: {}
+                  default: []
+              required:
+              - workoutList
+              default: {}
+          required:
+          - aboutVersions
+          - requestData
           default: {}
       required:
       - message

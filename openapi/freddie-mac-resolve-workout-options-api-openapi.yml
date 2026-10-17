@@ -622,12 +622,127 @@ paths:
       x-codegen-request-body-name: workoutOptionRequest
 components:
   schemas:
-    WorkoutOptionResponse:
-      title: WorkoutOptionResponse
+    PreWorkoutData:
+      title: PreWorkoutData
       type: object
       properties:
-        message:
-          $ref: '#/components/schemas/Message0'
+        currentInterestBearingUPBAmount:
+          type: number
+          format: double
+        currentLoanGrossUPBAmount:
+          type: number
+          format: double
+        currentLoanInterestRate:
+          type: number
+          format: double
+        currentLoanRemainingMaturityTermMonthsCount:
+          type: integer
+          format: int32
+        currentPrincipalAndInterestPaymentAmount:
+          type: number
+          format: double
+        interestHistory:
+          type: array
+          items:
+            $ref: '#/components/schemas/InterestHistory0'
+        lifeOfLoanWorkoutModificationCount:
+          type: integer
+          format: int32
+        loanDelinquentMonthCount:
+          type: integer
+          format: int32
+        loanImminentDefaultIndicator:
+          type: string
+        loanLastPaidInstallmentDate:
+          type: string
+        modificationHistory:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModificationHistory'
+        propertyValuationAmount:
+          type: number
+          format: double
+        propertyValueEvaluationDate:
+          type: string
+        propertyValueType:
+          type: string
+        stepInterestHistory:
+          type: array
+          items:
+            $ref: '#/components/schemas/StepInterestHistory0'
+        stepRateLoanIndicator:
+          type: string
+    PostWorkoutData0:
+      title: PostWorkoutData0
+      type: object
+      properties:
+        actualDelinquentInterestAmount:
+          type: number
+          format: double
+        deferredInterestAmount:
+          type: number
+          format: double
+        deferredPrincipalAmount:
+          type: number
+          format: double
+        interestBearingUPBAmountAtModification:
+          type: number
+          format: double
+        loanGrossUPBAmountAtModification:
+          type: number
+          format: double
+        loanInterestRateAtModification:
+          type: number
+          format: double
+        loanMaturityDateAtModification:
+          type: string
+        loanModificationMaturityTermCount:
+          type: integer
+          format: int32
+        loanPrincipalAndInterestPaymentAmountAtModification:
+          type: number
+          format: double
+        ltvRatioPercent:
+          type: number
+          format: double
+        modificationTrialPlanEffectiveDate:
+          type: string
+        modificationTrialPlanEndDate:
+          type: string
+        monthlyHousingExpenseToIncomeRatioAtModification:
+          type: number
+          format: double
+        monthlyNetRentalIncome:
+          type: number
+          format: double
+        nonInterestBearingUPBAmountAtModification:
+          type: number
+          format: double
+        paymentRateChangeEffectiveDate:
+          type: string
+        paymentRateChangeEffectiveDueDate:
+          type: string
+        totalArrearageAmount:
+          type: number
+          format: double
+        totalDeferredPaymentCount:
+          type: integer
+          format: int32
+        totalMonthlyHousingExpenseAmountAtModification:
+          type: number
+          format: double
+        workoutApprovedDate:
+          type: string
+        workoutServicerProposalDecisionDate:
+          type: string
+    PostWorkoutData:
+      title: PostWorkoutData
+      type: object
+      properties:
+        calculations:
+          $ref: '#/components/schemas/Calculations'
+        eligibility:
+          $ref: '#/components/schemas/Eligibility'
     MessageWorkout:
       title: MessageWorkout
       type: object
@@ -638,18 +753,96 @@ components:
           type: string
         workoutMessageType:
           type: string
-    StepInterestHistory0:
-      title: StepInterestHistory0
+    RequestData:
+      title: RequestData
       type: object
       properties:
-        stepNoteRate:
-          type: number
-          format: double
-        stepRateEffectiveDate:
+        workoutList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Workout'
+      description: Collection of the data attributes that depicts the workout request.
+    ModificationHistory0:
+      title: ModificationHistory0
+      type: object
+      properties:
+        priorDDLPIAtModAnniversary:
           type: string
-        stepRatePrincipalAndInterestAmount:
-          type: number
-          format: double
+        priorHardshipReasonType:
+          type: string
+        priorModificationEffectiveDate:
+          type: string
+        priorModificationProgramType:
+          type: string
+        priorWorkoutLoanDelinquentMonthCount:
+          type: integer
+          format: int32
+        priorWorkoutServicerProposalDecisionDate:
+          type: string
+        priorWorkoutStatusType:
+          type: string
+        priorWorkoutType:
+          type: string
+    DisasterInfo:
+      title: DisasterInfo
+      type: object
+      properties:
+        disasterCountyCode:
+          type: string
+          description: The county code where the disaster occurred.
+        disasterDeclarationDate:
+          type: string
+          description: The date on which the disaster was declared by the government.
+        disasterType:
+          type: string
+          description: A discrete set of values that identifies the property disaster types such as earthquake, fire, flood, etc.
+      description: Group of attributes that captures the disaster information(if applicable)
+    Workouts:
+      title: Workouts
+      type: object
+      properties:
+        additionalData:
+          $ref: '#/components/schemas/AdditionalData'
+        capitalizedArrears:
+          type: array
+          description: Group of data attribues that get counted toward capitalized arrearages during workout processing
+          items:
+            $ref: '#/components/schemas/CapitalizedArrear'
+        closingData:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClosingDatum'
+        escrow:
+          $ref: '#/components/schemas/Escrow'
+        propertyContractInfo:
+          $ref: '#/components/schemas/PropertyContractInfo'
+        valuationData:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValuationDatum'
+      description: This container consolidates data attributes associated at a workout level
+    ValuationDatum:
+      title: ValuationDatum
+      type: object
+      properties:
+        category:
+          type: string
+          description: Discrete set of values that aids the valuation request
+          enum:
+          - PropertyContactFirstName
+          - PropertyContactLastName
+          - PropertyContactPhone
+          - PropertyContactPhoneExtension
+          - ServicerContactEmail
+          - ServicerContactFirstName
+          - ServicerContactLastName
+          - ServicerContactPhone
+          - ServicerContactPhoneExtension
+          - SpecialInteriorAccess
+        value:
+          type: string
+          description: The value coressponding to each category type
+      description: Cluster of data elements required for a property evaluation
     ExternalData:
       title: ExternalData
       type: object
@@ -709,19 +902,46 @@ components:
         workouts:
           $ref: '#/components/schemas/Workouts'
       description: Collection of Workout attributes provided by the external user
-    CollectionInfo:
-      title: CollectionInfo
+    AdditionalData:
+      title: AdditionalData
       type: object
       properties:
-        collectionContactDate:
+        isInsufficientContributionJustified:
           type: string
-          description: The date when the borrower contact was initiated
-        collectionInfoCategory:
+          description: This indicates whether the justification provided by the borrower,unable to meet the investor recommended cash contribution, has been approved by the Servicer
+        newMortgages:
           type: string
-          description: A discrete set of values that describes the type of contact made to the  borrower.
-          enum:
-          - RightPartyContact
-          - SolicitationLetterTransmittal
+          description: Indicates whether any new mortgages occured during the term of the hardship
+        reasonForInsufficientContribution:
+          type: string
+          description: A free-form test that states the reason for insufficient contributions by the borrower
+        secondLienMortgageLender:
+          type: string
+          description: This is the name of the organization of the second lien holder on the property
+        secondLienUPB:
+          type: number
+          description: The second lein unpaid principal balance
+          format: double
+      description: supplemental data elements
+    AboutVersions:
+      title: AboutVersions
+      type: object
+      properties:
+        aboutVersion:
+          $ref: '#/components/schemas/AboutVersion0'
+      description: Data set to capture the header information
+    InterestHistory0:
+      title: InterestHistory0
+      type: object
+      properties:
+        loanPrincipalAndInterestAmount:
+          type: number
+          format: double
+        loaninterestRate:
+          type: number
+          format: double
+        monthlyPaymentDueDate:
+          type: string
     StepInterestHistory:
       title: StepInterestHistory
       type: object
@@ -734,16 +954,41 @@ components:
         stepRatePrincipalAndInterestAmount:
           type: number
           format: double
-    AboutVersion0:
-      title: AboutVersion0
+    PointInTimeUPBDDLPIAsOfModEffCycleDate:
+      title: PointInTimeUPBDDLPIAsOfModEffCycleDate
       type: object
       properties:
-        Description:
+        lastPaymentInstallmentDueDate:
           type: string
-        aboutVersionIdentifier:
+        lastPaymentInstallmentDueDateAtMonthFollowing:
           type: string
-        createdDatetime:
+        lastPaymentInstallmentDueDateAtMonthPrior:
           type: string
+        loanGrossUPBAmount:
+          type: number
+          format: double
+        loanGrossUPBAmountAtMonthFollowing:
+          type: number
+          format: double
+        loanGrossUPBAmountAtMonthPrior:
+          type: number
+          format: double
+    Workout:
+      title: Workout
+      type: object
+      properties:
+        externalData:
+          $ref: '#/components/schemas/ExternalData'
+        internalData:
+          $ref: '#/components/schemas/InternalData'
+        postWorkoutData:
+          $ref: '#/components/schemas/PostWorkoutData'
+    WorkoutOptionResponse:
+      title: WorkoutOptionResponse
+      type: object
+      properties:
+        message:
+          $ref: '#/components/schemas/Message0'
     PremodHousingExpense:
       title: PremodHousingExpense
       type: object
@@ -763,386 +1008,6 @@ components:
           - RealEstateTax
           - TotalMonthlyExpenses
       description: Grouping of all the housing expenses types
-    WorkoutOptionRequest:
-      title: WorkoutOptionRequest
-      type: object
-      properties:
-        message:
-          $ref: '#/components/schemas/Message'
-    ErrorWorkout:
-      title: ErrorWorkout
-      type: object
-      properties:
-        workoutErrorCode:
-          type: string
-        workoutErrorDescription:
-          type: string
-        workoutErrorType:
-          type: string
-    Message:
-      title: Message
-      type: object
-      properties:
-        aboutVersions:
-          $ref: '#/components/schemas/AboutVersions0'
-        requestData:
-          $ref: '#/components/schemas/RequestData'
-      description: Collection of Workout attributes
-    DisasterInfo:
-      title: DisasterInfo
-      type: object
-      properties:
-        disasterCountyCode:
-          type: string
-          description: The county code where the disaster occurred.
-        disasterDeclarationDate:
-          type: string
-          description: The date on which the disaster was declared by the government.
-        disasterType:
-          type: string
-          description: A discrete set of values that identifies the property disaster types such as earthquake, fire, flood, etc.
-      description: Group of attributes that captures the disaster information(if applicable)
-    Message0:
-      title: Message0
-      type: object
-      properties:
-        aboutVersions:
-          $ref: '#/components/schemas/AboutVersions'
-        responseData:
-          $ref: '#/components/schemas/ResponseData'
-    BorrowerDetail:
-      title: BorrowerDetail
-      type: object
-      properties:
-        creditScoreDate:
-          type: string
-          description: The date when the credit repository reported the borrower credit rating.
-        creditScoreValue:
-          type: integer
-          description: The numeric credit score resulting from credit evaluation model.
-          format: int32
-      description: An explanation about the purpose of this instance.
-    PropertyContractInfo:
-      title: PropertyContractInfo
-      type: object
-      properties:
-        aRMSLengthTransactionIndicator:
-          type: string
-          description: Flag which indicates whether the purchaser is related to the borrower
-        contractSalesDate:
-          type: string
-          description: The date the sales contract is signed
-        contractSalesPrice:
-          type: number
-          description: Actual or estimated amount paid by the buyer of a property
-          format: double
-        mLSListDate:
-          type: string
-          description: Date the property was listed on the mls list
-      description: Contract info related data elements
-    EscrowDetail:
-      title: EscrowDetail
-      type: object
-      properties:
-        capitalizedEscrowAmount:
-          type: number
-          description: Any advances previously made by the Servicer and any advances that will be made during the Trial Period to pay property taxes or insurance premiums.
-          format: double
-        escrowShortagePaymentAmount:
-          type: number
-          description: The current amount the borrower is currently required to pay each month for the Actual Escrow Shortage at the time of evaluation
-          format: double
-        escrowShortageSpreadPaymentAmount:
-          type: number
-          description: The actual shortage spread amount the borrower is currently required to pay at the time of evaluation (applies for Flex programs)
-          format: double
-        projectedEscrowShortageAmount:
-          type: number
-          description: Total estimated escrow amounts that will come due once the loan has been modified and would cause the balance to drop below the targeted escrow balance.
-          format: double
-        restrictedEscrowBalanceAmount:
-          type: number
-          description: Sum of funds that are currently being held in an account on behalf of the borrower that have not yet been allocated.
-          format: double
-      description: This container consolidates all the escrow amounts associated to a workout request
-    RequestData:
-      title: RequestData
-      type: object
-      properties:
-        workoutList:
-          type: array
-          items:
-            $ref: '#/components/schemas/Workout'
-      description: Collection of the data attributes that depicts the workout request.
-    Calculations:
-      title: Calculations
-      type: object
-      properties:
-        PreModPITIAS:
-          type: number
-          format: double
-        actualDelinquentInterestAmount:
-          type: number
-          format: double
-        currentMonthlyHousingExpenseToIncomeRatioPercent:
-          type: number
-          format: double
-        currentOneToSixMonthsCreditLiability30DaysLateCount:
-          type: integer
-          format: int32
-        deferredInterestAmount:
-          type: number
-          format: double
-        deferredPrincipalAmount:
-          type: number
-          format: double
-        detailLoanProductTypeAtModification:
-          type: string
-        forbearedUPB30:
-          type: number
-          format: double
-        interestBearingUPBAmountAtModification:
-          type: number
-          format: double
-        interestRateDifference:
-          type: number
-          format: double
-        lifeOfLoanWorkoutModificationCount:
-          type: integer
-          format: int32
-        loanGrossUPBAmountAtModification:
-          type: number
-          format: double
-        loanMaturityDate:
-          type: string
-        loanPrincipalAndInterestPaymentAmountAtModification:
-          type: number
-          format: double
-        ltvRatioPercent:
-          type: number
-          format: double
-        modificationTrialPlanEffectiveDate:
-          type: string
-        modificationTrialPlanEndDate:
-          type: string
-        monthlyGrossIncome:
-          type: number
-          format: double
-        monthlyNetRentalIncome:
-          type: number
-          format: double
-        nonInterestBearingUPBAmountAtModification:
-          type: number
-          format: double
-        pIPaymntDifferenceRatio:
-          type: number
-          format: double
-        pITIASDifference:
-          type: number
-          format: double
-        paymentRateChangeEffectiveDate:
-          type: string
-        paymentRateChangeEffectiveDueDate:
-          type: string
-        paymentTarget:
-          type: number
-          format: double
-        postModANY:
-          type: number
-          format: double
-        postModCapitalizedUPB:
-          type: number
-          format: double
-        postModHTI:
-          type: number
-          format: double
-        postModNoteRate:
-          type: number
-          format: double
-        postModPITIAS:
-          type: number
-          format: double
-        postModServicingFee:
-          type: number
-          format: double
-        postModTerm:
-          type: integer
-          format: int32
-        preModMTMLTV:
-          type: number
-          format: double
-        preWorkoutRemainingTerm:
-          type: integer
-          format: int32
-        priorModDeferredPaymentCount:
-          type: integer
-          format: int32
-        priorModificationPaymentRateChangeEffectiveDueDate:
-          type: string
-        remainingTermDifference:
-          type: integer
-          format: int32
-        settlementRequestedDelinquentInterestAmount:
-          type: number
-          format: double
-        totalArrearageAmount:
-          type: number
-          format: double
-        totalDeferredPaymentCount:
-          type: integer
-          format: int32
-        totalDelinquentInterestAmount:
-          type: number
-          format: double
-        uPBDifference:
-          type: number
-          format: double
-        workoutApprovedDate:
-          type: string
-        workoutServicerProposalDecisionDate:
-          type: string
-    HardshipReason:
-      title: HardshipReason
-      type: object
-      properties:
-        hardshipReasonType:
-          type: string
-          description: A discrete set of values that describes the nature of hardship for the borrower.
-        reasonForExtenuatingCircumstances:
-          type: string
-          description: Explanation if reason is 'Other'
-      description: An array of hardship reason types associated to a loan in a workout.
-    PropertyInfo:
-      title: PropertyInfo
-      type: object
-      properties:
-        grossRentalIncome:
-          type: number
-          description: The amount of revenue generated by the owned property from rent on a monthly basis.
-          format: double
-        propertyConditionType:
-          type: string
-          description: A discrete set of values that describes the physical condition of a property.
-        propertyOccupancyType:
-          type: string
-          description: A discrete set of values that specifies intended occupancy of  the borrower of the property
-        propertyType:
-          type: string
-          description: A discrete set of values that specifies the type of dwelling or structure on the property.
-        propertyUsageType:
-          type: string
-          description: A discrete set of values that specifies intended use by the borrower of the property
-      description: Group of attributes captured at a property level
-    Workout:
-      title: Workout
-      type: object
-      properties:
-        externalData:
-          $ref: '#/components/schemas/ExternalData'
-        internalData:
-          $ref: '#/components/schemas/InternalData'
-        postWorkoutData:
-          $ref: '#/components/schemas/PostWorkoutData'
-    CurrentIncomeItemDetail:
-      title: CurrentIncomeItemDetail
-      type: object
-      properties:
-        currentIncomeMonthlyTotalAmount:
-          type: number
-          description: represents the amount value associated to the income type
-          format: double
-        incomeType:
-          type: string
-          description: represemts the different income types associated to a borrower type
-          enum:
-          - GrossMonthlyIncome
-      description: An explanation about the purpose of this instance.
-    InternalData:
-      title: InternalData
-      type: object
-      properties:
-        preModTermsOfLoan:
-          $ref: '#/components/schemas/PreModTermsOfLoan'
-    BorrowerInfo__1:
-      title: BorrowerInfo__1
-      type: object
-      properties:
-        borrowerType:
-          type: string
-        individualFirstName:
-          type: string
-        individualLastName:
-          type: string
-    EligibilityQuestionnaire:
-      title: EligibilityQuestionnaire
-      type: object
-      properties:
-        ableToMakeContractualPayment:
-          type: string
-          description: This is to indicate if the Borrower is able to continue making current contractual payments.
-        hardshipResolved:
-          type: string
-          description: This is to indicate whether the borrower's hardship has been resolved.
-        leaseholdPropertyTermsRemain:
-          type: string
-          description: This is to indicate whether the term of the lease does not terminate earlier than 5 years after the maturity date of the proposed modified mortgage. This applies if the mortgage is secured by a leasehold estate.
-        reinstatementViable:
-          type: string
-          description: This indicates if reinstatment was a viable option for the servicer.
-        repaymentWithActiveOffer:
-          type: string
-          description: This is to indicate if the mortgage is subject to an unexpired offer to the borrower for a repayment plan or the borrower has a repayment plan inprogress.
-        willingToRetainProperty:
-          type: string
-          description: This is to indicate whether the Borrower is willing to retain the home.
-      description: This container consolidates data attributes associated to questions that assists in evaluating the workoutoption
-    Escrow:
-      title: Escrow
-      type: object
-      properties:
-        escrowDetail:
-          $ref: '#/components/schemas/EscrowDetail'
-      description: This container consolidates all the escrow amounts associated to a workout request
-    ValuationDatum:
-      title: ValuationDatum
-      type: object
-      properties:
-        category:
-          type: string
-          description: Discrete set of values that aids the valuation request
-          enum:
-          - PropertyContactFirstName
-          - PropertyContactLastName
-          - PropertyContactPhone
-          - PropertyContactPhoneExtension
-          - ServicerContactEmail
-          - ServicerContactFirstName
-          - ServicerContactLastName
-          - ServicerContactPhone
-          - ServicerContactPhoneExtension
-          - SpecialInteriorAccess
-        value:
-          type: string
-          description: The value coressponding to each category type
-      description: Cluster of data elements required for a property evaluation
-    Eligibility:
-      title: Eligibility
-      type: object
-      properties:
-        errorEligibilityIndicator:
-          type: string
-    BorrowerInfo:
-      title: BorrowerInfo
-      type: object
-      properties:
-        borrowerDetail:
-          $ref: '#/components/schemas/BorrowerDetail'
-        currentIncomeItem:
-          type: array
-          description: An explanation about the purpose of this instance.
-          items:
-            $ref: '#/components/schemas/CurrentIncomeItem'
-      description: An explanation about the purpose of this instance.
     PreModTermsOfLoan:
       title: PreModTermsOfLoan
       type: object
@@ -1293,135 +1158,80 @@ components:
           type: string
         workoutType:
           type: string
+    CurrentIncomeItemDetail:
+      title: CurrentIncomeItemDetail
+      type: object
+      properties:
+        currentIncomeMonthlyTotalAmount:
+          type: number
+          description: represents the amount value associated to the income type
+          format: double
+        incomeType:
+          type: string
+          description: represemts the different income types associated to a borrower type
+          enum:
+          - GrossMonthlyIncome
+      description: An explanation about the purpose of this instance.
+    Message:
+      title: Message
+      type: object
+      properties:
+        aboutVersions:
+          $ref: '#/components/schemas/AboutVersions0'
+        requestData:
+          $ref: '#/components/schemas/RequestData'
+      description: Collection of Workout attributes
+    HardshipReason:
+      title: HardshipReason
+      type: object
+      properties:
+        hardshipReasonType:
+          type: string
+          description: A discrete set of values that describes the nature of hardship for the borrower.
+        reasonForExtenuatingCircumstances:
+          type: string
+          description: Explanation if reason is 'Other'
+      description: An array of hardship reason types associated to a loan in a workout.
+    StepInterestHistory0:
+      title: StepInterestHistory0
+      type: object
+      properties:
+        stepNoteRate:
+          type: number
+          format: double
+        stepRateEffectiveDate:
+          type: string
+        stepRatePrincipalAndInterestAmount:
+          type: number
+          format: double
+    BorrowerInfo:
+      title: BorrowerInfo
+      type: object
+      properties:
+        borrowerDetail:
+          $ref: '#/components/schemas/BorrowerDetail'
+        currentIncomeItem:
+          type: array
+          description: An explanation about the purpose of this instance.
+          items:
+            $ref: '#/components/schemas/CurrentIncomeItem'
+      description: An explanation about the purpose of this instance.
+    BorrowerInfo__1:
+      title: BorrowerInfo__1
+      type: object
+      properties:
+        borrowerType:
+          type: string
+        individualFirstName:
+          type: string
+        individualLastName:
+          type: string
     AboutVersions0:
       title: AboutVersions0
       type: object
       properties:
         aboutVersion:
           $ref: '#/components/schemas/AboutVersion'
-    PointInTimeUPBDDLPIAsOfModEffCycleDate:
-      title: PointInTimeUPBDDLPIAsOfModEffCycleDate
-      type: object
-      properties:
-        lastPaymentInstallmentDueDate:
-          type: string
-        lastPaymentInstallmentDueDateAtMonthFollowing:
-          type: string
-        lastPaymentInstallmentDueDateAtMonthPrior:
-          type: string
-        loanGrossUPBAmount:
-          type: number
-          format: double
-        loanGrossUPBAmountAtMonthFollowing:
-          type: number
-          format: double
-        loanGrossUPBAmountAtMonthPrior:
-          type: number
-          format: double
-    ModificationHistory0:
-      title: ModificationHistory0
-      type: object
-      properties:
-        priorDDLPIAtModAnniversary:
-          type: string
-        priorHardshipReasonType:
-          type: string
-        priorModificationEffectiveDate:
-          type: string
-        priorModificationProgramType:
-          type: string
-        priorWorkoutLoanDelinquentMonthCount:
-          type: integer
-          format: int32
-        priorWorkoutServicerProposalDecisionDate:
-          type: string
-        priorWorkoutStatusType:
-          type: string
-        priorWorkoutType:
-          type: string
-    PreWorkoutData:
-      title: PreWorkoutData
-      type: object
-      properties:
-        currentInterestBearingUPBAmount:
-          type: number
-          format: double
-        currentLoanGrossUPBAmount:
-          type: number
-          format: double
-        currentLoanInterestRate:
-          type: number
-          format: double
-        currentLoanRemainingMaturityTermMonthsCount:
-          type: integer
-          format: int32
-        currentPrincipalAndInterestPaymentAmount:
-          type: number
-          format: double
-        interestHistory:
-          type: array
-          items:
-            $ref: '#/components/schemas/InterestHistory0'
-        lifeOfLoanWorkoutModificationCount:
-          type: integer
-          format: int32
-        loanDelinquentMonthCount:
-          type: integer
-          format: int32
-        loanImminentDefaultIndicator:
-          type: string
-        loanLastPaidInstallmentDate:
-          type: string
-        modificationHistory:
-          type: array
-          items:
-            $ref: '#/components/schemas/ModificationHistory'
-        propertyValuationAmount:
-          type: number
-          format: double
-        propertyValueEvaluationDate:
-          type: string
-        propertyValueType:
-          type: string
-        stepInterestHistory:
-          type: array
-          items:
-            $ref: '#/components/schemas/StepInterestHistory0'
-        stepRateLoanIndicator:
-          type: string
-    DelinquentHistory:
-      title: DelinquentHistory
-      type: object
-      properties:
-        loanDelinquentMonthCount:
-          type: integer
-          format: int32
-        loanLastPaidInstallmentDate:
-          type: string
-        reportingCycle:
-          type: string
-    InterestHistory0:
-      title: InterestHistory0
-      type: object
-      properties:
-        loanPrincipalAndInterestAmount:
-          type: number
-          format: double
-        loaninterestRate:
-          type: number
-          format: double
-        monthlyPaymentDueDate:
-          type: string
-    Party:
-      title: Party
-      type: object
-      properties:
-        borrowerInfo:
-          $ref: '#/components/schemas/BorrowerInfo'
-        borrowerType:
-          type: string
-          description: This identifies the type of borrower(s) on the loan
-      description: Borrower and Coborrower related data attributes
     ResponseData:
       title: ResponseData
       type: object
@@ -1439,157 +1249,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ResponseWorkout'
-    Workouts:
-      title: Workouts
+    DelinquentHistory:
+      title: DelinquentHistory
       type: object
       properties:
-        additionalData:
-          $ref: '#/components/schemas/AdditionalData'
-        capitalizedArrears:
-          type: array
-          description: Group of data attribues that get counted toward capitalized arrearages during workout processing
-          items:
-            $ref: '#/components/schemas/CapitalizedArrear'
-        closingData:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClosingDatum'
-        escrow:
-          $ref: '#/components/schemas/Escrow'
-        propertyContractInfo:
-          $ref: '#/components/schemas/PropertyContractInfo'
-        valuationData:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValuationDatum'
-      description: This container consolidates data attributes associated at a workout level
-    ClosingDatum:
-      title: ClosingDatum
-      type: object
-      properties:
-        category:
-          type: string
-          description: This includes the enumerations of the types of the closing Data
-        value:
-          type: string
-          description: The value associated with a specific cap arrear category type
-      description: data elements needs as part of closing information
-    PartyInfo:
-      title: PartyInfo
-      type: object
-      properties:
-        party:
-          type: array
-          description: Borrower and Coborrower related data attributes
-          items:
-            $ref: '#/components/schemas/Party'
-        totalCashReserveAmount:
-          type: number
-          description: Any non-retirement liquid assets the borrower has available for withdrawal.
-          format: double
-        totalMonthlyLiabilities:
-          type: number
-          format: double
-      description: Group of attributes that are associated to borrower detail
-    InterestHistory:
-      title: InterestHistory
-      type: object
-      properties:
-        loanPrincipalAndInterestAmount:
-          type: number
-          format: double
-        loaninterestRate:
-          type: number
-          format: double
-        monthlyPaymentDueDate:
-          type: string
-    AboutVersions:
-      title: AboutVersions
-      type: object
-      properties:
-        aboutVersion:
-          $ref: '#/components/schemas/AboutVersion0'
-      description: Data set to capture the header information
-    WorkoutProgramResponse:
-      title: WorkoutProgramResponse
-      type: object
-      properties:
-        isEligible:
-          type: string
-        messageWorkoutList:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageWorkout'
-        postWorkoutData:
-          $ref: '#/components/schemas/PostWorkoutData0'
-        workoutOptionHierarchy:
+        loanDelinquentMonthCount:
           type: integer
           format: int32
-        workoutProgramType:
+        loanLastPaidInstallmentDate:
           type: string
-    PostWorkoutData0:
-      title: PostWorkoutData0
+        reportingCycle:
+          type: string
+    BorrowerDetail:
+      title: BorrowerDetail
       type: object
       properties:
-        actualDelinquentInterestAmount:
-          type: number
-          format: double
-        deferredInterestAmount:
-          type: number
-          format: double
-        deferredPrincipalAmount:
-          type: number
-          format: double
-        interestBearingUPBAmountAtModification:
-          type: number
-          format: double
-        loanGrossUPBAmountAtModification:
-          type: number
-          format: double
-        loanInterestRateAtModification:
-          type: number
-          format: double
-        loanMaturityDateAtModification:
+        creditScoreDate:
           type: string
-        loanModificationMaturityTermCount:
+          description: The date when the credit repository reported the borrower credit rating.
+        creditScoreValue:
           type: integer
+          description: The numeric credit score resulting from credit evaluation model.
           format: int32
-        loanPrincipalAndInterestPaymentAmountAtModification:
-          type: number
-          format: double
-        ltvRatioPercent:
-          type: number
-          format: double
-        modificationTrialPlanEffectiveDate:
-          type: string
-        modificationTrialPlanEndDate:
-          type: string
-        monthlyHousingExpenseToIncomeRatioAtModification:
-          type: number
-          format: double
-        monthlyNetRentalIncome:
-          type: number
-          format: double
-        nonInterestBearingUPBAmountAtModification:
-          type: number
-          format: double
-        paymentRateChangeEffectiveDate:
-          type: string
-        paymentRateChangeEffectiveDueDate:
-          type: string
-        totalArrearageAmount:
-          type: number
-          format: double
-        totalDeferredPaymentCount:
-          type: integer
-          format: int32
-        totalMonthlyHousingExpenseAmountAtModification:
-          type: number
-          format: double
-        workoutApprovedDate:
-          type: string
-        workoutServicerProposalDecisionDate:
-          type: string
+      description: An explanation about the purpose of this instance.
     AboutVersion:
       title: AboutVersion
       type: object
@@ -1604,27 +1286,6 @@ components:
           type: string
           description: Type of Schema
       description: Data set to capture the header information
-    CurrentIncomeItem:
-      title: CurrentIncomeItem
-      type: object
-      properties:
-        currentIncomeItemDetail:
-          $ref: '#/components/schemas/CurrentIncomeItemDetail'
-      description: An explanation about the purpose of this instance.
-    PropertyAddress:
-      title: PropertyAddress
-      type: object
-      properties:
-        cityName:
-          type: string
-        countyCode:
-          type: string
-        postalCode:
-          type: string
-        stateCode:
-          type: string
-        streetName:
-          type: string
     ModificationHistory:
       title: ModificationHistory
       type: object
@@ -1637,14 +1298,6 @@ components:
           type: string
         priorWorkoutType:
           type: string
-    PostWorkoutData:
-      title: PostWorkoutData
-      type: object
-      properties:
-        calculations:
-          $ref: '#/components/schemas/Calculations'
-        eligibility:
-          $ref: '#/components/schemas/Eligibility'
     ResponseWorkout:
       title: ResponseWorkout
       type: object
@@ -1669,27 +1322,36 @@ components:
             $ref: '#/components/schemas/WorkoutProgramResponse'
         workoutReportingStatusType:
           type: string
-    AdditionalData:
-      title: AdditionalData
+    InterestHistory:
+      title: InterestHistory
       type: object
       properties:
-        isInsufficientContributionJustified:
-          type: string
-          description: This indicates whether the justification provided by the borrower,unable to meet the investor recommended cash contribution, has been approved by the Servicer
-        newMortgages:
-          type: string
-          description: Indicates whether any new mortgages occured during the term of the hardship
-        reasonForInsufficientContribution:
-          type: string
-          description: A free-form test that states the reason for insufficient contributions by the borrower
-        secondLienMortgageLender:
-          type: string
-          description: This is the name of the organization of the second lien holder on the property
-        secondLienUPB:
+        loanPrincipalAndInterestAmount:
           type: number
-          description: The second lein unpaid principal balance
           format: double
-      description: supplemental data elements
+        loaninterestRate:
+          type: number
+          format: double
+        monthlyPaymentDueDate:
+          type: string
+    PropertyContractInfo:
+      title: PropertyContractInfo
+      type: object
+      properties:
+        aRMSLengthTransactionIndicator:
+          type: string
+          description: Flag which indicates whether the purchaser is related to the borrower
+        contractSalesDate:
+          type: string
+          description: The date the sales contract is signed
+        contractSalesPrice:
+          type: number
+          description: Actual or estimated amount paid by the buyer of a property
+          format: double
+        mLSListDate:
+          type: string
+          description: Date the property was listed on the mls list
+      description: Contract info related data elements
     Error:
       title: Error
       type: object
@@ -1697,6 +1359,298 @@ components:
         errorCode:
           type: string
         errorDescription:
+          type: string
+    ClosingDatum:
+      title: ClosingDatum
+      type: object
+      properties:
+        category:
+          type: string
+          description: This includes the enumerations of the types of the closing Data
+        value:
+          type: string
+          description: The value associated with a specific cap arrear category type
+      description: data elements needs as part of closing information
+    CollectionInfo:
+      title: CollectionInfo
+      type: object
+      properties:
+        collectionContactDate:
+          type: string
+          description: The date when the borrower contact was initiated
+        collectionInfoCategory:
+          type: string
+          description: A discrete set of values that describes the type of contact made to the  borrower.
+          enum:
+          - RightPartyContact
+          - SolicitationLetterTransmittal
+    WorkoutOptionRequest:
+      title: WorkoutOptionRequest
+      type: object
+      properties:
+        message:
+          $ref: '#/components/schemas/Message'
+    EscrowDetail:
+      title: EscrowDetail
+      type: object
+      properties:
+        capitalizedEscrowAmount:
+          type: number
+          description: Any advances previously made by the Servicer and any advances that will be made during the Trial Period to pay property taxes or insurance premiums.
+          format: double
+        escrowShortagePaymentAmount:
+          type: number
+          description: The current amount the borrower is currently required to pay each month for the Actual Escrow Shortage at the time of evaluation
+          format: double
+        escrowShortageSpreadPaymentAmount:
+          type: number
+          description: The actual shortage spread amount the borrower is currently required to pay at the time of evaluation (applies for Flex programs)
+          format: double
+        projectedEscrowShortageAmount:
+          type: number
+          description: Total estimated escrow amounts that will come due once the loan has been modified and would cause the balance to drop below the targeted escrow balance.
+          format: double
+        restrictedEscrowBalanceAmount:
+          type: number
+          description: Sum of funds that are currently being held in an account on behalf of the borrower that have not yet been allocated.
+          format: double
+      description: This container consolidates all the escrow amounts associated to a workout request
+    Party:
+      title: Party
+      type: object
+      properties:
+        borrowerInfo:
+          $ref: '#/components/schemas/BorrowerInfo'
+        borrowerType:
+          type: string
+          description: This identifies the type of borrower(s) on the loan
+      description: Borrower and Coborrower related data attributes
+    Calculations:
+      title: Calculations
+      type: object
+      properties:
+        PreModPITIAS:
+          type: number
+          format: double
+        actualDelinquentInterestAmount:
+          type: number
+          format: double
+        currentMonthlyHousingExpenseToIncomeRatioPercent:
+          type: number
+          format: double
+        currentOneToSixMonthsCreditLiability30DaysLateCount:
+          type: integer
+          format: int32
+        deferredInterestAmount:
+          type: number
+          format: double
+        deferredPrincipalAmount:
+          type: number
+          format: double
+        detailLoanProductTypeAtModification:
+          type: string
+        forbearedUPB30:
+          type: number
+          format: double
+        interestBearingUPBAmountAtModification:
+          type: number
+          format: double
+        interestRateDifference:
+          type: number
+          format: double
+        lifeOfLoanWorkoutModificationCount:
+          type: integer
+          format: int32
+        loanGrossUPBAmountAtModification:
+          type: number
+          format: double
+        loanMaturityDate:
+          type: string
+        loanPrincipalAndInterestPaymentAmountAtModification:
+          type: number
+          format: double
+        ltvRatioPercent:
+          type: number
+          format: double
+        modificationTrialPlanEffectiveDate:
+          type: string
+        modificationTrialPlanEndDate:
+          type: string
+        monthlyGrossIncome:
+          type: number
+          format: double
+        monthlyNetRentalIncome:
+          type: number
+          format: double
+        nonInterestBearingUPBAmountAtModification:
+          type: number
+          format: double
+        pIPaymntDifferenceRatio:
+          type: number
+          format: double
+        pITIASDifference:
+          type: number
+          format: double
+        paymentRateChangeEffectiveDate:
+          type: string
+        paymentRateChangeEffectiveDueDate:
+          type: string
+        paymentTarget:
+          type: number
+          format: double
+        postModANY:
+          type: number
+          format: double
+        postModCapitalizedUPB:
+          type: number
+          format: double
+        postModHTI:
+          type: number
+          format: double
+        postModNoteRate:
+          type: number
+          format: double
+        postModPITIAS:
+          type: number
+          format: double
+        postModServicingFee:
+          type: number
+          format: double
+        postModTerm:
+          type: integer
+          format: int32
+        preModMTMLTV:
+          type: number
+          format: double
+        preWorkoutRemainingTerm:
+          type: integer
+          format: int32
+        priorModDeferredPaymentCount:
+          type: integer
+          format: int32
+        priorModificationPaymentRateChangeEffectiveDueDate:
+          type: string
+        remainingTermDifference:
+          type: integer
+          format: int32
+        settlementRequestedDelinquentInterestAmount:
+          type: number
+          format: double
+        totalArrearageAmount:
+          type: number
+          format: double
+        totalDeferredPaymentCount:
+          type: integer
+          format: int32
+        totalDelinquentInterestAmount:
+          type: number
+          format: double
+        uPBDifference:
+          type: number
+          format: double
+        workoutApprovedDate:
+          type: string
+        workoutServicerProposalDecisionDate:
+          type: string
+    InternalData:
+      title: InternalData
+      type: object
+      properties:
+        preModTermsOfLoan:
+          $ref: '#/components/schemas/PreModTermsOfLoan'
+    WorkoutProgramResponse:
+      title: WorkoutProgramResponse
+      type: object
+      properties:
+        isEligible:
+          type: string
+        messageWorkoutList:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageWorkout'
+        postWorkoutData:
+          $ref: '#/components/schemas/PostWorkoutData0'
+        workoutOptionHierarchy:
+          type: integer
+          format: int32
+        workoutProgramType:
+          type: string
+    PropertyInfo:
+      title: PropertyInfo
+      type: object
+      properties:
+        grossRentalIncome:
+          type: number
+          description: The amount of revenue generated by the owned property from rent on a monthly basis.
+          format: double
+        propertyConditionType:
+          type: string
+          description: A discrete set of values that describes the physical condition of a property.
+        propertyOccupancyType:
+          type: string
+          description: A discrete set of values that specifies intended occupancy of  the borrower of the property
+        propertyType:
+          type: string
+          description: A discrete set of values that specifies the type of dwelling or structure on the property.
+        propertyUsageType:
+          type: string
+          description: A discrete set of values that specifies intended use by the borrower of the property
+      description: Group of attributes captured at a property level
+    PartyInfo:
+      title: PartyInfo
+      type: object
+      properties:
+        party:
+          type: array
+          description: Borrower and Coborrower related data attributes
+          items:
+            $ref: '#/components/schemas/Party'
+        totalCashReserveAmount:
+          type: number
+          description: Any non-retirement liquid assets the borrower has available for withdrawal.
+          format: double
+        totalMonthlyLiabilities:
+          type: number
+          format: double
+      description: Group of attributes that are associated to borrower detail
+    EligibilityQuestionnaire:
+      title: EligibilityQuestionnaire
+      type: object
+      properties:
+        ableToMakeContractualPayment:
+          type: string
+          description: This is to indicate if the Borrower is able to continue making current contractual payments.
+        hardshipResolved:
+          type: string
+          description: This is to indicate whether the borrower's hardship has been resolved.
+        leaseholdPropertyTermsRemain:
+          type: string
+          description: This is to indicate whether the term of the lease does not terminate earlier than 5 years after the maturity date of the proposed modified mortgage. This applies if the mortgage is secured by a leasehold estate.
+        reinstatementViable:
+          type: string
+          description: This indicates if reinstatment was a viable option for the servicer.
+        repaymentWithActiveOffer:
+          type: string
+          description: This is to indicate if the mortgage is subject to an unexpired offer to the borrower for a repayment plan or the borrower has a repayment plan inprogress.
+        willingToRetainProperty:
+          type: string
+          description: This is to indicate whether the Borrower is willing to retain the home.
+      description: This container consolidates data attributes associated to questions that assists in evaluating the workoutoption
+    ErrorWorkout:
+      title: ErrorWorkout
+      type: object
+      properties:
+        workoutErrorCode:
+          type: string
+        workoutErrorDescription:
+          type: string
+        workoutErrorType:
+          type: string
+    Eligibility:
+      title: Eligibility
+      type: object
+      properties:
+        errorEligibilityIndicator:
           type: string
     CapitalizedArrear:
       title: CapitalizedArrear
@@ -1709,6 +1663,52 @@ components:
         category:
           type: string
           description: This includes the enumerations of the types of the cap arrears
+    CurrentIncomeItem:
+      title: CurrentIncomeItem
+      type: object
+      properties:
+        currentIncomeItemDetail:
+          $ref: '#/components/schemas/CurrentIncomeItemDetail'
+      description: An explanation about the purpose of this instance.
+    Message0:
+      title: Message0
+      type: object
+      properties:
+        aboutVersions:
+          $ref: '#/components/schemas/AboutVersions'
+        responseData:
+          $ref: '#/components/schemas/ResponseData'
+    AboutVersion0:
+      title: AboutVersion0
+      type: object
+      properties:
+        Description:
+          type: string
+        aboutVersionIdentifier:
+          type: string
+        createdDatetime:
+          type: string
+    PropertyAddress:
+      title: PropertyAddress
+      type: object
+      properties:
+        cityName:
+          type: string
+        countyCode:
+          type: string
+        postalCode:
+          type: string
+        stateCode:
+          type: string
+        streetName:
+          type: string
+    Escrow:
+      title: Escrow
+      type: object
+      properties:
+        escrowDetail:
+          $ref: '#/components/schemas/EscrowDetail'
+      description: This container consolidates all the escrow amounts associated to a workout request
   securitySchemes:
     bearerAuth:
       type: http

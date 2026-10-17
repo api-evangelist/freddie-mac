@@ -1113,6 +1113,73 @@ components:
                     value: '1234'
                   - category: SpecialInteriorAccess
                     value: Watch Out for the dog
+    ResponseScenario3:
+      summary: Scenario 3 - Response when loan is not eligible for short sale and exception review is requested
+      description: A new submission response
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2021-06-01T12:35:16.249Z'
+          responseData:
+            isRequestValid: true
+            requestResponseIdentifier: 6608
+            errorList: []
+            responseWorkoutList:
+            - loanIdentifier: '777777777'
+              servicerAccountIdentifier: '777777'
+              servicerLoanIdentifier: abcd123456789
+              workoutReportingStatusType: WAReq
+              workoutProgramType: SHRTSLE
+              isValid: true
+              isMNPObtained: true
+              errorWorkoutList: []
+              valuationData:
+                mnpRequestIdentifier: 673312
+                mnpStatus: Completed
+                servicerContactFirstName: Jim
+                servicerContactLastName: Jones
+                servicerContactPhone: '1234567890'
+                servicerContactEmail: JIM@EMAILSERVER.COM
+                minimumNetProceedAmount: 125654.0
+                goodThroughDate: 01/01/9999
+                propertyValuationAmount: 54000.0
+                mnpRequestCompletionDate: 01/01/9999
+              workoutProgramResponses:
+              - isEligible: false
+                messageWorkoutList:
+                - workoutMessageCode: LM000055
+                  workoutMessageDescription: Borrower has Non Retirement Liquid Assets greater than $50,000. Non Retirement Liquid Assets provided in the request is $51,000.00.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LM000056
+                  workoutMessageDescription: Cash contribution is less than minimum Borrower Cash Contribution requirement. Cash Contribution provided in the request is $2,942.20 and Borrower Cash Contribution required is $10,200.00.
+                  workoutMessageType: Fatal
+                - workoutMessageCode: LI002068
+                  workoutMessageDescription: Loan has been submitted for exception review. Updates to exception review submission cannot be made via API during review process. Please visit Decision Insights for more information.
+                  workoutMessageType: Informational
+                postWorkoutData:
+                  settlementChargesToSeller: 3600.0
+                  secondMortgagePayoffAmount: 200.0
+                  borrowerContributionAmount: 2942.2
+                  investorRelocationAssistance: 0.0
+                  approvedNetSaleProceeds: 226400.0
+              loanData:
+                loanLastPaidInstallmentDate: 04-01-2021
+                currentLoanGrossUPBAmount: 119010.32
+                currentPrincipalAndInterestPaymentAmount: 1091.28
+                currentMonthlyHousingExpenseToIncomeRatioPercent: 11.13
+                exceptionReviewStatusType: SUBMITTED
+                propertyAddress:
+                  PropertyZipcode: '303310000'
+                  PropertyStreet: 123 Main Street
+                  PropertyCity: McLean
+                  PropertyState: VA
+              workoutExceptionData:
+                exceptionReviewRequestID: SS001234
+                hardshipReasons: []
+                premodHousingExpense: []
+                closingData: []
     RequestScenario1:
       summary: Scenario 1 - Loan is eligible for short sale
       description: A new submission
@@ -1286,129 +1353,6 @@ components:
                     value: '1234'
                   - category: SpecialInteriorAccess
                     value: Watch Out for the dog
-    ResponseScenario3:
-      summary: Scenario 3 - Response when loan is not eligible for short sale and exception review is requested
-      description: A new submission response
-      value:
-        message:
-          aboutVersions:
-            aboutVersion:
-              aboutVersionIdentifier: S1.0.01
-              createdDatetime: '2021-06-01T12:35:16.249Z'
-          responseData:
-            isRequestValid: true
-            requestResponseIdentifier: 6608
-            errorList: []
-            responseWorkoutList:
-            - loanIdentifier: '777777777'
-              servicerAccountIdentifier: '777777'
-              servicerLoanIdentifier: abcd123456789
-              workoutReportingStatusType: WAReq
-              workoutProgramType: SHRTSLE
-              isValid: true
-              isMNPObtained: true
-              errorWorkoutList: []
-              valuationData:
-                mnpRequestIdentifier: 673312
-                mnpStatus: Completed
-                servicerContactFirstName: Jim
-                servicerContactLastName: Jones
-                servicerContactPhone: '1234567890'
-                servicerContactEmail: JIM@EMAILSERVER.COM
-                minimumNetProceedAmount: 125654.0
-                goodThroughDate: 01/01/9999
-                propertyValuationAmount: 54000.0
-                mnpRequestCompletionDate: 01/01/9999
-              workoutProgramResponses:
-              - isEligible: false
-                messageWorkoutList:
-                - workoutMessageCode: LM000055
-                  workoutMessageDescription: Borrower has Non Retirement Liquid Assets greater than $50,000. Non Retirement Liquid Assets provided in the request is $51,000.00.
-                  workoutMessageType: Fatal
-                - workoutMessageCode: LM000056
-                  workoutMessageDescription: Cash contribution is less than minimum Borrower Cash Contribution requirement. Cash Contribution provided in the request is $2,942.20 and Borrower Cash Contribution required is $10,200.00.
-                  workoutMessageType: Fatal
-                - workoutMessageCode: LI002068
-                  workoutMessageDescription: Loan has been submitted for exception review. Updates to exception review submission cannot be made via API during review process. Please visit Decision Insights for more information.
-                  workoutMessageType: Informational
-                postWorkoutData:
-                  settlementChargesToSeller: 3600.0
-                  secondMortgagePayoffAmount: 200.0
-                  borrowerContributionAmount: 2942.2
-                  investorRelocationAssistance: 0.0
-                  approvedNetSaleProceeds: 226400.0
-              loanData:
-                loanLastPaidInstallmentDate: 04-01-2021
-                currentLoanGrossUPBAmount: 119010.32
-                currentPrincipalAndInterestPaymentAmount: 1091.28
-                currentMonthlyHousingExpenseToIncomeRatioPercent: 11.13
-                exceptionReviewStatusType: SUBMITTED
-                propertyAddress:
-                  PropertyZipcode: '303310000'
-                  PropertyStreet: 123 Main Street
-                  PropertyCity: McLean
-                  PropertyState: VA
-              workoutExceptionData:
-                exceptionReviewRequestID: SS001234
-                hardshipReasons: []
-                premodHousingExpense: []
-                closingData: []
-    ResponseScenario1:
-      summary: Scenario 1 - Response when loan is eligible for short sale
-      description: A new submission response
-      value:
-        message:
-          aboutVersions:
-            aboutVersion:
-              aboutVersionIdentifier: S1.0.01
-              createdDatetime: '2021-05-06T09:45:14.535Z'
-          responseData:
-            isRequestValid: true
-            requestResponseIdentifier: 1559
-            errorList: []
-            responseWorkoutList:
-            - loanIdentifier: '999999999'
-              servicerAccountIdentifier: '999999'
-              servicerLoanIdentifier: abcd123456789
-              workoutReportingStatusType: WAReq
-              workoutProgramType: SHRTSLE
-              isValid: true
-              isMNPObtained: true
-              errorWorkoutList: []
-              valuationData:
-                mnpRequestIdentifier: 123456
-                mnpStatus: Completed
-                servicerContactFirstName: Jim
-                servicerContactLastName: Jones
-                servicerContactPhone: '1234567890'
-                servicerContactEmail: jim_jones@emailserver.com
-                minimumNetProceedAmount: 40392.12
-                goodThroughDate: 01/01/9999
-                estimatedMarketValue: 243100.0
-                mnpRequestCompletionDate: 01/01/9999
-              workoutProgramResponses:
-              - isEligible: true
-                messageWorkoutList:
-                - workoutMessageCode: LM000066
-                  workoutMessageDescription: Loan 999999999 is approved for Short Sale liquidation.  Please review the final terms and submit for Settlement.
-                  workoutMessageType: Informational
-                postWorkoutData:
-                  workoutApprovedDate: 05-06-2021
-                  settlementChargesToSeller: 3400.0
-                  secondMortgagePayoffAmount: 200.0
-                  borrowerContributionAmount: 6269.2
-                  investorRelocationAssistance: 0.0
-                  approvedNetSaleProceeds: 396600.0
-              loanData:
-                loanLastPaidInstallmentDate: 04-01-2021
-                currentLoanGrossUPBAmount: 35155.63
-                currentPrincipalAndInterestPaymentAmount: 24.9
-                currentMonthlyHousingExpenseToIncomeRatioPercent: 3.21
-                propertyAddress:
-                  Property Street: 123 Main Street
-                  Property Zipcode: '123450000'
-                  Property City: City Name
-                  Property State: VA
     RequestScenario2:
       summary: Scenario 2 - Loan is not eligible for short sale and exception review not requested
       description: A new submission
@@ -1581,6 +1525,62 @@ components:
                     value: '1234'
                   - category: SpecialInteriorAccess
                     value: Watch Out for the dog
+    ResponseScenario1:
+      summary: Scenario 1 - Response when loan is eligible for short sale
+      description: A new submission response
+      value:
+        message:
+          aboutVersions:
+            aboutVersion:
+              aboutVersionIdentifier: S1.0.01
+              createdDatetime: '2021-05-06T09:45:14.535Z'
+          responseData:
+            isRequestValid: true
+            requestResponseIdentifier: 1559
+            errorList: []
+            responseWorkoutList:
+            - loanIdentifier: '999999999'
+              servicerAccountIdentifier: '999999'
+              servicerLoanIdentifier: abcd123456789
+              workoutReportingStatusType: WAReq
+              workoutProgramType: SHRTSLE
+              isValid: true
+              isMNPObtained: true
+              errorWorkoutList: []
+              valuationData:
+                mnpRequestIdentifier: 123456
+                mnpStatus: Completed
+                servicerContactFirstName: Jim
+                servicerContactLastName: Jones
+                servicerContactPhone: '1234567890'
+                servicerContactEmail: jim_jones@emailserver.com
+                minimumNetProceedAmount: 40392.12
+                goodThroughDate: 01/01/9999
+                estimatedMarketValue: 243100.0
+                mnpRequestCompletionDate: 01/01/9999
+              workoutProgramResponses:
+              - isEligible: true
+                messageWorkoutList:
+                - workoutMessageCode: LM000066
+                  workoutMessageDescription: Loan 999999999 is approved for Short Sale liquidation.  Please review the final terms and submit for Settlement.
+                  workoutMessageType: Informational
+                postWorkoutData:
+                  workoutApprovedDate: 05-06-2021
+                  settlementChargesToSeller: 3400.0
+                  secondMortgagePayoffAmount: 200.0
+                  borrowerContributionAmount: 6269.2
+                  investorRelocationAssistance: 0.0
+                  approvedNetSaleProceeds: 396600.0
+              loanData:
+                loanLastPaidInstallmentDate: 04-01-2021
+                currentLoanGrossUPBAmount: 35155.63
+                currentPrincipalAndInterestPaymentAmount: 24.9
+                currentMonthlyHousingExpenseToIncomeRatioPercent: 3.21
+                propertyAddress:
+                  Property Street: 123 Main Street
+                  Property Zipcode: '123450000'
+                  Property City: City Name
+                  Property State: VA
     ResponseScenario2:
       summary: Scenario 2 - Response when loan is not eligible for short sale and exception review is not requested
       description: A new submission response

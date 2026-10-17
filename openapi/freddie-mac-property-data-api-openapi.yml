@@ -214,64 +214,102 @@ paths:
       - bearerAuth: []
 components:
   schemas:
-    WaterfrontSiteImprovement:
-      type: object
-      properties:
-        waterfrontImprovementType:
-          type: string
-          description: Indicate any amenities or features if the location description has been identified as waterfront.  If there are no waterfront amenities select “None”.Required IF (/property/propertyType = SF AND /property/site/siteFeature/location/locations/locationDescriptionType = 'OCEAN_FRONT_BEACH' OR 'OCEAN_FRONT_NO_BEACH' OR 'INLAND_SALTWATER_FRONT_BEACH' OR 'INLAND_SALTWATER_FRONT_NO_BEACH' OR 'LAKE_FRONT_BEACH' OR 'LAKE_FRONT_NO_BEACH' OR 'SEASONAL_LAKE_FRONT' OR 'RIVER_CANAL_FRONT' ).
-          enum:
-          - SEAWALL
-          - FLOATING_DOCK
-          - BOAT_LIFT
-          - BOAT_HOUSE
-          - BOAT_RAMP
-          - DOCK
-          - PIER
-          - NONE
-      additionalProperties: false
-    AncillaryGas:
-      type: object
-      properties:
-        otherDesc:
-          type: string
-          description: A free-form text field used to describe the ownership of the utility specified by Site Utility Type if it is a non-public utility. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Propane
-    mechanicalDeficiency:
+    Road:
       required:
-      - mechanicalDeficiencyName
+      - roadOwnershipType
+      - yearRoundAccessIndicator
       type: object
       properties:
-        mechanicalDeficiencyName:
+        roadOwnershipType:
           type: string
-          description: Indicate the mechanical deficiency that exists or identify the portion or element of the structure’s mechanicals that has deferred maintenance requiring significant repairs. If a mechanical item or component is missing, identify that it is deficient.  Select all that apply.
+          description: Indicate the road that the subject property is accessed from as being public or private.  Select “Unknown” if the data collector cannot determine whether the road is public or private.
           enum:
-          - NONE_OBSERVED
-          - PLUMBING
-          - ELECTRICAL
-          - HEATING
-          - WATER_HEATER
-          - COOLING
-          - SUMP_PUMP
-          - OTHER
-        mechanicalDeficiencyType:
-          type: string
-          description: Indicate the type of deficiencies associated with the mechanicals.Required if /property/buildings/units/mechanicalDeficiencies/mechanicalDeficiencyName != ‘NONE_OBSERVED’
-          enum:
-          - EXCESSIVE_WEAR
-          - DAMAGE
-          - MISSING
-          - NON_FUNCTIONAL
-          - EVIDENCE_OF_LEAKS
-          - EVIDENCE_OF_FIRE
-          - OTHER
-        mechanicalDeficiencySeverity:
+          - PUBLIC
+          - PRIVATE
+          - UNKNOWN
+        roadMaintainedIndicator:
           type: boolean
-          description: Indicate if the noted deficiency to the mechanical component impacts the safety, soundness, or structural integrity of the structure or unit..Required if /property/buildings/units/mechanicalDeficiencies/mechanicalDeficiencyName != ‘NONE_OBSERVED’
-        mechanicalDeficiencyDescription:
+          description: Indicate whether the subject’s access road requires repairs that impact the accessibility of the property (e.g., washed out road).  If the road does not require these type of repairs, indicate “Yes” that the road is maintained. If the road requires these types of repairs, indicate “No” that it is not maintained.Required  IF ( /property/site/offSiteFeature/road/roadOwnershipType  =  'PRIVATE' OR 'UNKNOWN' )
+        yearRoundAccessIndicator:
+          type: boolean
+          description: Indicate whether the subject property is accessible during all seasons.e.g., The property is located in a rural area with no road maintenance and is not accessible during certain seasons.
+      additionalProperties: false
+    SiteFeature:
+      required:
+      - adverseSiteConditions
+      - location
+      type: object
+      properties:
+        location:
+          $ref: '#/components/schemas/SiteFeature_location'
+        siteView:
+          $ref: '#/components/schemas/SiteFeature_siteView'
+        adverseSiteConditions:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/AdverseSiteCondition'
+        propertyImprovements:
+          description: Required IF (/property/propertyType = SF).
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyImprovement'
+        nonResidentialUses:
+          description: Required IF (/property/propertyType = SF).
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/NonResidentialUse'
+        waterfrontSiteImprovements:
+          type: array
+          description: Required IF (/property/propertyType = SF AND /property/site/siteFeature/location/locations/locationDescriptionType = 'OCEAN_FRONT_BEACH' OR 'OCEAN_FRONT_NO_BEACH' OR 'INLAND_SALTWATER_FRONT_BEACH' OR 'INLAND_SALTWATER_FRONT_NO_BEACH' OR 'LAKE_FRONT_BEACH' OR 'LAKE_FRONT_NO_BEACH' OR 'SEASONAL_LAKE_FRONT' OR 'RIVER_CANAL_FRONT' )
+          items:
+            $ref: '#/components/schemas/WaterfrontSiteImprovement'
+      additionalProperties: false
+    Room_appliances:
+      type: object
+      properties:
+        rangeOvenExists:
+          type: boolean
+          description: Indicate if there is a range or oven, or a range or oven hook up, for all kitchens identified.Required IF(/property/buildings/units/levels/rooms/roomType = KITCHEN)
+    Property:
+      required:
+      - address
+      - buildings
+      - identification
+      - propertyOccupied
+      - propertyType
+      - site
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        identification:
+          $ref: '#/components/schemas/Identification'
+        site:
+          $ref: '#/components/schemas/Site'
+        propertyType:
           type: string
-          description: Provide a brief description of the Deficiency Type for the component that was selected. e.g., The toilet in the primary bathroom is leaking. <b>Note*</b> Maximum length must be less than 2500  characters.Required if /property/buildings/units/mechanicalDeficiencies/mechanicalDeficiencyName != ‘NONE_OBSERVED’
-          example: The toilet in the primary bathroom is leaking.
+          description: Indicate whether the property is a Single Family Dwelling or a Condominium.
+          example: SF
+          enum:
+          - SF
+          - CONDO
+        propertyOccupied:
+          type: boolean
+          description: Indicate whether the property is occupied when the data is collected.
+        buildings:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Building'
+        ancillary:
+          $ref: '#/components/schemas/Ancillary'
       additionalProperties: false
     AdverseSiteCondition:
       required:
@@ -295,41 +333,288 @@ components:
           type: string
           description: Provide a description of the adverse site condition observed. Required IF ( /property/site/siteFeature/adverseSiteConditions/adverseType  !=  'NONE_OBSERVED' ).<b>Note*</b> Maximum length must be less than 2500  characters.
       additionalProperties: false
-    mechanicalUpdates:
+    heating:
       required:
-      - mechanicalUpdatedComponent
+      - heatingType
       type: object
       properties:
-        mechanicalUpdatedComponent:
+        heatingType:
           type: string
-          description: Indicate all components that have been updated or replaced. If there have been no updates, select “None Observed”.
+          description: Indicate all heating systems for each unit.  If there are multiple heat sources, choose all that apply.  If there is no heat source, “No Heat” must be selected.
+          enum:
+          - CENTRAL_HOT_AIR
+          - HOT_WATER_RADIATORS
+          - HOT_WATER_BASEBOARD
+          - ELECTRIC_BASEBOARD
+          - IN_WALL_HEATER
+          - RADIANT_FLOOR
+          - CENTRAL_HEATPUMP
+          - DUCTLESS_HEATPUMP
+          - DUCTLESS_HEAT
+          - GEOTHERMAL
+          - WALL_FURNACE
+          - GAS_FURNACE
+          - OIL_FURNACE
+          - COAL_FURNACE
+          - NO_HEAT
+    PropertyImprovement:
+      type: object
+      properties:
+        ingroundPoolConcerns:
+          type: array
+          description: Required if siteImprovementType is INGROUND_POOL
+          items:
+            $ref: '#/components/schemas/IngroundPoolConcern'
+        propertyImprovementDescription:
+          type: string
+          description: Provide a brief description of any indicated amenity or property feature. The description should include things such as size and detailed description of the property features.e.g., 10 x 10 gazebo with composite decking.Required IF ( /property/site/siteFeature/propertyImprovements/propertyImprovementType  !=  'NONE'  AND /property/propertyType = SF).<b>Note*</b> Maximum length must be less than 2500  characters.
+        propertyImprovementType:
+          type: string
+          description: Indicate all improvements, amenities, property features, or structures. These features include elements attached and detached from the structures.Required IF (/property/propertyType = SF)
+          enum:
+          - ORNATE_LANDSCAPING
+          - IRRIGATION_SYSTEM
+          - GRAYWATER_SYSTEM
+          - WATER_COLLECTION_SYSTEM
+          - OUTDOOR_KITCHEN
+          - INGROUND_POOL
+          - INGROUND_HOTTUB
+          - SPORTS_COURT
+          - SAUNA
+          - ORCHARD_HOBBY
+          - VINEYARD_HOBBY
+          - FENCE
+          - GAZEBO
+          - GREENHOUSE
+          - TOOL_SHED
+          - PATIO
+          - DECK
+          - BALCONY
+          - UNCOVERED_PORCH
+          - COVERED_PORCH
+          - ENCLOSED_PORCH
+          - WRAP_AROUND_PORCH
+          - STOOP
+          - FIREPIT
+          - OUTDOOR_FIREPLACE
+          - OTHER
+          - NONE
+          - CARPORT
+          - ABOVE_GROUND_POOL
+      additionalProperties: false
+    ExteriorDeficiency:
+      required:
+      - exteriorDeficiencyName
+      type: object
+      properties:
+        exteriorDeficiencyName:
+          type: string
+          description: Indicate the item or component of the exterior of the property that has deferred maintenance requiring significant repairs (e.g. - missing siding, boarded up windows, hole in door, etc.).  If an item or component is missing, identify that it is deficient. Select all that apply.
           enum:
           - NONE_OBSERVED
-          - PLUMBING
-          - ELECTRICAL
-          - HEATING
-          - WATER_HEATER
-          - COOLING
-          - SUMP_PUMP
+          - FOUNDATION
+          - ROOF
+          - SIDING
+          - FASCIA
+          - WINDOWS
+          - DOORS
+          - GUTTERS_DOWNSPOUTS
+          - EAVES
+          - CHIMNEY
+          - PORCH
+          - PATIO
+          - DECK
+          - BALCONY
+          - ENTRY_STAIRS
+          - CARPORT
+          - DRIVEWAY
+          - INCOMPLETE_LANDSCAPING
           - OTHER
-        mechanicalUpdateType:
+          - EXTERIOR_WALLS
+        exteriorDeficiencyType:
           type: string
-          description: Indicate if the mechanical component has been Fully Updated or only Partially Updated.Required IF(/property/buildings/units/mechanicalUpdates/mechanicalUpdatedComponent != 'NONE_OBSERVED'
+          description: Identify the type of deficiencies associated with the exterior of the property.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName != ‘NONE_OBSERVED’
           enum:
-          - FULLY_UPDATED
-          - PARTIALLY_UPDATED
-        mechanicalUpdateTimeframe:
+          - EXCESSIVE_WEAR
+          - DAMAGE
+          - EVIDENCE_OF_INFESTATION
+          - MISSING
+          - OTHER
+        exteriorDeficiencyDetailFoundation:
+          type: array
+          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = 'FOUNDATION'
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - SETTLEMENT
+            - EVIDENCE_OF_MOISTURE
+            - SEEPAGE
+            - INFESTATION
+            - LEANING_OR_BOWING_WALLS
+            - HEAVING
+            - OTHER
+        exteriorDeficiencyDetailExteriorWalls:
+          type: array
+          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = 'EXTERIOR_WALLS'
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - HOLES
+            - DRY_ROT
+            - MOISTURE_ROT
+            - SETTLEMENT
+            - WIND_DAMAGE
+            - MISSING_MATERIAL
+            - OTHER
+        exteriorDeficiencyDetailRoofSurface:
+          type: array
+          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = 'ROOF'
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - TARP_ON_ROOF
+            - LEAK_EVIDENT
+            - MISSING_MATERIAL
+            - WOOD_ROT
+            - SOFFIT_DAMAGE
+            - FASCIA_DAMAGE
+            - OTHER
+        exteriorDeficiencyDetailGuttersandDownspouts:
+          type: array
+          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = GUTTERS_DOWNSPOUTS
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - MISSING_DOWNSPOUTS
+            - DAMAGED
+            - LEAKING
+            - INFESTATION
+            - IMPROPER_FLOW
+            - MISSING_GUTTER
+            - OTHER
+        exteriorDeficiencyDetailWindows:
+          type: array
+          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = 'WINDOWS'
+          items:
+            type: string
+            enum:
+            - CRACKING
+            - MISSING_WINDOW_PANE
+            - DRY_ROT
+            - BROKEN_GLASS
+            - BOARDED_UP
+            - MISSING_WINDOW
+            - EXPOSED_WOOD
+            - STORM_SASH_DAMAGE
+            - THERMOPANE_DAMAGE
+            - OTHER
+        exteriorDeficiencySeverity:
+          type: boolean
+          description: Indicate if the noted deficiency to the exterior item or component impacts the safety, soundness, or structural integrity of the structure or unit.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName != ‘NONE_OBSERVED’
+        exteriorDeficiencyDescription:
           type: string
-          description: Indicate the timeframe the improvements were made for the mechanical component. For instance, if an update was made approximately 3 years ago, then the user would select '1_TO_5_YEARS'. Required IF(/property/buildings/units/mechanicalUpdates/mechanicalUpdatedComponent != 'NONE_OBSERVED'
+          description: Provide a brief description of each exterior item or component deficiency observed.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName != ‘NONE_OBSERVED’. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: The balcony is only partially attached to the exterior wall of the structure.
+      additionalProperties: false
+    SiteFeature_siteView:
+      type: object
+      description: Required IF (/property/propertyType = SF).
+      properties:
+        views:
+          type: array
+          items:
+            $ref: '#/components/schemas/View'
+      additionalProperties: false
+    ErrorResponse:
+      required:
+      - code
+      - details
+      - message
+      - proxyCorrelationId
+      type: object
+      properties:
+        proxyCorrelationId:
+          type: string
+          description: PDR API assigned control number for the request.
+        code:
+          type: string
+          description: Error Code
+        message:
+          type: string
+          description: Error Description
+        details:
+          type: array
+          description: A collection of error details. Details container will contain error format.
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Error'
+            - $ref: '#/components/schemas/Message'
+      description: Information about the errors.
+    ElectricalService:
+      required:
+      - electricalType
+      type: object
+      properties:
+        electricalType:
+          type: string
+          description: Indicate the electrical service type(s) for the subject property.  If more than one type is available, select all that apply.  If the property has both public service as well as private service, select both public and all other electrical service types.  If there is no electrical service at the property, select “No Electrical Service.”
           enum:
-          - LESS_THAN_1_YEAR
-          - 1_TO_5_YEARS
-          - 5_TO_10_YEARS
-          - 10_OR_MORE_YEARS
-        mechanicalUpdateDescription:
+          - PUBLIC
+          - SOLAR
+          - GENERATOR
+          - WIND
+          - HYDRO_ELECTRIC
+          - NO_ELECTRICAL_SERVICE
+        offGridService:
+          type: boolean
+          description: If an alternative electrical source is indicated for electrical service type and connected to the grid.True = identified electrical service is connected to the public utility.False = identified electrical service is NOT connected to the public utility.Required IF ( /property/site/siteUtility/electricalServices/electricalType  =  'SOLAR' OR 'GENERATOR' OR 'WIND' OR 'HYDRO_ELECTRIC' )
+      additionalProperties: false
+    SewerService:
+      required:
+      - sewerType
+      type: object
+      properties:
+        sewerType:
           type: string
-          description: Provide a brief description of each mechanical component update observed.Required IF(/property/buildings/units/mechanicalUpdates/mechanicalUpdatedComponent != 'NONE_OBSERVED. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: The plumbing in the primary bathroom has been updated with new faucets and sinks.
+          description: Indicate the type(s) of sewage disposal available for the subject property. If more than one type is available, select all that apply.
+          enum:
+          - PUBLIC
+          - SEPTIC
+          - CESSPOOL
+          - NONE
+      additionalProperties: false
+    NonResidentialUse:
+      type: object
+      properties:
+        nonResidentialUseType:
+          type: string
+          description: "Indicate any non-residential uses identified on the subject property. Select all that apply. \nIf the observed non-residential use is not listed, select “Other”.  If there are no indications of non-residential use, select “None Observed”.\n.Required If (/property/propertyType = SF)"
+          enum:
+          - CHILDCARE
+          - ELDERCARE
+          - BOARDING_HOUSE
+          - AUTO_SHOP
+          - MEDICAL
+          - SALON
+          - OFFICE
+          - RETAIL
+          - HOTEL_BED_BREAKFAST
+          - FOOD_SERVICE
+          - AGRICULTURE
+          - GROW_ROOM
+          - OTHER
+          - NONE_OBSERVED
+        nonResidentialUseDescription:
+          type: string
+          description: Provide a brief description for the non-residential use of the subject property, if a non-residential use is indicated. If “Other” was selected, provide a description of the non-residential use. .Required IF ( /property/site/siteFeature/nonResidentialUses/nonResidentialUseType  !=  'NONE_OBSERVED' AND /property/propertyType = SF).<b>Note*</b> Maximum length must be less than 2500  characters.
       additionalProperties: false
     PropertyDataReport:
       required:
@@ -407,45 +692,6 @@ components:
           $ref: '#/components/schemas/Property'
       additionalProperties: false
       description: <b>Note*</b> Maximum length of  description fields must be less than 2500  characters.
-    WaterService:
-      required:
-      - waterType
-      type: object
-      properties:
-        waterType:
-          type: string
-          description: Indicate the type(s) of water source available for subject property. If more than one type is available, select all that apply.
-          enum:
-          - PUBLIC
-          - WELL
-          - CISTERN
-          - HAULED_WATER
-      additionalProperties: false
-    garage:
-      type: object
-      properties:
-        garageType:
-          type: string
-          description: Indicate the type of garage.  If more than one type of garage is available, choose all that apply. Required IF ( /property/propertyType = SF or (/property/propertyType = CONDO & property/buildings/buildingDesign = ROWHOUSE_TOWNHOUSE or DETACHED OR OTHER))
-          enum:
-          - ATTACHED_GARAGE
-          - DETACHED_GARAGE
-          - BUILTIN_GARAGE
-          - NONE
-        garageSpaceCount:
-          type: integer
-          description: Indicate the count of spaces for each garage type indicated.  If multiple types were indicated, assign the correct number of spaces for each type. A tandem garage can be counted as one or more spaces if the depth of the garage allows for two or more cars to be parked front to back.Required IF(/property/buildings/units/garages/garageType != NONE)
-        garageSpaceArea:
-          type: integer
-          description: Indicate the square footage of the garage for each instance of Attached Garage, Built-In Garage or Detached Garage selected.Required IF(/property/buildings/units/garages/garageType != NONE)
-        garageConversionIndicator:
-          type: boolean
-          description: User to indicate whether the garage was converted to finished area.Possible indicators of a garage conversion:1. Garage door may have been removed or modified.2. Garage has been improved with finishes such as drywall, flooring, heating/cooling, etc. 3. Converted space has heating and/or cooling at least equal to main dwelling.TRUE = garage was converted.FALSE = garage is utilized car storage or original use, not converted.Required IF(/property/buildings/units/garages/garageType != NONE)
-        garageDeficiencies:
-          type: array
-          items:
-            $ref: '#/components/schemas/garageDeficiency'
-      additionalProperties: false
     Room:
       required:
       - interiorDeficiencies
@@ -511,14 +757,263 @@ components:
           description: Conditionally required if roomType is FULL_BATH, HALF_BATH, KITCHEN, LAUNDRY_ROOM, or BUTLERS_PANTRY.
           items:
             $ref: '#/components/schemas/PlumbingFixture'
-    Identification:
+    unit:
       required:
-      - gpsCoordinates
+      - levels
+      - heatingSystems
+      - coolingSystems
       type: object
       properties:
-        gpsCoordinates:
-          $ref: '#/components/schemas/GPSCoordinates'
+        aduIndicator:
+          type: boolean
+          description: ' Indicate whether this structure is or contains an Accessory Dwelling Unit (ADU).Required IF (/property/propertyType = SF AND /property/buildings/containsRooms = TRUE)'
+        unitConstructionStatus:
+          type: string
+          description: 'Indicate the construction status that best describes the unit. Required IF (/property/propertyType = CONDO) '
+          enum:
+          - COMPLETE
+          - INCOMPLETE_CONSTRUCTION
+          - INCOMPLETE_RENOVATION_CONSTRUCTION
+        floorNumber:
+          type: integer
+          description: Indicate the specific floor of the building on which the unit is located.Required IF (/property/propertyType = CONDO and /property/buildings/buildingDesign = 'GARDEN' or 'LOW_RISE' or 'MID_RISE' or 'HIGH_RISE')
+        topFloor:
+          type: boolean
+          description: Indicate whether the unit is on the top floor. select 'Y'.  If not select 'N'. Required (/property/propertyType = CONDO)
+        unitMainEntrance:
+          type: integer
+          description: Indicate the floor of the building where the main entrance of the unit is located.Required IF (/property/propertyType = CONDO and /property/buildings/buildingDesign = 'GARDEN' or 'LOW_RISE' or 'MID_RISE' or 'HIGH_RISE')
+        unitView:
+          $ref: '#/components/schemas/unit_unitView'
+        unitFeatures:
+          type: array
+          description: Indicate all features specific to the unit. If there are no additional unit features, “None” must be selected.Required if propertyType is CONDO
+          items:
+            $ref: '#/components/schemas/feature'
+        heatingSystems:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/heating'
+        coolingSystems:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/cooling'
+        mechanicalDeficiencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/mechanicalDeficiency'
+        mechanicalUpdates:
+          type: array
+          items:
+            $ref: '#/components/schemas/mechanicalUpdates'
+        garages:
+          type: array
+          items:
+            $ref: '#/components/schemas/garage'
+        levels:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Level'
       additionalProperties: false
+    PlumbingFixture:
+      type: object
+      properties:
+        fixtureType:
+          type: string
+          description: 'Indicate the fixture for every bathroom, kitchen, laundry room, and butler’s pantry in the structure. Select all that apply. Note: The count and type of fixtures will determine the bathroom type programmatically. A full bathroom is identified by the presence of a shower/tub, sink, and toilet fixtures. A half-bath is identified by the presence of sink and toilet fixtures, with no shower/tub.Required IF ( /property/buildings/units/levels/rooms/roomType  =  ''FULL_BATH'' OR ''HALF_BATH'' OR ''KITCHEN'' OR ''BUTLERS_PANTRY'' OR ''LAUNDRY_ROOM'')'
+          enum:
+          - SINK
+          - LAUNDRY_HOOKUP
+          - POT_FILLER
+          - JETTED_TUB
+          - TOILET
+          - TUB_SHOWER
+          - WALK_IN_SHOWER
+          - TUB_W_NO_SHOWER
+          - FREESTANDING_TUB
+          - APPLIANCE_HOOKUP
+          - ROUGH_IN
+          - NONE_OBSERVED
+    carStorageDeficiency:
+      type: object
+      properties:
+        condoCarStorageDeficiencyName:
+          type: string
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified. Required IF(/property/buildings/condoCarStorages/condoCarStorageType= 'BUILTIN_GARAGE' or 'ATTACHED_GARAGE' or 'DETACHED_GARAGE')
+          enum:
+          - NONE_OBSERVED
+          - SIDING
+          - WINDOWS
+          - DOORS
+          - GARAGE_DOOR
+          - EXTERIOR_WALLS
+          - INTERIOR_WALLS
+          - CEILING
+          - ROOF
+          - FOUNDATION
+          - OTHER
+        condoCarStorageDeficiencyType:
+          type: string
+          description: Indicate the type of deficiencies associated with the car storage. Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName != 'NONE_OBSERVED' )
+          enum:
+          - EXCESSIVE_WEAR
+          - EVIDENCE_OF_INFESTATION
+          - MISSING
+          - OTHER
+        condoCarStorageDeficiencyDetailFoundation:
+          type: array
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified.Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName = 'FOUNDATION' )
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - SETTLEMENT
+            - EVIDENCE_OF_MOISTURE
+            - SEEPAGE
+            - INFESTATION
+            - LEANING_OR_BOWED_WALLS
+            - HEAVING
+            - OTHER
+        condoCarStorageDeficiencyDetailExteriorWalls:
+          type: array
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified. Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName = 'EXTERIOR_WALLS' )
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - HOLES
+            - DRY_ROT
+            - MOISTURE_ROT
+            - SETTLEMENT
+            - WIND_DAMAGE
+            - MISSING_MATERIAL
+            - OTHER
+        condoCarStorageDeficiencyDetailRoofSurface:
+          type: array
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified.Required IF ( /property/buildings/carStorages/carStorageDeficiencies/carStorageDeficiencyName = 'ROOF' )
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - TARP_ON_ROOF
+            - LEAK_EVIDENT
+            - MISSING_MATERIAL
+            - WOOD_ROT
+            - SOFFIT_DAMAGE
+            - FASCIA_DAMAGE
+            - OTHER
+        condoCarStorageDeficiencyDetailWindows:
+          type: array
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified.Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName = 'WINDOWS' )
+          items:
+            type: string
+            enum:
+            - CRACKING
+            - MISSING_WINDOW_PANE
+            - EXPOSED_WOOD
+            - STORM_SASH_DAMAGE
+            - THERMOPANE_DAMAGE
+            - OTHER
+        condoCarStorageDeficiencyDetailCeiling:
+          type: array
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified. Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName = 'CEILING' )
+          items:
+            type: string
+            enum:
+            - DISCOLORATION
+            - MISSING
+            - CRUMBLING
+            - WATER_DAMAGE
+            - OTHER
+        condoCarStorageDeficiencyDetailInteriorWalls:
+          type: array
+          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified. Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName != 'INTERIOR_WALLS' )
+          items:
+            type: string
+            enum:
+            - DISCOLORATION
+            - MISSING
+            - CRUMBLING
+            - WATER_DAMAGE
+            - OTHER
+        condoCarStorageDeficiencySeverity:
+          type: boolean
+          description: Indicate if the noted deficiency to the car storage component impacts the safety, soundness or structural integrity of the structure or unit.Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName != 'NONE_OBSERVED' )
+        condoCarStorageDeficiencyDescription:
+          type: string
+          description: Provide a description of each car storage deficiency observed.e.g., The roof of the attached garage has a 6 x 8 hole on one side of the roof.Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName != 'NONE_OBSERVED' ).<b>Note*</b> Maximum length must be less than 2500  characters.
+          example: The roof of the attached garage has a 6 x 8 hole on one side of the roof.
+      additionalProperties: false
+    AncillaryExterior:
+      type: object
+      properties:
+        descFoundationWalls:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Concrete Block
+        descExtWalls:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Concrete Block
+        descRoofSurface:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Standing Seam Metal 
+        descGuttersDownspouts:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Aluminum
+        descWindowType:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Vinyl Double Hung
+        descStormSashInsulated:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Metal
+        descScreens:
+          type: string
+          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Fabric
+    ValidationError:
+      type: object
+      properties:
+        jsonPath:
+          type: string
+        validationErrorMessage:
+          type: string
+    AncillaryInterior:
+      type: object
+      properties:
+        floorsDesc:
+          type: string
+          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Carpet
+        wallsDesc:
+          type: string
+          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Plaster
+        trimFinishDesc:
+          type: string
+          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Crown
+        bathFloorDesc:
+          type: string
+          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Tile
+        bathWainscotDesc:
+          type: string
+          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Tile
     Message:
       required:
       - messageCode
@@ -528,66 +1023,6 @@ components:
         messageCode:
           type: string
         messageDescription:
-          type: string
-    ErrorResponse:
-      required:
-      - code
-      - details
-      - message
-      - proxyCorrelationId
-      type: object
-      properties:
-        proxyCorrelationId:
-          type: string
-          description: PDR API assigned control number for the request.
-        code:
-          type: string
-          description: Error Code
-        message:
-          type: string
-          description: Error Description
-        details:
-          type: array
-          description: A collection of error details. Details container will contain error format.
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/Error'
-            - $ref: '#/components/schemas/Message'
-      description: Information about the errors.
-    unit_unitView:
-      type: object
-      properties:
-        views:
-          type: array
-          description: Identify the floor of the building where the main entrance of the unit is located.Required (/property/propertyType = CONDO)
-          items:
-            $ref: '#/components/schemas/unitViewDetails'
-      additionalProperties: false
-      description: Required IF (/property/propertyType = CONDO)
-    Lot:
-      description: Required IF (/property/propertyType = SF).
-      type: object
-      properties:
-        lotSize:
-          type: integer
-          description: The total area of all encumbered parcels is prepopulated in the property data and displayed in square feet. Verify the accuracy of provided data with the point of contact, if possible.  Required IF (/property/propertyType = SF)
-          format: int64
-          example: 22000
-        lotSizeUnits:
-          type: string
-          description: The units in which the lot size is expressed. Square feet must always be selected for this field.Required IF (/property/propertyType = SF)
-          enum:
-          - SQUARE_FEET
-      additionalProperties: false
-    ImageStorageLocation:
-      type: object
-      properties:
-        imageId:
-          type: string
-          example: bcde070d-8c4c-4f0d-9d8a-162843c10334
-        imageMeta:
-          $ref: '#/components/schemas/ImageMetaData'
-        uploadUrl:
           type: string
     Site:
       required:
@@ -605,40 +1040,322 @@ components:
         siteUtility:
           $ref: '#/components/schemas/SiteUtility'
       additionalProperties: false
-    Property:
-      required:
-      - address
-      - buildings
-      - identification
-      - propertyOccupied
-      - propertyType
-      - site
+    feature:
       type: object
       properties:
-        address:
-          $ref: '#/components/schemas/Address'
-        identification:
-          $ref: '#/components/schemas/Identification'
-        site:
-          $ref: '#/components/schemas/Site'
-        propertyType:
+        featureType:
           type: string
-          description: Indicate whether the property is a Single Family Dwelling or a Condominium.
-          example: SF
+          description: 'Indicate all features specific to the unit. If there are no additional unit features, “None” must be selected. Required (/property/propertyType = CONDO) '
           enum:
-          - SF
-          - CONDO
-        propertyOccupied:
+          - ORNATE_LANDSCAPING
+          - OUTDOOR_KITCHEN
+          - INGROUND_POOL
+          - INGROUND_HOTTUB
+          - SPORTS_COURT
+          - SAUNA
+          - GAZEBO
+          - PATIO
+          - DECK
+          - BALCONY
+          - UNCOVERED_PORCH
+          - COVERED_PORCH
+          - ENCLOSED_PORCH
+          - WRAP_AROUND_PORCH
+          - STOOP
+          - FIREPIT
+          - OUTDOOR_FIREPLACE
+          - OTHER
+          - NONE
+          - CARPORT
+          - ABOVE_GROUND_POOL
+    Lot:
+      description: Required IF (/property/propertyType = SF).
+      type: object
+      properties:
+        lotSize:
+          type: integer
+          description: The total area of all encumbered parcels is prepopulated in the property data and displayed in square feet. Verify the accuracy of provided data with the point of contact, if possible.  Required IF (/property/propertyType = SF)
+          format: int64
+          example: 22000
+        lotSizeUnits:
+          type: string
+          description: The units in which the lot size is expressed. Square feet must always be selected for this field.Required IF (/property/propertyType = SF)
+          enum:
+          - SQUARE_FEET
+      additionalProperties: false
+    GPSCoordinates:
+      required:
+      - latitude
+      - longitude
+      type: object
+      properties:
+        latitude:
+          type: number
+          description: Waterfall Subject Latitude as centroid of latitude of all images, OR a specific image likely to be present in all dwellings, such as the kitchen OR a photo of the main entrance of the dwelling. If latitude from images is unavailable, use geocoder from subject address.
+          format: float
+          example: 38.889248
+        longitude:
+          type: number
+          description: Waterfall Subject Longitude as centroid of longitude of all images, OR a specific image likely to be present in all dwellings, such as the kitchen OR a photo of the main entrance of the dwelling. If latitude/longitude from images is unavailable, use geocoder from subject address.
+          format: float
+          example: -77.050636
+      additionalProperties: false
+    Ancillary:
+      type: object
+      properties:
+        roadDesc:
+          type: string
+          description: A free-form text field used to describe the property off-site improvement specified by Property Off Site Improvement Feature Type.<b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Asphalt
+        atticFloorExists:
           type: boolean
-          description: Indicate whether the property is occupied when the data is collected.
-        buildings:
+          description: Indicates if the feature specified in Attic Feature Type is present in the structure.
+          example: false
+        atticHeated:
+          type: boolean
+          description: Indicates if the feature specified in Attic Feature Type is present in the structure.
+          example: false
+        heatingFuelDesc:
+          type: string
+          description: A free-form text field used to describe the fuel used by the heating unit.<b>Note*</b> Maximum length must be less than 2500  characters.
+        drivewaySurfaceDesc:
+          type: string
+          description: A free-form text field used to describe or comment on the aspect of the property named in the Site Feature Type.<b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Concrete
+        alley:
+          $ref: '#/components/schemas/AncillaryAlley'
+        appliances:
+          $ref: '#/components/schemas/AncillaryAppliances'
+        exterior:
+          $ref: '#/components/schemas/AncillaryExterior'
+        gas:
+          $ref: '#/components/schemas/AncillaryGas'
+        interior:
+          $ref: '#/components/schemas/AncillaryInterior'
+    SiteUtility:
+      required:
+      - electricalServices
+      - gasServices
+      - sewerServices
+      - waterServices
+      type: object
+      properties:
+        electricalServices:
           maxItems: 2147483647
           minItems: 1
           type: array
           items:
-            $ref: '#/components/schemas/Building'
-        ancillary:
-          $ref: '#/components/schemas/Ancillary'
+            $ref: '#/components/schemas/ElectricalService'
+        sewerServices:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/SewerService'
+        waterServices:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/WaterService'
+        gasServices:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/GasService'
+      additionalProperties: false
+    interiorDeficiency:
+      required:
+      - interiorDeficiencyName
+      type: object
+      properties:
+        interiorDeficiencyName:
+          type: string
+          description: 'Indicate if any portion or element of a room has deferred maintenance and requires significant repair(s).  Also indicate if any item is missing. '
+          enum:
+          - NONE_OBSERVED
+          - FLOORING
+          - PLUMBING_FIXTURES
+          - ELECTRICAL_FIXTURES
+          - CABINET_COUNTERTOPS
+          - APPLIANCES
+          - WALLS
+          - CEILING
+          - SHOWER_TUB_SURROUND
+          - OTHER
+        interiorDeficiencyType:
+          type: string
+          description: Indicate the type of deferred maintenance and significant repair(s) associated with the components of the interior of the structure.  Provide all that apply.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiorDeficiencyName != ‘NONE_OBSERVED’)
+          enum:
+          - EXCESSIVE_WEAR
+          - DAMAGE
+          - EVIDENCE_OF_MOLD
+          - EVIDENCE_OF_INFESTATION
+          - MISSING
+          - POOR_FUNCTIONAL_UTILITY
+          - OTHER
+        interiorDeficiencyDetailFlooring:
+          type: array
+          description: Indicate the details of Deficiency Type for the component that was selected.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiordeficiencyName = ‘FLOORING’)
+          items:
+            type: string
+            enum:
+            - BUCKLED
+            - HOLES
+            - SAGGING
+            - SPONGY
+            - INFESTATION
+            - DRY_ROT
+            - DISCOLORATION
+            - CRACKS
+            - UNFINISHED_SECTION
+            - DAMPNESS
+            - OTHER
+        interiorDeficiencyDetailCeiling:
+          type: array
+          description: Indicate the details of Deficiency Type for the component that was selected.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiordeficiencyName = ‘CEILING’)
+          items:
+            type: string
+            enum:
+            - DISCOLORATION
+            - MISSING
+            - CRUMBLING
+            - WATER_DAMAGE
+            - OTHER
+        interiorDeficiencyDetailWalls:
+          type: array
+          description: Indicate the details of Deficiency Type for the component that was selected. Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiordeficiencyName = ‘WALLS’)
+          items:
+            type: string
+            enum:
+            - DISCOLORATION
+            - MISSING
+            - CRUMBLING
+            - WATER_DAMAGE
+            - OTHER
+        interiorDeficiencyDetailTubShowerSurround:
+          type: boolean
+          description: Indicate the details of Deficiency Type for the component that was selected.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiordeficiencyName = ‘SHOWER_TUB_SURROUND’)
+        interiorDeficiencySeverity:
+          type: boolean
+          description: Indicate if the noted deficiency to the room component impacts the safety, soundness, or structural integrity of the structure or unit.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiorDeficiencyName != ‘NONE_OBSERVED’)
+        interiorDeficiencyDescription:
+          type: string
+          description: User to provide a text description of any deficiencies observed.IF( /property/buildings/units/levels/rooms/interiorDeficiencies/deficiencyName != ‘NONE_OBSERVED’). <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: New carpet has been installed and the walls have been recently painted.
+      additionalProperties: false
+    garageDeficiency:
+      type: object
+      properties:
+        garageDeficiencyName:
+          type: string
+          description: User to identify any garage components that are either damaged or show obvious signs of wear and tear. User should select 'None Observed' if no obvious signs of damage are apparent.Required IF(/property/buildings/units/garages/garageType != NONE)
+          enum:
+          - NONE_OBSERVED
+          - SIDING
+          - WINDOWS
+          - DOORS
+          - GARAGE_DOOR
+          - EXTERIOR_WALLS
+          - INTERIOR_WALLS
+          - CEILING
+          - ROOF
+          - FOUNDATION
+          - OTHER
+        garageDeficiencyType:
+          type: string
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName != 'NONE_OBSERVED'
+          enum:
+          - EXCESSIVE_WEAR
+          - EVIDENCE_OF_INFESTATION
+          - MISSING
+          - OTHER
+        garageDeficiencyDetailFoundation:
+          type: array
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'FOUNDATION' )
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - SETTLEMENT
+            - EVIDENCE_OF_MOISTURE
+            - SEEPAGE
+            - INFESTATION
+            - LEANING_OR_BOWED_WALLS
+            - HEAVING
+            - OTHER
+        garageDeficiencyDetailExteriorWalls:
+          type: array
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'EXTERIOR_WALLS' )
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - HOLES
+            - DRY_ROT
+            - MOISTURE_ROT
+            - SETTLEMENT
+            - WIND_DAMAGE
+            - MISSING_MATERIAL
+            - OTHER
+        garageDeficiencyDetailRoofSurface:
+          type: array
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'ROOF' )
+          items:
+            type: string
+            enum:
+            - ERODED_MATERIAL
+            - CRACKING
+            - TARP_ON_ROOF
+            - LEAK_EVIDENT
+            - MISSING_MATERIAL
+            - WOOD_ROT
+            - SOFFIT_DAMAGE
+            - FASCIA_DAMAGE
+            - OTHER
+        garageDeficiencyDetailWindows:
+          type: array
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'WINDOWS' )
+          items:
+            type: string
+            enum:
+            - CRACKING
+            - MISSING_WINDOW_PANE
+            - EXPOSED_WOOD
+            - STORM_SASH_DAMAGE
+            - THERMOPANE_DAMAGE
+            - OTHER
+        garageDeficiencyDetailCeiling:
+          type: array
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'CEILING' )
+          items:
+            type: string
+            enum:
+            - DISCOLORATION
+            - MISSING
+            - CRUMBLING
+            - WATER_DAMAGE
+            - OTHER
+        garageDeficiencyDetailInteriorWalls:
+          type: array
+          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'INTERIOR_WALLS' )
+          items:
+            type: string
+            enum:
+            - DISCOLORATION
+            - MISSING
+            - CRUMBLING
+            - WATER_DAMAGE
+            - OTHER
+        garageDeficiencySeverity:
+          type: boolean
+          description: User to select whether the deficient item does or does not impact the safety, structural integrity, or habitability of the affected structural component.True = Deficiency impacts the safety, structural integrity or habitability of the structure.False = The deficiency does NOT affect the safety, structural integrity or habitability of the structure. Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName != 'NONE_OBSERVED').
+        garageDeficiencyDescription:
+          type: string
+          description: User to provide a concise text description of any deficiencies observed.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName != 'NONE_OBSERVED' ). <b>Note*</b> Maximum length must be less than 2500  characters.
       additionalProperties: false
     Building:
       required:
@@ -766,144 +1483,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/unit'
-      additionalProperties: false
-    heating:
-      required:
-      - heatingType
-      type: object
-      properties:
-        heatingType:
-          type: string
-          description: Indicate all heating systems for each unit.  If there are multiple heat sources, choose all that apply.  If there is no heat source, “No Heat” must be selected.
-          enum:
-          - CENTRAL_HOT_AIR
-          - HOT_WATER_RADIATORS
-          - HOT_WATER_BASEBOARD
-          - ELECTRIC_BASEBOARD
-          - IN_WALL_HEATER
-          - RADIANT_FLOOR
-          - CENTRAL_HEATPUMP
-          - DUCTLESS_HEATPUMP
-          - DUCTLESS_HEAT
-          - GEOTHERMAL
-          - WALL_FURNACE
-          - GAS_FURNACE
-          - OIL_FURNACE
-          - COAL_FURNACE
-          - NO_HEAT
-    Road:
-      required:
-      - roadOwnershipType
-      - yearRoundAccessIndicator
-      type: object
-      properties:
-        roadOwnershipType:
-          type: string
-          description: Indicate the road that the subject property is accessed from as being public or private.  Select “Unknown” if the data collector cannot determine whether the road is public or private.
-          enum:
-          - PUBLIC
-          - PRIVATE
-          - UNKNOWN
-        roadMaintainedIndicator:
-          type: boolean
-          description: Indicate whether the subject’s access road requires repairs that impact the accessibility of the property (e.g., washed out road).  If the road does not require these type of repairs, indicate “Yes” that the road is maintained. If the road requires these types of repairs, indicate “No” that it is not maintained.Required  IF ( /property/site/offSiteFeature/road/roadOwnershipType  =  'PRIVATE' OR 'UNKNOWN' )
-        yearRoundAccessIndicator:
-          type: boolean
-          description: Indicate whether the subject property is accessible during all seasons.e.g., The property is located in a rural area with no road maintenance and is not accessible during certain seasons.
-      additionalProperties: false
-    RoomFeature:
-      required:
-      - roomFeatureType
-      type: object
-      properties:
-        roomFeatureType:
-          type: array
-          maxItems: 1000
-          minItems: 1
-          description: Indicate if there are any features from the list provided for each room identified.  Select all that apply.
-          items:
-            type: string
-            enum:
-            - FIREPLACE
-            - WOOD_STOVE
-            - BUILT_INS
-            - WET_BAR
-            - WALK_IN_CLOSET
-            - PANTRY
-            - NONE
-      description: Indicate if there are any features from the list provided for each room identified.  Select all that apply.
-    unitViewDetails:
-      type: object
-      properties:
-        unitViewDescriptionType:
-          type: string
-          description: Select from the list of choices the view or views that best describes the unit view. Select the most important view first, followed by any other impactful views. The view identified for condominium unit must be determined from the unit itself. Required (/property/propertyType = CONDO
-          enum:
-          - NONE_NOTABLE
-          - VACANT_LOT
-          - WOODS_TREED_PRIVATE
-          - HILLS_FOOTHILLS
-          - GREENBELT_OPEN_SPACE
-          - MOUNTAIN
-          - MOUNTAIN_RANGE
-          - POND
-          - LAKE
-          - CANAL
-          - OCEAN
-          - RIVER
-          - CREEK
-          - BAY
-          - SOUND
-          - LAGOON
-          - MARINA
-          - INTRACOASTAL_WATERWAY
-          - HARBOR
-          - GULF
-          - WETLANDS
-          - BAYOU
-          - MARSH
-          - COMMERCIAL
-          - PARKING_LOT
-          - INDUSTRIAL
-          - MILITARY_BASE
-          - RAILROAD
-          - INTERSTATE
-          - ELEVATED_OVERPASS
-          - PASTURES_FIELDS_ETC
-          - AGRICULTURAL_FARM_ETC
-          - DESERT
-          - CANYON
-          - VALLEY
-          - COUNTRYSIDE
-          - RAVINE
-          - CITY_SKYLINE
-          - GOLF_COURSE
-          - PARK
-          - APARTMENT_COMPLEX
-          - WINDMILL_WINDFARM
-          - OVERHEAD_ELECTRIC_POWER_TRANSMISSION_LINE
-          - SCHOOL
-        unitViewQuality:
-          type: string
-          description: Select the best option to further describe the selected view. Required (/property/propertyType = CONDO AND /property/buildings/units/unitViewDescriptionType != "NONE_NOTEABLE")
-          enum:
-          - FULL
-          - PARTIAL
-        unitViewDescriptionDetails:
-          type: string
-          description: Provide a description of the view.Required (/property/propertyType = CONDO AND /property/buildings/units/unitViewDescriptionType != "NONE_NOTEABLE"). <b>Note*</b> Maximum length must be less than 2500  characters.
-      additionalProperties: false
-    SiteFeature_location:
-      required:
-      - locations
-      type: object
-      properties:
-        locations:
-          maxItems: 1000
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/Location'
       additionalProperties: false
     ImageMetaData:
       required:
@@ -1064,117 +1643,426 @@ components:
           description: true/false (This field will be true for images that are required for the Inspection to be considered Complete).
         parentObjectJsonPath:
           type: string
-    garageDeficiency:
+    PropertyDataReportWithImages:
       type: object
       properties:
-        garageDeficiencyName:
+        status:
           type: string
-          description: User to identify any garage components that are either damaged or show obvious signs of wear and tear. User should select 'None Observed' if no obvious signs of damage are apparent.Required IF(/property/buildings/units/garages/garageType != NONE)
+        version:
+          type: string
+        propertyDataReport:
+          $ref: '#/components/schemas/PropertyDataReport'
+        imageMetaData:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageStorageLocation'
+        requiredImages:
+          type: array
+          description: array of required images. Exists only if status=INCOMPLETE
+          items:
+            $ref: '#/components/schemas/ImageMetaData'
+        missingImageFiles:
+          type: array
+          description: array of missed image files for existing metadata. Exists only if status=INCOMPLETE
+          items:
+            $ref: '#/components/schemas/ImageStorageLocation'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    mechanicalUpdates:
+      required:
+      - mechanicalUpdatedComponent
+      type: object
+      properties:
+        mechanicalUpdatedComponent:
+          type: string
+          description: Indicate all components that have been updated or replaced. If there have been no updates, select “None Observed”.
           enum:
           - NONE_OBSERVED
-          - SIDING
-          - WINDOWS
-          - DOORS
-          - GARAGE_DOOR
-          - EXTERIOR_WALLS
-          - INTERIOR_WALLS
-          - CEILING
-          - ROOF
-          - FOUNDATION
+          - PLUMBING
+          - ELECTRICAL
+          - HEATING
+          - WATER_HEATER
+          - COOLING
+          - SUMP_PUMP
           - OTHER
-        garageDeficiencyType:
+        mechanicalUpdateType:
           type: string
-          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName != 'NONE_OBSERVED'
+          description: Indicate if the mechanical component has been Fully Updated or only Partially Updated.Required IF(/property/buildings/units/mechanicalUpdates/mechanicalUpdatedComponent != 'NONE_OBSERVED'
           enum:
-          - EXCESSIVE_WEAR
-          - EVIDENCE_OF_INFESTATION
-          - MISSING
-          - OTHER
-        garageDeficiencyDetailFoundation:
-          type: array
-          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'FOUNDATION' )
-          items:
-            type: string
-            enum:
-            - ERODED_MATERIAL
-            - CRACKING
-            - SETTLEMENT
-            - EVIDENCE_OF_MOISTURE
-            - SEEPAGE
-            - INFESTATION
-            - LEANING_OR_BOWED_WALLS
-            - HEAVING
-            - OTHER
-        garageDeficiencyDetailExteriorWalls:
-          type: array
-          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'EXTERIOR_WALLS' )
-          items:
-            type: string
-            enum:
-            - ERODED_MATERIAL
-            - CRACKING
-            - HOLES
-            - DRY_ROT
-            - MOISTURE_ROT
-            - SETTLEMENT
-            - WIND_DAMAGE
-            - MISSING_MATERIAL
-            - OTHER
-        garageDeficiencyDetailRoofSurface:
-          type: array
-          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'ROOF' )
-          items:
-            type: string
-            enum:
-            - ERODED_MATERIAL
-            - CRACKING
-            - TARP_ON_ROOF
-            - LEAK_EVIDENT
-            - MISSING_MATERIAL
-            - WOOD_ROT
-            - SOFFIT_DAMAGE
-            - FASCIA_DAMAGE
-            - OTHER
-        garageDeficiencyDetailWindows:
-          type: array
-          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'WINDOWS' )
-          items:
-            type: string
-            enum:
-            - CRACKING
-            - MISSING_WINDOW_PANE
-            - EXPOSED_WOOD
-            - STORM_SASH_DAMAGE
-            - THERMOPANE_DAMAGE
-            - OTHER
-        garageDeficiencyDetailCeiling:
-          type: array
-          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'CEILING' )
-          items:
-            type: string
-            enum:
-            - DISCOLORATION
-            - MISSING
-            - CRUMBLING
-            - WATER_DAMAGE
-            - OTHER
-        garageDeficiencyDetailInteriorWalls:
-          type: array
-          description: User to identify the type of deficiency of the component selected.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName = 'INTERIOR_WALLS' )
-          items:
-            type: string
-            enum:
-            - DISCOLORATION
-            - MISSING
-            - CRUMBLING
-            - WATER_DAMAGE
-            - OTHER
-        garageDeficiencySeverity:
-          type: boolean
-          description: User to select whether the deficient item does or does not impact the safety, structural integrity, or habitability of the affected structural component.True = Deficiency impacts the safety, structural integrity or habitability of the structure.False = The deficiency does NOT affect the safety, structural integrity or habitability of the structure. Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName != 'NONE_OBSERVED').
-        garageDeficiencyDescription:
+          - FULLY_UPDATED
+          - PARTIALLY_UPDATED
+        mechanicalUpdateTimeframe:
           type: string
-          description: User to provide a concise text description of any deficiencies observed.Required IF ( /property/buildings/units/garages/garageDeficiencies/garageDeficiencyName != 'NONE_OBSERVED' ). <b>Note*</b> Maximum length must be less than 2500  characters.
+          description: Indicate the timeframe the improvements were made for the mechanical component. For instance, if an update was made approximately 3 years ago, then the user would select '1_TO_5_YEARS'. Required IF(/property/buildings/units/mechanicalUpdates/mechanicalUpdatedComponent != 'NONE_OBSERVED'
+          enum:
+          - LESS_THAN_1_YEAR
+          - 1_TO_5_YEARS
+          - 5_TO_10_YEARS
+          - 10_OR_MORE_YEARS
+        mechanicalUpdateDescription:
+          type: string
+          description: Provide a brief description of each mechanical component update observed.Required IF(/property/buildings/units/mechanicalUpdates/mechanicalUpdatedComponent != 'NONE_OBSERVED. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: The plumbing in the primary bathroom has been updated with new faucets and sinks.
+      additionalProperties: false
+    WaterService:
+      required:
+      - waterType
+      type: object
+      properties:
+        waterType:
+          type: string
+          description: Indicate the type(s) of water source available for subject property. If more than one type is available, select all that apply.
+          enum:
+          - PUBLIC
+          - WELL
+          - CISTERN
+          - HAULED_WATER
+      additionalProperties: false
+    unit_unitView:
+      type: object
+      properties:
+        views:
+          type: array
+          description: Identify the floor of the building where the main entrance of the unit is located.Required (/property/propertyType = CONDO)
+          items:
+            $ref: '#/components/schemas/unitViewDetails'
+      additionalProperties: false
+      description: Required IF (/property/propertyType = CONDO)
+    AncillaryGas:
+      type: object
+      properties:
+        otherDesc:
+          type: string
+          description: A free-form text field used to describe the ownership of the utility specified by Site Utility Type if it is a non-public utility. <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Propane
+    offSiteFeature:
+      required:
+      - road
+      type: object
+      properties:
+        road:
+          $ref: '#/components/schemas/Road'
+      additionalProperties: false
+    Location:
+      required:
+      - locationDescriptionDetails
+      - locationDescriptionType
+      type: object
+      properties:
+        locationDescriptionType:
+          type: string
+          description: 'Indicate the location (or locations) or characteristic that best describes the aspects of the subject’s location or characteristic. '
+          enum:
+          - BORDERING_AMENITIES
+          - BORDERING_RAIL_STOP
+          - BORDERING_TROLLEY_STOP
+          - BORDERING_CITY_BUS_STOP
+          - BORDERING_BEACH
+          - BORDERING_RECREATION
+          - GATED_COMMUNITY
+          - OCEAN_FRONT_BEACH
+          - OCEAN_FRONT_NO_BEACH
+          - INLAND_SALTWATER_FRONT_BEACH
+          - INLAND_SALTWATER_FRONT_NO_BEACH
+          - LAKE_FRONT_BEACH
+          - LAKE_FRONT_NO_BEACH
+          - SEASONAL_LAKE_FRONT
+          - RIVER_CANAL_FRONT
+          - BORDERING_GOLF_COURSE
+          - GOLF_COURSE_COMMUNITY
+          - RESIDENTIAL
+          - BORDERING_INDUSTRIAL_USE
+          - BORDERING_COMMERCIAL_USE
+          - BORDERING_SCHOOL
+          - BORDERING_VACANT_LAND
+          - BORDERING_HOSPITAL
+          - BORDERING_RESTAURANT
+          - BORDERING_HOTEL_MOTEL_INN
+          - ON_CUL_DE_SAC_STREET
+          - ON_OR_BORDERING_BUSY_ROAD
+          - ON_OR_BORDERING_INTERSTATE_HWY
+          - AIR_TRAFFIC_DIRECTLY_OVERHEAD
+          - BORDERING_PARK
+          - BORDERING_OVERHEAD_ELECTRIC_POWER_TRANSMISSION_LINE
+          - BORDERING_LANDFILL
+          - NOTABLE_NOISE
+          - NOTABLE_ODOR
+          - OTHER_ADVERSE
+          - OTHER_BENEFICIAL
+          - OTHER_NEUTRAL
+        locationDescriptionDetails:
+          minLength: 1
+          type: string
+          description: Provide a short description of all location types selected.e.g., The subject property is located on the 9th hole of the golf course.<b>Note*</b> Maximum length must be less than 2500  characters.
+          example: The subject property is located on the 9th hole of the golf course.
+      additionalProperties: false
+    cooling:
+      required:
+      - coolingType
+      type: object
+      properties:
+        coolingType:
+          type: string
+          description: Indicate all cooling systems for each  unit. If there are multiple systems, chose all that apply.  If there is no cooling, “None” must be selected.
+          enum:
+          - CENTRAL_AIR_CONDITIONING
+          - CENTRAL_HEATPUMP
+          - DUCTLESS_HEATPUMP
+          - DUCTLESS_AIR_CONDITIONING
+          - WHOLE_HOUSE_FAN
+          - EVAPORATIVE_COOLER
+          - GEOTHERMAL
+          - NONE
+    WaterfrontSiteImprovement:
+      type: object
+      properties:
+        waterfrontImprovementType:
+          type: string
+          description: Indicate any amenities or features if the location description has been identified as waterfront.  If there are no waterfront amenities select “None”.Required IF (/property/propertyType = SF AND /property/site/siteFeature/location/locations/locationDescriptionType = 'OCEAN_FRONT_BEACH' OR 'OCEAN_FRONT_NO_BEACH' OR 'INLAND_SALTWATER_FRONT_BEACH' OR 'INLAND_SALTWATER_FRONT_NO_BEACH' OR 'LAKE_FRONT_BEACH' OR 'LAKE_FRONT_NO_BEACH' OR 'SEASONAL_LAKE_FRONT' OR 'RIVER_CANAL_FRONT' ).
+          enum:
+          - SEAWALL
+          - FLOATING_DOCK
+          - BOAT_LIFT
+          - BOAT_HOUSE
+          - BOAT_RAMP
+          - DOCK
+          - PIER
+          - NONE
+      additionalProperties: false
+    condoCarStorage:
+      type: object
+      properties:
+        condoCarStorageType:
+          type: string
+          description: If off street parking is selected, indicate the type of car storage (e.g., garage, carport,  assigned or unassigned) is available.  If more than one type is available, choose all that apply.Required IF (/property/propertyType = CONDO) . Required If (/property/buildings/condoOffStreetParkingAvailable =TRUE)
+          enum:
+          - ATTACHED_GARAGE
+          - DETACHED_GARAGE
+          - BUILTIN_GARAGE
+          - CARPORT
+          - OPEN_UNASSIGNED
+          - OPEN_ASSIGNED
+        condoCarStorageSpaceCount:
+          type: integer
+          description: Indicate the count of spaces for each car storage type indicated. If multiple types were indicated, assign the correct number of spaces for each type. Tandem car storage can be counted as one or more spaces if the depth of the car storage allows for two or more cars to be parked front to back. e.g., Attached Garage – 3. Required IF (/property/propertyType = CONDO). Required If (/property/buildings/condoOffStreetParkingAvailable =TRUE)
+        carStorageDeficiencies:
+          type: array
+          description: Required if condoCarStorageType is BUILTIN_GARAGE or ATTACHED_GARAGE or DETACHED_GARAGE
+          items:
+            $ref: '#/components/schemas/carStorageDeficiency'
+      additionalProperties: false
+    GasService:
+      required:
+      - gasType
+      type: object
+      properties:
+        gasType:
+          type: string
+          description: Indicate the type of gas service available for the subject property.
+          enum:
+          - PUBLIC
+          - PRIVATE
+          - NONE
+      additionalProperties: false
+    Address:
+      required:
+      - city
+      - county
+      - postalCode
+      - state
+      - streetAddress
+      type: object
+      properties:
+        streetAddress:
+          type: string
+          description: House number and street name.
+          example: 123 Main St
+        unitNumber:
+          maxLength: 10
+          minLength: 0
+          type: string
+          description: Unit number of the property, if applicable.
+          example: Unit 2B
+        city:
+          type: string
+          description: City
+          example: City
+        county:
+          type: string
+          description: County or parish
+          example: County
+        state:
+          maxLength: 2
+          minLength: 2
+          type: string
+          description: Provide the state abbrevaition
+          example: VA
+        postalCode:
+          maxLength: 5
+          minLength: 5
+          type: string
+          description: Zip code
+          example: 98765
+      additionalProperties: false
+    unitViewDetails:
+      type: object
+      properties:
+        unitViewDescriptionType:
+          type: string
+          description: Select from the list of choices the view or views that best describes the unit view. Select the most important view first, followed by any other impactful views. The view identified for condominium unit must be determined from the unit itself. Required (/property/propertyType = CONDO
+          enum:
+          - NONE_NOTABLE
+          - VACANT_LOT
+          - WOODS_TREED_PRIVATE
+          - HILLS_FOOTHILLS
+          - GREENBELT_OPEN_SPACE
+          - MOUNTAIN
+          - MOUNTAIN_RANGE
+          - POND
+          - LAKE
+          - CANAL
+          - OCEAN
+          - RIVER
+          - CREEK
+          - BAY
+          - SOUND
+          - LAGOON
+          - MARINA
+          - INTRACOASTAL_WATERWAY
+          - HARBOR
+          - GULF
+          - WETLANDS
+          - BAYOU
+          - MARSH
+          - COMMERCIAL
+          - PARKING_LOT
+          - INDUSTRIAL
+          - MILITARY_BASE
+          - RAILROAD
+          - INTERSTATE
+          - ELEVATED_OVERPASS
+          - PASTURES_FIELDS_ETC
+          - AGRICULTURAL_FARM_ETC
+          - DESERT
+          - CANYON
+          - VALLEY
+          - COUNTRYSIDE
+          - RAVINE
+          - CITY_SKYLINE
+          - GOLF_COURSE
+          - PARK
+          - APARTMENT_COMPLEX
+          - WINDMILL_WINDFARM
+          - OVERHEAD_ELECTRIC_POWER_TRANSMISSION_LINE
+          - SCHOOL
+        unitViewQuality:
+          type: string
+          description: Select the best option to further describe the selected view. Required (/property/propertyType = CONDO AND /property/buildings/units/unitViewDescriptionType != "NONE_NOTEABLE")
+          enum:
+          - FULL
+          - PARTIAL
+        unitViewDescriptionDetails:
+          type: string
+          description: Provide a description of the view.Required (/property/propertyType = CONDO AND /property/buildings/units/unitViewDescriptionType != "NONE_NOTEABLE"). <b>Note*</b> Maximum length must be less than 2500  characters.
+      additionalProperties: false
+    IngroundPoolConcern:
+      type: object
+      properties:
+        poolConcernType:
+          type: string
+          description: Indicate if any of the concern types apply when inground pool is selected as a property improvement.  If no concerns are identified, provide select “None”.Required IF ( /property/site/propertyFeature/propertyImprovements/propertyImprovementType = 'INGROUND_POOL' AND /property/propertyType = SF)
+          enum:
+          - NONE
+          - EMPTY_AND_UNCOVERED
+          - DAMAGED
+          - MISSING_EQUIPMENT
+          - DAMAGED_POOL_ENCLOSURE
+          - UNSANITARY_WATER
+        poolConcernDescription:
+          type: string
+          description: Provide a brief description of each pool concern noted if any pool concern type other than “None” was selected.e g.Large cracks were noted in the lining of the pool. Required IF ( /property/site/siteFeature/siteImprovements/ingroundPoolConcerns/poolConcernType   !=  'NONE' AND /property/propertyType = SF).<b>Note*</b> Maximum length must be less than 2500  characters.
+      additionalProperties: false
+    Error:
+      required:
+      - error
+      type: object
+      properties:
+        error:
+          type: string
+      description: Information about the error.
+    RoomFeature:
+      required:
+      - roomFeatureType
+      type: object
+      properties:
+        roomFeatureType:
+          type: array
+          maxItems: 1000
+          minItems: 1
+          description: Indicate if there are any features from the list provided for each room identified.  Select all that apply.
+          items:
+            type: string
+            enum:
+            - FIREPLACE
+            - WOOD_STOVE
+            - BUILT_INS
+            - WET_BAR
+            - WALK_IN_CLOSET
+            - PANTRY
+            - NONE
+      description: Indicate if there are any features from the list provided for each room identified.  Select all that apply.
+    AncillaryAppliances:
+      type: object
+      properties:
+        refrigeratorExists:
+          type: boolean
+          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
+          example: true
+        dishwasherExists:
+          type: boolean
+          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
+          example: true
+        disposalExists:
+          type: boolean
+          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
+          example: true
+        microwaveExists:
+          type: boolean
+          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
+          example: true
+        washerDryerExists:
+          type: boolean
+          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
+          example: true
+        otherExists:
+          type: boolean
+          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
+          example: false
+        otherDesc:
+          type: string
+          description: A free-form text field used to describe the kitchen equipment if Other is selected as the Kitchen Equipment Type.<b>Note*</b> Maximum length must be less than 2500  characters.
+          example: Wine Cooler
+    SiteFeature_location:
+      required:
+      - locations
+      type: object
+      properties:
+        locations:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Location'
+      additionalProperties: false
+    Identification:
+      required:
+      - gpsCoordinates
+      type: object
+      properties:
+        gpsCoordinates:
+          $ref: '#/components/schemas/GPSCoordinates'
       additionalProperties: false
     Level:
       required:
@@ -1243,670 +2131,6 @@ components:
           items:
             $ref: '#/components/schemas/Room'
       additionalProperties: false
-    ValidationError:
-      type: object
-      properties:
-        jsonPath:
-          type: string
-        validationErrorMessage:
-          type: string
-    Address:
-      required:
-      - city
-      - county
-      - postalCode
-      - state
-      - streetAddress
-      type: object
-      properties:
-        streetAddress:
-          type: string
-          description: House number and street name.
-          example: 123 Main St
-        unitNumber:
-          maxLength: 10
-          minLength: 0
-          type: string
-          description: Unit number of the property, if applicable.
-          example: Unit 2B
-        city:
-          type: string
-          description: City
-          example: City
-        county:
-          type: string
-          description: County or parish
-          example: County
-        state:
-          maxLength: 2
-          minLength: 2
-          type: string
-          description: Provide the state abbrevaition
-          example: VA
-        postalCode:
-          maxLength: 5
-          minLength: 5
-          type: string
-          description: Zip code
-          example: 98765
-      additionalProperties: false
-    AncillaryInterior:
-      type: object
-      properties:
-        floorsDesc:
-          type: string
-          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Carpet
-        wallsDesc:
-          type: string
-          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Plaster
-        trimFinishDesc:
-          type: string
-          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Crown
-        bathFloorDesc:
-          type: string
-          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Tile
-        bathWainscotDesc:
-          type: string
-          description: A free-form text field used to describe the material used and condition of an interior feature specified by Interior Feature Type. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Tile
-    ElectricalService:
-      required:
-      - electricalType
-      type: object
-      properties:
-        electricalType:
-          type: string
-          description: Indicate the electrical service type(s) for the subject property.  If more than one type is available, select all that apply.  If the property has both public service as well as private service, select both public and all other electrical service types.  If there is no electrical service at the property, select “No Electrical Service.”
-          enum:
-          - PUBLIC
-          - SOLAR
-          - GENERATOR
-          - WIND
-          - HYDRO_ELECTRIC
-          - NO_ELECTRICAL_SERVICE
-        offGridService:
-          type: boolean
-          description: If an alternative electrical source is indicated for electrical service type and connected to the grid.True = identified electrical service is connected to the public utility.False = identified electrical service is NOT connected to the public utility.Required IF ( /property/site/siteUtility/electricalServices/electricalType  =  'SOLAR' OR 'GENERATOR' OR 'WIND' OR 'HYDRO_ELECTRIC' )
-      additionalProperties: false
-    PropertyDataCollectorContact:
-      required:
-      - contactDetail
-      - contactMethod
-      type: object
-      properties:
-        contactMethod:
-          type: string
-          description: Contact information for the individual performing the property data collection.
-          enum:
-          - PHONE
-          - EMAIL
-        contactDetail:
-          type: string
-          description: "Contact information for the individual performing the property data collection, i.e. the email address or phone number. e.g., (123)456-7890 or\nJane_Smith@email.com\n "
-    PropertyImprovement:
-      type: object
-      properties:
-        ingroundPoolConcerns:
-          type: array
-          description: Required if siteImprovementType is INGROUND_POOL
-          items:
-            $ref: '#/components/schemas/IngroundPoolConcern'
-        propertyImprovementDescription:
-          type: string
-          description: Provide a brief description of any indicated amenity or property feature. The description should include things such as size and detailed description of the property features.e.g., 10 x 10 gazebo with composite decking.Required IF ( /property/site/siteFeature/propertyImprovements/propertyImprovementType  !=  'NONE'  AND /property/propertyType = SF).<b>Note*</b> Maximum length must be less than 2500  characters.
-        propertyImprovementType:
-          type: string
-          description: Indicate all improvements, amenities, property features, or structures. These features include elements attached and detached from the structures.Required IF (/property/propertyType = SF)
-          enum:
-          - ORNATE_LANDSCAPING
-          - IRRIGATION_SYSTEM
-          - GRAYWATER_SYSTEM
-          - WATER_COLLECTION_SYSTEM
-          - OUTDOOR_KITCHEN
-          - INGROUND_POOL
-          - INGROUND_HOTTUB
-          - SPORTS_COURT
-          - SAUNA
-          - ORCHARD_HOBBY
-          - VINEYARD_HOBBY
-          - FENCE
-          - GAZEBO
-          - GREENHOUSE
-          - TOOL_SHED
-          - PATIO
-          - DECK
-          - BALCONY
-          - UNCOVERED_PORCH
-          - COVERED_PORCH
-          - ENCLOSED_PORCH
-          - WRAP_AROUND_PORCH
-          - STOOP
-          - FIREPIT
-          - OUTDOOR_FIREPLACE
-          - OTHER
-          - NONE
-          - CARPORT
-          - ABOVE_GROUND_POOL
-      additionalProperties: false
-    IngroundPoolConcern:
-      type: object
-      properties:
-        poolConcernType:
-          type: string
-          description: Indicate if any of the concern types apply when inground pool is selected as a property improvement.  If no concerns are identified, provide select “None”.Required IF ( /property/site/propertyFeature/propertyImprovements/propertyImprovementType = 'INGROUND_POOL' AND /property/propertyType = SF)
-          enum:
-          - NONE
-          - EMPTY_AND_UNCOVERED
-          - DAMAGED
-          - MISSING_EQUIPMENT
-          - DAMAGED_POOL_ENCLOSURE
-          - UNSANITARY_WATER
-        poolConcernDescription:
-          type: string
-          description: Provide a brief description of each pool concern noted if any pool concern type other than “None” was selected.e g.Large cracks were noted in the lining of the pool. Required IF ( /property/site/siteFeature/siteImprovements/ingroundPoolConcerns/poolConcernType   !=  'NONE' AND /property/propertyType = SF).<b>Note*</b> Maximum length must be less than 2500  characters.
-      additionalProperties: false
-    PlumbingFixture:
-      type: object
-      properties:
-        fixtureType:
-          type: string
-          description: 'Indicate the fixture for every bathroom, kitchen, laundry room, and butler’s pantry in the structure. Select all that apply. Note: The count and type of fixtures will determine the bathroom type programmatically. A full bathroom is identified by the presence of a shower/tub, sink, and toilet fixtures. A half-bath is identified by the presence of sink and toilet fixtures, with no shower/tub.Required IF ( /property/buildings/units/levels/rooms/roomType  =  ''FULL_BATH'' OR ''HALF_BATH'' OR ''KITCHEN'' OR ''BUTLERS_PANTRY'' OR ''LAUNDRY_ROOM'')'
-          enum:
-          - SINK
-          - LAUNDRY_HOOKUP
-          - POT_FILLER
-          - JETTED_TUB
-          - TOILET
-          - TUB_SHOWER
-          - WALK_IN_SHOWER
-          - TUB_W_NO_SHOWER
-          - FREESTANDING_TUB
-          - APPLIANCE_HOOKUP
-          - ROUGH_IN
-          - NONE_OBSERVED
-    GasService:
-      required:
-      - gasType
-      type: object
-      properties:
-        gasType:
-          type: string
-          description: Indicate the type of gas service available for the subject property.
-          enum:
-          - PUBLIC
-          - PRIVATE
-          - NONE
-      additionalProperties: false
-    interiorDeficiency:
-      required:
-      - interiorDeficiencyName
-      type: object
-      properties:
-        interiorDeficiencyName:
-          type: string
-          description: 'Indicate if any portion or element of a room has deferred maintenance and requires significant repair(s).  Also indicate if any item is missing. '
-          enum:
-          - NONE_OBSERVED
-          - FLOORING
-          - PLUMBING_FIXTURES
-          - ELECTRICAL_FIXTURES
-          - CABINET_COUNTERTOPS
-          - APPLIANCES
-          - WALLS
-          - CEILING
-          - SHOWER_TUB_SURROUND
-          - OTHER
-        interiorDeficiencyType:
-          type: string
-          description: Indicate the type of deferred maintenance and significant repair(s) associated with the components of the interior of the structure.  Provide all that apply.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiorDeficiencyName != ‘NONE_OBSERVED’)
-          enum:
-          - EXCESSIVE_WEAR
-          - DAMAGE
-          - EVIDENCE_OF_MOLD
-          - EVIDENCE_OF_INFESTATION
-          - MISSING
-          - POOR_FUNCTIONAL_UTILITY
-          - OTHER
-        interiorDeficiencyDetailFlooring:
-          type: array
-          description: Indicate the details of Deficiency Type for the component that was selected.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiordeficiencyName = ‘FLOORING’)
-          items:
-            type: string
-            enum:
-            - BUCKLED
-            - HOLES
-            - SAGGING
-            - SPONGY
-            - INFESTATION
-            - DRY_ROT
-            - DISCOLORATION
-            - CRACKS
-            - UNFINISHED_SECTION
-            - DAMPNESS
-            - OTHER
-        interiorDeficiencyDetailCeiling:
-          type: array
-          description: Indicate the details of Deficiency Type for the component that was selected.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiordeficiencyName = ‘CEILING’)
-          items:
-            type: string
-            enum:
-            - DISCOLORATION
-            - MISSING
-            - CRUMBLING
-            - WATER_DAMAGE
-            - OTHER
-        interiorDeficiencyDetailWalls:
-          type: array
-          description: Indicate the details of Deficiency Type for the component that was selected. Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiordeficiencyName = ‘WALLS’)
-          items:
-            type: string
-            enum:
-            - DISCOLORATION
-            - MISSING
-            - CRUMBLING
-            - WATER_DAMAGE
-            - OTHER
-        interiorDeficiencyDetailTubShowerSurround:
-          type: boolean
-          description: Indicate the details of Deficiency Type for the component that was selected.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiordeficiencyName = ‘SHOWER_TUB_SURROUND’)
-        interiorDeficiencySeverity:
-          type: boolean
-          description: Indicate if the noted deficiency to the room component impacts the safety, soundness, or structural integrity of the structure or unit.Required IF( /property/buildings/units/levels/rooms/interiorDeficiencies/interiorDeficiencyName != ‘NONE_OBSERVED’)
-        interiorDeficiencyDescription:
-          type: string
-          description: User to provide a text description of any deficiencies observed.IF( /property/buildings/units/levels/rooms/interiorDeficiencies/deficiencyName != ‘NONE_OBSERVED’). <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: New carpet has been installed and the walls have been recently painted.
-      additionalProperties: false
-    unit:
-      required:
-      - levels
-      - heatingSystems
-      - coolingSystems
-      type: object
-      properties:
-        aduIndicator:
-          type: boolean
-          description: ' Indicate whether this structure is or contains an Accessory Dwelling Unit (ADU).Required IF (/property/propertyType = SF AND /property/buildings/containsRooms = TRUE)'
-        unitConstructionStatus:
-          type: string
-          description: 'Indicate the construction status that best describes the unit. Required IF (/property/propertyType = CONDO) '
-          enum:
-          - COMPLETE
-          - INCOMPLETE_CONSTRUCTION
-          - INCOMPLETE_RENOVATION_CONSTRUCTION
-        floorNumber:
-          type: integer
-          description: Indicate the specific floor of the building on which the unit is located.Required IF (/property/propertyType = CONDO and /property/buildings/buildingDesign = 'GARDEN' or 'LOW_RISE' or 'MID_RISE' or 'HIGH_RISE')
-        topFloor:
-          type: boolean
-          description: Indicate whether the unit is on the top floor. select 'Y'.  If not select 'N'. Required (/property/propertyType = CONDO)
-        unitMainEntrance:
-          type: integer
-          description: Indicate the floor of the building where the main entrance of the unit is located.Required IF (/property/propertyType = CONDO and /property/buildings/buildingDesign = 'GARDEN' or 'LOW_RISE' or 'MID_RISE' or 'HIGH_RISE')
-        unitView:
-          $ref: '#/components/schemas/unit_unitView'
-        unitFeatures:
-          type: array
-          description: Indicate all features specific to the unit. If there are no additional unit features, “None” must be selected.Required if propertyType is CONDO
-          items:
-            $ref: '#/components/schemas/feature'
-        heatingSystems:
-          maxItems: 1000
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/heating'
-        coolingSystems:
-          maxItems: 1000
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/cooling'
-        mechanicalDeficiencies:
-          type: array
-          items:
-            $ref: '#/components/schemas/mechanicalDeficiency'
-        mechanicalUpdates:
-          type: array
-          items:
-            $ref: '#/components/schemas/mechanicalUpdates'
-        garages:
-          type: array
-          items:
-            $ref: '#/components/schemas/garage'
-        levels:
-          maxItems: 1000
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/Level'
-      additionalProperties: false
-    SiteFeature:
-      required:
-      - adverseSiteConditions
-      - location
-      type: object
-      properties:
-        location:
-          $ref: '#/components/schemas/SiteFeature_location'
-        siteView:
-          $ref: '#/components/schemas/SiteFeature_siteView'
-        adverseSiteConditions:
-          maxItems: 2147483647
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/AdverseSiteCondition'
-        propertyImprovements:
-          description: Required IF (/property/propertyType = SF).
-          maxItems: 2147483647
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/PropertyImprovement'
-        nonResidentialUses:
-          description: Required IF (/property/propertyType = SF).
-          maxItems: 2147483647
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/NonResidentialUse'
-        waterfrontSiteImprovements:
-          type: array
-          description: Required IF (/property/propertyType = SF AND /property/site/siteFeature/location/locations/locationDescriptionType = 'OCEAN_FRONT_BEACH' OR 'OCEAN_FRONT_NO_BEACH' OR 'INLAND_SALTWATER_FRONT_BEACH' OR 'INLAND_SALTWATER_FRONT_NO_BEACH' OR 'LAKE_FRONT_BEACH' OR 'LAKE_FRONT_NO_BEACH' OR 'SEASONAL_LAKE_FRONT' OR 'RIVER_CANAL_FRONT' )
-          items:
-            $ref: '#/components/schemas/WaterfrontSiteImprovement'
-      additionalProperties: false
-    PropertyDataReportStatus:
-      type: object
-      properties:
-        proxyCorrelationId:
-          type: string
-          description: PDR API assigned control number for the request.
-          example: '12345678'
-        propertyDataId:
-          type: string
-          example: acde070d-8c4c-4f0d-9d8a-162843c10333
-        status:
-          type: string
-          enum:
-          - COMPLETE
-          - INCOMPLETE
-        validationErrors:
-          type: array
-          description: array of validation errors. Exists only if status=INCOMPLETE
-          items:
-            $ref: '#/components/schemas/ValidationError'
-        requiredImages:
-          type: array
-          description: array of required images. Exists only if status=INCOMPLETE
-          items:
-            $ref: '#/components/schemas/ImageMetaData'
-        missingImageFiles:
-          type: array
-          description: array of missed image files for existing metadata. Exists only if status=INCOMPLETE
-          items:
-            $ref: '#/components/schemas/ImageStorageLocation'
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-    GPSCoordinates:
-      required:
-      - latitude
-      - longitude
-      type: object
-      properties:
-        latitude:
-          type: number
-          description: Waterfall Subject Latitude as centroid of latitude of all images, OR a specific image likely to be present in all dwellings, such as the kitchen OR a photo of the main entrance of the dwelling. If latitude from images is unavailable, use geocoder from subject address.
-          format: float
-          example: 38.889248
-        longitude:
-          type: number
-          description: Waterfall Subject Longitude as centroid of longitude of all images, OR a specific image likely to be present in all dwellings, such as the kitchen OR a photo of the main entrance of the dwelling. If latitude/longitude from images is unavailable, use geocoder from subject address.
-          format: float
-          example: -77.050636
-      additionalProperties: false
-    offSiteFeature:
-      required:
-      - road
-      type: object
-      properties:
-        road:
-          $ref: '#/components/schemas/Road'
-      additionalProperties: false
-    SiteFeature_siteView:
-      type: object
-      description: Required IF (/property/propertyType = SF).
-      properties:
-        views:
-          type: array
-          items:
-            $ref: '#/components/schemas/View'
-      additionalProperties: false
-    Location:
-      required:
-      - locationDescriptionDetails
-      - locationDescriptionType
-      type: object
-      properties:
-        locationDescriptionType:
-          type: string
-          description: 'Indicate the location (or locations) or characteristic that best describes the aspects of the subject’s location or characteristic. '
-          enum:
-          - BORDERING_AMENITIES
-          - BORDERING_RAIL_STOP
-          - BORDERING_TROLLEY_STOP
-          - BORDERING_CITY_BUS_STOP
-          - BORDERING_BEACH
-          - BORDERING_RECREATION
-          - GATED_COMMUNITY
-          - OCEAN_FRONT_BEACH
-          - OCEAN_FRONT_NO_BEACH
-          - INLAND_SALTWATER_FRONT_BEACH
-          - INLAND_SALTWATER_FRONT_NO_BEACH
-          - LAKE_FRONT_BEACH
-          - LAKE_FRONT_NO_BEACH
-          - SEASONAL_LAKE_FRONT
-          - RIVER_CANAL_FRONT
-          - BORDERING_GOLF_COURSE
-          - GOLF_COURSE_COMMUNITY
-          - RESIDENTIAL
-          - BORDERING_INDUSTRIAL_USE
-          - BORDERING_COMMERCIAL_USE
-          - BORDERING_SCHOOL
-          - BORDERING_VACANT_LAND
-          - BORDERING_HOSPITAL
-          - BORDERING_RESTAURANT
-          - BORDERING_HOTEL_MOTEL_INN
-          - ON_CUL_DE_SAC_STREET
-          - ON_OR_BORDERING_BUSY_ROAD
-          - ON_OR_BORDERING_INTERSTATE_HWY
-          - AIR_TRAFFIC_DIRECTLY_OVERHEAD
-          - BORDERING_PARK
-          - BORDERING_OVERHEAD_ELECTRIC_POWER_TRANSMISSION_LINE
-          - BORDERING_LANDFILL
-          - NOTABLE_NOISE
-          - NOTABLE_ODOR
-          - OTHER_ADVERSE
-          - OTHER_BENEFICIAL
-          - OTHER_NEUTRAL
-        locationDescriptionDetails:
-          minLength: 1
-          type: string
-          description: Provide a short description of all location types selected.e.g., The subject property is located on the 9th hole of the golf course.<b>Note*</b> Maximum length must be less than 2500  characters.
-          example: The subject property is located on the 9th hole of the golf course.
-      additionalProperties: false
-    AncillaryAlley:
-      type: object
-      properties:
-        desc:
-          type: string
-          description: A free-form text field used to describe the property off-site improvement specified by Property Off Site Improvement Feature Type.<b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Gravel
-        public:
-          type: boolean
-          description: Indicates that the particular off-site improvement feature specified by Property Off Site Improvement Feature Type is present.
-          example: false
-        private:
-          type: boolean
-          description: Indicates that the particular off-site improvement feature specified by Property Off Site Improvement Feature Type is present.
-          example: false
-    AncillaryAppliances:
-      type: object
-      properties:
-        refrigeratorExists:
-          type: boolean
-          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
-          example: true
-        dishwasherExists:
-          type: boolean
-          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
-          example: true
-        disposalExists:
-          type: boolean
-          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
-          example: true
-        microwaveExists:
-          type: boolean
-          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
-          example: true
-        washerDryerExists:
-          type: boolean
-          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
-          example: true
-        otherExists:
-          type: boolean
-          description: Indicates if the kitchen equipment specified in Kitchen Equipment Type is present in the unit.
-          example: false
-        otherDesc:
-          type: string
-          description: A free-form text field used to describe the kitchen equipment if Other is selected as the Kitchen Equipment Type.<b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Wine Cooler
-    carStorageDeficiency:
-      type: object
-      properties:
-        condoCarStorageDeficiencyName:
-          type: string
-          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified. Required IF(/property/buildings/condoCarStorages/condoCarStorageType= 'BUILTIN_GARAGE' or 'ATTACHED_GARAGE' or 'DETACHED_GARAGE')
-          enum:
-          - NONE_OBSERVED
-          - SIDING
-          - WINDOWS
-          - DOORS
-          - GARAGE_DOOR
-          - EXTERIOR_WALLS
-          - INTERIOR_WALLS
-          - CEILING
-          - ROOF
-          - FOUNDATION
-          - OTHER
-        condoCarStorageDeficiencyType:
-          type: string
-          description: Indicate the type of deficiencies associated with the car storage. Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName != 'NONE_OBSERVED' )
-          enum:
-          - EXCESSIVE_WEAR
-          - EVIDENCE_OF_INFESTATION
-          - MISSING
-          - OTHER
-        condoCarStorageDeficiencyDetailFoundation:
-          type: array
-          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified.Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName = 'FOUNDATION' )
-          items:
-            type: string
-            enum:
-            - ERODED_MATERIAL
-            - CRACKING
-            - SETTLEMENT
-            - EVIDENCE_OF_MOISTURE
-            - SEEPAGE
-            - INFESTATION
-            - LEANING_OR_BOWED_WALLS
-            - HEAVING
-            - OTHER
-        condoCarStorageDeficiencyDetailExteriorWalls:
-          type: array
-          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified. Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName = 'EXTERIOR_WALLS' )
-          items:
-            type: string
-            enum:
-            - ERODED_MATERIAL
-            - CRACKING
-            - HOLES
-            - DRY_ROT
-            - MOISTURE_ROT
-            - SETTLEMENT
-            - WIND_DAMAGE
-            - MISSING_MATERIAL
-            - OTHER
-        condoCarStorageDeficiencyDetailRoofSurface:
-          type: array
-          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified.Required IF ( /property/buildings/carStorages/carStorageDeficiencies/carStorageDeficiencyName = 'ROOF' )
-          items:
-            type: string
-            enum:
-            - ERODED_MATERIAL
-            - CRACKING
-            - TARP_ON_ROOF
-            - LEAK_EVIDENT
-            - MISSING_MATERIAL
-            - WOOD_ROT
-            - SOFFIT_DAMAGE
-            - FASCIA_DAMAGE
-            - OTHER
-        condoCarStorageDeficiencyDetailWindows:
-          type: array
-          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified.Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName = 'WINDOWS' )
-          items:
-            type: string
-            enum:
-            - CRACKING
-            - MISSING_WINDOW_PANE
-            - EXPOSED_WOOD
-            - STORM_SASH_DAMAGE
-            - THERMOPANE_DAMAGE
-            - OTHER
-        condoCarStorageDeficiencyDetailCeiling:
-          type: array
-          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified. Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName = 'CEILING' )
-          items:
-            type: string
-            enum:
-            - DISCOLORATION
-            - MISSING
-            - CRUMBLING
-            - WATER_DAMAGE
-            - OTHER
-        condoCarStorageDeficiencyDetailInteriorWalls:
-          type: array
-          description: Indicate whether a car storage deficiency exists or identify the item or component of the car storage (Attached Garage, Detached Garage or Built-in Garage) that has deferred maintenance requiring significant repairs (e.g., missing siding, boarded up windows, hole in door, etc.). If an item is missing, identify that it is deficient. Select all that apply. Minor or typical wear and tear does not need to be identified. Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName != 'INTERIOR_WALLS' )
-          items:
-            type: string
-            enum:
-            - DISCOLORATION
-            - MISSING
-            - CRUMBLING
-            - WATER_DAMAGE
-            - OTHER
-        condoCarStorageDeficiencySeverity:
-          type: boolean
-          description: Indicate if the noted deficiency to the car storage component impacts the safety, soundness or structural integrity of the structure or unit.Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName != 'NONE_OBSERVED' )
-        condoCarStorageDeficiencyDescription:
-          type: string
-          description: Provide a description of each car storage deficiency observed.e.g., The roof of the attached garage has a 6 x 8 hole on one side of the roof.Required IF ( /property/buildings/condoCarStorages/carStorageDeficiencies/condoCarStorageDeficiencyName != 'NONE_OBSERVED' ).<b>Note*</b> Maximum length must be less than 2500  characters.
-          example: The roof of the attached garage has a 6 x 8 hole on one side of the roof.
-      additionalProperties: false
-    Room_appliances:
-      type: object
-      properties:
-        rangeOvenExists:
-          type: boolean
-          description: Indicate if there is a range or oven, or a range or oven hook up, for all kitchens identified.Required IF(/property/buildings/units/levels/rooms/roomType = KITCHEN)
     View:
       type: object
       description: Required IF (/property/propertyType = SF).
@@ -1969,353 +2193,41 @@ components:
           type: string
           description: Provide a brief description of the view for all enumerations except “None Notable”The subject property has a view of the Pacific Ocean from the second floor of the property. Required IF ( /property/site/siteFeature/siteView/views/viewDescriptionType != 'NONE_NOTABLE') <b>Note*</b> Maximum length must be less than 2500  characters.
       additionalProperties: false
-    condoCarStorage:
+    garage:
       type: object
       properties:
-        condoCarStorageType:
+        garageType:
           type: string
-          description: If off street parking is selected, indicate the type of car storage (e.g., garage, carport,  assigned or unassigned) is available.  If more than one type is available, choose all that apply.Required IF (/property/propertyType = CONDO) . Required If (/property/buildings/condoOffStreetParkingAvailable =TRUE)
+          description: Indicate the type of garage.  If more than one type of garage is available, choose all that apply. Required IF ( /property/propertyType = SF or (/property/propertyType = CONDO & property/buildings/buildingDesign = ROWHOUSE_TOWNHOUSE or DETACHED OR OTHER))
           enum:
           - ATTACHED_GARAGE
           - DETACHED_GARAGE
           - BUILTIN_GARAGE
-          - CARPORT
-          - OPEN_UNASSIGNED
-          - OPEN_ASSIGNED
-        condoCarStorageSpaceCount:
+          - NONE
+        garageSpaceCount:
           type: integer
-          description: Indicate the count of spaces for each car storage type indicated. If multiple types were indicated, assign the correct number of spaces for each type. Tandem car storage can be counted as one or more spaces if the depth of the car storage allows for two or more cars to be parked front to back. e.g., Attached Garage – 3. Required IF (/property/propertyType = CONDO). Required If (/property/buildings/condoOffStreetParkingAvailable =TRUE)
-        carStorageDeficiencies:
-          type: array
-          description: Required if condoCarStorageType is BUILTIN_GARAGE or ATTACHED_GARAGE or DETACHED_GARAGE
-          items:
-            $ref: '#/components/schemas/carStorageDeficiency'
-      additionalProperties: false
-    feature:
-      type: object
-      properties:
-        featureType:
-          type: string
-          description: 'Indicate all features specific to the unit. If there are no additional unit features, “None” must be selected. Required (/property/propertyType = CONDO) '
-          enum:
-          - ORNATE_LANDSCAPING
-          - OUTDOOR_KITCHEN
-          - INGROUND_POOL
-          - INGROUND_HOTTUB
-          - SPORTS_COURT
-          - SAUNA
-          - GAZEBO
-          - PATIO
-          - DECK
-          - BALCONY
-          - UNCOVERED_PORCH
-          - COVERED_PORCH
-          - ENCLOSED_PORCH
-          - WRAP_AROUND_PORCH
-          - STOOP
-          - FIREPIT
-          - OUTDOOR_FIREPLACE
-          - OTHER
-          - NONE
-          - CARPORT
-          - ABOVE_GROUND_POOL
-    AncillaryExterior:
-      type: object
-      properties:
-        descFoundationWalls:
-          type: string
-          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Concrete Block
-        descExtWalls:
-          type: string
-          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Concrete Block
-        descRoofSurface:
-          type: string
-          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Standing Seam Metal 
-        descGuttersDownspouts:
-          type: string
-          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Aluminum
-        descWindowType:
-          type: string
-          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Vinyl Double Hung
-        descStormSashInsulated:
-          type: string
-          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Metal
-        descScreens:
-          type: string
-          description: A free-form text field used to describe the exterior feature. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Fabric
-    NonResidentialUse:
-      type: object
-      properties:
-        nonResidentialUseType:
-          type: string
-          description: "Indicate any non-residential uses identified on the subject property. Select all that apply. \nIf the observed non-residential use is not listed, select “Other”.  If there are no indications of non-residential use, select “None Observed”.\n.Required If (/property/propertyType = SF)"
-          enum:
-          - CHILDCARE
-          - ELDERCARE
-          - BOARDING_HOUSE
-          - AUTO_SHOP
-          - MEDICAL
-          - SALON
-          - OFFICE
-          - RETAIL
-          - HOTEL_BED_BREAKFAST
-          - FOOD_SERVICE
-          - AGRICULTURE
-          - GROW_ROOM
-          - OTHER
-          - NONE_OBSERVED
-        nonResidentialUseDescription:
-          type: string
-          description: Provide a brief description for the non-residential use of the subject property, if a non-residential use is indicated. If “Other” was selected, provide a description of the non-residential use. .Required IF ( /property/site/siteFeature/nonResidentialUses/nonResidentialUseType  !=  'NONE_OBSERVED' AND /property/propertyType = SF).<b>Note*</b> Maximum length must be less than 2500  characters.
-      additionalProperties: false
-    SewerService:
-      required:
-      - sewerType
-      type: object
-      properties:
-        sewerType:
-          type: string
-          description: Indicate the type(s) of sewage disposal available for the subject property. If more than one type is available, select all that apply.
-          enum:
-          - PUBLIC
-          - SEPTIC
-          - CESSPOOL
-          - NONE
-      additionalProperties: false
-    cooling:
-      required:
-      - coolingType
-      type: object
-      properties:
-        coolingType:
-          type: string
-          description: Indicate all cooling systems for each  unit. If there are multiple systems, chose all that apply.  If there is no cooling, “None” must be selected.
-          enum:
-          - CENTRAL_AIR_CONDITIONING
-          - CENTRAL_HEATPUMP
-          - DUCTLESS_HEATPUMP
-          - DUCTLESS_AIR_CONDITIONING
-          - WHOLE_HOUSE_FAN
-          - EVAPORATIVE_COOLER
-          - GEOTHERMAL
-          - NONE
-    SiteUtility:
-      required:
-      - electricalServices
-      - gasServices
-      - sewerServices
-      - waterServices
-      type: object
-      properties:
-        electricalServices:
-          maxItems: 2147483647
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/ElectricalService'
-        sewerServices:
-          maxItems: 2147483647
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/SewerService'
-        waterServices:
-          maxItems: 2147483647
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/WaterService'
-        gasServices:
-          maxItems: 2147483647
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/GasService'
-      additionalProperties: false
-    propertyDataCollectorContacts:
-      type: array
-      minItems: 1
-      maxItems: 10
-      items:
-        $ref: '#/components/schemas/PropertyDataCollectorContact'
-    ExteriorDeficiency:
-      required:
-      - exteriorDeficiencyName
-      type: object
-      properties:
-        exteriorDeficiencyName:
-          type: string
-          description: Indicate the item or component of the exterior of the property that has deferred maintenance requiring significant repairs (e.g. - missing siding, boarded up windows, hole in door, etc.).  If an item or component is missing, identify that it is deficient. Select all that apply.
-          enum:
-          - NONE_OBSERVED
-          - FOUNDATION
-          - ROOF
-          - SIDING
-          - FASCIA
-          - WINDOWS
-          - DOORS
-          - GUTTERS_DOWNSPOUTS
-          - EAVES
-          - CHIMNEY
-          - PORCH
-          - PATIO
-          - DECK
-          - BALCONY
-          - ENTRY_STAIRS
-          - CARPORT
-          - DRIVEWAY
-          - INCOMPLETE_LANDSCAPING
-          - OTHER
-          - EXTERIOR_WALLS
-        exteriorDeficiencyType:
-          type: string
-          description: Identify the type of deficiencies associated with the exterior of the property.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName != ‘NONE_OBSERVED’
-          enum:
-          - EXCESSIVE_WEAR
-          - DAMAGE
-          - EVIDENCE_OF_INFESTATION
-          - MISSING
-          - OTHER
-        exteriorDeficiencyDetailFoundation:
-          type: array
-          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = 'FOUNDATION'
-          items:
-            type: string
-            enum:
-            - ERODED_MATERIAL
-            - CRACKING
-            - SETTLEMENT
-            - EVIDENCE_OF_MOISTURE
-            - SEEPAGE
-            - INFESTATION
-            - LEANING_OR_BOWING_WALLS
-            - HEAVING
-            - OTHER
-        exteriorDeficiencyDetailExteriorWalls:
-          type: array
-          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = 'EXTERIOR_WALLS'
-          items:
-            type: string
-            enum:
-            - ERODED_MATERIAL
-            - CRACKING
-            - HOLES
-            - DRY_ROT
-            - MOISTURE_ROT
-            - SETTLEMENT
-            - WIND_DAMAGE
-            - MISSING_MATERIAL
-            - OTHER
-        exteriorDeficiencyDetailRoofSurface:
-          type: array
-          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = 'ROOF'
-          items:
-            type: string
-            enum:
-            - ERODED_MATERIAL
-            - CRACKING
-            - TARP_ON_ROOF
-            - LEAK_EVIDENT
-            - MISSING_MATERIAL
-            - WOOD_ROT
-            - SOFFIT_DAMAGE
-            - FASCIA_DAMAGE
-            - OTHER
-        exteriorDeficiencyDetailGuttersandDownspouts:
-          type: array
-          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = GUTTERS_DOWNSPOUTS
-          items:
-            type: string
-            enum:
-            - ERODED_MATERIAL
-            - CRACKING
-            - MISSING_DOWNSPOUTS
-            - DAMAGED
-            - LEAKING
-            - INFESTATION
-            - IMPROPER_FLOW
-            - MISSING_GUTTER
-            - OTHER
-        exteriorDeficiencyDetailWindows:
-          type: array
-          description: Indicate the details of the Deficiency Type for the item or component(s) selected.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName = 'WINDOWS'
-          items:
-            type: string
-            enum:
-            - CRACKING
-            - MISSING_WINDOW_PANE
-            - DRY_ROT
-            - BROKEN_GLASS
-            - BOARDED_UP
-            - MISSING_WINDOW
-            - EXPOSED_WOOD
-            - STORM_SASH_DAMAGE
-            - THERMOPANE_DAMAGE
-            - OTHER
-        exteriorDeficiencySeverity:
+          description: Indicate the count of spaces for each garage type indicated.  If multiple types were indicated, assign the correct number of spaces for each type. A tandem garage can be counted as one or more spaces if the depth of the garage allows for two or more cars to be parked front to back.Required IF(/property/buildings/units/garages/garageType != NONE)
+        garageSpaceArea:
+          type: integer
+          description: Indicate the square footage of the garage for each instance of Attached Garage, Built-In Garage or Detached Garage selected.Required IF(/property/buildings/units/garages/garageType != NONE)
+        garageConversionIndicator:
           type: boolean
-          description: Indicate if the noted deficiency to the exterior item or component impacts the safety, soundness, or structural integrity of the structure or unit.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName != ‘NONE_OBSERVED’
-        exteriorDeficiencyDescription:
-          type: string
-          description: Provide a brief description of each exterior item or component deficiency observed.Required if /property/buildings/exteriorDeficiencies/exteriorDeficiencyName != ‘NONE_OBSERVED’. <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: The balcony is only partially attached to the exterior wall of the structure.
+          description: User to indicate whether the garage was converted to finished area.Possible indicators of a garage conversion:1. Garage door may have been removed or modified.2. Garage has been improved with finishes such as drywall, flooring, heating/cooling, etc. 3. Converted space has heating and/or cooling at least equal to main dwelling.TRUE = garage was converted.FALSE = garage is utilized car storage or original use, not converted.Required IF(/property/buildings/units/garages/garageType != NONE)
+        garageDeficiencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/garageDeficiency'
       additionalProperties: false
-    Error:
-      required:
-      - error
+    ImageStorageLocation:
       type: object
       properties:
-        error:
+        imageId:
           type: string
-      description: Information about the error.
-    interiorUpdate:
-      required:
-      - interiorUpdatedComponent
-      type: object
-      properties:
-        interiorUpdatedComponent:
+          example: bcde070d-8c4c-4f0d-9d8a-162843c10334
+        imageMeta:
+          $ref: '#/components/schemas/ImageMetaData'
+        uploadUrl:
           type: string
-          description: 'Indicate which component(s) has been updated.
-
-            Select all that apply
-
-            '
-          enum:
-          - NONE_OBSERVED
-          - FLOORING
-          - PLUMBING_FIXTURES
-          - ELECTRICAL_FIXTURES
-          - CABINET_COUNTERTOPS
-          - APPLIANCES
-          - WALLS
-          - CEILING
-          - OTHER
-        interiorUpdateType:
-          type: string
-          description: Indicate the degree of updating for the Interior Updated Component.Required IF ( /property/buildings/units/levels/rooms/interiorUpdates/interiorUpdatedComponent != 'NONE_OBSERVED')
-          enum:
-          - FULLY_UPDATED
-          - PARTIALLY_UPDATED
-        interiorUpdateTimeframe:
-          type: string
-          description: Indicate the timeframe for which updates to the room were completed.  If not known, an estimated timeframe may be provided. For instance, if an update was made approximately 3 years ago, then the user would select 'TWO_TO_FIVE_YEARS'. .Required IF ( /property/buildings/units/levels/rooms/interiorUpdates/interiorUpdatedComponent != 'NONE_OBSERVED')
-          enum:
-          - LESS_THAN_1_YEAR
-          - 1_TO_5_YEARS
-          - 5_TO_10_YEARS
-          - 10_OR_MORE_YEARS
-        interiorUpdateDescription:
-          type: string
-          description: Provide a brief description of the nature of the improvements if there have been updates to the room.Required IF ( /property/buildings/units/levels/rooms/interiorUpdates/interiorUpdatedComponent != 'NONE_OBSERVED'). <b>Note*</b> Maximum length must be less than 2500  characters.
-          example: The kitchen has missing cabinets/countertops.
-      additionalProperties: false
     ExteriorUpdate:
       required:
       - exteriorUpdatedComponent
@@ -2357,51 +2269,118 @@ components:
             Required IF ( /property/buildings/exteriorUpdates/exteriorUpdatedComponent != ''NONE_OBSERVED'' ). <b>Note*</b> Maximum length must be less than 2500  characters.'
           example: The garage door was replaced 16 months ago.
       additionalProperties: false
-    Ancillary:
+    interiorUpdate:
+      required:
+      - interiorUpdatedComponent
       type: object
       properties:
-        roadDesc:
+        interiorUpdatedComponent:
+          type: string
+          description: 'Indicate which component(s) has been updated.
+
+            Select all that apply
+
+            '
+          enum:
+          - NONE_OBSERVED
+          - FLOORING
+          - PLUMBING_FIXTURES
+          - ELECTRICAL_FIXTURES
+          - CABINET_COUNTERTOPS
+          - APPLIANCES
+          - WALLS
+          - CEILING
+          - OTHER
+        interiorUpdateType:
+          type: string
+          description: Indicate the degree of updating for the Interior Updated Component.Required IF ( /property/buildings/units/levels/rooms/interiorUpdates/interiorUpdatedComponent != 'NONE_OBSERVED')
+          enum:
+          - FULLY_UPDATED
+          - PARTIALLY_UPDATED
+        interiorUpdateTimeframe:
+          type: string
+          description: Indicate the timeframe for which updates to the room were completed.  If not known, an estimated timeframe may be provided. For instance, if an update was made approximately 3 years ago, then the user would select 'TWO_TO_FIVE_YEARS'. .Required IF ( /property/buildings/units/levels/rooms/interiorUpdates/interiorUpdatedComponent != 'NONE_OBSERVED')
+          enum:
+          - LESS_THAN_1_YEAR
+          - 1_TO_5_YEARS
+          - 5_TO_10_YEARS
+          - 10_OR_MORE_YEARS
+        interiorUpdateDescription:
+          type: string
+          description: Provide a brief description of the nature of the improvements if there have been updates to the room.Required IF ( /property/buildings/units/levels/rooms/interiorUpdates/interiorUpdatedComponent != 'NONE_OBSERVED'). <b>Note*</b> Maximum length must be less than 2500  characters.
+          example: The kitchen has missing cabinets/countertops.
+      additionalProperties: false
+    mechanicalDeficiency:
+      required:
+      - mechanicalDeficiencyName
+      type: object
+      properties:
+        mechanicalDeficiencyName:
+          type: string
+          description: Indicate the mechanical deficiency that exists or identify the portion or element of the structure’s mechanicals that has deferred maintenance requiring significant repairs. If a mechanical item or component is missing, identify that it is deficient.  Select all that apply.
+          enum:
+          - NONE_OBSERVED
+          - PLUMBING
+          - ELECTRICAL
+          - HEATING
+          - WATER_HEATER
+          - COOLING
+          - SUMP_PUMP
+          - OTHER
+        mechanicalDeficiencyType:
+          type: string
+          description: Indicate the type of deficiencies associated with the mechanicals.Required if /property/buildings/units/mechanicalDeficiencies/mechanicalDeficiencyName != ‘NONE_OBSERVED’
+          enum:
+          - EXCESSIVE_WEAR
+          - DAMAGE
+          - MISSING
+          - NON_FUNCTIONAL
+          - EVIDENCE_OF_LEAKS
+          - EVIDENCE_OF_FIRE
+          - OTHER
+        mechanicalDeficiencySeverity:
+          type: boolean
+          description: Indicate if the noted deficiency to the mechanical component impacts the safety, soundness, or structural integrity of the structure or unit..Required if /property/buildings/units/mechanicalDeficiencies/mechanicalDeficiencyName != ‘NONE_OBSERVED’
+        mechanicalDeficiencyDescription:
+          type: string
+          description: Provide a brief description of the Deficiency Type for the component that was selected. e.g., The toilet in the primary bathroom is leaking. <b>Note*</b> Maximum length must be less than 2500  characters.Required if /property/buildings/units/mechanicalDeficiencies/mechanicalDeficiencyName != ‘NONE_OBSERVED’
+          example: The toilet in the primary bathroom is leaking.
+      additionalProperties: false
+    AncillaryAlley:
+      type: object
+      properties:
+        desc:
           type: string
           description: A free-form text field used to describe the property off-site improvement specified by Property Off Site Improvement Feature Type.<b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Asphalt
-        atticFloorExists:
+          example: Gravel
+        public:
           type: boolean
-          description: Indicates if the feature specified in Attic Feature Type is present in the structure.
+          description: Indicates that the particular off-site improvement feature specified by Property Off Site Improvement Feature Type is present.
           example: false
-        atticHeated:
+        private:
           type: boolean
-          description: Indicates if the feature specified in Attic Feature Type is present in the structure.
+          description: Indicates that the particular off-site improvement feature specified by Property Off Site Improvement Feature Type is present.
           example: false
-        heatingFuelDesc:
-          type: string
-          description: A free-form text field used to describe the fuel used by the heating unit.<b>Note*</b> Maximum length must be less than 2500  characters.
-        drivewaySurfaceDesc:
-          type: string
-          description: A free-form text field used to describe or comment on the aspect of the property named in the Site Feature Type.<b>Note*</b> Maximum length must be less than 2500  characters.
-          example: Concrete
-        alley:
-          $ref: '#/components/schemas/AncillaryAlley'
-        appliances:
-          $ref: '#/components/schemas/AncillaryAppliances'
-        exterior:
-          $ref: '#/components/schemas/AncillaryExterior'
-        gas:
-          $ref: '#/components/schemas/AncillaryGas'
-        interior:
-          $ref: '#/components/schemas/AncillaryInterior'
-    PropertyDataReportWithImages:
+    PropertyDataReportStatus:
       type: object
       properties:
+        proxyCorrelationId:
+          type: string
+          description: PDR API assigned control number for the request.
+          example: '12345678'
+        propertyDataId:
+          type: string
+          example: acde070d-8c4c-4f0d-9d8a-162843c10333
         status:
           type: string
-        version:
-          type: string
-        propertyDataReport:
-          $ref: '#/components/schemas/PropertyDataReport'
-        imageMetaData:
+          enum:
+          - COMPLETE
+          - INCOMPLETE
+        validationErrors:
           type: array
+          description: array of validation errors. Exists only if status=INCOMPLETE
           items:
-            $ref: '#/components/schemas/ImageStorageLocation'
+            $ref: '#/components/schemas/ValidationError'
         requiredImages:
           type: array
           description: array of required images. Exists only if status=INCOMPLETE
@@ -2416,16 +2395,47 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Message'
+    propertyDataCollectorContacts:
+      type: array
+      minItems: 1
+      maxItems: 10
+      items:
+        $ref: '#/components/schemas/PropertyDataCollectorContact'
+    PropertyDataCollectorContact:
+      required:
+      - contactDetail
+      - contactMethod
+      type: object
+      properties:
+        contactMethod:
+          type: string
+          description: Contact information for the individual performing the property data collection.
+          enum:
+          - PHONE
+          - EMAIL
+        contactDetail:
+          type: string
+          description: "Contact information for the individual performing the property data collection, i.e. the email address or phone number. e.g., (123)456-7890 or\nJane_Smith@email.com\n "
   examples:
-    BACEAPIUnauthorizedResponse:
-      summary: Unauthorized Response
-      description: The user is not authorized to access the application.
+    BACEAPIBadRequestCustomResponseInvalid:
+      summary: Validation Error-Invalid
+      description: Provided the schema is valid, errors are specific to missing or incorrect data in request.
       value:
         proxyCorrelationId: '12345678'
-        code: 401
-        message: Unable to authorize the request.
+        code: 400
+        message: Request data does not match the application schema, please validate the request data.
         details:
-        - error: The user profile is not authorized to access the system.
+        - MessageCode: '400'
+          MessageDescription: 23-04-203 is invalid -> propertyDataReport.dataCollectionDate.
+    BACEAPINotFoundResponse:
+      summary: Resource not found
+      description: This typically can happen if the resource URL is not correct.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 404.001
+        message: No resource for GET/POST
+        details:
+        - error: No resource for GET/POST
     CondoExample:
       summary: Condo Example
       description: Condo Family Example
@@ -2615,43 +2625,15 @@ components:
               trimFinishDesc: Crown
               bathFloorDesc: Tile
               bathWainscotDesc: Tile
-    BACEAPINotFoundResponse:
-      summary: Resource not found
-      description: This typically can happen if the resource URL is not correct.
+    BACEAPIUnauthorizedResponse:
+      summary: Unauthorized Response
+      description: The user is not authorized to access the application.
       value:
         proxyCorrelationId: '12345678'
-        code: 404.001
-        message: No resource for GET/POST
+        code: 401
+        message: Unable to authorize the request.
         details:
-        - error: No resource for GET/POST
-    BACEAPILimitExceededResponse:
-      summary: Quota or Resource Limit Exceeded
-      description: The number of requests made exceed the threshold. Reduce the number of requests.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 429.002
-        message: Quota limit exceeded
-        details:
-        - error: Quota limit exceeded, decrease the number of requests per minute been sent.
-    PropertyNotFoundResponse:
-      summary: Property not found response
-      description: This typically can happen when the propertyData is not submitted.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 404
-        message: No resource for GET/POST
-        details:
-        - error: propertyDataId {propertyDataId} provided for getting property Status not found.
-    BACEAPIBadRequestCustomResponseInvalid:
-      summary: Validation Error-Invalid
-      description: Provided the schema is valid, errors are specific to missing or incorrect data in request.
-      value:
-        proxyCorrelationId: '12345678'
-        code: 400
-        message: Request data does not match the application schema, please validate the request data.
-        details:
-        - MessageCode: '400'
-          MessageDescription: 23-04-203 is invalid -> propertyDataReport.dataCollectionDate.
+        - error: The user profile is not authorized to access the system.
     BACEAPIBadRequestMissingResponse:
       summary: Bad Request
       description: Mandatory header is missing in the response.
@@ -2661,6 +2643,25 @@ components:
         message: Missing header Content-type
         details:
         - error: Content-type must be either application/json or application/xml
+    BACEAPIBadRequestCustomResponse:
+      summary: Validation Error-Empty
+      description: Provided the schema is valid, errors are specific to missing or incorrect data in request.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 400
+        message: Request data does not match the application schema, please validate the request data.
+        details:
+        - MessageCode: '400'
+          MessageDescription: Must not be null -> propertyDataReport.propertyDataCollectorName.
+    BACEAPILimitExceededResponse:
+      summary: Quota or Resource Limit Exceeded
+      description: The number of requests made exceed the threshold. Reduce the number of requests.
+      value:
+        proxyCorrelationId: '12345678'
+        code: 429.002
+        message: Quota limit exceeded
+        details:
+        - error: Quota limit exceeded, decrease the number of requests per minute been sent.
     SingleFamilyExample:
       summary: SingleFamily Example
       description: Single Family Example
@@ -2981,16 +2982,15 @@ components:
         details:
         - MessageCode: '0005'
           MessageDescription: API is unable to assess the submitted data at this time. Please resubmit or contact Customer Support at (800-FREDDIE) for assistance.
-    BACEAPIBadRequestCustomResponse:
-      summary: Validation Error-Empty
-      description: Provided the schema is valid, errors are specific to missing or incorrect data in request.
+    PropertyNotFoundResponse:
+      summary: Property not found response
+      description: This typically can happen when the propertyData is not submitted.
       value:
         proxyCorrelationId: '12345678'
-        code: 400
-        message: Request data does not match the application schema, please validate the request data.
+        code: 404
+        message: No resource for GET/POST
         details:
-        - MessageCode: '400'
-          MessageDescription: Must not be null -> propertyDataReport.propertyDataCollectorName.
+        - error: propertyDataId {propertyDataId} provided for getting property Status not found.
   securitySchemes:
     bearerAuth:
       type: http
