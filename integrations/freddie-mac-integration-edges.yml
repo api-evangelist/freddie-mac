@@ -28,9 +28,49 @@ edges:
   publisher_verified:
   - Deployed on AWS
   - Standard Data Agreement
+- partner_name: FINOS projects (maintainer)
+  partner: finos
+  partner_match: register
+  type: register
+  direction: partner-built
+  category: FINOS project maintainership
+  evidence: https://github.com/finos/calm-governance/blob/HEAD/MAINTAINERS.md
+  channel: standard-directory
+  relationship: standard-participant
+  contract_reference:
+    register: FINOS project MAINTAINERS.md (github.com/finos/<repo>)
+    spec_file: null
+    standard: FINOS
+    role: finos-project-maintainer
+    registered_name: Freddie Mac
+    registered_names:
+    - Freddie Mac
+    matched_domain: freddiemac.com
+    matched_by: domain
+    matched_via:
+    - wikidata
+    api_families:
+    - Common Architecture Language Model
+    api_families_basis: MAINTAINERS.md (maintains, not implements)
+    finos_projects:
+    - project: Common Architecture Language Model
+      maturity: graduated
+      repos:
+      - https://github.com/finos/calm-governance/blob/HEAD/MAINTAINERS.md
+    signal_note: maintainership of FINOS projects (maintains, not implements); per-edge signal = projects maintained
+      (api_families), never the maintainer count
+    detected_by: sweep-finos-open-source-fintech.py
+    detected: '2026-10-22'
+    identity_source: wikidata P856 (labelled provenance step; Kin 2026-10-15 decision 1)
+  detected_by: sweep-finos-open-source-fintech.py
+  first_seen: '2026-10-22'
 generated: '2026-10-20'
 method: searched
 source:
 - https://aws.amazon.com/marketplace/search/results?FULFILLMENT_OPTION_TYPE=DATA_EXCHANGE
 checked:
 - https://aws.amazon.com/marketplace/search/results?FULFILLMENT_OPTION_TYPE=DATA_EXCHANGE
+- https://github.com/finos/<repo>/blob/HEAD/MAINTAINERS.md
+- https://landscape.finos.org/data/full.json
+- https://raw.githubusercontent.com/finos/finos-landscape/e926c0ba0e77896a0718eb29b4f33ba5c210f335/landscape.yml
+- https://www.finos.org/members

@@ -30,3 +30,40 @@
     detected: '2026-10-20'
   status: not-a-workflow
   arazzo: null
+- slug: freddie-mac-finos-projects-maintainer
+  label: FINOS projects (maintainer)
+  partner: finos
+  partner_name: FINOS projects (maintainer)
+  category: FINOS project maintainership
+  type: register
+  channel: standard-directory
+  evidence: https://github.com/finos/calm-governance/blob/HEAD/MAINTAINERS.md
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: FINOS project MAINTAINERS.md (github.com/finos/<repo>)
+    spec_file: null
+    standard: FINOS
+    role: finos-project-maintainer
+    registered_name: Freddie Mac
+    registered_names:
+    - Freddie Mac
+    matched_domain: freddiemac.com
+    matched_by: domain
+    matched_via:
+    - wikidata
+    api_families:
+    - Common Architecture Language Model
+    api_families_basis: MAINTAINERS.md (maintains, not implements)
+    finos_projects:
+    - project: Common Architecture Language Model
+      maturity: graduated
+      repos:
+      - https://github.com/finos/calm-governance/blob/HEAD/MAINTAINERS.md
+    signal_note: maintainership of FINOS projects (maintains, not implements); per-edge signal = projects maintained
+      (api_families), never the maintainer count
+    detected_by: sweep-finos-open-source-fintech.py
+    detected: '2026-10-22'
+    identity_source: wikidata P856 (labelled provenance step; Kin 2026-10-15 decision 1)
+  status: not-a-workflow
+  arazzo: null
