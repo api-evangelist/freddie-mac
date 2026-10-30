@@ -1,4 +1,4 @@
-# Freddie Mac (freddie-mac)
+# Freddie Mac
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,427 +66,174 @@
 
 Freddie Mac (Federal Home Loan Mortgage Corporation) is the government-sponsored enterprise that provides liquidity, stability and affordability to the U.S. housing market by purchasing and securitizing single-family and multifamily mortgages. Its Single-Family API programme is published through the Freddie Mac Developer Portal and spans the whole mortgage lifecycle: origination (Affordable Check, Income Limits, Loan Look Up, Property Insights, Current Mortgage Snapshot, Beyond ACE), closing (Loan Closing Advisor Loan Submission), selling and delivery (Cash and Guarantor Pricing, Committing and Settlement Purchase Statement, Loan Import into Loan Selling Advisor), post-close data retrieval (Loan Advisor Data Share, Data Share Bid Tape) and default servicing (the Resolve workout, liquidation and valuation/pricing decisioning services). The public catalog publishes 20 OpenAPI 3.0 contracts covering 45 operations; the request and response payloads are modelled on the MISMO reference model and the GSE Uniform Mortgage Data Program datasets (UAD, ULAD, ULDD, UCD).
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/freddie-mac/refs/heads/main/apis.yml)
+**Areas:** Freddie Mac · Housing · Mortgage · Lending · Servicing · Origination · Secondary Market · MISMO · Fortune 100 · Government-Sponsored Enterprise
 
-## Scope
+## Freddie Mac on APIs.io
 
-- **Type:** Index
-- **Position:** Producing
-- **Access:** 3rd-Party
+Everything profiled for Freddie Mac is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/freddie-mac/](https://apis.io/providers/freddie-mac/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (23)
 
-- Federal Government, Housing, Mortgage, Lending, Servicing, Origination, Secondary Market, MISMO, Fortune 100
+- [Freddie Mac Affordable Check API](https://apis.io/apis/freddie-mac/freddie-mac-affordable-check-api/) — Affordable Check is an easy way to compare borrower income against applicable AMI values to identify candidates for recommended affordable products.
+- [Freddie Mac Cash Committing API](https://apis.io/apis/freddie-mac/freddie-mac-cash-committing-api/) — Execute fixed rate or adjustable rate (ARM) cash contracts.
+- [Freddie Mac Cash Pricing API](https://apis.io/apis/freddie-mac/freddie-mac-cash-pricing-api/) — Obtain contract-level (asset price), loan-level (all-in price), or cash fees (Single-Family Seller/Servicer Guide Exhibit 19 and negotiated) pricing.
+- [Freddie Mac Current Mortgage Snapshot API](https://apis.io/apis/freddie-mac/freddie-mac-current-mortgage-snapshot-api/) — Get fast, easy access to key loan data to help validate loan information obtained from the borrower or other sources (e.g., credit report) when processing…
+- [Freddie Mac Data Share API](https://apis.io/apis/freddie-mac/freddie-mac-data-share-api-api/) — Get fast easy access to key data, documents and loan-level assessment results for loans submitted to several Freddie Mac tools, including Loan Product…
+- [Freddie Mac Data Share Bid Tape API](https://apis.io/apis/freddie-mac/freddie-mac-data-share-bid-tape-api/) — Aggregators can have greater confidence when pricing and valuing correspondent loans with fast easy access to key loan data and loan-level summary…
+- [Freddie Mac Guarantor Committing API](https://apis.io/apis/freddie-mac/freddie-mac-guarantor-committing-api/) — Execute or modify Single Issue or MultiLender guarantor contracts.
+- [Freddie Mac Guarantor Pricing API](https://apis.io/apis/freddie-mac/freddie-mac-guarantor-pricing-api/) — Obtain Single Issue or MultiLender buyup/buydown ratios and all applicable credit fees.
+- [Freddie Mac Income Limits API](https://apis.io/apis/freddie-mac/freddie-mac-income-limits-api/) — Simplify your process of determining whether a borrower can qualify for a Freddie Mac Home Possible® mortgage with easy access to qualifying income limits…
+- [Freddie Mac LCLA Submission Request API](https://apis.io/apis/freddie-mac/freddie-mac-lcla-submission-request-api/) — The intent of this Web service is for the Seller/Vendor system to submit a single loan Uniform Closing Dataset (UCD) file to Loan Closing Advisor for…
+- [Freddie Mac Loan Import API](https://apis.io/apis/freddie-mac/freddie-mac-loan-import-api-api/) — The Loan Import API API from Freddie Mac — 2 operation(s) for loan import api.
+- [Freddie Mac Loan Look Up API](https://apis.io/apis/freddie-mac/freddie-mac-loan-look-up-api/) — This service allows you to look up whether there is an existing Freddie Mac mortgage for a specific subject property. Submit request data to initiate a…
+- [Freddie Mac Metadata API](https://apis.io/apis/freddie-mac/freddie-mac-metadata-api/) — The Metadata API from Freddie Mac — 3 operation(s) for metadata.
+- [Freddie Mac Property Data API](https://apis.io/apis/freddie-mac/freddie-mac-property-data-api/) — The Property Data API from Freddie Mac — 2 operation(s) for property data.
+- [Freddie Mac Property Data Images API](https://apis.io/apis/freddie-mac/freddie-mac-property-data-images-api/) — The Property Data Images API from Freddie Mac — 1 operation(s) for property data images.
+- [Freddie Mac Property Data PDF API](https://apis.io/apis/freddie-mac/freddie-mac-property-data-pdf-api/) — The Property Data PDF API from Freddie Mac — 1 operation(s) for property data pdf.
+- [Freddie Mac Property Insights API](https://apis.io/apis/freddie-mac/freddie-mac-property-insights-api/) — Get access to Freddie Mac property data to help identify and overcome pain points.
+- [Freddie Mac Purchase Advice Guarantor Controller API](https://apis.io/apis/freddie-mac/freddie-mac-purchase-advice-guarantor-controller-api/) — The purchase-advice-guarantor-controller API from Freddie Mac — 1 operation(s) for purchase-advice-guarantor-controller.
+- [Freddie Mac Resolve Liquidation API](https://apis.io/apis/freddie-mac/freddie-mac-resolve-liquidation-api-api/) — Resolve Liquidation API is a quicker, more efficient solution to submit short sale requests to Freddie Mac for decisioning and settlement. The API returns a…
+- [Freddie Mac Resolve Retention API](https://apis.io/apis/freddie-mac/freddie-mac-resolve-retention-api/) — Get clear and actionable responses for retention workouts such as eligibility, trial approval, settlement and supporting data.
+- [Freddie Mac Resolve Valuation & Pricing API](https://apis.io/apis/freddie-mac/freddie-mac-resolve-valuation-pricing-api-api/) — When you connect through the Resolve Valuation & Pricing API, you’ll receive minimum net proceed values for short sales. The API is a new and faster way of…
+- [Freddie Mac Resolve Workout Options API](https://apis.io/apis/freddie-mac/freddie-mac-resolve-workout-options-api/) — Get a quick view of borrower eligibility for multiple workout options, rationale and workout terms before moving to approval and settlement.
+- [Freddie Mac Submission Status API](https://apis.io/apis/freddie-mac/freddie-mac-submission-status-api/) — The Submission Status API from Freddie Mac — 1 operation(s) for submission status.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2024-12-03
-- **Modified:** 2026-09-10
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### MCP servers (1)
 
-20 APIs are published in the Freddie Mac Developer Portal public catalog, covering 45 operations across five mortgage-lifecycle categories. Every OpenAPI below was harvested verbatim from the provider on 2026-09-10.
+Model Context Protocol servers that expose the API to agents.
 
-### Freddie Mac Affordable Check
+- [freddie-mac-mcp.yml](https://apis.io/servers/freddie-mac/freddie-mac-mcp-yml/)
 
-Help low-income borrowers choose the optimal mortgage path with an early look at Freddie Mac affordable product eligibility prior to submitting a full application to Loan Product Advisor®.
+#### Overlays (20)
 
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/62858cdd06bca128fb37ce71
-- **Base URL:** https://api-test.freddiemac.com/single-family/affordable-check-api/v2
-- **Version:** 2.0.0
+OpenAPI overlays, including conversational phrasing for each operation.
 
-#### Tags
+- [Freddie Mac Affordable Check Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-affordable-check-overlay/)
+- [Freddie Mac Beyond Ace Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-beyond-ace-overlay/)
+- [Freddie Mac Cash Committing Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-cash-committing-overlay/)
+- [Freddie Mac Cash Pricing Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-cash-pricing-overlay/)
+- [Freddie Mac Cash Settlement Purchase Statement Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-cash-settlement-purchase-statement-overlay/)
+- [Freddie Mac Current Mortgage Snapshot Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-current-mortgage-snapshot-overlay/)
+- [Freddie Mac Data Share Bid Tape Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-data-share-bid-tape-overlay/)
+- [Freddie Mac Data Share Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-data-share-overlay/)
+- [Freddie Mac Guarantor Committing Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-guarantor-committing-overlay/)
+- [Freddie Mac Guarantor Pricing Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-guarantor-pricing-overlay/)
+- [Freddie Mac Guarantor Settlement Purchase Statement Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-guarantor-settlement-purchase-statement-overlay/)
+- [Freddie Mac Income Limits Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-income-limits-overlay/)
+- [Freddie Mac Loan Closing Advisor Loan Submission Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-loan-closing-advisor-loan-submission-overlay/)
+- [Freddie Mac Loan Import Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-loan-import-overlay/)
+- [Freddie Mac Loan Look Up Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-loan-look-up-overlay/)
+- [Freddie Mac Property Insights Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-property-insights-overlay/)
+- [Freddie Mac Resolve Liquidation Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-resolve-liquidation-overlay/)
+- [Freddie Mac Resolve Retention Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-resolve-retention-overlay/)
+- [Freddie Mac Resolve Valuation Pricing Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-resolve-valuation-pricing-overlay/)
+- [Freddie Mac Resolve Workout Options Overlay](https://apis.io/overlays/freddie-mac/freddie-mac-resolve-workout-options-overlay/)
 
-- Mortgage, Origination
+#### Governance rules (1)
 
-#### Properties
+Spectral rulesets for the provider's contracts.
 
-- [OpenAPI](openapi/freddie-mac-affordable-check-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/62858cdd06bca128fb37ce71)
-- [Overlay](overlays/freddie-mac-affordable-check-overlay.yaml)
+- [Freddie Mac API Rules](https://apis.io/rules/freddie-mac/freddie-mac-rules/)
 
-### Freddie Mac Beyond ACE
+#### Security (3)
 
-Submit property data report (PDR) data and photos to receive feedback messages and speed up your underwriting process.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/6197ea655032a264da85a08c
-- **Base URL:** https://api-test.freddiemac.com/single-family/loan-advisor-suite/las-beyondace-api/v2
-- **Version:** 3.0.0
+- [Freddie Mac Authentication](https://apis.io/security/freddie-mac/freddie-mac-authentication/)
+- [Freddie Mac Domain Security](https://apis.io/security/freddie-mac/freddie-mac-domain-security/)
+- [Freddie Mac Vulnerability Disclosure](https://apis.io/security/freddie-mac/freddie-mac-vulnerability-disclosure/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Mortgage, Origination
+Published plans, tiers and prices.
 
-#### Properties
+- [Freddie Mac Plans Pricing](https://apis.io/plans/freddie-mac/freddie-mac-plans-pricing/)
 
-- [OpenAPI](openapi/freddie-mac-beyond-ace-openapi.yaml)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/6197ea655032a264da85a08c)
-- [Overlay](overlays/freddie-mac-beyond-ace-overlay.yaml)
+#### Rate limits (1)
 
-### Freddie Mac Cash Committing
+Published request limits.
 
-Quickly streamline secondary market processes with an easy-to-use, integrated technology solution that allows you to execute and modify mandatory cash contracts without the need to manually do so in Loan Selling Advisor®.
+- [Freddie Mac Rate Limits](https://apis.io/rate-limits/freddie-mac/freddie-mac-rate-limits/)
 
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/623d0765fddb9917ea999f3b
-- **Base URL:** https://lassvcs-uat.fmrei.com/ESO/rest/lsa
-- **Version:** 1.0.0
+#### FinOps (1)
 
-#### Tags
+What the API costs to run, by operation.
 
-- Mortgage, Selling
+- [Freddie Mac Finops](https://apis.io/finops/freddie-mac/freddie-mac-finops/)
 
-#### Properties
+## Where to find this API
 
-- [OpenAPI](openapi/freddie-mac-cash-committing-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/623d0765fddb9917ea999f3b)
-- [Overlay](overlays/freddie-mac-cash-committing-overlay.yaml)
-
-### Freddie Mac Cash Pricing
-
-Quickly streamline secondary market processes with easier, integrated access to cash pricing information without the need to manually retrieve it from Loan Selling Advisor®.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/623d0826c48acc2401ba22da
-- **Base URL:** https://lassvcs-uat.fmrei.com/ESO/rest
-- **Version:** 1.0.0
-
-#### Tags
-
-- Mortgage, Selling
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-cash-pricing-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/623d0826c48acc2401ba22da)
-- [Overlay](overlays/freddie-mac-cash-pricing-overlay.yaml)
-
-### Freddie Mac Cash Settlement Purchase Statement
-
-Streamline your post funding reconciliation process by eliminating manual processes with fast, easy access to cash purchase statement data for the loans you sold to Freddie Mac.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/624f7c78b1e1c3419ba58885
-- **Base URL:** https://api-test.freddiemac.com/single-family/css/v1/cashsettlement
-- **Version:** 1.0.1
-
-#### Tags
-
-- Mortgage, Selling
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-cash-settlement-purchase-statement-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/624f7c78b1e1c3419ba58885)
-- [Overlay](overlays/freddie-mac-cash-settlement-purchase-statement-overlay.yaml)
-
-### Freddie Mac Current Mortgage Snapshot
-
-Easy access to original loan terms as well as current servicing data, on Freddie Mac owned loans to help validate information provided by the borrower or obtained from other sources (e.g., credit report).
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/6197b94aa8adda2fb7323736
-- **Base URL:** https://api-test.freddiemac.com/single-family/current-mortgage-snapshot-api/v1
-- **Version:** 1.0.0
-
-#### Tags
-
-- Mortgage, Origination
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-current-mortgage-snapshot-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/6197b94aa8adda2fb7323736)
-- [Overlay](overlays/freddie-mac-current-mortgage-snapshot-overlay.yaml)
-
-### Freddie Mac Data Share
-
-Get fast easy access to key data, documents, and loan-level assessment results from Freddie Mac tools.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/6197eb69a8adda2fb732376d
-- **Version:** 1.0.0
-
-#### Tags
-
-- Mortgage, Post-Close
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-data-share-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/6197eb69a8adda2fb732376d)
-- [Overlay](overlays/freddie-mac-data-share-overlay.yaml)
-
-### Freddie Mac Data Share Bid Tape
-
-Aggregators can have greater confidence when pricing and valuing correspondent loans by getting easy access to key loan data and loan-level summary assessment results at the point of bid.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/6233cd01689af970cd9a0b43
-- **Version:** 1.0.0
-
-#### Tags
-
-- Mortgage, Post-Close
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-data-share-bid-tape-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/6233cd01689af970cd9a0b43)
-- [Overlay](overlays/freddie-mac-data-share-bid-tape-overlay.yaml)
-
-### Freddie Mac Guarantor Committing
-
-Quickly streamline secondary market processes with an easy-to-use, integrated technology solution that allows you to execute and modify Guarantor contracts without the manual processes in Loan Selling Advisor®.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/623d087efddb9917ea999f5a
-- **Base URL:** https://lassvcs-uat.fmrei.com/ESO/rest/lsa
-- **Version:** 1.0.0
-
-#### Tags
-
-- Mortgage, Selling
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-guarantor-committing-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/623d087efddb9917ea999f5a)
-- [Overlay](overlays/freddie-mac-guarantor-committing-overlay.yaml)
-
-### Freddie Mac Guarantor Pricing
-
-Quickly streamline secondary market processes with easier, integrated access to guarantor pricing information without the need to manually retrieve it from Loan Selling Advisor®.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/623d08d5fddb9917ea999f68
-- **Base URL:** https://lassvcs-uat.fmrei.com/ESO/rest
-- **Version:** 1.0.0
-
-#### Tags
-
-- Mortgage, Selling
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-guarantor-pricing-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/623d08d5fddb9917ea999f68)
-- [Overlay](overlays/freddie-mac-guarantor-pricing-overlay.yaml)
-
-### Freddie Mac Guarantor Settlement Purchase Statement
-
-Obtain Guarantor Settlement Purchase Statement data for loans settled in a security by Freddie Mac.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/6531c4a3276bea497cf1cad4
-- **Base URL:** https://api-test.freddiemac.com/single-family/guarantor-settlement-service/v1
-- **Version:** 1.0.0
-
-#### Tags
-
-- Mortgage, Selling
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-guarantor-settlement-purchase-statement-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/6531c4a3276bea497cf1cad4)
-- [Overlay](overlays/freddie-mac-guarantor-settlement-purchase-statement-overlay.yaml)
-
-### Freddie Mac Income Limits
-
-Receive fast, reliable data you can use to evaluate potential eligibility for affordable lending solutions.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/6197b8395032a264da85a01b
-- **Base URL:** https://api-test.freddiemac.com/single-family/income-limits-api/v2
-- **Version:** 2.1.0
-
-#### Tags
-
-- Mortgage, Origination
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-income-limits-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/6197b8395032a264da85a01b)
-- [Overlay](overlays/freddie-mac-income-limits-overlay.yaml)
-
-### Freddie Mac Loan Closing Advisor Loan Submission
-
-Provides access to Loan Closing Advisor, through your own system or a software provider LOS. This enables loan access and receiving actionable feedback directly through your system on the accuracy of your UCD XML file to assist you in identifying and correcting errors before you close a loan.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/660f427090f1397952c8a9a0
-- **Base URL:** https://api-test.freddiemac.com/eso/v2
-- **Version:** 3.2.0
-
-#### Tags
-
-- Closing, Mortgage
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-loan-closing-advisor-loan-submission-openapi.yaml)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/660f427090f1397952c8a9a0)
-- [Overlay](overlays/freddie-mac-loan-closing-advisor-loan-submission-overlay.yaml)
-
-### Freddie Mac Loan Import
-
-Loan Import provides sellers and integrated technology providers the capability to create or modify loans, evaluate purchase eligibility, and provide decisions on representation and warranty relief through Loan Selling Advisor®.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/68df12b88875c078cd3faf22
-- **Base URL:** https://api-test.freddiemac.com/single-family/lsa
-- **Version:** 4.0.0
-
-#### Tags
-
-- Mortgage, Selling
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-loan-import-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/68df12b88875c078cd3faf22)
-- [Overlay](overlays/freddie-mac-loan-import-overlay.yaml)
-
-### Freddie Mac Loan Look Up
-
-Look up if Freddie Mac owns the mortgage for a specific subject property.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/6197bab05032a264da85a02b
-- **Base URL:** https://api-test.freddiemac.com/single-family/loan-advisor-suite/v2
-- **Version:** 2.0.0
-
-#### Tags
-
-- Mortgage, Origination
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-loan-look-up-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/6197bab05032a264da85a02b)
-- [Overlay](overlays/freddie-mac-loan-look-up-overlay.yaml)
-
-### Freddie Mac Property Insights
-
-Get fast, early access to Freddie Mac property data to help identify and overcome property-related pain points.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/619720835032a264da859ff4
-- **Base URL:** https://api-test.freddiemac.com/single-family/property-insights-api/v2
-- **Version:** 2.0.0
-
-#### Tags
-
-- Mortgage, Origination
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-property-insights-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/619720835032a264da859ff4)
-- [Overlay](overlays/freddie-mac-property-insights-overlay.yaml)
-
-### Freddie Mac Resolve Liquidation
-
-Request short sale approvals to Resolve, the integrated default management platform. Directly integrate while maintaining your user experience and receive rapid, rules-based eligibility decisions and approvals.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/6198033aa8adda2fb732385d
-- **Base URL:** https://api-test.freddiemac.com/singlefamily/servicing/v1/resolve/liquidation-service/api
-- **Version:** 1.0.0
-
-#### Tags
-
-- Mortgage, Servicing
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-resolve-liquidation-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/6198033aa8adda2fb732385d)
-- [Overlay](overlays/freddie-mac-resolve-liquidation-overlay.yaml)
-
-### Freddie Mac Resolve Retention
-
-Request relief options and retention workouts via the API to Resolve, the integrated default management platform. Directly integrate to maintain your user experience and receive rapid, rules-based eligibility decisions without leaving your existing default management tool, enabling faster resolution for homeowners.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/619801965032a264da85a168
-- **Base URL:** https://api-test.freddiemac.com/singlefamily/v3/servicing/workoutservice/workout-service
-- **Version:** 3.0.0
-
-#### Tags
-
-- Mortgage, Servicing
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-resolve-retention-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/619801965032a264da85a168)
-- [Overlay](overlays/freddie-mac-resolve-retention-overlay.yaml)
-
-### Freddie Mac Resolve Valuation & Pricing
-
-Request Minimum Net Proceeds (MNP) value via the API to Resolve, the integrated default management platform. Directly connect while maintaining your user experience and receive MNP values for short sales.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/619803ca5032a264da85a185
-- **Base URL:** https://api-test.freddiemac.com/singlefamily/servicing/v2/rvp-service/rvpInfo
-- **Version:** 2.0.0
-
-#### Tags
-
-- Mortgage, Servicing
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-resolve-valuation-pricing-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/619803ca5032a264da85a185)
-- [Overlay](overlays/freddie-mac-resolve-valuation-pricing-overlay.yaml)
-
-### Freddie Mac Resolve Workout Options
-
-Request real-time eligibility decisions for multiple workout options in a single response.
-
-- **Human URL:** https://developer.freddiemac.com/public/#/api-info/overview/6198025c5032a264da85a176
-- **Base URL:** https://api-test.freddiemac.com/singlefamily/v1/servicing/workoutservice/workout-service
-- **Version:** 1.3.0
-
-#### Tags
-
-- Mortgage, Servicing
-
-#### Properties
-
-- [OpenAPI](openapi/freddie-mac-resolve-workout-options-openapi.json)
-- [Documentation](https://developer.freddiemac.com/public/#/api-info/details/6198025c5032a264da85a176)
-- [Overlay](overlays/freddie-mac-resolve-workout-options-overlay.yaml)
-
-## Common Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.freddiemac.com/)
-- [DeveloperPortal](https://developer.freddiemac.com/public/)
 - [Documentation](https://sf.freddiemac.com/tools-learning/apis/our-api-solutions)
-- [APIReference](https://developer.freddiemac.com/public/#/api-catalog)
-- [GettingStarted](https://sf.freddiemac.com/tools-learning/apis/getting-started-with-apis)
-- [SignUp](https://developer.freddiemac.com/public/#/contact-us)
+- [Getting started](https://sf.freddiemac.com/tools-learning/apis/getting-started-with-apis)
+- [API reference](https://developer.freddiemac.com/public/#/api-catalog)
+- [Pricing](https://sf.freddiemac.com/tools-learning/apis/getting-started-with-apis)
+- [Sign up](https://developer.freddiemac.com/public/#/contact-us)
 - [Support](https://developer.freddiemac.com/public/#/contact-us)
+- [Changelog](https://sf.freddiemac.com/tools-learning/technology-tools/releases)
 - [Blog](https://sf.freddiemac.com/news-insights)
-- [TermsOfService](https://www.freddiemac.com/terms)
-- [PrivacyPolicy](https://www.freddiemac.com/terms/privacy)
-- [LinkedIn](https://www.linkedin.com/company/freddie-mac)
-- [StatusPage](https://sf.freddiemac.com/tools-learning/system-status)
-- [ChangeLog](https://sf.freddiemac.com/tools-learning/technology-tools/releases)
-- [Roadmap](https://developer.freddiemac.com/public/#/text/68ff8f5955b3873d79a0ff2b/6901115355b3873d79a10296)
 - [Security](https://api.freddiemac.com/.well-known/security.txt)
-- [SecurityTxt](well-known/freddie-mac-api-security.txt)
-- [WellKnown](well-known/freddie-mac-well-known.yml)
-- [VulnerabilityDisclosure](security/freddie-mac-vulnerability-disclosure.yml)
-- [DomainSecurity](security/freddie-mac-domain-security.yml)
-- [Authentication](authentication/freddie-mac-authentication.yml)
-- [Conventions](conventions/freddie-mac-conventions.yml)
-- [ErrorCatalog](errors/freddie-mac-problem-types.yml)
-- [Lifecycle](lifecycle/freddie-mac-lifecycle.yml)
-- [Deprecation](lifecycle/freddie-mac-lifecycle.yml)
-- [Conformance](conformance/freddie-mac-conformance.yml)
-- [DataModel](data-model/freddie-mac-data-model.yml)
-- [Examples](examples/freddie-mac-examples.yml)
-- [Sandbox](sandbox/freddie-mac-sandbox.yml)
-- [ChangeLog](changelog/freddie-mac-changelog.yml)
-- [Packages](packages/freddie-mac-packages.yml)
-- [MCPServer](mcp/freddie-mac-mcp.yml)
-- [AgentSkill](skills/_index.yml)
-- [LLMsTxt](llms/freddie-mac-llms.txt)
-- [RateLimits](rate-limits/freddie-mac-rate-limits.yml)
-- [Plans](plans/freddie-mac-plans-pricing.yml)
-- [FinOps](finops/freddie-mac-finops.yml)
-- [Rules](rules/freddie-mac-rules.yml)
+- [Terms of service](https://www.freddiemac.com/terms)
+- [Privacy policy](https://www.freddiemac.com/terms/privacy)
+- [Status](https://sf.freddiemac.com/tools-learning/system-status)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
+**Kin Score 61.1** — strong · rubric 0.25.0 · scored 2026-10-23
 
-**Email:** kin@apievangelist.com
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 51.4 |
+| Contract governance | 18.2 |
+| Operational transparency | 76.3 |
+| Developer ergonomics | 66.1 |
+| Access clarity | 65.8 |
+
+**Agent readiness 32.9** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 30.4** — Government & Public Sector
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/freddie-mac/](https://apis.io/providers/freddie-mac/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Freddie Mac: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/freddie-mac/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
