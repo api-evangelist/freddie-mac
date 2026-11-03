@@ -75,7 +75,7 @@ evidence:
   http_status: 200
   finding: The catalog itself carries no pricing, plan, quota or entitlement field on any of the 20 APIs.
 x-canonical:
-  generated: '2026-11-01'
+  generated: '2026-11-02'
   vocabulary: engine/economics/plans-canonical.yml
   models:
   - subscription
